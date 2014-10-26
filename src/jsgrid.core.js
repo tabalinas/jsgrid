@@ -38,7 +38,6 @@
     Grid.prototype = {
         width: "auto",
         height: "auto",
-        scrollbar: true,
         updateOnResize: true,
 
         rowClass: $.noop,
@@ -205,7 +204,6 @@
             switch(name) {
                 case "width":
                 case "height":
-                case "scrollbar":
                     this.refreshSize();
                     break;
                 case "rowClass":
@@ -469,33 +467,55 @@
         },
 
         refreshSize: function() {
-            this.refreshScrollbar();
             this.refreshWidth();
             this.refreshHeight();
+            return this;
         },
 
         refreshWidth: function() {
             var headerGrid = this._headerGrid,
                 bodyGrid = this._bodyGrid,
-                header = this._header,
-                body = this._body,
-                width = this.width;
+                width = this.width,
+                scrollbarWidth = this._scrollbarWidth(),
+                gridWidth;
 
-            headerGrid.width("auto");
-            bodyGrid.width("auto");
-            header.width(width === "auto" ? headerGrid.width() : width);
-            body.outerWidth(header.outerWidth());
-            headerGrid.width("100%");
-            bodyGrid.width("100%");
+            if(width === "auto") {
+                headerGrid.width("auto");
+                gridWidth = headerGrid.outerWidth();
+                width = gridWidth + scrollbarWidth;
+            }
+
+            headerGrid.width("");
+            bodyGrid.width("");
+            this._header.css("padding-right", scrollbarWidth);
+            this._container.width(width);
+            gridWidth = headerGrid.outerWidth();
+            bodyGrid.width(gridWidth);
 
             return this;
         },
 
+        _scrollbarWidth: (function() {
+            var result;
+
+            return function() {
+                if(result === undefined) {
+                    var ghostContainer = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;"></div>');
+                    var ghostContent = $("<div style='height:100px;'></div>");
+                    ghostContainer.append(ghostContent).appendTo("body");
+                    var width = ghostContent.innerWidth();
+                    ghostContainer.css("overflow-y", "auto");
+                    var widthExcludingScrollbar  = ghostContent.innerWidth();
+                    ghostContainer.remove();
+                    result = width - widthExcludingScrollbar;
+                }
+                return result;
+            };
+        })(),
+
         refreshHeight: function() {
             var container = this._container,
                 pagerContainer = this._pagerContainer,
-                header = this._header,
-                body = this._body,
                 height = this.height,
                 nonBodyHeight;
 
@@ -504,24 +524,15 @@
             if(height !== "auto") {
                 height = container.height();
 
-                nonBodyHeight = header.outerHeight(true);
+                nonBodyHeight = this._header.outerHeight(true);
                 if(pagerContainer.parents(container).length) {
                     nonBodyHeight += pagerContainer.outerHeight(true);
                 }
 
-                body.outerHeight(height - nonBodyHeight);
+                this._body.height(height - nonBodyHeight);
             }
 
             return this;
-        },
-
-        refreshScrollbar: function() {
-            var header = this._header,
-                body = this._body,
-                scrollbar = this.scrollbar;
-
-            body.css("overflow-y", scrollbar ? "scroll" : "hidden");
-            header.css("padding-right", scrollbar ? "16px" : "0");
         },
 
         refreshGridContent: function() {
@@ -605,7 +616,7 @@
                 }
 
                 $cell.appendTo($row)
-                    .width(field.width || "auto");
+                    .width(field.width);
             });
             return this;
         },

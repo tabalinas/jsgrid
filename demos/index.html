@@ -17,7 +17,7 @@
         }
 
         body {
-            font-family: Tahoma;
+            font-family: Helvetica;
             font-size: 12px;
             height: 100%;
         }
@@ -26,7 +26,6 @@
             position: relative;
             width: 100%;
             height: 70%;
-            margin: 10px 0;
         }
     </style>
 </head>
@@ -38,7 +37,7 @@
     <script>
         $(function() {
             var data = [];
-            for(var i = 1; i <= 100; i++) {
+            for(var i = 1; i <= 105; i++) {
                 data.push({
                     Name: "Client" + i,
                     Age: 20 + i,
@@ -89,9 +88,8 @@
             };
 
             $("#jsGrid").jsGrid({
-                height: "70%",
-                width: "50%",
-                scrollbar: true,
+                height: "100%",
+                width: "70%",
                 filtering: true,
                 editing: true,
                 pageLoading: false,

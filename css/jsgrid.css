@@ -1,26 +1,38 @@
 ﻿.jsgrid {
-    font-size: 1em;
     position: relative;
     overflow: hidden;
+    font-size: 1em;
 }
 
 .jsgrid-grid-header {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background: #f1f1f1;
+    border: 1px solid #E2E2E2;
 }
 
 .jsgrid-grid-body {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     border: 1px solid #E2E2E2;
-    border-left: none;
+    border-top: none;
 }
 
 .jsgrid-table {
+    width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+    border-spacing: 0;
 }
 
 .jsgrid-table td {
     padding: 0.3em 0.5em;
     border: #F3F3F3 1px solid;
+}
+
+.jsgrid-table td, .jsgrid-table th {
+    box-sizing: border-box;
 }
 
 .jsgrid-align-left {
@@ -40,19 +52,20 @@
 }
 
 .jsgrid-header-row th {
-    text-align: center;
     padding: .5em .5em;
     border: 1px solid #E2E2E2;
     border-bottom: none;
+    text-align: center;
 }
 
 .jsgrid-filter-row {
 }
 
 .jsgrid-filter-row td {
-    border: 1px solid #E2E2E2;
-    text-align: center;
     background: #F9FCFC;
+    border: 1px solid #E2E2E2;
+    border-bottom: none;
+    text-align: center;
 }
 
 .jsgrid-filter-row input, .jsgrid-filter-row textarea, .jsgrid-filter-row select {
@@ -63,9 +76,10 @@
 }
 
 .jsgrid-insert-row td {
-    border: 1px solid #E2E2E2;
-    text-align: center;
     background: #e0ffbf;
+    border: 1px solid #E2E2E2;
+    border-bottom: none;
+    text-align: center;
 }
 
 .jsgrid-insert-row input, .jsgrid-insert-row textarea, .jsgrid-insert-row select {
@@ -76,9 +90,9 @@
 }
 
 .jsgrid-edit-row td {
+    background: #fcffc9;
     border: 1px solid #E2E2E2;
     text-align: center;
-    background: #fcffc9;
 }
 
 .jsgrid-edit-row input, .jsgrid-edit-row textarea, .jsgrid-edit-row select {
@@ -97,16 +111,16 @@
 }
 
 .jsgrid-selected-row td {
-    background: url(images/jsgrid-table_selrow_bg.gif) bottom left repeat-x #F7FCFD !important;
     border-bottom: 1px solid #C0EBFE !important;
+    background: url(images/jsgrid-table_selrow_bg.gif) bottom left repeat-x #F7FCFD !important;
     cursor: pointer;
 }
 
 .jsgrid-nodata-row td {
-    font-weight: bold;
     padding: .5em 0;
-    text-align: center;
     background: #FFFFFF;
+    text-align: center;
+    font-weight: bold;
 }
 
 .jsgrid-pager {
@@ -138,25 +152,25 @@
 }
 
 .jsgrid-search-mode-button {
-    background: url(images/jsgrid-search_mode.png);
     width: 24px;
     height: 24px;
+    background: url(images/jsgrid-search_mode.png);
     border: none;
     cursor: pointer;
 }
 
 .jsgrid-insert-mode-button {
-    background: url(images/jsgrid-insert_mode.png);
     width: 24px;
     height: 24px;
+    background: url(images/jsgrid-insert_mode.png);
     border: none;
     cursor: pointer;
 }
 
 .jsgrid-filter-row .jsgrid-search-button {
-    background: url(images/jsgrid-search.png);
     width: 16px;
     height: 16px;
+    background: url(images/jsgrid-search.png);
     border: none;
     cursor: pointer;
 }
@@ -170,41 +184,41 @@
 }
 
 .jsgrid-insert-row .jsgrid-insert-button {
-    background: url(images/jsgrid-insert.png);
     width: 16px;
     height: 16px;
+    background: url(images/jsgrid-insert.png);
     border: none;
     cursor: pointer;
 }
 
 .jsgrid-control-field .jsgrid-edit-button {
-    background: url(images/jsgrid-edit.png);
     width: 16px;
     height: 16px;
+    background: url(images/jsgrid-edit.png);
     border: none;
     cursor: pointer;
 }
 
 .jsgrid-control-field .jsgrid-delete-button {
-    background: url(images/jsgrid-delete.png);
     width: 16px;
     height: 16px;
+    background: url(images/jsgrid-delete.png);
     border: none;
     cursor: pointer;
 }
 
 .jsgrid-edit-row .jsgrid-update-button {
-    background: url(images/jsgrid-update.png);
     width: 16px;
     height: 16px;
+    background: url(images/jsgrid-update.png);
     border: none;
     cursor: pointer;
 }
 
 .jsgrid-edit-row .jsgrid-cancel-edit-button {
-    background: url(images/jsgrid-cancel_edit.png);
     width: 16px;
     height: 16px;
+    background: url(images/jsgrid-cancel_edit.png);
     border: none;
     cursor: pointer;
 }
