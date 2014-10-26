@@ -1,0 +1,95 @@
+
+.jsgrid-grid-header,
+.jsgrid-grid-body,
+.jsgrid-header-row > th,
+.jsgrid-filter-row > td,
+.jsgrid-insert-row td,
+.jsgrid-edit-row > td {
+    border: 1px solid #E2E2E2;
+}
+
+.jsgrid-grid-header {
+    background: #f1f1f1;
+}
+
+.jsgrid-grid-body {
+    border-top: none;
+}
+
+.jsgrid-table td {
+    border: #F3F3F3 1px solid;
+}
+
+.jsgrid-row > td {
+    background: #FFFFFF;
+}
+
+.jsgrid-alt-row > td {
+    background: #F9FCFC;
+}
+
+.jsgrid-header-row {
+    background: #efefef;
+}
+
+.jsgrid-header-row > th {
+    border-bottom: none;
+}
+
+.jsgrid-filter-row > td {
+    background: #F9FCFC;
+    border-bottom: none;
+}
+
+.jsgrid-insert-row > td {
+    background: #e0ffbf;
+    border-bottom: none;
+}
+
+.jsgrid-edit-row > td {
+    background: #fcffc9;
+}
+
+.jsgrid-selected-row > td {
+    border-bottom: 1px solid #C0EBFE !important;
+    background: url(images/jsgrid-table_selrow_bg.gif) bottom left repeat-x #F7FCFD !important;
+}
+
+.jsgrid-nodata-row td {
+    background: #FFFFFF;
+    font-weight: bold;
+}
+
+.jsgrid-pager-current-page {
+    font-weight: bold;
+}
+
+.jsgrid-header-sort-asc {
+    background: url(images/jsgrid-table_th_sort_asc.png) 1em 1em no-repeat #d6eef3;
+}
+
+.jsgrid-header-sort-desc {
+    background: url(images/jsgrid-table_th_sort_desc.png) 1em 1em no-repeat #d6eef3;
+}
+
+.jsgrid .jsgrid-button {
+    width: 16px;
+    height: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.jsgrid .jsgrid-mode-button {
+    width: 24px;
+    height: 24px;
+}
+
+.jsgrid-search-mode-button { background: url(images/jsgrid-search_mode.png); }
+.jsgrid-insert-mode-button { background: url(images/jsgrid-insert_mode.png); }
+.jsgrid-search-button { background: url(images/jsgrid-search.png); }
+.jsgrid-clear-filter-button { background: url(images/jsgrid-clear_filter.png); }
+.jsgrid-insert-button { background: url(images/jsgrid-insert.png); }
+.jsgrid-edit-button { background: url(images/jsgrid-edit.png); }
+.jsgrid-delete-button { background: url(images/jsgrid-delete.png); }
+.jsgrid-update-button { background: url(images/jsgrid-update.png); }
+.jsgrid-cancel-edit-button { background: url(images/jsgrid-cancel_edit.png); }
