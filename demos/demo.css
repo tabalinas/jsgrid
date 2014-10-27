@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Helvetica Neue Light', 'Open Sans';
+    font-size: 14px;
+    height: 100%;
+}
