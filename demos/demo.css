@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -8,7 +9,26 @@ html {
 }
 
 body {
+    height: 100%;
+    padding: 10px;
+    color: #262626;
     font-family: 'Helvetica Neue Light', 'Open Sans';
     font-size: 14px;
-    height: 100%;
+    font-weight: 300;
+}
+
+h1 {
+    margin: 16px 0 8px 0;
+    font-size: 24px;
+    font-family: 'Helvetica Neue Light', 'Open Sans';
+    font-weight: 300;
+}
+
+a {
+    color: #2ba6cb;
+}
+
+input {
+    font-family: 'Helvetica Neue Light', 'Open Sans';
+    font-weight: 300;
 }
