@@ -12,6 +12,11 @@
     background: #f1f1f1;
 }
 
+.jsgrid-grid-header tr:last-child th,
+.jsgrid-grid-header tr:last-child td {
+    border-bottom: none;
+}
+
 .jsgrid-grid-body {
     border-top: none;
 }
@@ -32,18 +37,12 @@
     background: #efefef;
 }
 
-.jsgrid-header-row > th {
-    border-bottom: none;
-}
-
 .jsgrid-filter-row > td {
     background: #F9FCFC;
-    border-bottom: none;
 }
 
 .jsgrid-insert-row > td {
     background: #e0ffbf;
-    border-bottom: none;
 }
 
 .jsgrid-edit-row > td {
