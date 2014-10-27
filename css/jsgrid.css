@@ -56,6 +56,12 @@
     width: 90%;
 }
 
+.jsgrid-filter-row input[type='checkbox'],
+.jsgrid-edit-row input[type='checkbox'],
+.jsgrid-insert-row input[type='checkbox'] {
+    width: auto;
+}
+
 .jsgrid-header-row > th,
 .jsgrid-filter-row > td,
 .jsgrid-insert-row > td,
