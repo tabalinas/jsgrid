@@ -5,11 +5,15 @@
 .jsgrid-filter-row > td,
 .jsgrid-insert-row td,
 .jsgrid-edit-row > td {
-    border: 1px solid #E2E2E2;
+    border: 1px solid #e9e9e9;
+}
+
+.jsgrid-header-row > th {
+    border-top: 0;
 }
 
 .jsgrid-grid-header {
-    background: #f1f1f1;
+    background: #f9f9f9;
 }
 
 .jsgrid-grid-header tr:last-child th,
@@ -22,53 +26,52 @@
 }
 
 .jsgrid-table td {
-    border: #F3F3F3 1px solid;
+    border: #f3f3f3 1px solid;
 }
 
 .jsgrid-row > td {
-    background: #FFFFFF;
+    background: #fff;
 }
 
 .jsgrid-alt-row > td {
-    background: #F9FCFC;
+    background: #fcfcfc;
 }
 
-.jsgrid-header-row {
-    background: #efefef;
+.jsgrid-header-row > th {
+    background: #f9f9f9;
 }
 
 .jsgrid-filter-row > td {
-    background: #F9FCFC;
+    background: #fcfcfc;
 }
 
 .jsgrid-insert-row > td {
-    background: #e0ffbf;
+    background: #e3ffe5;
 }
 
 .jsgrid-edit-row > td {
-    background: #fcffc9;
+    background: #fdffe3;
 }
 
 .jsgrid-selected-row > td {
-    border-bottom: 1px solid #C0EBFE !important;
-    background: url(images/jsgrid-table_selrow_bg.gif) bottom left repeat-x #F7FCFD !important;
+    background: #c4e2ff;
+    border-color: #c4e2ff;
 }
 
 .jsgrid-nodata-row td {
-    background: #FFFFFF;
-    font-weight: bold;
+    background: #fff;
 }
 
 .jsgrid-pager-current-page {
     font-weight: bold;
 }
 
-.jsgrid-header-sort-asc {
-    background: url(images/jsgrid-table_th_sort_asc.png) 1em 1em no-repeat #d6eef3;
+.jsgrid-header-row .jsgrid-header-sort-asc {
+    background: url(images/jsgrid-table_th_sort_asc.png) 1em 1em no-repeat #c4e2ff;
 }
 
-.jsgrid-header-sort-desc {
-    background: url(images/jsgrid-table_th_sort_desc.png) 1em 1em no-repeat #d6eef3;
+.jsgrid-header-row .jsgrid-header-sort-desc {
+    background: url(images/jsgrid-table_th_sort_desc.png) 1em 1em no-repeat #c4e2ff;
 }
 
 .jsgrid .jsgrid-button {
