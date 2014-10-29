@@ -66,12 +66,13 @@
     font-weight: bold;
 }
 
-.jsgrid-header-row .jsgrid-header-sort-asc {
-    background: url(images/jsgrid-table_th_sort_asc.png) 1em 1em no-repeat #c4e2ff;
+.jsgrid-button + .jsgrid-button {
+    margin-left: 5px;
 }
 
-.jsgrid-header-row .jsgrid-header-sort-desc {
-    background: url(images/jsgrid-table_th_sort_desc.png) 1em 1em no-repeat #c4e2ff;
+.jsgrid-button:hover {
+    opacity: .5;
+    transition: opacity 200ms linear;
 }
 
 .jsgrid .jsgrid-button {
@@ -79,6 +80,9 @@
     height: 16px;
     border: none;
     cursor: pointer;
+    background-image: url(icons.png);
+    background-repeat: no-repeat;
+    background-color: transparent;
 }
 
 .jsgrid .jsgrid-mode-button {
@@ -86,12 +90,15 @@
     height: 24px;
 }
 
-.jsgrid-search-mode-button { background: url(images/jsgrid-search_mode.png); }
-.jsgrid-insert-mode-button { background: url(images/jsgrid-insert_mode.png); }
-.jsgrid-search-button { background: url(images/jsgrid-search.png); }
-.jsgrid-clear-filter-button { background: url(images/jsgrid-clear_filter.png); }
-.jsgrid-insert-button { background: url(images/jsgrid-insert.png); }
-.jsgrid-edit-button { background: url(images/jsgrid-edit.png); }
-.jsgrid-delete-button { background: url(images/jsgrid-delete.png); }
-.jsgrid-update-button { background: url(images/jsgrid-update.png); }
-.jsgrid-cancel-edit-button { background: url(images/jsgrid-cancel_edit.png); }
+.jsgrid-header-row .jsgrid-header-sort-asc { background: url(icons.png) 4px -540px no-repeat #c4e2ff; }
+.jsgrid-header-row .jsgrid-header-sort-desc { background: url(icons.png) 4px -606px no-repeat #c4e2ff; }
+
+.jsgrid-cancel-button { background-position: 0 0; width: 16px; height: 16px; }
+.jsgrid-clear-filter-button { background-position: 0 -66px; width: 16px; height: 16px; }
+.jsgrid-delete-button { background-position: 0 -132px; width: 16px; height: 16px; }
+.jsgrid-edit-button { background-position: 0 -198px; width: 16px; height: 16px; }
+.jsgrid-insert-mode-button { background-position: 0 -264px; width: 24px; height: 24px; }
+.jsgrid-insert-button { background-position: 0 -338px; width: 16px; height: 16px; }
+.jsgrid-search-mode-button { background-position: 0 -404px; width: 24px; height: 24px; }
+.jsgrid-search-button { background-position: 0 -478px; width: 16px; height: 16px; }
+.jsgrid-update-button { background-position: 0 -676px; width: 16px; height: 16px; }
