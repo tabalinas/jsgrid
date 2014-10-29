@@ -21,6 +21,29 @@
     border-bottom: none;
 }
 
+.jsgrid-header-row .jsgrid-header-sort {
+    background: #c4e2ff;
+}
+
+.jsgrid-header-sort:before {
+    content: " ";
+    display: block;
+    float: left;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.jsgrid-header-sort-asc:before {
+    border-width: 0 5px 5px 5px;
+    border-color: transparent transparent #009a67 transparent;
+}
+
+.jsgrid-header-sort-desc:before {
+    border-width: 5px 5px 0 5px;
+    border-color: #009a67 transparent transparent transparent;
+}
+
 .jsgrid-grid-body {
     border-top: none;
 }
@@ -85,20 +108,24 @@
     background-color: transparent;
 }
 
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    .jsgrid .jsgrid-button {
+        background-image: url(icons-2x.png);
+        background-size: 24px 352px;
+    }
+}
+
 .jsgrid .jsgrid-mode-button {
     width: 24px;
     height: 24px;
 }
 
-.jsgrid-header-row .jsgrid-header-sort-asc { background: url(icons.png) 4px -540px no-repeat #c4e2ff; }
-.jsgrid-header-row .jsgrid-header-sort-desc { background: url(icons.png) 4px -606px no-repeat #c4e2ff; }
-
 .jsgrid-cancel-button { background-position: 0 0; width: 16px; height: 16px; }
-.jsgrid-clear-filter-button { background-position: 0 -66px; width: 16px; height: 16px; }
-.jsgrid-delete-button { background-position: 0 -132px; width: 16px; height: 16px; }
-.jsgrid-edit-button { background-position: 0 -198px; width: 16px; height: 16px; }
-.jsgrid-insert-mode-button { background-position: 0 -264px; width: 24px; height: 24px; }
-.jsgrid-insert-button { background-position: 0 -338px; width: 16px; height: 16px; }
-.jsgrid-search-mode-button { background-position: 0 -404px; width: 24px; height: 24px; }
-.jsgrid-search-button { background-position: 0 -478px; width: 16px; height: 16px; }
-.jsgrid-update-button { background-position: 0 -676px; width: 16px; height: 16px; }
+.jsgrid-clear-filter-button { background-position: 0 -40px; width: 16px; height: 16px; }
+.jsgrid-delete-button { background-position: 0 -80px; width: 16px; height: 16px; }
+.jsgrid-edit-button { background-position: 0 -120px; width: 16px; height: 16px; }
+.jsgrid-insert-mode-button { background-position: 0 -160px; width: 24px; height: 24px; }
+.jsgrid-insert-button { background-position: 0 -208px; width: 16px; height: 16px; }
+.jsgrid-search-mode-button { background-position: 0 -248px; width: 24px; height: 24px; }
+.jsgrid-search-button { background-position: 0 -296px; width: 16px; height: 16px; }
+.jsgrid-update-button { background-position: 0 -336px; width: 16px; height: 16px; }
