@@ -12,13 +12,12 @@
     border-top: 0;
 }
 
-.jsgrid-grid-header {
-    background: #f9f9f9;
+.jsgrid-header-row > th, .jsgrid-filter-row > td, .jsgrid-insert-row > td {
+    border-bottom: 0;
 }
 
-.jsgrid-grid-header tr:last-child th,
-.jsgrid-grid-header tr:last-child td {
-    border-bottom: none;
+.jsgrid-grid-header {
+    background: #f9f9f9;
 }
 
 .jsgrid-header-row .jsgrid-header-sort {
