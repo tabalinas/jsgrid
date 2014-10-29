@@ -83,9 +83,9 @@
         evenRowClass: "jsgrid-alt-row",
 
         sorting: false,
-        sortClass: "jsgrid-header-sort",
-        sortAscClass: "jsgrid-header-sort-asc",
-        sortDescClass: "jsgrid-header-sort-desc",
+        sortableClass: "jsgrid-header-sortable",
+        sortAscClass: "jsgrid-header-sort jsgrid-header-sort-asc",
+        sortDescClass: "jsgrid-header-sort jsgrid-header-sort-desc",
 
         paging: false,
         pagerContainer: null,
@@ -225,7 +225,7 @@
                 case "insertRowRenderer":
                 case "insertRowClass":
                 case "sorting":
-                case "sortClass":
+                case "sortableClass":
                 case "sortAscClass":
                 case "sortDescClass":
                 case "pagerContainer":
@@ -364,7 +364,7 @@
                     .width(field.width);
 
                 if(grid.sorting && field.sorting) {
-                    $th.addClass(grid.sortClass)
+                    $th.addClass(grid.sortableClass)
                         .on("click." + JSGRID, function() {
                             grid.sort(index);
                         });

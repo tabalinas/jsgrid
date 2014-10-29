@@ -1042,7 +1042,7 @@ $(function() {
         equal(grid.data[0].value, 1);
         equal(grid.data[1].value, 2);
         equal(grid.data[2].value, 3);
-        ok(th.hasClass(grid.sortClass));
+        ok(th.hasClass(grid.sortableClass));
         ok(th.hasClass(grid.sortAscClass));
 
         th.trigger("click");
