@@ -30,8 +30,8 @@
         },
 
         sort: function() {
-            this._grid._sortData()
-                .refresh();
+            this._grid._sortData();
+            this._grid.refresh();
         },
 
         finishLoad: function(loadedData) {

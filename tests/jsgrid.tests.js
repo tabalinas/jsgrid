@@ -470,7 +470,7 @@ $(function() {
                 .option("data", this.testData);
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
-        $secondRow.trigger("click." + JSGRID, $.Event($secondRow));
+        $secondRow.trigger("click", $.Event($secondRow));
 
         equal(grid._editingRow.get(0), $secondRow.get(0), "clicked row is editingRow");
     });
@@ -480,19 +480,19 @@ $(function() {
             $element = $("#jsGrid"),
             $secondRow,
             gridOptions = {
-                rowClick: function() {
-                    rowClickArgs = arguments;
+                rowClick: function(args) {
+                    rowClickArgs = args;
                 }
             },
             grid = new Grid($element, gridOptions).render()
                 .option("data", this.testData);
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
-        $secondRow.trigger("click." + JSGRID, $.Event($secondRow));
+        $secondRow.trigger("click", $.Event($secondRow));
 
-        ok(rowClickArgs[0] instanceof jQuery.Event, "jQuery event arg");
-        equal(rowClickArgs[1], this.testData[1], "item arg");
-        equal(rowClickArgs[2], 1, "itemIndex arg");
+        ok(rowClickArgs.event instanceof jQuery.Event, "jQuery event arg");
+        equal(rowClickArgs.item, this.testData[1], "item arg");
+        equal(rowClickArgs.itemIndex, 1, "itemIndex arg");
     });
 
     test("row selecting with selectedRowClass", function() {
@@ -506,11 +506,11 @@ $(function() {
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
 
-        $secondRow.trigger("mouseover." + JSGRID, $.Event($secondRow));
-        ok($secondRow.hasClass(grid.selectedRowClass), "mouseover adds selectedRowClass");
+        $secondRow.trigger("mouseenter", $.Event($secondRow));
+        ok($secondRow.hasClass(grid.selectedRowClass), "mouseenter adds selectedRowClass");
 
-        $secondRow.trigger("mouseout." + JSGRID, $.Event($secondRow));
-        ok(!$secondRow.hasClass(grid.selectedRowClass), "mouseout removes selectedRowClass");
+        $secondRow.trigger("mouseleave", $.Event($secondRow));
+        ok(!$secondRow.hasClass(grid.selectedRowClass), "mouseleave removes selectedRowClass");
     });
 
     test("no row selecting while selection is disabled", function() {

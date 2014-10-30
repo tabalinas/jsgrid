@@ -43,9 +43,9 @@
         rowClass: $.noop,
         rowRenderer: null,
 
-        rowClick: function(e) {
+        rowClick: function(args) {
             if(this.editing) {
-                this.editRow($(e.target).closest("tr"));
+                this.editRow($(args.event.target).closest("tr"));
             }
         },
 
@@ -162,14 +162,11 @@
         },
 
         _attachWindowResizeCallback: function() {
-            var self = this;
-            $(window).on("resize." + JSGRID, function() {
-                self.refreshSize();
-            });
+            $(window).on("resize", $.proxy(this.refreshSize, this));
         },
 
         _detachWindowResizeCallback: function() {
-            $(window).off("." + JSGRID);
+            $(window).off(this.refreshSize);
         },
 
         option: function(key, value) {
@@ -261,18 +258,14 @@
                     break;
                 case "pageLoading":
                     this._initLoadStrategy();
-                    if(this.controller) {
-                        this.search();
-                    }
+                    this.controller && this.search();
                     break;
                 case "pageIndex":
                     this.openPage(value);
                     break;
                 case "pageSize":
                     this.refresh();
-                    if(this.controller) {
-                        this.search();
-                    }
+                    this.controller && this.search();
                     break;
                 case "heading":
                     this.refreshHeading();
@@ -297,49 +290,19 @@
         },
 
         _clear: function() {
-            if(this._pagerContainer) {
-                this._pagerContainer.empty();
-            }
+            this._pagerContainer && this._pagerContainer.empty();
             this._container.empty();
-            return this;
         },
 
         render: function() {
-            var headerRow = this._headerRow = this._createHeaderRow(),
-                filterRow = this._filterRow = this._createFilterRow(),
-                insertRow = this._insertRow = this._createInsertRow(),
-                headerGrid,
-                header,
-                bodyGrid,
-                body,
-                content,
-                pagerContainer;
-
             this._clear();
-            
-            headerGrid = this._headerGrid = $("<table />").addClass(this.tableClass)
-                .append(headerRow)
-                .append(filterRow)
-                .append(insertRow);
 
-            header = this._header = $("<div />").addClass(this.gridHeaderClass)
-                .append(headerGrid);
-
-            content = this._content = $("<tbody />");
-
-            bodyGrid = this._bodyGrid = $("<table />").addClass(this.tableClass)
-                .append(content);
-
-            body = this._body = $("<div />").addClass(this.gridBodyClass)
-                .append(bodyGrid);
-            
             this._container.addClass(this.containerClass)
-                .append(header)
-                .append(body);
+                .append(this._createHeader())
+                .append(this._createBody());
 
-            pagerContainer = this.pagerContainer || $("<div />").appendTo(this._container);
-            this._pagerContainer = $(pagerContainer).addClass(this.pagerContainerClass);
-            
+            this._pagerContainer = this._createPagerContainer();
+
             this.reset();
 
             if(this.autoload) {
@@ -348,30 +311,69 @@
 
             return this;
         },
-        
+
+        _createHeader: function() {
+            var $headerRow = this._headerRow = this._createHeaderRow(),
+                $filterRow = this._filterRow = this._createFilterRow(),
+                $insertRow = this._insertRow = this._createInsertRow();
+
+            var $headerGrid = this._headerGrid = $("<table>").addClass(this.tableClass)
+                    .append($headerRow)
+                    .append($filterRow)
+                    .append($insertRow);
+
+            var $header = this._header = $("<div>").addClass(this.gridHeaderClass)
+                    .append($headerGrid);
+
+            return $header;
+        },
+
+        _createBody: function() {
+            var $content = this._content = $("<tbody>");
+
+            var $bodyGrid = this._bodyGrid = $("<table>").addClass(this.tableClass)
+                    .append($content);
+
+            var $body = this._body = $("<div>").addClass(this.gridBodyClass)
+                    .append($bodyGrid);
+
+            return $body;
+        },
+
+        _createPagerContainer: function() {
+            var pagerContainer = this.pagerContainer || $("<div>").appendTo(this._container);
+            return $(pagerContainer).addClass(this.pagerContainerClass);
+        },
+
+        _eachField: function(callBack) {
+            var self = this;
+            $.each(this.fields, function(index, field) {
+                return callBack.call(self, field, index);
+            });
+        },
+
         _createHeaderRow: function() {
             if($.isFunction(this.headerRowRenderer)) {
                 return this.headerRowRenderer();
             }
 
-            var result = $("<tr />").addClass(this.headerRowClass),
-                grid = this;
+            var $result = $("<tr>").addClass(this.headerRowClass);
 
-            $.each(this.fields, function(index, field) {
-                var $th = $("<th />").addClass(field.css)
-                    .appendTo(result)
+            this._eachField(function(field, index) {
+                var $th = $("<th>").addClass(field.css)
+                    .appendTo($result)
                     .append(field.headerTemplate ? field.headerTemplate() : "")
                     .width(field.width);
 
-                if(grid.sorting && field.sorting) {
-                    $th.addClass(grid.sortableClass)
-                        .on("click." + JSGRID, function() {
-                            grid.sort(index);
-                        });
+                if(this.sorting && field.sorting) {
+                    $th.addClass(this.sortableClass)
+                        .on("click", $.proxy(function() {
+                            this.sort(index);
+                        }, this));
                 }
             });
 
-            return result;
+            return $result;
         },
 
         _createFilterRow: function() {
@@ -379,16 +381,16 @@
                 return this.filterRowRenderer();
             }
 
-            var result = $("<tr />").addClass(this.filterRowClass);
+            var $result = $("<tr>").addClass(this.filterRowClass);
 
-            $.each(this.fields, function(index, field) {
-                $("<td />").addClass(field.css)
-                    .appendTo(result)
+            this._eachField(function(field) {
+                $("<td>").addClass(field.css)
+                    .appendTo($result)
                     .append(field.filterTemplate ? field.filterTemplate() : "")
                     .width(field.width);
             });
 
-            return result;
+            return $result;
         },
 
         _createInsertRow: function() {
@@ -396,16 +398,16 @@
                 return this.insertRowRenderer();
             }
 
-            var result = $("<tr />").addClass(this.insertRowClass);
+            var $result = $("<tr>").addClass(this.insertRowClass);
 
-            $.each(this.fields, function(index, field) {
-                $("<td />").addClass(field.css)
-                    .appendTo(result)
+            this._eachField(function(field) {
+                $("<td>").addClass(field.css)
+                    .appendTo($result)
                     .append(field.insertTemplate ? field.insertTemplate() : "")
                     .width(field.width);
             });
 
-            return result;
+            return $result;
         },
 
         _callEventHandler: function(handler, eventParams) {
@@ -415,10 +417,9 @@
         },
 
         reset: function() {
-            this.resetSorting();
-            this.resetPager();
-            this.refresh();
-            return this;
+            return this.resetSorting()
+                .resetPager()
+                .refresh();
         },
 
         resetPager: function() {
@@ -439,13 +440,13 @@
 
             this.cancelEdit();
 
-            this.refreshHeading();
-            this.refreshFiltering();
-            this.refreshInserting();
+            this.refreshHeading()
+                .refreshFiltering()
+                .refreshInserting();
             
-            this.refreshGridContent();
-            this.refreshPager();
-            this.refreshSize();
+            this.refreshGridContent()
+                .refreshPager()
+                .refreshSize();
             
             this._callEventHandler(this.onRefreshed);
             return this;
@@ -467,47 +468,46 @@
         },
 
         refreshSize: function() {
-            this.refreshWidth();
-            this.refreshHeight();
-            return this;
+            return this.refreshWidth()
+                .refreshHeight();
         },
 
         refreshWidth: function() {
-            var headerGrid = this._headerGrid,
-                bodyGrid = this._bodyGrid,
+            var $headerGrid = this._headerGrid,
+                $bodyGrid = this._bodyGrid,
                 width = this.width,
-                scrollbarWidth = this._scrollbarWidth(),
+                scrollBarWidth = this._scrollBarWidth(),
                 gridWidth;
 
             if(width === "auto") {
-                headerGrid.width("auto");
-                gridWidth = headerGrid.outerWidth();
-                width = gridWidth + scrollbarWidth;
+                $headerGrid.width("auto");
+                gridWidth = $headerGrid.outerWidth();
+                width = gridWidth + scrollBarWidth;
             }
 
-            headerGrid.width("");
-            bodyGrid.width("");
-            this._header.css("padding-right", scrollbarWidth);
+            $headerGrid.width("");
+            $bodyGrid.width("");
+            this._header.css("padding-right", scrollBarWidth);
             this._container.width(width);
-            gridWidth = headerGrid.outerWidth();
-            bodyGrid.width(gridWidth);
+            gridWidth = $headerGrid.outerWidth();
+            $bodyGrid.width(gridWidth);
 
             return this;
         },
 
-        _scrollbarWidth: (function() {
+        _scrollBarWidth: (function() {
             var result;
 
             return function() {
                 if(result === undefined) {
-                    var ghostContainer = $('<div style="width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;"></div>');
-                    var ghostContent = $("<div style='height:100px;'></div>");
-                    ghostContainer.append(ghostContent).appendTo("body");
-                    var width = ghostContent.innerWidth();
-                    ghostContainer.css("overflow-y", "auto");
-                    var widthExcludingScrollbar  = ghostContent.innerWidth();
-                    ghostContainer.remove();
-                    result = width - widthExcludingScrollbar;
+                    var $ghostContainer = $("<div style='width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;'></div>");
+                    var $ghostContent = $("<div style='height:100px;'></div>");
+                    $ghostContainer.append($ghostContent).appendTo("body");
+                    var width = $ghostContent.innerWidth();
+                    $ghostContainer.css("overflow-y", "auto");
+                    var widthExcludingScrollBar = $ghostContent.innerWidth();
+                    $ghostContainer.remove();
+                    result = width - widthExcludingScrollBar;
                 }
                 return result;
             };
@@ -529,96 +529,103 @@
                     nonBodyHeight += pagerContainer.outerHeight(true);
                 }
 
-                this._body.height(height - nonBodyHeight);
+                this._body.outerHeight(height - nonBodyHeight);
             }
 
             return this;
         },
 
         refreshGridContent: function() {
-            var content = this._content,
-                indexFrom,
-                indexTo,
-                item,
-                itemIndex;
-
-            content.empty();
+            var $content = this._content;
+            $content.empty();
 
             if(!this.data.length) {
-                content.append(this._createNoDataRow());
+                $content.append(this._createNoDataRow());
                 return this;
             }
 
-            indexFrom = this._loadStrategy.firstDisplayIndex();
-            indexTo = this._loadStrategy.lastDisplayIndex();
+            var indexFrom = this._loadStrategy.firstDisplayIndex();
+            var indexTo = this._loadStrategy.lastDisplayIndex();
 
-            for(itemIndex = indexFrom; itemIndex < indexTo; itemIndex += 1) {
-                item = this.data[itemIndex];
-                content.append(this._createRow(item, itemIndex));
+            for(var itemIndex = indexFrom; itemIndex < indexTo; itemIndex++) {
+                var item = this.data[itemIndex];
+                $content.append(this._createRow(item, itemIndex));
             }
+
             return this;
         },
 
         _createNoDataRow: function() {
-            return $("<tr />").addClass(this.noDataRowClass)
-                .append($("<td />").attr("colspan", this.fields.length).append(this.noDataContent()));
+            return $("<tr>").addClass(this.noDataRowClass)
+                .append($("<td>").attr("colspan", this.fields.length).append(this.noDataContent()));
         },
 
         _createRow: function(item, itemIndex) {
-            var result,
-                grid = this,
-                selectedRowClass;
+            var $result;
 
-            if($.isFunction(grid.rowRenderer)) {
-                result = grid.rowRenderer(item, itemIndex);
+            if($.isFunction(this.rowRenderer)) {
+                $result = this.rowRenderer(item, itemIndex);
             }
             else {
-                result = $("<tr />")
-                    .addClass(((itemIndex + 1) % 2) ? grid.oddRowClass : grid.evenRowClass)
-                    .addClass(grid.rowClass(item, itemIndex));
+                $result = $("<tr>")
+                    .addClass(((itemIndex + 1) % 2) ? this.oddRowClass : this.evenRowClass)
+                    .addClass(this.rowClass(item, itemIndex));
 
-                grid._renderRowCells(result, item);
+                this._renderCells($result, item);
             }
 
-            result.data(JSGRID_ROW_DATA_KEY, item);
+            $result.data(JSGRID_ROW_DATA_KEY, item);
 
-            result.on("click." + JSGRID, function(e) {
-                grid.rowClick(e, item, itemIndex);
-            });
+            $result.on("click", $.proxy(function(e) {
+                this.rowClick({
+                    item: item,
+                    itemIndex: itemIndex,
+                    event: e
+                });
+            }, this));
 
             if(this.selecting) {
-                selectedRowClass = grid.selectedRowClass;
-                result
-                    .on("mouseover." + JSGRID, function() {
-                        $(this).addClass(selectedRowClass);
-                    })
-                    .on("mouseout." + JSGRID, function() {
-                        $(this).removeClass(selectedRowClass);
-                    });
+                this._attachRowHover($result);
             }
 
-            return result;
+            return $result;
         },
 
-        _renderRowCells: function($row, item) {
-            $.each(this.fields, function(index, field) {
-                var fieldValue = item[field.name],
-                    $cell = $("<td />")
-                        .addClass(field.css)
-                        .append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
-
-                if(field.align) {
-                    $cell.addClass("jsgrid-align-" + field.align);
+        _attachRowHover: function($row) {
+            var selectedRowClass = this.selectedRowClass;
+            $row.hover(function() {
+                    $(this).addClass(selectedRowClass);
+                },
+                function() {
+                    $(this).removeClass(selectedRowClass);
                 }
+            );
+        },
 
-                if(field.cellTemplate) {
-                    $cell = field.cellTemplate($cell, fieldValue, item);
-                }
-
-                $cell.appendTo($row)
-                    .width(field.width);
+        _renderCells: function($row, item) {
+            this._eachField(function(field) {
+                $row.append(this._createCell(item, field));
             });
             return this;
+        },
+
+        _createCell: function(item, field) {
+            var $result;
+            var fieldValue = item[field.name];
+
+            if($.isFunction(field.cellRenderer)) {
+                $result = this.cellRenderer(fieldValue, item);
+            }
+            else {
+                $result = $("<td>").addClass(field.css)
+                    .append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
+            }
+
+            $result.width(field.width);
+
+            field.align && $result.addClass("jsgrid-align-" + field.align);
+
+            return $result;
         },
 
         sort: function(index) {
@@ -632,33 +639,29 @@
             this._headerRow.find("th")
                 .removeClass(this.sortAscClass)
                 .removeClass(this.sortDescClass);
-            return this;
         },
 
         _setSortingField: function(index) {
             var field = this.fields[index];
 
             this._sortOrder = (this._sortField === field)
-                ? this._sortOrder === SORT_ORDER_ASC ? SORT_ORDER_DESC : SORT_ORDER_ASC
+                ? (this._sortOrder === SORT_ORDER_ASC ? SORT_ORDER_DESC : SORT_ORDER_ASC)
                 : SORT_ORDER_ASC;
             this._sortField = field;
 
             this._headerRow.find("th").eq(index)
                 .addClass(this._sortOrder === SORT_ORDER_ASC ? this.sortAscClass : this.sortDescClass);
-            return this;
         },
 
         _sortData: function() {
-            var self = this,
-                sortField = self._sortField;
-            if(!sortField) {
-                return this;
+            var sortFactor = this._sortFactor(),
+                sortField = this._sortField;
+
+            if(sortField) {
+                this.data.sort(function(item1, item2) {
+                    return sortFactor * sortField.sortingFunc(item1[sortField.name], item2[sortField.name]);
+                });
             }
-                        
-            this.data.sort(function(item1, item2) {
-                return self._sortFactor() * sortField.sortingFunc(item1[sortField.name], item2[sortField.name]);
-            });
-            return this;
         },
 
         _sortFactor: function() {
