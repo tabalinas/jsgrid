@@ -7,18 +7,20 @@
     DirectLoadingStrategy.prototype = {
         firstDisplayIndex: function() {
             var grid = this._grid;
-            return grid.paging ? (grid.pageIndex - 1) * grid.pageSize : 0;
+            return grid.option("paging") ? (grid.option("pageIndex") - 1) * grid.option("pageSize") : 0;
         },
 
         lastDisplayIndex: function() {
             var grid = this._grid;
-            return grid.paging
-                ? Math.min(grid.pageIndex * grid.pageSize, grid.data.length)
-                : grid.data.length;
+            var itemsCount = grid.option("data").length;
+
+            return grid.option("paging")
+                ? Math.min(grid.option("pageIndex") * grid.option("pageSize"), itemsCount)
+                : itemsCount;
         },
 
         itemsCount: function() {
-            return this._grid.data.length;
+            return this._grid.option("data").length;
         },
 
         openPage: function(index) {
@@ -40,13 +42,13 @@
 
         finishInsert: function(insertedItem) {
             var grid = this._grid;
-            grid.data.push(insertedItem);
+            grid.option("data").push(insertedItem);
             grid.refresh();
         },
 
         finishDelete: function(deletedItem, deletedItemIndex) {
             var grid = this._grid;
-            grid.data.splice(deletedItemIndex, 1);
+            grid.option("data").splice(deletedItemIndex, 1);
             grid.reset();
         }
     };
@@ -63,7 +65,7 @@
         },
 
         lastDisplayIndex: function() {
-            return this._grid.data.length;
+            return this._grid.option("data").length;
         },
 
         itemsCount: function() {
@@ -77,8 +79,8 @@
         loadParams: function() {
             var grid = this._grid;
             return {
-                pageIndex: grid.pageIndex,
-                pageSize: grid.pageSize
+                pageIndex: grid.option("pageIndex"),
+                pageSize: grid.option("pageSize")
             };
         },
 
