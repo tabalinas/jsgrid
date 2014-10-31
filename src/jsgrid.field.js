@@ -27,10 +27,6 @@
             return value;
         },
 
-        cellTemplate: function(td, value, item) {
-            return td;
-        },
-
         filterTemplate: function() {
             return "";
         },

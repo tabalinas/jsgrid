@@ -12,10 +12,10 @@
 
         filterTemplate: function() {
             var grid = this._grid,
-                result = this.filterControl = this._createTextBox();
+                $result = this.filterControl = this._createTextBox();
 
             if(this.autosearch) {
-                result.on("keypress", function(e) {
+                $result.on("keypress", function(e) {
                     if(e.which === 13) {
                         grid.search();
                         e.preventDefault();
@@ -23,26 +23,26 @@
                 });
             }
 
-            return result;
+            return $result;
         },
 
         insertTemplate: function() {
-            var result = this.insertControl = this._createTextBox();
-            return result;
+            var $result = this.insertControl = this._createTextBox();
+            return $result;
         },
 
         editTemplate: function(value) {
-            var result = this.editControl = this._createTextBox();
-            result.val(value);
-            return result;
+            var $result = this.editControl = this._createTextBox();
+            $result.val(value);
+            return $result;
         },
 
         filterValue: function(value) {
-            var filterControl = this.filterControl;
+            var $filterControl = this.filterControl;
             if(!arguments.length) {
-                return filterControl.val();
+                return $filterControl.val();
             }
-            filterControl.val(value);
+            $filterControl.val(value);
         },
         
         insertValue: function() {
@@ -54,7 +54,7 @@
         },
 
         _createTextBox: function() {
-            return $("<input />").attr("type", "text");
+            return $("<input>").attr("type", "text");
         }
     });
 

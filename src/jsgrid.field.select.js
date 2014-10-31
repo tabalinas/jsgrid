@@ -36,52 +36,47 @@
 
         filterTemplate: function() {
             var grid = this._grid,
-                result = this.filterControl = this._createSelect();
+                $result = this.filterControl = this._createSelect();
 
             if(this.autosearch) {
-                result.on("change", function(e) {
+                $result.on("change", function(e) {
                     grid.search();
                 });
             }
 
-            return result;
+            return $result;
         },
 
         insertTemplate: function() {
-            var result = this.insertControl = this._createSelect();
-            return result;
+            var $result = this.insertControl = this._createSelect();
+            return $result;
         },
 
         editTemplate: function(value) {
-            var result = this.editControl = this._createSelect();
-            if(value !== undefined) {
-                result.val(value);
-            }
-            return result;
+            var $result = this.editControl = this._createSelect();
+            (value !== undefined) && $result.val(value);
+            return $result;
         },
 
         _createSelect: function() {
-            var result = $("<select />"),
+            var $result = $("<select>"),
                 valueField = this.valueField,
                 textField = this.textField,
                 selectedIndex = this.selectedIndex;
 
             $.each(this.items, function(index, item) {
                 var value = valueField ? item[valueField] : index,
-                    text = textField ? item[textField] : item,
-                    option;
+                    text = textField ? item[textField] : item;
 
-                option = $("<option />")
+                var $option = $("<option>")
                     .attr("value", value)
                     .text(text)
-                    .appendTo(result);
+                    .appendTo($result);
 
-                if(selectedIndex === index) {
-                    option.attr("selected", true);
-                }
+                $option.prop("selected", (selectedIndex === index));
             });
 
-            return result;
+            return $result;
         }
     });
 

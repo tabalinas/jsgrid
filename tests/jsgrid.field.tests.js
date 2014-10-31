@@ -16,7 +16,6 @@ $(function() {
 
         equal(field.headerTemplate(), "testTitle");
         equal(field.itemTemplate("testValue"), "testValue");
-        equal(field.cellTemplate(testTd), testTd);
         equal(field.filterTemplate(), "");
         equal(field.insertTemplate(), "");
         equal(field.editTemplate("testValue"), "testValue");
@@ -168,16 +167,22 @@ $(function() {
             insertTemplate,
             editTemplate;
 
-        field = new jsGrid.ControlField("testField");
-        field._grid = {};
+        field = new jsGrid.ControlField();
+        field._grid = {
+            option: $.noop
+        };
 
         itemTemplate = field.itemTemplate("any_value");
         equal(itemTemplate.filter("." + field.editButtonClass).length, 1);
         equal(itemTemplate.filter("." + field.deleteButtonClass).length, 1);
 
         headerTemplate = field.headerTemplate();
-        equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 1);
         equal(headerTemplate.filter("." + field.insertModeButtonClass).length, 1);
+
+        var $modeSwitchButton = headerTemplate.filter("." + field.modeButtonClass);
+        $modeSwitchButton.trigger("click");
+
+        equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 1);
 
         filterTemplate = field.filterTemplate();
         equal(filterTemplate.filter("." + field.searchButtonClass).length, 1);

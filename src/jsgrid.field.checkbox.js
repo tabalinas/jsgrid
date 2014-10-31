@@ -13,7 +13,7 @@
         autosearch: true,
         
         itemTemplate: function(value) {
-            return this._createCheckbox().attr({
+            return this._createCheckbox().prop({
                 checked: value,
                 disabled: true
             });
@@ -21,33 +21,34 @@
 
         filterTemplate: function() {
             var grid = this._grid,
-            result = this.filterControl = this._createCheckbox();
+                $result = this.filterControl = this._createCheckbox();
 
             if(this.autosearch) {
-                result.on("click", function(e) {
+                $result.on("click", function() {
                     grid.search();
                 });
             }
 
-            return result;
+            return $result;
         },
 
         insertTemplate: function() {
-            var result = this.insertControl = this._createCheckbox();
-            return result;
+            var $result = this.insertControl = this._createCheckbox();
+            return $result;
         },
 
         editTemplate: function(value) {
-            var result = this.editControl = this._createCheckbox();
-            result.attr("checked", value);
-            return result;
+            var $result = this.editControl = this._createCheckbox();
+            $result.prop("checked", value);
+            return $result;
         },
 
         filterValue: function(value) {
+            var $filterControl = this.filterControl;
             if(!arguments.length) {
-                return this.filterControl.is(":checked");
+                return $filterControl.is(":checked");
             }
-            this.filterControl.attr("checked", value);
+            $filterControl.attr("checked", value);
         },
         
         insertValue: function() {
@@ -59,7 +60,7 @@
         },
 
         _createCheckbox: function() {
-            return $("<input />").attr("type", "checkbox");
+            return $("<input>").attr("type", "checkbox");
         }
     });
 
