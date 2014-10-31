@@ -5,8 +5,7 @@ $(function() {
     module("jsGrid.field");
 
     test("basic", function() {
-        var testTd = $("<td />"),
-            customSortingFunc = function() {
+        var customSortingFunc = function() {
                 return 1;
             },
             field = new jsGrid.Field("testField", {
@@ -66,7 +65,6 @@ $(function() {
             editTemplate;
 
         itemTemplate = field.itemTemplate("testValue");
-
         equal(itemTemplate[0].tagName.toLowerCase(), "input");
         equal(itemTemplate.attr("type"), "checkbox");
         equal(itemTemplate.attr("disabled"), "disabled");
@@ -125,7 +123,7 @@ $(function() {
         strictEqual(field.editValue(), "2");
     });
 
-    test("items as objects array", function() {
+    test("object items", function() {
         var field = new jsGrid.SelectField("testField", {
             items: [
                 {

@@ -2,6 +2,7 @@ $(function() {
 
     var sortStrategies = jsGrid.sortStrategies;
 
+
     module("sortStrategies");
 
     test("String sorting", function() {
