@@ -467,74 +467,6 @@
             return this;
         },
 
-        refreshSize: function() {
-            return this.refreshWidth()
-                .refreshHeight();
-        },
-
-        refreshWidth: function() {
-            var $headerGrid = this._headerGrid,
-                $bodyGrid = this._bodyGrid,
-                width = this.width,
-                scrollBarWidth = this._scrollBarWidth(),
-                gridWidth;
-
-            if(width === "auto") {
-                $headerGrid.width("auto");
-                gridWidth = $headerGrid.outerWidth();
-                width = gridWidth + scrollBarWidth;
-            }
-
-            $headerGrid.width("");
-            $bodyGrid.width("");
-            this._header.css("padding-right", scrollBarWidth);
-            this._container.width(width);
-            gridWidth = $headerGrid.outerWidth();
-            $bodyGrid.width(gridWidth);
-
-            return this;
-        },
-
-        _scrollBarWidth: (function() {
-            var result;
-
-            return function() {
-                if(result === undefined) {
-                    var $ghostContainer = $("<div style='width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;'></div>");
-                    var $ghostContent = $("<div style='height:100px;'></div>");
-                    $ghostContainer.append($ghostContent).appendTo("body");
-                    var width = $ghostContent.innerWidth();
-                    $ghostContainer.css("overflow-y", "auto");
-                    var widthExcludingScrollBar = $ghostContent.innerWidth();
-                    $ghostContainer.remove();
-                    result = width - widthExcludingScrollBar;
-                }
-                return result;
-            };
-        })(),
-
-        refreshHeight: function() {
-            var container = this._container,
-                pagerContainer = this._pagerContainer,
-                height = this.height,
-                nonBodyHeight;
-
-            container.height(height);
-
-            if(height !== "auto") {
-                height = container.height();
-
-                nonBodyHeight = this._header.outerHeight(true);
-                if(pagerContainer.parents(container).length) {
-                    nonBodyHeight += pagerContainer.outerHeight(true);
-                }
-
-                this._body.outerHeight(height - nonBodyHeight);
-            }
-
-            return this;
-        },
-
         refreshGridContent: function() {
             var $content = this._content;
             $content.empty();
@@ -679,15 +611,15 @@
         },
 
         refreshPager: function() {
-            var pagerContainer = this._pagerContainer;
-            pagerContainer.empty();
+            var $pagerContainer = this._pagerContainer;
+            $pagerContainer.empty();
 
             if(this.paging && this._pagesCount() > 1) {
-                pagerContainer.show()
+                $pagerContainer.show()
                     .append(this._createPager());
             }
             else {
-                pagerContainer.hide();
+                $pagerContainer.hide();
             }
             return this;
         },
@@ -695,14 +627,13 @@
         _createPager: function() {
             var pageIndex = this.pageIndex,
                 pageCount = this._pagesCount(),
-                pagerParts = this.pagerFormat.split(" "),
-                $pager;
+                pagerParts = this.pagerFormat.split(" ");
 
             pagerParts = $.map(pagerParts, $.proxy(function(pagerPart) {
                 var result = pagerPart;
 
                 if(pagerPart === PAGES_PLACEHOLDER) {
-                    result = this._createPagerPages();
+                    result = this._createPages();
                 } else if(pagerPart === FIRST_PAGE_PLACEHOLDER) {
                     result = pageIndex > 1 ? this._createPagerNavButton(this.pageFirstText, 1) : "";
                 } else if(pagerPart === PREV_PAGE_PLACEHOLDER) {
@@ -720,25 +651,24 @@
                 return $.isArray(result) ? result.concat([" "]) : [result, " "];
             }, this));
 
-            $pager = $("<div />").addClass(this.pagerClass)
+            var $pager = $("<div>").addClass(this.pagerClass)
                 .append(pagerParts);
 
             return $pager;
         },
 
-        _createPagerPages: function() {
+        _createPages: function() {
             var pageCount = this._pagesCount(),
                 pageButtonCount = this.pageButtonCount,
                 firstDisplayingPage = this._firstDisplayingPage,
                 pages = [],
-                pageNumber,
-                i;
+                pageNumber;
 
             if(firstDisplayingPage > 1) {
                 pages.push(this._createPagerPageNavButton(this.pageNavigatorNextText, this.showPrevPages));
             }
 
-            for(i = 0, pageNumber = firstDisplayingPage; i < pageButtonCount && pageNumber <= pageCount; i += 1, pageNumber += 1) {
+            for(var i = 0, pageNumber = firstDisplayingPage; i < pageButtonCount && pageNumber <= pageCount; i++, pageNumber++) {
                 pages.push(pageNumber === this.pageIndex
                     ? this._createPagerCurrentPage()
                     : this._createPagerPage(pageNumber));
@@ -768,37 +698,107 @@
         },
 
         _createPagerButton: function(text, css, handler) {
-            var $link = $("<a />").attr("href", EMPTY_HREF)
+            var $link = $("<a>").attr("href", EMPTY_HREF)
                 .html(text)
-                .on("click." + JSGRID, $.proxy(handler, this));
+                .on("click", $.proxy(handler, this));
 
-            return $("<span />").addClass(css).append($link);
+            return $("<span>").addClass(css).append($link);
         },
 
         _createPagerCurrentPage: function() {
-            return $("<span />")
+            return $("<span>")
                 .addClass(this.pageClass)
                 .addClass(this.currentPageClass)
                 .text(this.pageIndex);
         },
 
+        refreshSize: function() {
+            return this.refreshWidth()
+                    .refreshHeight();
+        },
+
+        refreshWidth: function() {
+            var $headerGrid = this._headerGrid,
+                    $bodyGrid = this._bodyGrid,
+                    width = this.width,
+                    scrollBarWidth = this._scrollBarWidth(),
+                    gridWidth;
+
+            if(width === "auto") {
+                $headerGrid.width("auto");
+                gridWidth = $headerGrid.outerWidth();
+                width = gridWidth + scrollBarWidth;
+            }
+
+            $headerGrid.width("");
+            $bodyGrid.width("");
+            this._header.css("padding-right", scrollBarWidth);
+            this._container.width(width);
+            gridWidth = $headerGrid.outerWidth();
+            $bodyGrid.width(gridWidth);
+
+            return this;
+        },
+
+        _scrollBarWidth: (function() {
+            var result;
+
+            return function() {
+                if(result === undefined) {
+                    var $ghostContainer = $("<div style='width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;'></div>");
+                    var $ghostContent = $("<div style='height:100px;'></div>");
+                    $ghostContainer.append($ghostContent).appendTo("body");
+                    var width = $ghostContent.innerWidth();
+                    $ghostContainer.css("overflow-y", "auto");
+                    var widthExcludingScrollBar = $ghostContent.innerWidth();
+                    $ghostContainer.remove();
+                    result = width - widthExcludingScrollBar;
+                }
+                return result;
+            };
+        })(),
+
+        refreshHeight: function() {
+            var container = this._container,
+                    pagerContainer = this._pagerContainer,
+                    height = this.height,
+                    nonBodyHeight;
+
+            container.height(height);
+
+            if(height !== "auto") {
+                height = container.height();
+
+                nonBodyHeight = this._header.outerHeight(true);
+                if(pagerContainer.parents(container).length) {
+                    nonBodyHeight += pagerContainer.outerHeight(true);
+                }
+
+                this._body.outerHeight(height - nonBodyHeight);
+            }
+
+            return this;
+        },
+
         showPrevPages: function() {
             var firstDisplayingPage = this._firstDisplayingPage,
                 pageButtonCount = this.pageButtonCount;
+
             this._firstDisplayingPage = (firstDisplayingPage > pageButtonCount) ? firstDisplayingPage - pageButtonCount : 1;
-            this.refreshPager();
-            return this;
+
+            return this.refreshPager();
         },
 
         showNextPages: function() {
             var firstDisplayingPage = this._firstDisplayingPage,
                 pageButtonCount = this.pageButtonCount,
                 pageCount = this._pagesCount();
+
             this._firstDisplayingPage = (firstDisplayingPage + 2 * pageButtonCount > pageCount)
                 ? pageCount - pageButtonCount + 1
                 : firstDisplayingPage + pageButtonCount;
-            this.refreshPager();
-            return this;
+
+            return this.refreshPager();
         },
 
         openPage: function(pageIndex) {
@@ -820,20 +820,18 @@
             if(pageIndex > firstDisplayingPage + pageButtonCount - 1) {
                 this._firstDisplayingPage = pageIndex - pageButtonCount + 1;
             }
-
-            return this;
         },
 
         search: function() {
-            this.resetSorting();
-            this.resetPager();
+            this.resetSorting()
+                .resetPager()
+
             this.loadData();
             return this;
         },
 
         loadData: function() {
-            var promise,
-                filter = this.filtering ? this.getFilter() : {};
+            var filter = this.filtering ? this.getFilter() : {};
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
@@ -841,7 +839,7 @@
                 filter: filter
             });
 
-            promise = $.when(this.controller.loadData(filter))
+            var promise = $.when(this.controller.loadData(filter))
                 .done($.proxy(function(loadedData) {
                     this._loadStrategy.finishLoad(loadedData);
 
@@ -865,7 +863,7 @@
 
         getFilter: function() {
             var result = {};
-            $.each(this.fields, function(index, field) {
+            this._eachField(function(field) {
                 if(field.filtering) {
                     result[field.name] = field.filterValue();
                 }
@@ -875,7 +873,7 @@
 
         setFilter: function(filter) {
             filter = filter || {};
-            $.each(this.fields, function(index, field) {
+            this._eachField(function(field) {
                 if(field.filtering) {
                     field.filterValue(filter[field.name]);
                 }
@@ -913,7 +911,7 @@
 
         _getInsertItem: function() {
             var result = {};
-            $.each(this.fields, function(index, field) {
+            this._eachField(function(field) {
                 if(field.inserting) {
                     result[field.name] = field.insertValue();
                 }
@@ -942,9 +940,8 @@
         },
 
         editRow: function($row) {
-            if(!this.editing) {
+            if(!this.editing)
                 return;
-            }
 
             if(this._editingRow) {
                 this.cancelEdit();
@@ -964,21 +961,20 @@
                 return this.editRowRenderer(item);
             }
 
-            var result = $("<tr />").addClass(this.editRowClass);
+            var $result = $("<tr>").addClass(this.editRowClass);
 
-            $.each(this.fields, function(index, field) {
-                $("<td />").addClass(field.css)
-                    .appendTo(result)
+            this._eachField(function(field) {
+                $("<td>").addClass(field.css)
+                    .appendTo($result)
                     .append(field.editTemplate ? field.editTemplate(item[field.name], item) : "")
                     .width(field.width || "auto");
             });
 
-            return result;
+            return $result;
         },
 
         updateItem: function() {
-            var promise,
-                $editingRow = this._editingRow,
+            var $editingRow = this._editingRow,
                 updatingItem = $editingRow.data(JSGRID_ROW_DATA_KEY),
                 updatingItemIndex = $.inArray(updatingItem, this.data);
 
@@ -990,7 +986,7 @@
                 itemIndex: updatingItemIndex
             });
 
-            promise = $.when(this.controller.updateItem(updatingItem))
+            var promise = $.when(this.controller.updateItem(updatingItem))
                 .done($.proxy(function(updatedItem) {
                     updatedItem = updatedItem || updatingItem;
                     this._finishUpdate(updatedItem, updatingItemIndex);
@@ -1014,7 +1010,7 @@
 
         _getEditedItem: function() {
             var result = {};
-            $.each(this.fields, function(index, field) {
+            this._eachField(function(field) {
                 if(field.editing) {
                     result[field.name] = field.editValue();
                 }
@@ -1036,9 +1032,8 @@
         },
 
         deleteItem: function(item) {
-            if(this.confirmDeleting && !window.confirm(this.deleteConfirm(item))) {
+            if(this.confirmDeleting && !window.confirm(this.deleteConfirm(item)))
                 return;
-            }
 
             var $row = this._content.find("tr").filter(function() {
                 return $.data(this, JSGRID_ROW_DATA_KEY) === item;
