@@ -76,24 +76,19 @@
 
         _createModeSwitchButton: function() {
             var isInserting = false;
-            var grid = this._grid;
-            var field = this;
 
-            var updateButtonState = function() {
-                $button.attr("title", isInserting ? field.insertModeButtonClass : field.searchModeButtonTooltip)
-                    .toggleClass(field.insertModeButtonClass, !isInserting)
-                    .toggleClass(field.searchModeButtonClass, isInserting);
-            };
+            var updateButtonState = $.proxy(function() {
+                $button.attr("title", isInserting ? this.searchModeButtonTooltip : this.insertModeButtonTooltip)
+                    .toggleClass(this.insertModeButtonClass, !isInserting)
+                    .toggleClass(this.searchModeButtonClass, isInserting);
+            }, this);
 
-            var $button = $("<input>").addClass(field.buttonClass)
-                .addClass(field.modeButtonClass)
-                .attr("type", "button")
-                .on("click", function() {
-                    isInserting = !isInserting;
-                    grid.option("inserting", isInserting);
-                    grid.option("filtering", !isInserting);
-                    updateButtonState();
-                });
+            var $button = this._createGridButton(this.modeButtonClass, "", function(grid) {
+                isInserting = !isInserting;
+                grid.option("inserting", isInserting);
+                grid.option("filtering", !isInserting);
+                updateButtonState();
+            });
 
             updateButtonState();
 
@@ -101,106 +96,64 @@
         },
 
         _createEditButton: function(item) {
-            var grid = this._grid;
-
-            return $("<input>").addClass(this.buttonClass)
-                .addClass(this.editButtonClass)
-                .attr({
-                    type: "button",
-                    title: this.editButtonTooltip
-                })
-                .on("click", function(e) {
-                    grid.editItem(item);
-                    e.stopPropagation();
-                });
+            return this._createGridButton(this.editButtonClass, this.editButtonTooltip, function(grid, e) {
+                grid.editItem(item);
+                e.stopPropagation();
+            });
         },
 
         _createDeleteButton: function(item) {
-            var grid = this._grid;
-
-            return $("<input>").addClass(this.buttonClass)
-                .addClass(this.deleteButtonClass)
-                .attr({
-                    type: "button",
-                    title: this.deleteButtonTooltip
-                })
-                .on("click", function(e) {
-                    grid.deleteItem(item);
-                    e.stopPropagation();
-                });
+            return this._createGridButton(this.deleteButtonClass, this.deleteButtonTooltip, function(grid, e) {
+                grid.deleteItem(item);
+                e.stopPropagation();
+            });
         },
 
         _createSearchButton: function() {
-            var grid = this._grid;
-
-            return $("<input>").addClass(this.buttonClass)
-                .addClass(this.searchButtonClass)
-                .attr({
-                    type: "button",
-                    title: this.searchButtonTooltip
-                })
-                .on("click", function() {
-                    grid.search();
-                });
+            return this._createGridButton(this.searchButtonClass, this.searchButtonTooltip, function(grid) {
+                grid.search();
+            });
         },
 
         _createClearFilterButton: function() {
-            var grid = this._grid;
-
-            return $("<input>").addClass(this.buttonClass)
-                .addClass(this.clearFilterButtonClass)
-                .attr({
-                    type: "button",
-                    title: this.clearFilterButtonTooltip
-                })
-                .on("click", function() {
-                    grid.clearFilter();
-                    grid.search();
-                });
+            return this._createGridButton(this.clearFilterButtonClass, this.clearFilterButtonTooltip, function(grid) {
+                grid.clearFilter();
+                grid.search();
+            });
         },
 
         _createInsertButton: function() {
-            var grid = this._grid;
-
-            return $("<input>").addClass(this.buttonClass)
-                .addClass(this.insertButtonClass)
-                .attr({
-                    type: "button",
-                    title: this.insertButtonTooltip
-                })
-                .on("click", function() {
-                    grid.insertItem();
-                    grid.clearInsert();
-                });
+            return this._createGridButton(this.insertButtonClass, this.insertButtonTooltip, function(grid) {
+                grid.insertItem();
+                grid.clearInsert();
+            });
         },
 
         _createUpdateButton: function() {
-            var grid = this._grid;
-
-            return $("<input>").addClass(this.buttonClass)
-                .addClass(this.updateButtonClass)
-                .attr({
-                    type: "button",
-                    title: this.updateButtonTooltip
-                })
-                .on("click", function(e) {
-                    grid.updateItem();
-                    e.stopPropagation();
-                });
+            return this._createGridButton(this.updateButtonClass, this.updateButtonTooltip, function(grid, e) {
+                grid.updateItem();
+                e.stopPropagation();
+            });
         },
 
         _createCancelEditButton: function() {
+            return this._createGridButton(this.cancelEditButtonClass, this.cancelEditButtonTooltip, function(grid, e) {
+                grid.cancelEdit();
+                e.stopPropagation();
+            });
+        },
+
+        _createGridButton: function(cls, tooltip, clickHandler) {
             var grid = this._grid;
 
             return $("<input>").addClass(this.buttonClass)
-                .addClass(this.cancelEditButtonClass)
+                .addClass(cls)
                 .attr({
                     type: "button",
-                    title: this.cancelEditButtonTooltip
+                    title: tooltip
                 })
                 .on("click", function(e) {
-                    grid.cancelEdit();
-                    e.stopPropagation();
+                    clickHandler(grid, e);
                 });
         }
 
