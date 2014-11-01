@@ -4,11 +4,19 @@
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
+        copy: {
+            main: {
+                expand: true,
+                src: ["css/icons.png", "css/icons-2x.png"],
+                dest: "dist/"
+            }
+        },
+
         concat: {
             options: {
                 separator: "\n"
             },
-            dist: {
+            js: {
                 src: [
                     "src/jsgrid.core.js",
                     "src/jsgrid.load-strategies.js",
@@ -21,6 +29,13 @@
                     "src/jsgrid.field.control.js"
                 ],
                 dest: "dist/<%= pkg.name %>.js"
+            },
+            css: {
+                src: [
+                    "css/jsgrid.css",
+                    "css/theme.css"
+                ],
+                dest: "dist/css/<%= pkg.name %>.css"
             }
         },
 
@@ -29,15 +44,16 @@
                 banner: "/* <%= pkg.name %> <%= grunt.template.today(\"yyyy-mm-dd\") %> */"
             },
             build: {
-                src: "<%= concat.dist.dest %>",
+                src: "<%= concat.js.dest %>",
                 dest: "dist/<%= pkg.name %>.min.js"
             }
         }
 
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask("default", ["concat", "uglify"]);
+    grunt.registerTask("default", ["copy", "concat", "uglify"]);
 };
