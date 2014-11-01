@@ -5,7 +5,7 @@
         pkg: grunt.file.readJSON("package.json"),
 
         copy: {
-            main: {
+            imgs: {
                 expand: true,
                 src: ["css/icons.png", "css/icons-2x.png"],
                 dest: "dist/"
