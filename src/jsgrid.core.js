@@ -306,7 +306,7 @@
             this.reset();
 
             if(this.autoload) {
-                this.loadData();
+                setTimeout($.proxy(this.loadData, this), 100);
             }
 
             return this;
@@ -714,7 +714,7 @@
 
         refreshSize: function() {
             return this.refreshWidth()
-                    .refreshHeight();
+                .refreshHeight();
         },
 
         refreshWidth: function() {
