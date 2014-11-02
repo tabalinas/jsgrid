@@ -886,9 +886,9 @@
         },
 
         clearFilter: function() {
-            var filterRow = this._createFilterRow();
-            this._filterRow.replaceWith(filterRow);
-            this._filterRow = filterRow;
+            var $filterRow = this._createFilterRow();
+            this._filterRow.replaceWith($filterRow);
+            this._filterRow = $filterRow;
             return this;
         },
 
