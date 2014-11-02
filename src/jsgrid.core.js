@@ -413,22 +413,20 @@
         },
 
         reset: function() {
-            return this.resetSorting()
-                .resetPager()
-                .refresh();
+            this._resetSorting();
+            this._resetPager();
+            return this.refresh();
         },
 
-        resetPager: function() {
+        _resetPager: function() {
             this._firstDisplayingPage = 1;
             this._setPage(1);
-            return this;
         },
 
-        resetSorting: function() {
+        _resetSorting: function() {
             this._sortField = null;
             this._sortOrder = SORT_ORDER_ASC;
             this._clearSortingCss();
-            return this;
         },
 
         refresh: function() {
@@ -828,9 +826,8 @@
         },
 
         search: function() {
-            this.resetSorting()
-                .resetPager()
-
+            this._resetSorting();
+            this._resetPager();
             this.loadData();
             return this;
         },
