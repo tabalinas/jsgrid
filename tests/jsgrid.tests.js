@@ -193,24 +193,17 @@ $(function() {
         equal(grid.option("data"), data, "loadData loads data");
     });
 
-    test("autoload", function() {
-        var $element = $("#jsGrid"),
-            data = [
-                { test: "test1" },
-                { test: "test2" }
-            ],
-            gridOptions = {
-                autoload: true,
-                controller: {
-                    loadData: function() {
-                        return data;
-                    }
+    asyncTest("autoload", 1, function() {
+        new Grid($("#jsGrid"), {
+            autoload: true,
+            controller: {
+                loadData: function() {
+                    ok(true, "autoload calls loadData on creation");
+                    start();
+                    return [];
                 }
-            },
-
-            grid = new Grid($element, gridOptions).render();
-
-        equal(grid.option("data"), data, "autoload loads data on creation");
+            }
+        }).render();
     });
 
     test("loading filtered data", function() {
