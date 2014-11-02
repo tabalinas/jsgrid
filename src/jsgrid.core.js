@@ -213,7 +213,7 @@
                 case "selectedRowClass":
                 case "oddRowClass":
                 case "evenRowClass":
-                    this.refreshGridContent();
+                    this.refreshContent();
                     break;
                 case "headerRowRenderer":
                 case "headerRowClass":
@@ -444,7 +444,7 @@
                 .refreshFiltering()
                 .refreshInserting();
             
-            this.refreshGridContent()
+            this.refreshContent()
                 .refreshPager()
                 .refreshSize();
             
@@ -467,7 +467,7 @@
             return this;
         },
 
-        refreshGridContent: function() {
+        refreshContent: function() {
             var $content = this._content;
             $content.empty();
 
