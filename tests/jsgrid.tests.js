@@ -406,7 +406,7 @@ $(function() {
         var noDataMessage = "NoData Custom Content",
             $element = $("#jsGrid"),
             gridOptions = {
-                noDataContent: function() {
+                noDataRenderer: function() {
                     return noDataMessage;
                 }
             },

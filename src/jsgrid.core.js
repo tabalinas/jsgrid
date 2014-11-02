@@ -50,10 +50,8 @@
         },
 
         noDataText: "Not found",
+        noDataRenderer: null,
         noDataRowClass: "jsgrid-nodata-row",
-        noDataContent: function() {
-            return this.noDataText;
-        },
 
         heading: true,
         headerRowRenderer: null,
@@ -221,7 +219,6 @@
                 case "filterRowClass":
                 case "insertRowRenderer":
                 case "insertRowClass":
-                case "sorting":
                 case "sortableClass":
                 case "sortAscClass":
                 case "sortDescClass":
@@ -231,6 +228,7 @@
                 case "tableClass":
                 case "gridHeaderClass":
                 case "gridBodyClass":
+                case "sorting":
                     this.render();
                     break;
                 case "paging":
@@ -489,7 +487,13 @@
 
         _createNoDataRow: function() {
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", this.fields.length).append(this.noDataContent()));
+                .append($("<td>").attr("colspan", this.fields.length).append(this._createNoDataContent()));
+        },
+
+        _createNoDataContent: function () {
+            return $.isFunction(this.noDataRenderer)
+                ? this.noDataRenderer()
+                : this.noDataText;
         },
 
         _createRow: function(item, itemIndex) {
