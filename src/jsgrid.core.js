@@ -314,12 +314,12 @@
                 $insertRow = this._insertRow = this._createInsertRow();
 
             var $headerGrid = this._headerGrid = $("<table>").addClass(this.tableClass)
-                    .append($headerRow)
-                    .append($filterRow)
-                    .append($insertRow);
+                .append($headerRow)
+                .append($filterRow)
+                .append($insertRow);
 
             var $header = this._header = $("<div>").addClass(this.gridHeaderClass)
-                    .append($headerGrid);
+                .append($headerGrid);
 
             return $header;
         },
@@ -328,10 +328,10 @@
             var $content = this._content = $("<tbody>");
 
             var $bodyGrid = this._bodyGrid = $("<table>").addClass(this.tableClass)
-                    .append($content);
+                .append($content);
 
             var $body = this._body = $("<div>").addClass(this.gridBodyClass)
-                    .append($bodyGrid);
+                .append($bodyGrid);
 
             return $body;
         },
@@ -763,9 +763,9 @@
 
         refreshHeight: function() {
             var container = this._container,
-                    pagerContainer = this._pagerContainer,
-                    height = this.height,
-                    nonBodyHeight;
+                pagerContainer = this._pagerContainer,
+                height = this.height,
+                nonBodyHeight;
 
             container.height(height);
 
