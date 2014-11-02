@@ -363,7 +363,7 @@
                 var $th = $("<th>").addClass(field.css)
                     .appendTo($result)
                     .append(field.headerTemplate ? field.headerTemplate() : "")
-                    .width(field.width);
+                    .css("width", field.width);
 
                 if(this.sorting && field.sorting) {
                     $th.addClass(this.sortableClass)
