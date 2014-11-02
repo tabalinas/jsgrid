@@ -439,6 +439,19 @@ $(function() {
         equal(grid._content.find("." + grid.evenRowClass).length, 1, "one even row for 3 items");
     });
 
+    test("custom rowClass", function() {
+        var $element = $("#jsGrid"),
+                gridOptions = {
+                    data: this.testData,
+                    rowClass: "custom-row-cls"
+                },
+                grid = new Grid($element, gridOptions).render();
+
+        equal(grid._content.find("." + grid.oddRowClass).length, 2);
+        equal(grid._content.find("." + grid.evenRowClass).length, 1);
+        equal(grid._content.find(".custom-row-cls").length, 3, "custom row class");
+    });
+
     test("custom rowClass callback", function() {
         var $element = $("#jsGrid"),
             gridOptions = {

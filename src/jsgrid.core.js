@@ -503,16 +503,12 @@
                 $result = this.rowRenderer(item, itemIndex);
             }
             else {
-                $result = $("<tr>")
-                    .addClass(((itemIndex + 1) % 2) ? this.oddRowClass : this.evenRowClass)
-                    .addClass(this.rowClass(item, itemIndex));
-
+                $result = $("<tr>").addClass(this._getRowClasses(item, itemIndex));
                 this._renderCells($result, item);
             }
 
-            $result.data(JSGRID_ROW_DATA_KEY, item);
-
-            $result.on("click", $.proxy(function(e) {
+            $result.data(JSGRID_ROW_DATA_KEY, item)
+                .on("click", $.proxy(function(e) {
                 this.rowClick({
                     item: item,
                     itemIndex: itemIndex,
@@ -525,6 +521,13 @@
             }
 
             return $result;
+        },
+
+        _getRowClasses: function(item, itemIndex) {
+            var classes = [];
+            classes.push(((itemIndex + 1) % 2) ? this.oddRowClass : this.evenRowClass);
+            classes.push($.isFunction(this.rowClass) ? this.rowClass(item, itemIndex) : this.rowClass);
+            return classes.join(" ");
         },
 
         _attachRowHover: function($row) {
