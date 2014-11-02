@@ -285,11 +285,6 @@
             this._container.removeData(JSGRID_DATA_KEY);
         },
 
-        _clear: function() {
-            this._pagerContainer && this._pagerContainer.empty();
-            this._container.empty();
-        },
-
         render: function() {
             this._clear();
 
@@ -306,6 +301,11 @@
             }
 
             return this;
+        },
+
+        _clear: function() {
+            this._pagerContainer && this._pagerContainer.empty();
+            this._container.empty();
         },
 
         _createHeader: function() {
@@ -798,6 +798,9 @@
         },
 
         openPage: function(pageIndex) {
+            if(pageIndex < 1 || pageIndex > this._pagesCount())
+                return;
+
             this._setPage(pageIndex);
             this._loadStrategy.openPage(pageIndex);
             return this;

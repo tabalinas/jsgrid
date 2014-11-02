@@ -1019,6 +1019,21 @@ $(function() {
         equal(pager.find("." + grid.pageClass).length, 3, "three pages displayed");
     });
 
+    test("'openPage' method ignores indexes out of range", function() {
+        var $element = $("#jsGrid"),
+            grid = new Grid($element, {
+                data: [{}, {}],
+                paging: true,
+                pageSize: 1
+            }).render();
+
+        grid.openPage(0);
+        equal(grid.option("pageIndex"), 1, "too small index is ignored");
+
+        grid.openPage(3);
+        equal(grid.option("pageIndex"), 1, "too big index is ignored");
+    });
+
 
     module("sorting");
 
