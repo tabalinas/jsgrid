@@ -158,11 +158,11 @@
         },
 
         _attachWindowResizeCallback: function() {
-            $(window).on("resize", $.proxy(this.refreshSize, this));
+            $(window).on("resize", $.proxy(this._refreshSize, this));
         },
 
         _detachWindowResizeCallback: function() {
-            $(window).off(this.refreshSize);
+            $(window).off(this._refreshSize);
         },
 
         option: function(key, value) {
@@ -197,7 +197,7 @@
             switch(name) {
                 case "width":
                 case "height":
-                    this.refreshSize();
+                    this._refreshSize();
                     break;
                 case "rowClass":
                 case "rowRenderer":
@@ -209,7 +209,7 @@
                 case "selectedRowClass":
                 case "oddRowClass":
                 case "evenRowClass":
-                    this.refreshContent();
+                    this._refreshContent();
                     break;
                 case "headerRowRenderer":
                 case "headerRowClass":
@@ -242,7 +242,7 @@
                 case "pagerNavButtonClass":
                 case "pageClass":
                 case "currentPageClass":
-                    this.refreshPager();
+                    this._refreshPager();
                     break;
                 case "fields":
                     this._initFields();
@@ -264,13 +264,13 @@
                     this.controller && this.search();
                     break;
                 case "heading":
-                    this.refreshHeading();
+                    this._refreshHeading();
                     break;
                 case "filtering":
-                    this.refreshFiltering();
+                    this._refreshFiltering();
                     break;
                 case "inserting":
-                    this.refreshInserting();
+                    this._refreshInserting();
                     break;
                 case "editRowRenderer":
                 case "editRowClass":
@@ -434,34 +434,30 @@
 
             this.cancelEdit();
 
-            this.refreshHeading()
-                .refreshFiltering()
-                .refreshInserting();
-            
-            this.refreshContent()
-                .refreshPager()
-                .refreshSize();
+            this._refreshHeading();
+            this._refreshFiltering();
+            this._refreshInserting();
+            this._refreshContent();
+            this._refreshPager();
+            this._refreshSize();
             
             this._callEventHandler(this.onRefreshed);
             return this;
         },
 
-        refreshHeading: function() {
+        _refreshHeading: function() {
             this._headerRow.toggle(this.heading);
-            return this;
         },
 
-        refreshFiltering: function() {
+        _refreshFiltering: function() {
             this._filterRow.toggle(this.filtering);
-            return this;
         },
 
-        refreshInserting: function() {
+        _refreshInserting: function() {
             this._insertRow.toggle(this.inserting);
-            return this;
         },
 
-        refreshContent: function() {
+        _refreshContent: function() {
             var $content = this._content;
             $content.empty();
 
@@ -477,8 +473,6 @@
                 var item = this.data[itemIndex];
                 $content.append(this._createRow(item, itemIndex));
             }
-
-            return this;
         },
 
         _createNoDataRow: function() {
@@ -613,7 +607,7 @@
             return Math.floor(itemsCount / pageSize) + (itemsCount % pageSize ? 1 : 0);
         },
 
-        refreshPager: function() {
+        _refreshPager: function() {
             var $pagerContainer = this._pagerContainer;
             $pagerContainer.empty();
 
@@ -624,7 +618,6 @@
             else {
                 $pagerContainer.hide();
             }
-            return this;
         },
 
         _createPager: function() {
@@ -715,12 +708,12 @@
                 .text(this.pageIndex);
         },
 
-        refreshSize: function() {
-            return this.refreshWidth()
-                .refreshHeight();
+        _refreshSize: function() {
+            this._refreshWidth();
+            this._refreshHeight();
         },
 
-        refreshWidth: function() {
+        _refreshWidth: function() {
             var $headerGrid = this._headerGrid,
                     $bodyGrid = this._bodyGrid,
                     width = this.width,
@@ -739,8 +732,6 @@
             this._container.width(width);
             gridWidth = $headerGrid.outerWidth();
             $bodyGrid.width(gridWidth);
-
-            return this;
         },
 
         _scrollBarWidth: (function() {
@@ -761,7 +752,7 @@
             };
         })(),
 
-        refreshHeight: function() {
+        _refreshHeight: function() {
             var container = this._container,
                 pagerContainer = this._pagerContainer,
                 height = this.height,
@@ -779,8 +770,6 @@
 
                 this._body.outerHeight(height - nonBodyHeight);
             }
-
-            return this;
         },
 
         showPrevPages: function() {
@@ -789,7 +778,9 @@
 
             this._firstDisplayingPage = (firstDisplayingPage > pageButtonCount) ? firstDisplayingPage - pageButtonCount : 1;
 
-            return this.refreshPager();
+            this._refreshPager();
+
+            return this;
         },
 
         showNextPages: function() {
@@ -801,7 +792,9 @@
                 ? pageCount - pageButtonCount + 1
                 : firstDisplayingPage + pageButtonCount;
 
-            return this.refreshPager();
+            this._refreshPager();
+
+            return this;
         },
 
         openPage: function(pageIndex) {
