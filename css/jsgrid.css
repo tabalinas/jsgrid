@@ -4,7 +4,9 @@
     font-size: 1em;
 }
 
-.jsgrid input, .jsgrid textarea, .jsgrid select {
+.jsgrid input,
+.jsgrid textarea,
+.jsgrid select {
     font-size: 1em;
 }
 
@@ -36,7 +38,8 @@
     padding: 0.5em 0.5em;
 }
 
-.jsgrid-table td, .jsgrid-table th {
+.jsgrid-table td,
+.jsgrid-table th {
     box-sizing: border-box;
 }
 
@@ -56,9 +59,15 @@
     padding: .5em .5em;
 }
 
-.jsgrid-filter-row input, .jsgrid-filter-row textarea, .jsgrid-filter-row select,
-.jsgrid-edit-row input, .jsgrid-edit-row textarea, .jsgrid-edit-row select,
-.jsgrid-insert-row input, .jsgrid-insert-row textarea, .jsgrid-insert-row select {
+.jsgrid-filter-row input,
+.jsgrid-filter-row textarea,
+.jsgrid-filter-row select,
+.jsgrid-edit-row input,
+.jsgrid-edit-row textarea,
+.jsgrid-edit-row select,
+.jsgrid-insert-row input,
+.jsgrid-insert-row textarea,
+.jsgrid-insert-row select {
     width: 90%;
     padding: .3em .5em;
 }
