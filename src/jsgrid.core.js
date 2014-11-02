@@ -108,8 +108,6 @@
         autoload: false,
         controller: null,
 
-        onDataBinding: $.noop,
-        onDataBound: $.noop,
         onRefreshing: $.noop,
         onRefreshed: $.noop,
         onItemDeleting: $.noop,
@@ -509,12 +507,12 @@
 
             $result.data(JSGRID_ROW_DATA_KEY, item)
                 .on("click", $.proxy(function(e) {
-                this.rowClick({
-                    item: item,
-                    itemIndex: itemIndex,
-                    event: e
-                });
-            }, this));
+                    this.rowClick({
+                        item: item,
+                        itemIndex: itemIndex,
+                        event: e
+                    });
+                }, this));
 
             if(this.selecting) {
                 this._attachRowHover($result);
