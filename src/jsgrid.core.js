@@ -887,9 +887,9 @@
             return this.search();
         },
 
-        insertItem: function() {
+        insertItem: function(item) {
             var promise,
-                insertingItem = this._getInsertItem();
+                insertingItem = item || this._getInsertItem();
 
             this._callEventHandler(this.onItemInserting, {
                 item: insertingItem

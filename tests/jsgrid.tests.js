@@ -752,6 +752,33 @@ $(function() {
         equal(insertedArgs.item.field, "test", "field is provided in inserted args");
     });
 
+    test("insertItem accepts item to insert", function() {
+        var $element = $("#jsGrid"),
+            itemToInsert = { field: "test" },
+            insertedItem,
+
+            gridOptions = {
+                data: [],
+                fields: [
+                    {
+                        name: "field"
+                    }
+                ],
+                controller: {
+                    insertItem: function(item) {
+                        insertedItem = item;
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions).render();
+
+        grid.insertItem(itemToInsert);
+        deepEqual(grid.option("data")[0], itemToInsert, "data is inserted");
+        deepEqual(insertedItem, itemToInsert, "controller insertItem was called with correct item");
+    });
+
+
 
     module("editing");
 
