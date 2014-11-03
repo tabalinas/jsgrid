@@ -974,15 +974,26 @@
             return $result;
         },
 
-        updateItem: function() {
-            var $editingRow = this._editingRow,
-                updatingItem = $editingRow.data(JSGRID_ROW_DATA_KEY),
+        updateItem: function(item, editedItem) {
+            if(arguments.length === 1) {
+                editedItem = item;
+                item = null;
+            }
+
+            var $row = item ? this._rowByItem(item) : this._editingRow;
+            editedItem = editedItem || this._getEditedItem();
+
+            return this._updateRow($row, editedItem);
+        },
+
+        _updateRow: function($updatingRow, editedItem) {
+            var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
                 updatingItemIndex = $.inArray(updatingItem, this.data);
 
-            $.extend(updatingItem, this._getEditedItem());
+            $.extend(updatingItem, editedItem);
 
             this._callEventHandler(this.onItemUpdating, {
-                row: $editingRow,
+                row: $updatingRow,
                 item: updatingItem,
                 itemIndex: updatingItemIndex
             });
@@ -990,10 +1001,10 @@
             var promise = $.when(this.controller.updateItem(updatingItem))
                 .done($.proxy(function(updatedItem) {
                     updatedItem = updatedItem || updatingItem;
-                    this._finishUpdate(updatedItem, updatingItemIndex);
+                    this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
                     this._callEventHandler(this.onItemUpdated, {
-                        row: $editingRow,
+                        row: $updatingRow,
                         item: updatedItem,
                         itemIndex: updatingItemIndex
                     });
@@ -1002,11 +1013,10 @@
             return promise;
         },
 
-        _finishUpdate: function(updatedItem, updatedItemIndex) {
-            var $row = this._editingRow;
+        _finishUpdate: function($updatedRow, updatedItem, updatedItemIndex) {
             this.cancelEdit();
             this.data[updatedItemIndex] = updatedItem;
-            $row.replaceWith(this._createRow(updatedItem, updatedItemIndex));
+            $updatedRow.replaceWith(this._createRow(updatedItem, updatedItemIndex));
         },
 
         _getEditedItem: function() {

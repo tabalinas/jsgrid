@@ -933,6 +933,33 @@ $(function() {
         equal(grid._content.find("." + grid.oddRowClass).length, 1, "data row restored");
     });
 
+    test("updateItem accepts item to update and new item", function() {
+        var $element = $("#jsGrid"),
+            updatingItem,
+            data = [{
+                field: "value"
+            }],
+
+            gridOptions = {
+                fields: [
+                    { name: "field" }
+                ],
+                controller: {
+                    updateItem: function(item) {
+                        return updatingItem = item;
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions).render()
+                    .option("data", data);
+
+        grid.updateItem(data[0], { field: "new value" });
+
+        deepEqual(updatingItem, { field: "new value" }, "controller updateItem called correctly");
+        deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
+    });
+
 
     module("deleting");
 
