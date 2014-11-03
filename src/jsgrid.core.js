@@ -921,7 +921,7 @@
             var insertRow = this._createInsertRow();
             this._insertRow.replaceWith(insertRow);
             this._insertRow = insertRow;
-            return this;
+            return this.refresh();
         },
 
         editItem: function(item) {
