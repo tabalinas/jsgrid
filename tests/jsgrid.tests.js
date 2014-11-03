@@ -254,8 +254,7 @@ $(function() {
     });
 
     test("search", function() {
-        var filteredData,
-            $element = $("#jsGrid"),
+        var $element = $("#jsGrid"),
             data = [
                 { field: "test" },
                 { field: "test_another" },
@@ -278,7 +277,7 @@ $(function() {
                 ],
                 controller: {
                     loadData: function(filter) {
-                        filteredData = $.grep(data, function(item) {
+                        var filteredData = $.grep(data, function(item) {
                             return item.field === filter.field;
                         });
                         return filteredData;
@@ -389,6 +388,46 @@ $(function() {
         deepEqual(grid.getFilter(), { field2: "test2" }, "field with filtering=false is not included in filter");
     });
 
+    test("search with filter", function() {
+        var $element = $("#jsGrid"),
+            data = [
+                { field: "test" },
+                { field: "test_another" },
+                { field: "test_another" },
+                { field: "test" }
+            ],
+
+            gridOptions = {
+                filtering: true,
+                fields: [
+                    {
+                        name: "field",
+                        filterValue: (function() {
+                            var val;
+                            return function(value) {
+                                return arguments.length
+                                    ? val = value
+                                    : val;
+                            };
+                        }())
+                    }
+                ],
+                controller: {
+                    loadData: function(filter) {
+                        var filteredData = $.grep(data, function(item) {
+                            return item.field === filter.field;
+                        });
+                        return filteredData;
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions).render();
+
+        grid.search({ field: "test" });
+        equal(grid.option("data").length, 2, "data filtered");
+    });
+
 
     module("nodatarow");
 
@@ -441,11 +480,11 @@ $(function() {
 
     test("custom rowClass", function() {
         var $element = $("#jsGrid"),
-                gridOptions = {
-                    data: this.testData,
-                    rowClass: "custom-row-cls"
-                },
-                grid = new Grid($element, gridOptions).render();
+            gridOptions = {
+                data: this.testData,
+                rowClass: "custom-row-cls"
+            },
+            grid = new Grid($element, gridOptions).render();
 
         equal(grid._content.find("." + grid.oddRowClass).length, 2);
         equal(grid._content.find("." + grid.evenRowClass).length, 1);

@@ -821,9 +821,10 @@
             }
         },
 
-        search: function() {
+        search: function(filter) {
             this._resetSorting();
             this._resetPager();
+            filter && this.filtering && this.setFilter(filter);
             this.loadData();
             return this;
         },
@@ -849,16 +850,6 @@
             return promise;
         },
 
-        _sortingParams: function() {
-            if(this.sorting && this._sortField) {
-                return {
-                    sortField: this._sortField.name,
-                    sortOrder: this._sortOrder
-                };
-            }
-            return {};
-        },
-
         getFilter: function() {
             var result = {};
             this._eachField(function(field) {
@@ -877,6 +868,16 @@
                 }
             });
             return this;
+        },
+
+        _sortingParams: function() {
+            if(this.sorting && this._sortField) {
+                return {
+                    sortField: this._sortField.name,
+                    sortOrder: this._sortOrder
+                };
+            }
+            return {};
         },
 
         clearFilter: function() {
