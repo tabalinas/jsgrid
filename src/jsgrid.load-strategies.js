@@ -94,13 +94,11 @@
         },
 
         finishInsert: function(insertedItem) {
-            this._grid.reset()
-                .loadData();
+            this._grid.search();
         },
 
         finishDelete: function(deletedItem, deletedItemIndex) {
-            this._grid.reset()
-                .loadData();
+            this._grid.search();
         }
     };
     
