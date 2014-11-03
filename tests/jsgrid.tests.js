@@ -321,6 +321,11 @@ $(function() {
         var $element = $("#jsGrid"),
             gridOptions = {
                 filtering: true,
+                controller: {
+                    loadData: function() {
+                        return [];
+                    }
+                },
                 fields: [
                     {
                         name: "field",

@@ -118,7 +118,6 @@
         _createClearFilterButton: function() {
             return this._createGridButton(this.clearFilterButtonClass, this.clearFilterButtonTooltip, function(grid) {
                 grid.clearFilter();
-                grid.search();
             });
         },
 
