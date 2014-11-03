@@ -45,7 +45,7 @@
 
         rowClick: function(args) {
             if(this.editing) {
-                this.editRow($(args.event.target).closest("tr"));
+                this.editItem($(args.event.target).closest("tr"));
             }
         },
 
@@ -925,19 +925,22 @@
         },
 
         editItem: function(item) {
-            var $row = this.rowByItem(item);
-            if($row) {
-                this.editRow($row);
+            var $row = this._rowByItem(item);
+            if($row.length) {
+                this._editRow($row);
             }
         },
 
-        rowByItem: function(item) {
+        _rowByItem: function(item) {
+            if(item.jquery || item.nodeType)
+                return $(item);
+
             return this._content.find("tr").filter(function() {
                 return $.data(this, JSGRID_ROW_DATA_KEY) === item;
             });
         },
 
-        editRow: function($row) {
+        _editRow: function($row) {
             if(!this.editing)
                 return;
 

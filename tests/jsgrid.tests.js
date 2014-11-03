@@ -807,6 +807,36 @@ $(function() {
         equal(grid.fields[0].editControl.val(), "value", "edit control value");
     });
 
+    test("editItem accepts row to edit", function() {
+        var $element = $("#jsGrid"),
+            $editRow,
+            data = [
+                { test: "value" }
+            ],
+
+            gridOptions = {
+                editing: true,
+                fields: [
+                    { name: "test" }
+                ]
+            },
+
+            grid = new Grid($element, gridOptions).render()
+                .option("data", data);
+
+        var $row = $element.find("." + grid.oddRowClass);
+
+        grid.editItem($row);
+        $editRow = grid._content.find("." + grid.editRowClass);
+        equal($editRow.length, 1, "edit row rendered");
+
+        grid.cancelEdit();
+
+        grid.editItem($row.get(0));
+        $editRow = grid._content.find("." + grid.editRowClass);
+        equal($editRow.length, 1, "edit row rendered");
+    });
+
     test("edit item", function() {
         var $element = $("#jsGrid"),
             updated = false,
