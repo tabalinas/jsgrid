@@ -1043,19 +1043,18 @@
         },
 
         deleteItem: function(item) {
-            if(this.confirmDeleting && !window.confirm(this.deleteConfirm(item)))
+            var $row = this._rowByItem(item);
+
+            if(!$row.length)
                 return;
 
-            var $row = this._content.find("tr").filter(function() {
-                return $.data(this, JSGRID_ROW_DATA_KEY) === item;
-            });
+            if(this.confirmDeleting && !window.confirm(this.deleteConfirm($row.data(JSGRID_ROW_DATA_KEY))))
+                return;
 
-            if($row.length) {
-                return this.deleteRow($row);
-            }
+            return this._deleteRow($row);
         },
 
-        deleteRow: function($row) {
+        _deleteRow: function($row) {
             var promise,
                 deletingItem = $row.data(JSGRID_ROW_DATA_KEY),
                 deletingItemIndex = $.inArray(deletingItem, this.data);

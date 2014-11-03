@@ -824,7 +824,7 @@ $(function() {
             grid = new Grid($element, gridOptions).render()
                 .option("data", data);
 
-        var $row = $element.find("." + grid.oddRowClass);
+        var $row = $element.find("." + grid.oddRowClass).eq(0);
 
         grid.editItem($row);
         $editRow = grid._content.find("." + grid.editRowClass);
@@ -1003,6 +1003,37 @@ $(function() {
         deepEqual(deletedArgs.item, { field: "value" }, "item is provided in updating event args");
         equal(deletedArgs.itemIndex, 0, "itemIndex is provided in updating event args");
         equal(deletedArgs.row.length, 1, "row element is provided in updating event args");
+    });
+
+    test("deleteItem accepts row", function() {
+        var $element = $("#jsGrid"),
+            deletedItem,
+            itemToDelete = {
+                field: "value"
+            },
+            data = [itemToDelete],
+
+            gridOptions = {
+                confirmDeleting: false,
+                fields: [
+                    { name: "field" }
+                ],
+                controller: {
+                    deleteItem: function(deletingItem) {
+                        deletedItem = deletingItem;
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions).render()
+                .option("data", data);
+
+        var $row = $element.find("." + grid.oddRowClass).eq(0);
+
+        grid.deleteItem($row);
+
+        deepEqual(deletedItem, itemToDelete, "controller deleteItem called correctly");
+        equal(grid.option("data").length, 0, "data row deleted");
     });
 
 
