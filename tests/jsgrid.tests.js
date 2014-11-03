@@ -403,18 +403,9 @@ $(function() {
             ],
 
             gridOptions = {
-                filtering: true,
                 fields: [
                     {
-                        name: "field",
-                        filterValue: (function() {
-                            var val;
-                            return function(value) {
-                                return arguments.length
-                                    ? val = value
-                                    : val;
-                            };
-                        }())
+                        name: "field"
                     }
                 ],
                 controller: {
@@ -777,7 +768,6 @@ $(function() {
         deepEqual(grid.option("data")[0], itemToInsert, "data is inserted");
         deepEqual(insertedItem, itemToInsert, "controller insertItem was called with correct item");
     });
-
 
 
     module("editing");

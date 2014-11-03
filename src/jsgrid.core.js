@@ -824,13 +824,12 @@
         search: function(filter) {
             this._resetSorting();
             this._resetPager();
-            filter && this.filtering && this.setFilter(filter);
-            this.loadData();
+            this.loadData(filter);
             return this;
         },
 
-        loadData: function() {
-            var filter = this.filtering ? this.getFilter() : {};
+        loadData: function(filter) {
+            filter = filter || (this.filtering ? this.getFilter() : {});
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
