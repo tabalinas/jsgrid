@@ -1209,9 +1209,9 @@ $(function() {
 
         equal(grid._sortOrder, "desc", "desc sorting order for second click");
         equal(grid._sortField, grid.fields[0], "sort field is set");
-        equal(gridData[2].value, 1);
         equal(gridData[0].value, 3);
         equal(gridData[1].value, 2);
+        equal(gridData[2].value, 1);
         ok(!$th.hasClass(grid.sortAscClass));
         ok($th.hasClass(grid.sortDescClass));
     });
@@ -1288,5 +1288,45 @@ $(function() {
         equal(gridData[2].value, 1);
         equal($th.hasClass(grid.sortableClass), false, "no sotring css for field with sorting=false");
         equal($th.hasClass(grid.sortAscClass), false, "no sotring css for field with sorting=false");
+    });
+
+    test("sort accepts sorting config", function() {
+        var $element = $("#jsGrid"),
+            gridOptions = {
+                sorting: true,
+                data: [
+                    { value: 3 },
+                    { value: 2 },
+                    { value: 1 }
+                ],
+                fields: [
+                    { name: "value", sorter: "Number" }
+                ]
+            },
+            grid = new Grid($element, gridOptions).render();
+
+        var gridData = grid.option("data");
+
+        grid.sort({ field: "value", order: "asc" });
+        equal(grid._sortOrder, "asc", "asc sorting order is set");
+        equal(grid._sortField, grid.fields[0], "sort field is set");
+        equal(gridData[0].value, 1);
+        equal(gridData[1].value, 2);
+        equal(gridData[2].value, 3);
+
+        grid.sort({ field: 0 });
+        equal(grid._sortOrder, "desc", "desc sorting order for already set asc sorting");
+        equal(grid._sortField, grid.fields[0], "sort field is set");
+        equal(gridData[0].value, 3);
+        equal(gridData[1].value, 2);
+        equal(gridData[2].value, 1);
+
+        grid.sort("value", "asc");
+        equal(grid._sortOrder, "asc", "asc sorting order is set");
+        equal(grid._sortField, grid.fields[0], "sort field is set");
+
+        grid.sort(0);
+        equal(grid._sortOrder, "desc", "desc sorting order for already set asc sorting");
+        equal(grid._sortField, grid.fields[0], "sort field is set");
     });
 });

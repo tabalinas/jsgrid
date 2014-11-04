@@ -557,9 +557,15 @@
             return $result;
         },
 
-        sort: function(index) {
+        sort: function(field, order) {
+            if($.isPlainObject(field)) {
+                order = field.order;
+                field = field.field;
+            }
+
             this._clearSortingCss();
-            this._setSortingField(index);
+            this._setSortingParams(field, order);
+            this._setSortingCss();
             this._loadStrategy.sort();
             return this;
         },
@@ -570,15 +576,36 @@
                 .removeClass(this.sortDescClass);
         },
 
-        _setSortingField: function(index) {
-            var field = this.fields[index];
+        _setSortingParams: function(field, order) {
+            field = this._normalizeSortingField(field);
+            order = order || ((this._sortField === field) ? this._reversedSortOrder(this._sortOrder) : SORT_ORDER_ASC);
 
-            this._sortOrder = (this._sortField === field)
-                ? (this._sortOrder === SORT_ORDER_ASC ? SORT_ORDER_DESC : SORT_ORDER_ASC)
-                : SORT_ORDER_ASC;
             this._sortField = field;
+            this._sortOrder = order;
+        },
 
-            this._headerRow.find("th").eq(index)
+        _normalizeSortingField: function(field) {
+            if($.isNumeric(field)) {
+                return this.fields[field];
+            }
+
+            if(typeof field === "string") {
+                return $.grep(this.fields, function (f) {
+                    return f.name === field;
+                })[0];
+            }
+
+            return field;
+        },
+
+        _reversedSortOrder: function(order) {
+            return (order === SORT_ORDER_ASC ? SORT_ORDER_DESC : SORT_ORDER_ASC);
+        },
+
+        _setSortingCss: function() {
+            var fieldIndex = $.inArray(this._sortField, this.fields);
+
+            this._headerRow.find("th").eq(fieldIndex)
                 .addClass(this._sortOrder === SORT_ORDER_ASC ? this.sortAscClass : this.sortDescClass);
         },
 
