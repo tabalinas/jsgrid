@@ -33,6 +33,7 @@
         this._sortOrder = SORT_ORDER_ASC;
 
         this._init(config);
+        this.render();
     }
 
     Grid.prototype = {
@@ -187,8 +188,6 @@
                 value: optionChangingEventArgs.newValue
             };
             this._callEventHandler(this.onOptionChanged, optionChangedEventArgs);
-
-            return this;
         },
 
         _handleOptionChange: function(name, value) {
@@ -299,8 +298,6 @@
             if(this.autoload) {
                 setTimeout($.proxy(this.loadData, this), 100);
             }
-
-            return this;
         },
 
         _clear: function() {
@@ -415,7 +412,7 @@
         reset: function() {
             this._resetSorting();
             this._resetPager();
-            return this.refresh();
+            this.refresh();
         },
 
         _resetPager: function() {
@@ -442,7 +439,6 @@
             this._refreshSize();
             
             this._callEventHandler(this.onRefreshed);
-            return this;
         },
 
         _refreshHeading: function() {
@@ -567,7 +563,6 @@
             this._setSortingParams(field, order);
             this._setSortingCss();
             this._loadStrategy.sort();
-            return this;
         },
 
         _clearSortingCss: function() {
@@ -806,8 +801,6 @@
             this._firstDisplayingPage = (firstDisplayingPage > pageButtonCount) ? firstDisplayingPage - pageButtonCount : 1;
 
             this._refreshPager();
-
-            return this;
         },
 
         showNextPages: function() {
@@ -820,8 +813,6 @@
                 : firstDisplayingPage + pageButtonCount;
 
             this._refreshPager();
-
-            return this;
         },
 
         openPage: function(pageIndex) {
@@ -830,7 +821,6 @@
 
             this._setPage(pageIndex);
             this._loadStrategy.openPage(pageIndex);
-            return this;
         },
 
         _setPage: function(pageIndex) {
@@ -852,7 +842,6 @@
             this._resetSorting();
             this._resetPager();
             this.loadData(filter);
-            return this;
         },
 
         loadData: function(filter) {
@@ -900,7 +889,7 @@
             var $filterRow = this._createFilterRow();
             this._filterRow.replaceWith($filterRow);
             this._filterRow = $filterRow;
-            return this.search();
+            this.search();
         },
 
         insertItem: function(item) {
@@ -938,7 +927,7 @@
             var insertRow = this._createInsertRow();
             this._insertRow.replaceWith(insertRow);
             this._insertRow = insertRow;
-            return this.refresh();
+            this.refresh();
         },
 
         editItem: function(item) {
@@ -1122,8 +1111,7 @@
                 }
             }
             else {
-                instance = new Grid($element, config);
-                instance.render();
+                new Grid($element, config);
             }
         });
 

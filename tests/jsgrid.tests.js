@@ -138,7 +138,7 @@ $(function() {
 
     test("common layout rendering", function() {
         var $element = $("#jsGrid"),
-            grid = new Grid($element, {}).render(),
+            grid = new Grid($element, {}),
             $headerGrid,
             $headerGridTable,
             $bodyGrid,
@@ -186,7 +186,7 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.loadData();
 
@@ -203,7 +203,7 @@ $(function() {
                     return [];
                 }
             }
-        }).render();
+        });
     });
 
     test("loading filtered data", function() {
@@ -244,7 +244,7 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.loadData();
 
@@ -285,7 +285,7 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.search();
         equal(grid.option("data").length, 2, "data filtered");
@@ -311,7 +311,7 @@ $(function() {
                     }
                 ]
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         equal(grid._filterRow.find(".filter-input").length, 1, "filter control rendered");
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
@@ -338,7 +338,7 @@ $(function() {
                     }
                 ]
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.fields[0].filterControl.val("test");
         deepEqual(grid._getFilter(), { field: "test" }, "get filter");
@@ -376,7 +376,7 @@ $(function() {
                 ]
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.fields[0].filterControl.val("test1");
         grid.fields[1].filterControl.val("test2");
@@ -408,7 +408,7 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.search({ field: "test" });
         equal(grid.option("data").length, 2, "data filtered");
@@ -420,8 +420,9 @@ $(function() {
     test("nodatarow after bind on empty array", function() {
         var $element = $("#jsGrid"),
             gridOptions = {},
-            grid = new Grid($element, gridOptions).render()
-                .option("data", []);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", []);
 
         equal(grid._content.find("." + grid.noDataRowClass).length, 1, "no data row rendered");
         equal(grid._content.text(), grid.noDataText, "no data text rendered");
@@ -435,8 +436,9 @@ $(function() {
                     return noDataMessage;
                 }
             },
-            grid = new Grid($element, gridOptions).render()
-                .option("data", []);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", []);
 
         equal(grid._content.text(), noDataMessage, "custom noDataContent");
     });
@@ -457,7 +459,7 @@ $(function() {
             gridOptions = {
                 data: this.testData
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         equal(grid._content.children().length, 3, "rows rendered");
         equal(grid._content.find("." + grid.oddRowClass).length, 2, "two odd rows for 3 items");
@@ -470,7 +472,7 @@ $(function() {
                 data: this.testData,
                 rowClass: "custom-row-cls"
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         equal(grid._content.find("." + grid.oddRowClass).length, 2);
         equal(grid._content.find("." + grid.evenRowClass).length, 1);
@@ -485,7 +487,7 @@ $(function() {
                     return item.text;
                 }
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         equal(grid._content.find("." + grid.oddRowClass).length, 2);
         equal(grid._content.find("." + grid.evenRowClass).length, 1);
@@ -497,8 +499,9 @@ $(function() {
     test("rowClick standard handler", function() {
         var $element = $("#jsGrid"),
             $secondRow,
-            grid = new Grid($element, { editing: true }).render()
-                .option("data", this.testData);
+            grid = new Grid($element, { editing: true });
+
+        grid.option("data", this.testData);
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
         $secondRow.trigger("click", $.Event($secondRow));
@@ -515,8 +518,9 @@ $(function() {
                     rowClickArgs = args;
                 }
             },
-            grid = new Grid($element, gridOptions).render()
-                .option("data", this.testData);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", this.testData);
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
         $secondRow.trigger("click", $.Event($secondRow));
@@ -532,8 +536,9 @@ $(function() {
             gridOptions = {
                 selecting: true
             },
-            grid = new Grid($element, gridOptions).render()
-                .option("data", this.testData);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", this.testData);
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
 
@@ -550,8 +555,9 @@ $(function() {
             gridOptions = {
                 selecting: false
             },
-            grid = new Grid($element, gridOptions).render()
-                .option("data", this.testData);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", this.testData);
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
         $secondRow.trigger("mouseenter", $.Event($secondRow));
@@ -562,7 +568,7 @@ $(function() {
         var refreshingEventArgs,
             refreshedEventArgs,
             $element = $("#jsGrid"),
-            grid = new Grid($element, {}).render();
+            grid = new Grid($element, {});
 
         grid.onRefreshing = function(e) {
             refreshingEventArgs = e;
@@ -596,7 +602,7 @@ $(function() {
                     }
                 ]
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         field1 = grid.fields[0];
         ok(field1 instanceof jsGrid.Field);
@@ -621,8 +627,9 @@ $(function() {
                     })
                 ]
             },
-            grid = new Grid($element, gridOptions).render()
-                .option("data", this.testData);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", this.testData);
 
         equal(grid._headerRow.text(), "title", "header rendered");
         $secondRow = grid._content.find("." + grid.evenRowClass);
@@ -648,7 +655,7 @@ $(function() {
                     }
                 ]
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         equal(grid._insertRow.find(".insert-input").length, 1, "insert control rendered");
         ok(grid.fields[0].insertControl.is("input[type=text]"), "insert control saved in field");
@@ -679,7 +686,7 @@ $(function() {
                 ]
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.fields[0].insertControl.val("test1");
         grid.fields[1].insertControl.val("test2");
@@ -721,7 +728,7 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.fields[0].insertControl.val("test");
         grid.insertItem();
@@ -752,7 +759,7 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         grid.insertItem(itemToInsert);
         deepEqual(grid.option("data")[0], itemToInsert, "data is inserted");
@@ -782,8 +789,9 @@ $(function() {
                 ]
             },
 
-            grid = new Grid($element, gridOptions).render()
-                .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         equal(grid._content.find("." + grid.editRowClass).length, 0, "no edit row after initial rendering");
 
@@ -811,8 +819,9 @@ $(function() {
                 ]
             },
 
-            grid = new Grid($element, gridOptions).render()
-                .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         var $row = $element.find("." + grid.oddRowClass).eq(0);
 
@@ -863,8 +872,9 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render()
-                .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         grid.editItem(data[0]);
         grid.fields[0].editControl.val("new value");
@@ -910,8 +920,9 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render()
-                .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         grid.editItem(data[0]);
         grid.fields[0].editControl.val("new value");
@@ -941,8 +952,9 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render()
-                    .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         grid.updateItem(data[0], { field: "new value" });
 
@@ -980,8 +992,9 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render()
-                .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         grid.deleteItem(data[0]);
 
@@ -1015,8 +1028,9 @@ $(function() {
                 }
             },
 
-            grid = new Grid($element, gridOptions).render()
-                .option("data", data);
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
 
         var $row = $element.find("." + grid.oddRowClass).eq(0);
 
@@ -1036,7 +1050,7 @@ $(function() {
                 data: [{}, {}, {}],
                 paging: false,
                 pageSize: 2
-            }).render();
+            });
 
         ok(grid._pagerContainer.is(":hidden"), "pager is hidden when paging=false");
         equal(grid._pagerContainer.html(), "", "pager is not rendered when paging=false");
@@ -1060,7 +1074,7 @@ $(function() {
             pagerContainer: $pagerContainer,
             paging: true,
             pageSize: 2
-        }).render();
+        });
 
         ok($pagerContainer.is(":visible"), "external pager shown");
         ok($pagerContainer.html(), "external pager rendered");
@@ -1074,7 +1088,7 @@ $(function() {
                 paging: true,
                 pageSize: 2,
                 pageButtonCount: 3
-            }).render();
+            });
 
         equal(grid._pagesCount(), 5, "correct page count");
         equal(grid.option("pageIndex"), 1, "pageIndex is initialized");
@@ -1135,7 +1149,7 @@ $(function() {
             }
         };
 
-        var grid = new Grid($element, gridOptions).render();
+        var grid = new Grid($element, gridOptions);
 
         grid.loadData();
 
@@ -1164,7 +1178,7 @@ $(function() {
                 data: [{}, {}],
                 paging: true,
                 pageSize: 1
-            }).render();
+            });
 
         grid.openPage(0);
         equal(grid.option("pageIndex"), 1, "too small index is ignored");
@@ -1190,7 +1204,7 @@ $(function() {
                     { name: "value", sorter: "Number" }
                 ]
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         var gridData = grid.option("data");
 
@@ -1242,7 +1256,7 @@ $(function() {
                 ]
             },
 
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         var $th = grid._headerRow.find("th").eq(0);
         $th.trigger("click");
@@ -1275,7 +1289,7 @@ $(function() {
                 ]
             };
 
-        var grid = new Grid($element, gridOptions).render();
+        var grid = new Grid($element, gridOptions);
 
         var gridData = grid.option("data");
 
@@ -1303,7 +1317,7 @@ $(function() {
                     { name: "value", sorter: "Number" }
                 ]
             },
-            grid = new Grid($element, gridOptions).render();
+            grid = new Grid($element, gridOptions);
 
         var gridData = grid.option("data");
 
