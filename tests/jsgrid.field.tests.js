@@ -34,8 +34,7 @@ $(function() {
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
         equal(field.insertTemplate()[0].tagName.toLowerCase(), "input");
         equal(field.editTemplate("testEditValue")[0].tagName.toLowerCase(), "input");
-        field.filterValue("testFilterValue");
-        strictEqual(field.filterValue(), "testFilterValue");
+        strictEqual(field.filterValue(), "");
         strictEqual(field.insertValue(), "");
         strictEqual(field.editValue(), "testEditValue");
     });
@@ -83,8 +82,6 @@ $(function() {
         equal(editTemplate.is(":checked"), true);
 
         strictEqual(field.filterValue(), false);
-        field.filterValue(true);
-        strictEqual(field.filterValue(), true);
         strictEqual(field.insertValue(), false);
         strictEqual(field.editValue(), true);
     });

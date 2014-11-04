@@ -317,7 +317,7 @@ $(function() {
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
     });
 
-    test("filter get/set/clear", function() {
+    test("filter get/clear", function() {
         var $element = $("#jsGrid"),
             gridOptions = {
                 filtering: true,
@@ -330,14 +330,10 @@ $(function() {
                     {
                         name: "field",
                         filterTemplate: function() {
-                            var result = this.filterControl = $("<input>").attr("type", "text");
-                            return result;
+                            return this.filterControl = $("<input>").attr("type", "text");
                         },
-                        filterValue: function(value) {
-                            if(!arguments.length) {
-                                return this.filterControl.val();
-                            }
-                            this.filterControl.val(value);
+                        filterValue: function() {
+                            return this.filterControl.val();
                         }
                     }
                 ]
@@ -346,12 +342,6 @@ $(function() {
 
         grid.fields[0].filterControl.val("test");
         deepEqual(grid.getFilter(), { field: "test" }, "get filter");
-
-        grid.setFilter({
-            field: "new test",
-            fieldAdditional: "additional test"
-        });
-        equal(grid.fields[0].filterControl.val(), "new test", "set filter");
 
         grid.clearFilter();
         deepEqual(grid.getFilter(), { field: "" }, "filter cleared");

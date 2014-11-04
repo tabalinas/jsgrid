@@ -39,7 +39,7 @@
             return this.itemTemplate(value, item);
         },
 
-        filterValue: function(value) {
+        filterValue: function() {
             return "";
         },
 

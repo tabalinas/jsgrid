@@ -859,16 +859,6 @@
             return result;
         },
 
-        setFilter: function(filter) {
-            filter = filter || {};
-            this._eachField(function(field) {
-                if(field.filtering) {
-                    field.filterValue(filter[field.name]);
-                }
-            });
-            return this;
-        },
-
         _sortingParams: function() {
             if(this.sorting && this._sortField) {
                 return {

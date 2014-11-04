@@ -37,12 +37,8 @@
             return $result;
         },
 
-        filterValue: function(value) {
-            var $filterControl = this.filterControl;
-            if(!arguments.length) {
-                return $filterControl.val();
-            }
-            $filterControl.val(value);
+        filterValue: function() {
+            return this.filterControl.val();
         },
         
         insertValue: function() {

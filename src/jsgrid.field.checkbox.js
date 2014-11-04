@@ -43,12 +43,8 @@
             return $result;
         },
 
-        filterValue: function(value) {
-            var $filterControl = this.filterControl;
-            if(!arguments.length) {
-                return $filterControl.is(":checked");
-            }
-            $filterControl.attr("checked", value);
+        filterValue: function() {
+            return this.filterControl.is(":checked");
         },
         
         insertValue: function() {
