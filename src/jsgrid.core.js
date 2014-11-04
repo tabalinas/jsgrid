@@ -829,7 +829,7 @@
         },
 
         loadData: function(filter) {
-            filter = filter || (this.filtering ? this.getFilter() : {});
+            filter = filter || (this.filtering ? this._getFilter() : {});
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
@@ -849,7 +849,7 @@
             return promise;
         },
 
-        getFilter: function() {
+        _getFilter: function() {
             var result = {};
             this._eachField(function(field) {
                 if(field.filtering) {
