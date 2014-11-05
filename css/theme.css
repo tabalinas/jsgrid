@@ -20,6 +20,11 @@
     background: #f9f9f9;
 }
 
+.jsgrid-header-sortable:hover {
+    cursor: pointer;
+    background: #fcfcfc;
+}
+
 .jsgrid-header-row .jsgrid-header-sort {
     background: #c4e2ff;
 }
