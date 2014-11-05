@@ -2,107 +2,57 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>jsGrid - Simple jQuery DataGrid</title>
-    <link rel="stylesheet" type="text/css" href="../dist/css/jsgrid.css" />
+    <title>jsGrid - Basic Scenario</title>
     <link rel="stylesheet" type="text/css" href="demos.css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
 
-    <style>
-        .grid-container {
-            position: relative;
-            height: 450px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../css/jsgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme.css" />
 
     <script src="../external/jquery/jquery-1.8.3.js"></script>
-    <script src="../dist/jsgrid.js"></script>
+    <script src="db.js"></script>
+
+    <script src="../src/jsgrid.core.js"></script>
+    <script src="../src/jsgrid.load-strategies.js"></script>
+    <script src="../src/jsgrid.sort-strategies.js"></script>
+    <script src="../src/jsgrid.field.js"></script>
+    <script src="../src/jsgrid.field.text.js"></script>
+    <script src="../src/jsgrid.field.select.js"></script>
+    <script src="../src/jsgrid.field.checkbox.js"></script>
+    <script src="../src/jsgrid.field.control.js"></script>
 </head>
 <body>
     <h1>Basic Scenario</h1>
-    <div class="grid-container">
-        <div id="jsGrid"></div>
-    </div>
+    <div id="jsGrid"></div>
 
     <script>
         $(function() {
-            var data = [];
-            for(var i = 1; i <= 105; i++) {
-                data.push({
-                    Name: "Client" + i,
-                    Age: 20 + i,
-                    Address: "St. Moscow " + i,
-                    Married: false,
-                    Country: i % 3 + 1
-                });
-            }
-
-            var gridController = {
-                loadData: function(filter) {
-                    var filteredData = $.grep(data, function(item) {
-                        var found = true;
-                        $.each(filter, function(key, value) {
-                            if(value != "" && value != "0" && item.hasOwnProperty(key) && item[key] != value) {
-                                found = false;
-                                return false;
-                            }
-                        });
-                        return found;
-                    });
-
-                    if(filter.pageIndex !== undefined) {
-                        var startIndex = (filter.pageIndex - 1) * filter.pageSize;
-                        result = {
-                            data: filteredData.slice(startIndex, startIndex + filter.pageSize),
-                            itemsCount: filteredData.length
-                        };
-                    }
-                    else {
-                        result = filteredData;
-                    }
-
-                    return result;
-                },
-                insertItem: function(insertingItem) {
-                    data.push(insertingItem);
-                    return insertingItem;
-                },
-                updateItem: function(updatingItem) {
-                    updatingItem["Country"] = parseInt(updatingItem["Country"]);
-                    return updatingItem;
-                },
-                deleteItem: function(deletingItem) {
-                    data.splice($.inArray(deletingItem, data), 1);
-                    return deletingItem;
-                }
-            };
-
             $("#jsGrid").jsGrid({
-                height: "100%",
-                width: "70%",
+                height: "70%",
+                width: "100%",
                 filtering: true,
                 editing: true,
-                pageLoading: false,
                 sorting: true,
                 paging: true,
                 autoload: true,
                 pageSize: 10,
                 pageButtonCount: 5,
-                controller: gridController,
+                controller: db,
                 fields: [
-                    new jsGrid.TextField("Name", { title: "Name" }),
-                    new jsGrid.TextField("Age", { title: "Age", sorter: "Number", align: "right" }),
-                    new jsGrid.TextField("Address", { title: "Address" }),
-                    new jsGrid.CheckboxField("Married", { title: "Married" }),
+                    new jsGrid.TextField("Name"),
+                    new jsGrid.TextField("Age", { sorter: "Number", align: "right" }),
+                    new jsGrid.TextField("Address"),
+                    new jsGrid.CheckboxField("Married"),
                     new jsGrid.SelectField("Country", {
                         title: "Country",
                         items: [
-                            { text: "(Select)", value: 0 },
-                            { text: "Russia", value: 1 },
-                            { text: "USA", value: 2 },
-                            { text: "England", value: 3 }
+                            { name: "(Select)", id: 0 },
+                            { name: "USA", id: 1 },
+                            { name: "UK", id: 2 },
+                            { name: "RUS", id: 3 }
                         ],
-                        textField: "text",
-                        valueField: "value"
+                        valueField: "id",
+                        textField: "name"
                     }),
                     new jsGrid.ControlField()
                 ]
