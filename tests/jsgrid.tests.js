@@ -615,6 +615,17 @@ $(function() {
         equal(field2.title, "title2", "title field");
     });
 
+    test("grid field name used for header if title is not specified", function() {
+        var $element = $("#jsGrid"),
+            grid = new Grid($element, {
+                fields: [
+                    new jsGrid.Field("id")
+                ]
+            });
+
+        equal(grid._headerRow.text(), "id", "name is rendered in header");
+    });
+
     test("grid fields header and item rendering", function() {
         var $element = $("#jsGrid"),
             $secondRow,

@@ -20,7 +20,7 @@
         sorter: "String", // name of SortStrategy or function to compare elements
 
         headerTemplate: function() {
-            return this.title;
+            return this.title || this.name;
         },
 
         itemTemplate: function(value, item) {
