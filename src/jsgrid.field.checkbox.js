@@ -23,6 +23,28 @@
             var grid = this._grid,
                 $result = this.filterControl = this._createCheckbox();
 
+            $result.prop({
+                readOnly: true,
+                indeterminate: true
+            });
+
+            $result.on("click", function() {
+                var $cb = $(this);
+
+                if($cb.prop("readOnly")) {
+                    $cb.prop({
+                        checked: false,
+                        readOnly: false
+                    });
+                }
+                else if (!$cb.prop("checked")) {
+                    $cb.prop({
+                        readOnly: true,
+                        indeterminate: true
+                    });
+                }
+            });
+
             if(this.autosearch) {
                 $result.on("click", function() {
                     grid.search();
@@ -44,7 +66,9 @@
         },
 
         filterValue: function() {
-            return this.filterControl.is(":checked");
+            return this.filterControl.get(0).indeterminate
+                ? undefined
+                : this.filterControl.is(":checked");
         },
         
         insertValue: function() {

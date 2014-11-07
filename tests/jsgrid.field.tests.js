@@ -71,6 +71,7 @@ $(function() {
         filterTemplate = field.filterTemplate();
         equal(filterTemplate[0].tagName.toLowerCase(), "input");
         equal(filterTemplate.attr("type"), "checkbox");
+        equal(filterTemplate.prop("indeterminate"), true);
 
         insertTemplate = field.insertTemplate();
         equal(insertTemplate[0].tagName.toLowerCase(), "input");
@@ -81,7 +82,7 @@ $(function() {
         equal(editTemplate.attr("type"), "checkbox");
         equal(editTemplate.is(":checked"), true);
 
-        strictEqual(field.filterValue(), false);
+        strictEqual(field.filterValue(), undefined);
         strictEqual(field.insertValue(), false);
         strictEqual(field.editValue(), true);
     });
