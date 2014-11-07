@@ -35,24 +35,26 @@
                 sorting: true,
                 paging: true,
                 autoload: true,
-                pageSize: 10,
+                pageSize: 15,
                 pageButtonCount: 5,
                 controller: db,
                 fields: [
                     new jsGrid.TextField("Name"),
-                    new jsGrid.TextField("Age", { sorter: "Number", align: "right" }),
+                    new jsGrid.TextField("Age", {
+                        filtering: false,
+                        filterTemplate: null,
+                        align: "right",
+                        sorter: "Number"
+                    }),
                     new jsGrid.TextField("Address"),
-                    new jsGrid.CheckboxField("Married"),
                     new jsGrid.SelectField("Country", {
                         title: "Country",
-                        items: [
-                            { name: "(Select)", id: 0 },
-                            { name: "USA", id: 1 },
-                            { name: "UK", id: 2 },
-                            { name: "RUS", id: 3 }
-                        ],
-                        valueField: "id",
-                        textField: "name"
+                        items: db.countries,
+                        valueField: "Id",
+                        textField: "Name"
+                    }),
+                    new jsGrid.CheckboxField("Married", {
+                        sorting: false
                     }),
                     new jsGrid.ControlField()
                 ]
