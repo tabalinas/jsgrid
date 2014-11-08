@@ -23,6 +23,7 @@
                     "src/jsgrid.sort-strategies.js",
                     "src/jsgrid.field.js",
                     "src/jsgrid.field.text.js",
+                    "src/jsgrid.field.number.js",
                     "src/jsgrid.field.textarea.js",
                     "src/jsgrid.field.select.js",
                     "src/jsgrid.field.checkbox.js",

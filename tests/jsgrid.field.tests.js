@@ -38,7 +38,22 @@ $(function() {
         strictEqual(field.insertValue(), "");
         strictEqual(field.editValue(), "testEditValue");
     });
-    
+
+
+    module("jsGrid.field.number");
+
+    test("basic", function() {
+        var field = new jsGrid.NumberField("testField");
+
+        equal(field.itemTemplate(5), "5");
+        equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
+        equal(field.insertTemplate()[0].tagName.toLowerCase(), "input");
+        equal(field.editTemplate(6)[0].tagName.toLowerCase(), "input");
+        strictEqual(field.filterValue(), 0);
+        strictEqual(field.insertValue(), 0);
+        strictEqual(field.editValue(), 6);
+    });
+
 
     module("jsGrid.field.textArea");
 

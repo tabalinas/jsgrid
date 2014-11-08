@@ -1,6 +1,6 @@
 (function(jsGrid, $, undefined) {
 
-    var TextField = jsGrid.TextField;
+    var NumberField = jsGrid.NumberField;
 
     function SelectField(name, config) {
         this.items = [];
@@ -8,14 +8,10 @@
         this.valueField = "";
         this.textField = "";
 
-        TextField.call(this, name, config);
+        NumberField.call(this, name, config);
     }
 
-    SelectField.prototype = new TextField("", {
-        
-        sorter: "number",
-        autosearch: true,
-        selectedIndex: 0,
+    SelectField.prototype = new NumberField("", {
 
         itemTemplate: function(value) {
             var items = this.items,
@@ -57,18 +53,6 @@
             var $result = this.editControl = this._createSelect();
             (value !== undefined) && $result.val(value);
             return $result;
-        },
-
-        filterValue: function() {
-            return parseInt(this.filterControl.val(), 10);
-        },
-
-        insertValue: function() {
-            return parseInt(this.insertControl.val(), 10);
-        },
-
-        editValue: function() {
-            return parseInt(this.editControl.val(), 10);
         },
 
         _createSelect: function() {
