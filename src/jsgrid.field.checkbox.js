@@ -8,7 +8,7 @@
 
     CheckboxField.prototype = new Field("", {
         
-        sorter: "Number",
+        sorter: "number",
         align: "center",
         autosearch: true,
         

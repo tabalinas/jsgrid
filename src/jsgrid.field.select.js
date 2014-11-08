@@ -13,8 +13,9 @@
 
     SelectField.prototype = new TextField("", {
         
-        sorter: "Number",
+        sorter: "number",
         autosearch: true,
+        selectedIndex: 0,
 
         itemTemplate: function(value) {
             var items = this.items,

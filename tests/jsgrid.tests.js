@@ -1212,7 +1212,7 @@ $(function() {
                     { value: 1 }
                 ],
                 fields: [
-                    { name: "value", sorter: "Number" }
+                    { name: "value", sorter: "number" }
                 ]
             },
             grid = new Grid($element, gridOptions);
@@ -1263,7 +1263,7 @@ $(function() {
                     }
                 },
                 fields: [
-                    { name: "value", sorter: "Number" }
+                    { name: "value", sorter: "number" }
                 ]
             },
 
@@ -1311,8 +1311,8 @@ $(function() {
         equal(gridData[0].value, 3);
         equal(gridData[1].value, 2);
         equal(gridData[2].value, 1);
-        equal($th.hasClass(grid.sortableClass), false, "no sotring css for field with sorting=false");
-        equal($th.hasClass(grid.sortAscClass), false, "no sotring css for field with sorting=false");
+        equal($th.hasClass(grid.sortableClass), false, "no sorting css for field with sorting=false");
+        equal($th.hasClass(grid.sortAscClass), false, "no sorting css for field with sorting=false");
     });
 
     test("sort accepts sorting config", function() {
@@ -1325,7 +1325,7 @@ $(function() {
                     { value: 1 }
                 ],
                 fields: [
-                    { name: "value", sorter: "Number" }
+                    { name: "value", sorter: "number" }
                 ]
             },
             grid = new Grid($element, gridOptions);

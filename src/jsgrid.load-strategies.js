@@ -5,6 +5,7 @@
     }
 
     DirectLoadingStrategy.prototype = {
+
         firstDisplayIndex: function() {
             var grid = this._grid;
             return grid.option("paging") ? (grid.option("pageIndex") - 1) * grid.option("pageSize") : 0;

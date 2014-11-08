@@ -17,7 +17,7 @@
         inserting: true,
         editing: true,
         sorting: true,
-        sorter: "String", // name of SortStrategy or function to compare elements
+        sorter: "string", // name of SortStrategy or function to compare elements
 
         headerTemplate: function() {
             return this.title || this.name;
