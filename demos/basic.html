@@ -17,6 +17,7 @@
     <script src="../src/jsgrid.sort-strategies.js"></script>
     <script src="../src/jsgrid.field.js"></script>
     <script src="../src/jsgrid.field.text.js"></script>
+    <script src="../src/jsgrid.field.number.js"></script>
     <script src="../src/jsgrid.field.select.js"></script>
     <script src="../src/jsgrid.field.checkbox.js"></script>
     <script src="../src/jsgrid.field.control.js"></script>
@@ -40,7 +41,7 @@
                 controller: db,
                 fields: [
                     new jsGrid.TextField("Name", { width: 150 }),
-                    new jsGrid.TextField("Age", { filtering: false, filterTemplate: null, align: "right", width: 50, sorter: "Number" }),
+                    new jsGrid.NumberField("Age", { align: "right", width: 50 }),
                     new jsGrid.TextField("Address", { width: 200 }),
                     new jsGrid.SelectField("Country", { items: db.countries, valueField: "Id", textField: "Name", align: "center" }),
                     new jsGrid.CheckboxField("Married", { title: "Is Married", sorting: false }),
