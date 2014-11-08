@@ -13,6 +13,8 @@
 
     SelectField.prototype = new NumberField("", {
 
+        align: "center",
+
         itemTemplate: function(value) {
             var items = this.items,
                 valueField = this.valueField,

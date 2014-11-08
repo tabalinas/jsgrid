@@ -41,9 +41,9 @@
                 controller: db,
                 fields: [
                     new jsGrid.TextField("Name", { width: 150 }),
-                    new jsGrid.NumberField("Age", { align: "right", width: 50 }),
+                    new jsGrid.NumberField("Age", { width: 50 }),
                     new jsGrid.TextField("Address", { width: 200 }),
-                    new jsGrid.SelectField("Country", { items: db.countries, valueField: "Id", textField: "Name", align: "center" }),
+                    new jsGrid.SelectField("Country", { items: db.countries, valueField: "Id", textField: "Name" }),
                     new jsGrid.CheckboxField("Married", { title: "Is Married", sorting: false }),
                     new jsGrid.ControlField()
                 ]

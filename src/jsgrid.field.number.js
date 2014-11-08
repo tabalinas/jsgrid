@@ -9,6 +9,7 @@
     NumberField.prototype = new TextField("", {
         
         sorter: "number",
+        align: "right",
 
         filterValue: function() {
             return parseInt(this.filterControl.val() || 0, 10);
