@@ -24,6 +24,13 @@ h1 {
     font-weight: 300;
 }
 
+h2 {
+    margin: 16px 0 8px 0;
+    font-size: 18px;
+    font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+    font-weight: 300;
+}
+
 ul {
     list-style: none;
 }
@@ -38,9 +45,11 @@ a:hover {
     color: #258faf;
 }
 
-input {
+input, button, select {
     font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
     font-weight: 300;
+    font-size: 14px;
+    padding: 2px;
 }
 
 .navigation {
