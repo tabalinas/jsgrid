@@ -3,8 +3,6 @@
     var db = {
 
         loadData: function(filter) {
-            filter.Country = parseInt(filter.Country);
-
             return $.grep(this.clients, function(client) {
                 return (!filter.Name || client.Name.indexOf(filter.Name) > -1)
                     && (!filter.Address || client.Address.indexOf(filter.Address) > -1)
@@ -17,9 +15,7 @@
             this.clients.push(insertingClient);
         },
 
-        updateItem: function(updatingClient) {
-            updatingClient["Country"] = parseInt(updatingClient["Country"]);
-        },
+        updateItem: function(updatingClient) { },
 
         deleteItem: function(deletingClient) {
             var clientIndex = $.inArray(deletingClient, this.clients);

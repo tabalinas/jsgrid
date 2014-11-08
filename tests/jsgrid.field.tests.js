@@ -116,9 +116,9 @@ $(function() {
         equal(editTemplate.find("option:selected").length, 1);
         ok(editTemplate.children().eq(2).is(":selected"));
 
-        strictEqual(field.filterValue(), "1");
-        strictEqual(field.insertValue(), "1");
-        strictEqual(field.editValue(), "2");
+        strictEqual(field.filterValue(), 1);
+        strictEqual(field.insertValue(), 1);
+        strictEqual(field.editValue(), 2);
     });
 
     test("object items", function() {
@@ -126,15 +126,15 @@ $(function() {
             items: [
                 {
                     text: "test1",
-                    value: "1"
+                    value: 1
                 },
                 {
                     text: "test2",
-                    value: "2"
+                    value: 2
                 },
                 {
                     text: "test3",
-                    value: "3"
+                    value: 3
                 }
             ]
         });
@@ -146,10 +146,12 @@ $(function() {
 
         field.textField = "";
         field.valueField = "value";
-        strictEqual(field.itemTemplate("1"), field.items[0]);
+        strictEqual(field.itemTemplate(1), field.items[0]);
+        ok(field.editTemplate(2));
+        strictEqual(field.editValue(), 2);
 
         field.textField = "text";
-        strictEqual(field.itemTemplate("1"), "test1");
+        strictEqual(field.itemTemplate(1), "test1");
     });
 
     

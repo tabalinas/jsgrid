@@ -59,6 +59,18 @@
             return $result;
         },
 
+        filterValue: function() {
+            return parseInt(this.filterControl.val(), 10);
+        },
+
+        insertValue: function() {
+            return parseInt(this.insertControl.val(), 10);
+        },
+
+        editValue: function() {
+            return parseInt(this.editControl.val(), 10);
+        },
+
         _createSelect: function() {
             var $result = $("<select>"),
                 valueField = this.valueField,
