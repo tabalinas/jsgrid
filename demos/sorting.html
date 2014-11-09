@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>jsGrid - Static Data Scenario</title>
+    <title>jsGrid - Sorting Scenario</title>
     <link rel="stylesheet" type="text/css" href="demos.css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
 
@@ -20,10 +20,32 @@
     <script src="../src/jsgrid.field.number.js"></script>
     <script src="../src/jsgrid.field.select.js"></script>
     <script src="../src/jsgrid.field.checkbox.js"></script>
-    <script src="../src/jsgrid.field.control.js"></script>
+
+    <style>
+        .sort-panel {
+            padding: 10px;
+            margin: 10px 0;
+            background: #fcfcfc;
+            border: 1px solid #e9e9e9;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Static Data</h1>
+    <h1>Sorting</h1>
+    <div class="sort-panel">
+        <label>Sorting Field:
+            <select id="sortingField">
+                <option>Name</option>
+                <option>Age</option>
+                <option>Address</option>
+                <option>Country</option>
+                <option>Married</option>
+            </select>
+            <button type="button" id="sort">Sort</button>
+        </label>
+    </div>
+
     <div id="jsGrid"></div>
 
     <script>
@@ -32,18 +54,23 @@
             $("#jsGrid").jsGrid({
                 height: "70%",
                 width: "100%",
-                sorting: true,
-                paging: true,
+                autoload: true,
+                selecting: false,
+                controller: db,
                 fields: [
                     new jsGrid.TextField("Name", { width: 150 }),
                     new jsGrid.NumberField("Age", { width: 50 }),
                     new jsGrid.TextField("Address", { width: 200 }),
                     new jsGrid.SelectField("Country", { items: db.countries, valueField: "Id", textField: "Name" }),
                     new jsGrid.CheckboxField("Married", { title: "Is Married" })
-                ],
-                data: db.clients
+                ]
             });
-            
+
+            $("#sort").click(function() {
+                var field = $("#sortingField").val();
+                $("#jsGrid").jsGrid("sort", field);
+            });
+
         });
     </script>
 </body>

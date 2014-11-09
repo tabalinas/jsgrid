@@ -31,7 +31,6 @@
 
     <script>
         $(function() {
-            var serviceUrl = "http://services.odata.org/V3/(S(3mnweai3qldmghnzfshavfok))/OData/OData.svc/Products";
 
             $("#jsGrid").jsGrid({
                 height: "auto",
@@ -44,7 +43,7 @@
                         var d = $.Deferred();
 
                         $.ajax({
-                            url: serviceUrl,
+                            url: "http://services.odata.org/V3/(S(3mnweai3qldmghnzfshavfok))/OData/OData.svc/Products",
                             dataType: "json"
                         }).done(function(response) {
                             d.resolve(response.value);
@@ -67,6 +66,7 @@
                     })
                 ]
             });
+
         });
     </script>
 </body>
