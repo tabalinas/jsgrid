@@ -678,7 +678,7 @@
                 pageNumber;
 
             if(firstDisplayingPage > 1) {
-                pages.push(this._createPagerPageNavButton(this.pageNavigatorNextText, this.showPrevPages));
+                pages.push(this._createPagerPageNavButton(this.pageNavigatorPrevText, this.showPrevPages));
             }
 
             for(var i = 0, pageNumber = firstDisplayingPage; i < pageButtonCount && pageNumber <= pageCount; i++, pageNumber++) {
@@ -688,7 +688,7 @@
             }
 
             if((firstDisplayingPage + pageButtonCount - 1) < pageCount) {
-                pages.push(this._createPagerPageNavButton(this.pageNavigatorPrevText, this.showNextPages));
+                pages.push(this._createPagerPageNavButton(this.pageNavigatorNextText, this.showNextPages));
             }
 
             return pages;

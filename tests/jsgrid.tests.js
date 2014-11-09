@@ -1130,6 +1130,29 @@ $(function() {
         equal(grid._firstDisplayingPage, 2, "opening prev non-visible page moves first displaying page backward");
     });
 
+    test("pager format", function() {
+        var $element = $("#jsGrid"),
+            grid = new Grid($element, {
+                data: [{}, {}, {}],
+                paging: true,
+                pageSize: 1,
+                pageIndex: 2,
+                pageButtonCount: 1,
+                pagerFormat: "a {pageIndex} {first} {prev} {pages} {next} {last} {pageCount} z",
+                pagePrevText: "<",
+                pageNextText: ">",
+                pageFirstText: "<<",
+                pageLastText: ">>",
+                pageNavigatorNextText: "np",
+                pageNavigatorPrevText: "pp"
+            });
+
+        grid._firstDisplayingPage = 2;
+        grid._refreshPager();
+
+        equal($.trim(grid._pagerContainer.text()), "a 2 << < pp2np > >> 3 z", "pager text follows the format specified");
+    });
+
     test("loading by page", function() {
         var $element = $("#jsGrid"),
             data = [],
