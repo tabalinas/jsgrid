@@ -31,6 +31,7 @@
         this._editingRow = null;
         this._sortField = null;
         this._sortOrder = SORT_ORDER_ASC;
+        this._firstDisplayingPage = 1;
 
         this._init(config);
         this.render();
@@ -293,7 +294,7 @@
 
             this._pagerContainer = this._createPagerContainer();
 
-            this.reset();
+            this.refresh();
 
             if(this.autoload) {
                 setTimeout($.proxy(this.loadData, this), 100);
