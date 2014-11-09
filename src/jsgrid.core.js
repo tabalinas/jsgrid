@@ -229,7 +229,6 @@
                 case "sorting":
                     this.render();
                     break;
-                case "paging":
                 case "pageButtonCount":
                 case "pagerFormat":
                 case "pagePrevText":
@@ -250,6 +249,10 @@
                     break;
                 case "data":
                 case "editing":
+                case "heading":
+                case "filtering":
+                case "inserting":
+                case "paging":
                     this.refresh();
                     break;
                 case "pageLoading":
@@ -262,15 +265,6 @@
                 case "pageSize":
                     this.refresh();
                     this.controller && this.search();
-                    break;
-                case "heading":
-                    this._refreshHeading();
-                    break;
-                case "filtering":
-                    this._refreshFiltering();
-                    break;
-                case "inserting":
-                    this._refreshInserting();
                     break;
                 case "editRowRenderer":
                 case "editRowClass":
