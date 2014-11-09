@@ -3,7 +3,7 @@
 .jsgrid-grid-body,
 .jsgrid-header-row > th,
 .jsgrid-filter-row > td,
-.jsgrid-insert-row td,
+.jsgrid-insert-row > td,
 .jsgrid-edit-row > td {
     border: 1px solid #e9e9e9;
 }
@@ -52,8 +52,16 @@
     border-top: none;
 }
 
-.jsgrid-table td {
+.jsgrid-grid-body td {
     border: #f3f3f3 1px solid;
+}
+
+.jsgrid-grid-body tr:first-child td {
+    border-top: none;
+}
+
+.jsgrid-grid-body tr:last-child td {
+    border-bottom: none;
 }
 
 .jsgrid-row > td {
