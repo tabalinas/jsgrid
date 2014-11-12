@@ -108,7 +108,12 @@
         pageLoading: false,
 
         autoload: false,
-        controller: null,
+        controller: {
+            loadData: $.noop,
+            insertItem: $.noop,
+            updateItem: $.noop,
+            deleteItem: $.noop
+        },
 
         onRefreshing: $.noop,
         onRefreshed: $.noop,
