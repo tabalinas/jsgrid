@@ -36,6 +36,7 @@
         },
 
         editTemplate: function(value, item) {
+            this._value = value;
             return this.itemTemplate(value, item);
         },
 
@@ -48,7 +49,7 @@
         },
 
         editValue: function() {
-            return "";
+            return this._value;
         },
 
         _getSortingFunc: function() {

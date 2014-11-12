@@ -70,7 +70,7 @@
             return this._createInsertButton();
         },
 
-        editTemplate: function(value, item) {
+        editTemplate: function() {
             return this._createUpdateButton().add(this._createCancelEditButton());
         },
 
@@ -154,6 +154,10 @@
                 .on("click", function(e) {
                     clickHandler(grid, e);
                 });
+        },
+
+        editValue: function() {
+            return "";
         }
 
     });

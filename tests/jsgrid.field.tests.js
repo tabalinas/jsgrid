@@ -20,7 +20,7 @@ $(function() {
         equal(field.editTemplate("testValue"), "testValue");
         strictEqual(field.filterValue(), "");
         strictEqual(field.insertValue(), "");
-        strictEqual(field.editValue(), "");
+        strictEqual(field.editValue(), "testValue");
         strictEqual(field.sortingFunc, customSortingFunc);
     });
 
