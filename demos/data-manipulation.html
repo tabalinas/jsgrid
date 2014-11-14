@@ -95,6 +95,9 @@
                 editing: true,
                 autoload: true,
                 paging: true,
+                deleteConfirm: function(item) {
+                    return "The client \"" + item.Name + "\" will be removed. Are you sure?";
+                },
                 controller: db,
                 fields: [
                     new jsGrid.TextField("Name", { width: 150 }),
