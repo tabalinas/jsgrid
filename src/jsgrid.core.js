@@ -489,11 +489,12 @@
                 $result = this.rowRenderer(item, itemIndex);
             }
             else {
-                $result = $("<tr>").addClass(this._getRowClasses(item, itemIndex));
+                $result = $("<tr>");
                 this._renderCells($result, item);
             }
 
-            $result.data(JSGRID_ROW_DATA_KEY, item)
+            $result.addClass(this._getRowClasses(item, itemIndex))
+                .data(JSGRID_ROW_DATA_KEY, item)
                 .on("click", $.proxy(function(e) {
                     this.rowClick({
                         item: item,
