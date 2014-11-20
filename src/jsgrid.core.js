@@ -487,8 +487,7 @@
 
             if($.isFunction(this.rowRenderer)) {
                 $result = this.rowRenderer(item, itemIndex);
-            }
-            else {
+            } else {
                 $result = $("<tr>");
                 this._renderCells($result, item);
             }
@@ -541,13 +540,12 @@
 
             if($.isFunction(field.cellRenderer)) {
                 $result = this.cellRenderer(fieldValue, item);
-            }
-            else {
-                $result = $("<td>").addClass(field.css)
-                    .append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
+            } else {
+                $result = $("<td>").append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
             }
 
-            $result.width(field.width);
+            $result.addClass(field.css)
+                .width(field.width);
 
             field.align && $result.addClass("jsgrid-align-" + field.align);
 
@@ -637,8 +635,7 @@
             if(this.paging && this._pagesCount() > 1) {
                 $pagerContainer.show()
                     .append(this._createPager());
-            }
-            else {
+            } else {
                 $pagerContainer.hide();
             }
         },
@@ -1104,14 +1101,12 @@
                         result = methodResult;
                         return false;
                     }
-                }
-                else {
+                } else {
                     instance._detachWindowResizeCallback();
                     instance._init(config);
                     instance.render();
                 }
-            }
-            else {
+            } else {
                 new Grid($element, config);
             }
         });
