@@ -838,6 +838,11 @@
             }
         },
 
+        _controllerCall: function(method, param, doneCallback) {
+            return $.when(this.controller[method](param))
+                .done($.proxy(doneCallback, this));
+        },
+
         search: function(filter) {
             this._resetSorting();
             this._resetPager();
@@ -853,14 +858,13 @@
                 filter: filter
             });
 
-            return $.when(this.controller.loadData(filter))
-                .done($.proxy(function(loadedData) {
-                    this._loadStrategy.finishLoad(loadedData);
+            return this._controllerCall("loadData", filter, function(loadedData) {
+                this._loadStrategy.finishLoad(loadedData);
 
-                    this._callEventHandler(this.onDataLoaded, {
-                        data: loadedData
-                    });
-                }, this));
+                this._callEventHandler(this.onDataLoaded, {
+                    data: loadedData
+                });
+            });
         },
 
         _getFilter: function() {
@@ -897,15 +901,14 @@
                 item: insertingItem
             });
 
-            return $.when(this.controller.insertItem(insertingItem))
-                .done($.proxy(function(insertedItem) {
-                    insertedItem = insertedItem || insertingItem;
-                    this._loadStrategy.finishInsert(insertedItem);
+            return this._controllerCall("insertItem", insertingItem, function(insertedItem) {
+                insertedItem = insertedItem || insertingItem;
+                this._loadStrategy.finishInsert(insertedItem);
 
-                    this._callEventHandler(this.onItemInserted, {
-                        item: insertedItem
-                    });
-                }, this));
+                this._callEventHandler(this.onItemInserted, {
+                    item: insertedItem
+                });
+            });
         },
 
         _getInsertItem: function() {
@@ -999,17 +1002,16 @@
                 itemIndex: updatingItemIndex
             });
 
-            return $.when(this.controller.updateItem(updatingItem))
-                .done($.proxy(function(updatedItem) {
-                    updatedItem = updatedItem || updatingItem;
-                    this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
+            return this._controllerCall("updateItem", updatingItem, function(updatedItem) {
+                updatedItem = updatedItem || updatingItem;
+                this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
-                    this._callEventHandler(this.onItemUpdated, {
-                        row: $updatingRow,
-                        item: updatedItem,
-                        itemIndex: updatingItemIndex
-                    });
-                }, this));
+                this._callEventHandler(this.onItemUpdated, {
+                    row: $updatingRow,
+                    item: updatedItem,
+                    itemIndex: updatingItemIndex
+                });
+            });
         },
 
         _finishUpdate: function($updatedRow, updatedItem, updatedItemIndex) {
@@ -1063,16 +1065,15 @@
                 itemIndex: deletingItemIndex
             });
 
-            return $.when(this.controller.deleteItem(deletingItem))
-                .done($.proxy(function() {
-                    this._loadStrategy.finishDelete(deletingItem, deletingItemIndex);
+            return this._controllerCall("deleteItem", deletingItem, function() {
+                this._loadStrategy.finishDelete(deletingItem, deletingItemIndex);
 
-                    this._callEventHandler(this.onItemDeleted, {
-                        row: $row,
-                        item: deletingItem,
-                        itemIndex: deletingItemIndex
-                    });
-                }, this));
+                this._callEventHandler(this.onItemDeleted, {
+                    row: $row,
+                    item: deletingItem,
+                    itemIndex: deletingItemIndex
+                });
+            });
         }
     };
 
