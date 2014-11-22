@@ -42,11 +42,11 @@
     <script>
         $(function() {
 
-            var customDateField = {
-                name: "RegisterDate",
-                width: 100,
-                align: "center",
+            MyDateField = function(config) {
+                jsGrid.Field.call(this, config);
+            };
 
+            MyDateField.prototype = new jsGrid.Field({
                 sorter: function(date1, date2) {
                     return new Date(date1) - new Date(date2);
                 },
@@ -64,13 +64,16 @@
                 },
 
                 insertValue: function() {
+                    console.log(this._insertPicker.datepicker("getDate").toISOString());
                     return this._insertPicker.datepicker("getDate").toISOString();
                 },
 
                 editValue: function() {
                     return this._editPicker.datepicker("getDate").toISOString();
                 }
-            };
+            });
+
+            jsGrid.fields.myDateField = MyDateField;
 
             $("#jsGrid").jsGrid({
                 height: "70%",
@@ -82,7 +85,7 @@
                 fields: [
                     { name: "Account", width: 150, align: "center" },
                     { name: "Name", type: "text" },
-                    customDateField,
+                    { name: "RegisterDate", type: "myDateField", width: 100, align: "center" },
                     { type: "control", editButton: false, modeSwitchButton: false }
                 ],
                 data: db.users
