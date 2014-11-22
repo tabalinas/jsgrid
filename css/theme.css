@@ -72,10 +72,6 @@
     border-left: none;
 }
 
-.jsgrid-grid-body tr:last-child td {
-    border-bottom: none;
-}
-
 .jsgrid-grid-body tr td:last-child {
     border-right: none;
 }
