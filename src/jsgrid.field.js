@@ -1,7 +1,6 @@
 (function(jsGrid, $, undefined) {
 
-    function Field(name, config) {
-        this.name = name;
+    function Field(config) {
         $.extend(true, this, config);
         this.sortingFunc = this._getSortingFunc();
     }

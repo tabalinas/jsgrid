@@ -2,11 +2,11 @@
 
     var TextField = jsGrid.TextField;
 
-    function TextAreaField(name, config) {
-        TextField.call(this, name, config);
+    function TextAreaField(config) {
+        TextField.call(this, config);
     }
 
-    TextAreaField.prototype = new TextField("", {
+    TextAreaField.prototype = new TextField({
         
         insertTemplate: function() {
             var $result = this.insertControl = this._createTextArea();

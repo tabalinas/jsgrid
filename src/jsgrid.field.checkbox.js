@@ -2,11 +2,11 @@
 
     var Field = jsGrid.Field;
 
-    function CheckboxField(name, config) {
-        Field.call(this, name, config);
+    function CheckboxField(config) {
+        Field.call(this, config);
     }
 
-    CheckboxField.prototype = new Field("", {
+    CheckboxField.prototype = new Field({
         
         sorter: "number",
         align: "center",

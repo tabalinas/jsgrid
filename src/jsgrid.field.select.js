@@ -2,16 +2,16 @@
 
     var NumberField = jsGrid.NumberField;
 
-    function SelectField(name, config) {
+    function SelectField(config) {
         this.items = [];
         this.selectedIndex = -1;
         this.valueField = "";
         this.textField = "";
 
-        NumberField.call(this, name, config);
+        NumberField.call(this, config);
     }
 
-    SelectField.prototype = new NumberField("", {
+    SelectField.prototype = new NumberField({
 
         align: "center",
 

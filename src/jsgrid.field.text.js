@@ -2,11 +2,11 @@
 
     var Field = jsGrid.Field;
 
-    function TextField(name, config) {
-        Field.call(this, name, config);
+    function TextField(config) {
+        Field.call(this, config);
     }
 
-    TextField.prototype = new Field("", {
+    TextField.prototype = new Field({
         
         autosearch: true,
 

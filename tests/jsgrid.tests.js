@@ -588,7 +588,7 @@ $(function() {
     });
 
     test("grid fields normalization", function() {
-        var CustomField = function(name, config) {
+        var CustomField = function(config) {
             $.extend(true, this, config);
         };
 
@@ -597,7 +597,8 @@ $(function() {
         var $element = $("#jsGrid"),
             gridOptions = {
                 fields: [
-                    new jsGrid.Field("text1", {
+                    new jsGrid.Field({
+                        name: "text1",
                         title: "title1"
                     }),
                     {
@@ -631,7 +632,7 @@ $(function() {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
                 fields: [
-                    new jsGrid.Field("id")
+                    new jsGrid.Field({ name: "id" })
                 ]
             });
 
@@ -643,7 +644,8 @@ $(function() {
             $secondRow,
             gridOptions = {
                 fields: [
-                    new jsGrid.Field("text", {
+                    new jsGrid.Field({
+                        name: "text",
                         title: "title",
                         css: "cell-class",
                         align: "center"
@@ -730,7 +732,7 @@ $(function() {
                     {
                         name: "field",
                         insertTemplate: function() {
-                            var result = this.insertControl = $("<input />").attr("type", "text");
+                            var result = this.insertControl = $("<input>").attr("type", "text");
                             return result;
                         },
                         insertValue: function() {

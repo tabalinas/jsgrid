@@ -8,7 +8,8 @@ $(function() {
         var customSortingFunc = function() {
                 return 1;
             },
-            field = new jsGrid.Field("testField", {
+            field = new jsGrid.Field({
+                name: "testField",
                 title: "testTitle",
                 sorter: customSortingFunc
             });
@@ -28,7 +29,7 @@ $(function() {
     module("jsGrid.field.text");
 
     test("basic", function() {
-        var field = new jsGrid.TextField("testField");
+        var field = new jsGrid.TextField({ name: "testField" });
 
         equal(field.itemTemplate("testValue"), "testValue");
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
@@ -43,7 +44,7 @@ $(function() {
     module("jsGrid.field.number");
 
     test("basic", function() {
-        var field = new jsGrid.NumberField("testField");
+        var field = new jsGrid.NumberField({ name: "testField" });
 
         equal(field.itemTemplate(5), "5");
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
@@ -58,7 +59,7 @@ $(function() {
     module("jsGrid.field.textArea");
 
     test("basic", function() {
-        var field = new jsGrid.TextAreaField("testField");
+        var field = new jsGrid.TextAreaField({ name: "testField" });
 
         equal(field.itemTemplate("testValue"), "testValue");
         equal(field.filterTemplate()[0].tagName.toLowerCase(), "input");
@@ -72,7 +73,7 @@ $(function() {
     module("jsGrid.field.checkbox");
 
     test("basic", function() {
-        var field = new jsGrid.CheckboxField("testField"),
+        var field = new jsGrid.CheckboxField({ name: "testField" }),
             itemTemplate,
             filterTemplate,
             insertTemplate,
@@ -111,7 +112,8 @@ $(function() {
             insertTemplate,
             editTemplate;
 
-        field = new jsGrid.SelectField("testField", {
+        field = new jsGrid.SelectField({
+            name: "testField",
             items: ["test1", "test2", "test3"],
             selectedIndex: 1
         });
@@ -137,7 +139,8 @@ $(function() {
     });
 
     test("object items", function() {
-        var field = new jsGrid.SelectField("testField", {
+        var field = new jsGrid.SelectField({
+            name: "testField",
             items: [
                 {
                     text: "test1",

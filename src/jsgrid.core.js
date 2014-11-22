@@ -158,7 +158,7 @@
             self.fields = $.map(self.fields, function(field) {
                 if($.isPlainObject(field)) {
                     var fieldConstructor = (field.type && jsGrid.fields[field.type]) || jsGrid.Field;
-                    field = new fieldConstructor(field.name, field);
+                    field = new fieldConstructor(field);
                 }
                 field._grid = self;
                 return field;

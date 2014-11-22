@@ -2,11 +2,11 @@
 
     var Field = jsGrid.Field;
 
-    function ControlField(name, config) {
-        Field.call(this, "", config);
+    function ControlField(config) {
+        Field.call(this, config);
     }
 
-    ControlField.prototype = new Field("", {
+    ControlField.prototype = new Field({
         css: "jsgrid-control-field",
         align: "center",
         width: 50,

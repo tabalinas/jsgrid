@@ -2,11 +2,11 @@
 
     var TextField = jsGrid.TextField;
 
-    function NumberField(name, config) {
-        TextField.call(this, name, config);
+    function NumberField(config) {
+        TextField.call(this, config);
     }
 
-    NumberField.prototype = new TextField("", {
+    NumberField.prototype = new TextField({
         
         sorter: "number",
         align: "right",
