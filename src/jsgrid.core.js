@@ -301,6 +301,7 @@
         },
 
         _clear: function() {
+            this.cancelEdit();
             this._pagerContainer && this._pagerContainer.empty();
             this._container.empty();
         },
