@@ -157,7 +157,8 @@
             var self = this;
             self.fields = $.map(self.fields, function(field) {
                 if($.isPlainObject(field)) {
-                    field = new jsGrid.Field(field.name, field);
+                    var fieldConstructor = (field.type && jsGrid.fields[field.type]) || jsGrid.Field;
+                    field = new fieldConstructor(field.name, field);
                 }
                 field._grid = self;
                 return field;
@@ -1116,7 +1117,8 @@
     };
 
     window.jsGrid = {
-        Grid: Grid
+        Grid: Grid,
+        fields: []
     };
 
 }(window, jQuery));

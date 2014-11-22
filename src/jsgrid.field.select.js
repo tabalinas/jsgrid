@@ -79,6 +79,6 @@
         }
     });
 
-    jsGrid.SelectField = SelectField;
+    jsGrid.fields.select = jsGrid.SelectField = SelectField;
     
 }(jsGrid, jQuery));

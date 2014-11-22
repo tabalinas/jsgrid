@@ -2,7 +2,7 @@
 
     var Field = jsGrid.Field;
 
-    function ControlField(config) {
+    function ControlField(name, config) {
         Field.call(this, "", config);
     }
 
@@ -162,6 +162,6 @@
 
     });
 
-    jsGrid.ControlField = ControlField;
+    jsGrid.fields.control = jsGrid.ControlField = ControlField;
 
 }(jsGrid, jQuery));

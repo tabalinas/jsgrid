@@ -84,6 +84,6 @@
         }
     });
 
-    jsGrid.CheckboxField = CheckboxField;
+    jsGrid.fields.checkbox = jsGrid.CheckboxField = CheckboxField;
     
 }(jsGrid, jQuery));

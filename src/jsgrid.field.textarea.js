@@ -24,6 +24,6 @@
         }
     });
 
-    jsGrid.TextAreaField = TextAreaField;
+    jsGrid.fields.textarea = jsGrid.TextAreaField = TextAreaField;
     
 }(jsGrid, jQuery));

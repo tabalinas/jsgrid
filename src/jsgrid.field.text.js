@@ -54,6 +54,6 @@
         }
     });
 
-    jsGrid.TextField = TextField;
+    jsGrid.fields.text = jsGrid.TextField = TextField;
     
 }(jsGrid, jQuery));

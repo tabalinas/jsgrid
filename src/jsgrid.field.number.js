@@ -28,6 +28,6 @@
         }
     });
 
-    jsGrid.NumberField = NumberField;
+    jsGrid.fields.number = jsGrid.NumberField = NumberField;
     
 }(jsGrid, jQuery));
