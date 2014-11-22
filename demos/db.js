@@ -29,7 +29,7 @@
 
 
     db.countries = [
-        { Name: "(Select)", Id: 0 },
+        { Name: "", Id: 0 },
         { Name: "United States", Id: 1 },
         { Name: "Canada", Id: 2 },
         { Name: "United Kingdom", Id: 3 },
