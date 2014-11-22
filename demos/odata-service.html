@@ -53,17 +53,17 @@
                     }
                 },
                 fields: [
-                    new jsGrid.TextField("Name"),
-                    new jsGrid.TextAreaField("Description", { width: 150 }),
-                    new jsGrid.NumberField("Rating", { width: 50, align: "center",
+                    { name: "Name", type: "text" },
+                    { name: "Description", type: "textarea", width: 150 },
+                    { name: "Rating", type: "number", width: 50, align: "center",
                         itemTemplate: function(value) {
                             return $("<div>").addClass("rating").append(Array(value + 1).join("&#9733;"));
                         }
-                    }),
-                    new jsGrid.NumberField("Price", { width: 50,
+                    },
+                    { name: "Price", type: "number", width: 50,
                         itemTemplate: function(value) {
                             return value.toFixed(2) + "$"; }
-                    })
+                    }
                 ]
             });
 

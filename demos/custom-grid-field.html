@@ -80,10 +80,10 @@
                 sorting: true,
                 paging: true,
                 fields: [
-                    new jsGrid.Field("Account", { width: 150, align: "center" }),
-                    new jsGrid.TextField("Name"),
+                    { name: "Account", width: 150, align: "center" },
+                    { name: "Name", type: "text" },
                     customDateField,
-                    new jsGrid.ControlField({ editButton: false, modeSwitchButton: false })
+                    { type: "control", editButton: false, modeSwitchButton: false }
                 ],
                 data: db.users
             });
