@@ -853,7 +853,7 @@
                 filter: filter
             });
 
-            var promise = $.when(this.controller.loadData(filter))
+            return $.when(this.controller.loadData(filter))
                 .done($.proxy(function(loadedData) {
                     this._loadStrategy.finishLoad(loadedData);
 
@@ -861,8 +861,6 @@
                         data: loadedData
                     });
                 }, this));
-
-            return promise;
         },
 
         _getFilter: function() {
@@ -893,14 +891,13 @@
         },
 
         insertItem: function(item) {
-            var promise,
-                insertingItem = item || this._getInsertItem();
+            var insertingItem = item || this._getInsertItem();
 
             this._callEventHandler(this.onItemInserting, {
                 item: insertingItem
             });
 
-            promise = $.when(this.controller.insertItem(insertingItem))
+            return $.when(this.controller.insertItem(insertingItem))
                 .done($.proxy(function(insertedItem) {
                     insertedItem = insertedItem || insertingItem;
                     this._loadStrategy.finishInsert(insertedItem);
@@ -909,8 +906,6 @@
                         item: insertedItem
                     });
                 }, this));
-
-            return promise;
         },
 
         _getInsertItem: function() {
@@ -1004,7 +999,7 @@
                 itemIndex: updatingItemIndex
             });
 
-            var promise = $.when(this.controller.updateItem(updatingItem))
+            return $.when(this.controller.updateItem(updatingItem))
                 .done($.proxy(function(updatedItem) {
                     updatedItem = updatedItem || updatingItem;
                     this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
@@ -1015,8 +1010,6 @@
                         itemIndex: updatingItemIndex
                     });
                 }, this));
-
-            return promise;
         },
 
         _finishUpdate: function($updatedRow, updatedItem, updatedItemIndex) {
@@ -1061,8 +1054,7 @@
         },
 
         _deleteRow: function($row) {
-            var promise,
-                deletingItem = $row.data(JSGRID_ROW_DATA_KEY),
+            var deletingItem = $row.data(JSGRID_ROW_DATA_KEY),
                 deletingItemIndex = $.inArray(deletingItem, this.data);
 
             this._callEventHandler(this.onItemDeleting, {
@@ -1071,7 +1063,7 @@
                 itemIndex: deletingItemIndex
             });
 
-            promise = $.when(this.controller.deleteItem(deletingItem))
+            return $.when(this.controller.deleteItem(deletingItem))
                 .done($.proxy(function() {
                     this._loadStrategy.finishDelete(deletingItem, deletingItemIndex);
 
@@ -1081,8 +1073,6 @@
                         itemIndex: deletingItemIndex
                     });
                 }, this));
-
-            return promise;
         }
     };
 
