@@ -253,6 +253,59 @@ $(function() {
         deepEqual(loadedArgs.data, filteredData);
     });
 
+    asyncTest("loading indication", function() {
+        var timeout = 10,
+            stage = "initial",
+            $element = $("#jsGrid"),
+
+            gridOptions = {
+                loadIndication: true,
+                loadIndicationDelay: timeout,
+                loadMessage: "loading...",
+
+                loadIndicator: function(config) {
+                    equal(config.message, gridOptions.loadMessage, "message provided");
+                    ok(config.container.jquery, "grid container is provided");
+
+                    return {
+                        show: function() {
+                            stage = "started";
+                        },
+                        hide: function() {
+                            stage = "finished";
+                        }
+                    };
+                },
+
+                fields: [
+                    { name: "field" }
+                ],
+
+                controller: {
+                    loadData: function() {
+                        var deferred = $.Deferred();
+
+                        equal(stage, "initial", "initial stage");
+
+                        setTimeout(function() {
+                            equal(stage, "started", "loading started");
+
+                            deferred.resolve([]);
+                            equal(stage, "finished", "loading finished");
+
+                            start();
+                        }, timeout);
+
+                        return deferred.promise();
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.loadData();
+    });
+
     test("search", function() {
         var $element = $("#jsGrid"),
             data = [

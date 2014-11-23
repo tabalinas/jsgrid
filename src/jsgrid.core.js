@@ -18,6 +18,13 @@
 
         EMPTY_HREF = "javascript:void(0);";
 
+    var getOrApply = function(value, context) {
+        if($.isFunction(value)) {
+            return value.apply(context, $.makeArray(arguments).slice(2));
+        }
+        return value;
+    };
+
     function Grid(element, config) {
         var $element = $(element);
 
@@ -115,6 +122,10 @@
             deleteItem: $.noop
         },
 
+        loadIndication: true,
+        loadIndicationDelay: 500,
+        loadMessage: "Please, wait...",
+
         onRefreshing: $.noop,
         onRefreshed: $.noop,
         onItemDeleting: $.noop,
@@ -136,6 +147,8 @@
         _init: function(config) {
             $.extend(true, this, config);
             this._initLoadStrategy();
+            this._initController();
+            this._initLoadIndicator();
             this._initFields();
             
             if(this.updateOnResize) {
@@ -150,7 +163,22 @@
         },
 
         _initLoadStrategy: function() {
-            this._loadStrategy = this.loadStrategy();
+            this._loadStrategy = getOrApply(this.loadStrategy, this);
+        },
+
+        _initController: function() {
+            this._controller = getOrApply(this.controller, this);
+        },
+
+        _initLoadIndicator: function() {
+            this._loadIndicator = getOrApply(this.loadIndicator, this, {
+                message: this.loadMessage,
+                container: this._container
+            });
+        },
+
+        loadIndicator: function(config) {
+            return new jsGrid.LoadIndicator(config);
         },
 
         _initFields: function() {
@@ -263,14 +291,14 @@
                     break;
                 case "pageLoading":
                     this._initLoadStrategy();
-                    this.controller && this.search();
+                    this.search();
                     break;
                 case "pageIndex":
                     this.openPage(value);
                     break;
                 case "pageSize":
                     this.refresh();
-                    this.controller && this.search();
+                    this.search();
                     break;
                 case "editRowRenderer":
                 case "editRowClass":
@@ -303,6 +331,7 @@
 
         _clear: function() {
             this.cancelEdit();
+            clearTimeout(this._loadingTimer);
             this._pagerContainer && this._pagerContainer.empty();
             this._container.empty();
         },
@@ -839,8 +868,23 @@
         },
 
         _controllerCall: function(method, param, doneCallback) {
-            return $.when(this.controller[method](param))
-                .done($.proxy(doneCallback, this));
+            this._showLoading();
+
+            return $.when(this._controller[method](param))
+                .done($.proxy(doneCallback, this))
+                .always($.proxy(this._hideLoading, this));
+        },
+
+        _showLoading: function() {
+            clearTimeout(this._loadingTimer);
+
+            this._loadingTimer = setTimeout($.proxy(function() {
+                this._loadIndicator.show();
+            }, this), this.loadIndicationDelay);
+        },
+
+        _hideLoading: function() {
+            this._loadIndicator.hide();
         },
 
         search: function(filter) {

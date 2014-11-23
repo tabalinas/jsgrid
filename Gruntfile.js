@@ -19,6 +19,7 @@
             js: {
                 src: [
                     "src/jsgrid.core.js",
+                    "src/jsgrid.load-indicator.js",
                     "src/jsgrid.load-strategies.js",
                     "src/jsgrid.sort-strategies.js",
                     "src/jsgrid.field.js",
