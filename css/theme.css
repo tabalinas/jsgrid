@@ -20,10 +20,6 @@
     border-left: none;
 }
 
-.jsgrid-header-row > th:last-child, .jsgrid-filter-row > td:last-child, .jsgrid-insert-row > td:last-child {
-    border-right: none;
-}
-
 .jsgrid-grid-header {
     background: #f9f9f9;
 }
@@ -70,10 +66,6 @@
 
 .jsgrid-grid-body tr td:first-child {
     border-left: none;
-}
-
-.jsgrid-grid-body tr td:last-child {
-    border-right: none;
 }
 
 .jsgrid-row > td {
