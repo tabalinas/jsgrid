@@ -760,16 +760,16 @@
         },
 
         _refreshSize: function() {
-            this._refreshWidth();
             this._refreshHeight();
+            this._refreshWidth();
         },
 
         _refreshWidth: function() {
             var $headerGrid = this._headerGrid,
-                    $bodyGrid = this._bodyGrid,
-                    width = this.width,
-                    scrollBarWidth = this._scrollBarWidth(),
-                    gridWidth;
+                $bodyGrid = this._bodyGrid,
+                width = this.width,
+                scrollBarWidth = this._scrollBarWidth(),
+                gridWidth;
 
             if(width === "auto") {
                 $headerGrid.width("auto");
