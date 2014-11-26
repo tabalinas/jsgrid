@@ -150,7 +150,8 @@
             this._initController();
             this._initLoadIndicator();
             this._initFields();
-            
+            this._attachWindowLoadResize();
+
             if(this.updateOnResize) {
                 this._attachWindowResizeCallback();
             }
@@ -191,6 +192,10 @@
                 field._grid = self;
                 return field;
             });
+        },
+
+        _attachWindowLoadResize: function() {
+            $(window).on("load", $.proxy(this._refreshSize, this));
         },
 
         _attachWindowResizeCallback: function() {
@@ -325,7 +330,7 @@
             this.refresh();
 
             if(this.autoload) {
-                setTimeout($.proxy(this.loadData, this), 100);
+                this.loadData();
             }
         },
 
