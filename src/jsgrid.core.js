@@ -125,6 +125,7 @@
         loadIndication: true,
         loadIndicationDelay: 500,
         loadMessage: "Please, wait...",
+        loadShading: true,
 
         onRefreshing: $.noop,
         onRefreshed: $.noop,
@@ -174,6 +175,7 @@
         _initLoadIndicator: function() {
             this._loadIndicator = getOrApply(this.loadIndicator, this, {
                 message: this.loadMessage,
+                shading: this.loadShading,
                 container: this._container
             });
         },
