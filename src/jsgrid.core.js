@@ -149,7 +149,6 @@
             $.extend(true, this, config);
             this._initLoadStrategy();
             this._initController();
-            this._initLoadIndicator();
             this._initFields();
             this._attachWindowLoadResize();
 
@@ -170,14 +169,6 @@
 
         _initController: function() {
             this._controller = getOrApply(this.controller, this);
-        },
-
-        _initLoadIndicator: function() {
-            this._loadIndicator = getOrApply(this.loadIndicator, this, {
-                message: this.loadMessage,
-                shading: this.loadShading,
-                container: this._container
-            });
         },
 
         loadIndicator: function(config) {
@@ -205,7 +196,7 @@
         },
 
         _detachWindowResizeCallback: function() {
-            $(window).off(this._refreshSize);
+            $(window).off("resize", this._refreshSize);
         },
 
         option: function(key, value) {
@@ -328,12 +319,21 @@
                 .append(this._createBody());
 
             this._pagerContainer = this._createPagerContainer();
+            this._loadIndicator = this._createLoadIndicator();
 
             this.refresh();
 
             if(this.autoload) {
                 this.loadData();
             }
+        },
+
+        _createLoadIndicator: function() {
+            return getOrApply(this.loadIndicator, this, {
+                message: this.loadMessage,
+                shading: this.loadShading,
+                container: this._container
+            });
         },
 
         _clear: function() {
@@ -891,6 +891,7 @@
         },
 
         _hideLoading: function() {
+            clearTimeout(this._loadingTimer);
             this._loadIndicator.hide();
         },
 

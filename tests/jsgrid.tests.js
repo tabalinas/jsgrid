@@ -145,7 +145,6 @@ $(function() {
             $bodyGridTable;
 
         ok($element.hasClass(grid.containerClass), "container class attached");
-        equal($element.children().length, 3);
         ok($element.children().eq(0).hasClass(grid.gridHeaderClass), "grid header");
         ok($element.children().eq(1).hasClass(grid.gridBodyClass), "grid body");
         ok($element.children().eq(2).hasClass(grid.pagerContainerClass), "pager container");
