@@ -4,6 +4,10 @@
     font-size: 1em;
 }
 
+.jsgrid, .jsgrid *, .jsgrid *:before, .jsgrid *:after {
+    box-sizing: border-box;
+}
+
 .jsgrid input,
 .jsgrid textarea,
 .jsgrid select {
