@@ -173,6 +173,7 @@
     border-right-color: transparent;
     border-radius: 50%;
     -webkit-animation: indicator 1s linear infinite;
+    animation: indicator 1s linear infinite;
 }
 
 @-webkit-keyframes indicator
@@ -181,3 +182,11 @@
     50%  { -webkit-transform: rotate(180deg); }
     to   { -webkit-transform: rotate(360deg); }
 }
+
+@keyframes indicator
+{
+    from { transform: rotate(0deg); }
+    50%  { transform: rotate(180deg); }
+    to   { transform: rotate(360deg); }
+}
+
