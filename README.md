@@ -50,10 +50,7 @@ $("#jsGrid").jsGrid({
     filtering: true,
     editing: true,
     sorting: true,
-
     paging: true,
-    pageSize: 15,
-    pageButtonCount: 5,
 
     data: db.clients,
 
