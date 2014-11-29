@@ -190,3 +190,10 @@
     to   { transform: rotate(360deg); }
 }
 
+/* old IE */
+.jsgrid-load-panel {
+    padding-top: 1.5em \ ;
+}
+.jsgrid-load-panel:before {
+    display: none \ ;
+}
