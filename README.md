@@ -1,3 +1,5 @@
+# jsGrid Lightweight Grid jQuery Plugin
+
 **jsGrid** is a lightweight client-side data grid control based on jQuery.
 It supports basic grid operations like inserting, filtering, editing, deleting, paging and sorting.
 Although jsGrid is tunable and allows to customize appearance and components.
@@ -37,9 +39,9 @@ temporary hosted on GoogleDrive (demos using external rest api don't work)
 
 Ensure that jQuery library of version 1.8.3 or later is included.
 
-Include `jsgrid.min.js` and `jsgrid.min.css` files to the page.
+Include `jsgrid.min.js` and `jsgrid.min.css` files into the web page.
 
-Create grid applying jQuery plugin jsGrid with grid config as following
+Create grid applying jQuery plugin `jsGrid` with grid config as follows
 
 ````javascript
 
