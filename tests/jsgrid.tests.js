@@ -192,7 +192,7 @@ $(function() {
         equal(grid.option("data"), data, "loadData loads data");
     });
 
-    test("error handler", function() {
+    test("onError event should be fired on controller fail", function() {
         var errorArgs,
             errorFired = 0,
             $element = $("#jsGrid"),
@@ -217,7 +217,7 @@ $(function() {
         deepEqual(errorArgs, { grid: grid, args: [{ value: 1 }, "test"] }, "error has correct params");
     });
 
-    asyncTest("autoload", 1, function() {
+    asyncTest("autoload should call loadData after render", 1, function() {
         new Grid($("#jsGrid"), {
             autoload: true,
             controller: {
