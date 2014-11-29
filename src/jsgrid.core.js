@@ -243,24 +243,6 @@
                 case "evenRowClass":
                     this._refreshContent();
                     break;
-                case "headerRowRenderer":
-                case "headerRowClass":
-                case "filterRowRenderer":
-                case "filterRowClass":
-                case "insertRowRenderer":
-                case "insertRowClass":
-                case "sortableClass":
-                case "sortAscClass":
-                case "sortDescClass":
-                case "pagerContainer":
-                case "pagerContainerClass":
-                case "containerClass":
-                case "tableClass":
-                case "gridHeaderClass":
-                case "gridBodyClass":
-                case "sorting":
-                    this.render();
-                    break;
                 case "pageButtonCount":
                 case "pagerFormat":
                 case "pagePrevText":
@@ -301,6 +283,9 @@
                 case "editRowRenderer":
                 case "editRowClass":
                     this.cancelEdit();
+                    break;
+                default:
+                    this.render();
                     break;
             }
         },
