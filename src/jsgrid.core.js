@@ -535,7 +535,7 @@
         _getRowClasses: function(item, itemIndex) {
             var classes = [];
             classes.push(((itemIndex + 1) % 2) ? this.oddRowClass : this.evenRowClass);
-            classes.push($.isFunction(this.rowClass) ? this.rowClass(item, itemIndex) : this.rowClass);
+            classes.push(getOrApply(this.rowClass, this, item, itemIndex));
             return classes.join(" ");
         },
 
