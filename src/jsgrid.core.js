@@ -862,7 +862,12 @@
         _controllerCall: function(method, param, doneCallback) {
             this._showLoading();
 
-            return $.when(this._controller[method](param))
+            var controller = this._controller;
+            if(!controller || !controller[method]) {
+                throw new Error("controller has no method '" + method + "'");
+            }
+
+            return $.when(controller[method](param))
                 .done($.proxy(doneCallback, this))
                 .fail($.proxy(this._errorHandler, this))
                 .always($.proxy(this._hideLoading, this));

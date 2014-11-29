@@ -192,6 +192,22 @@ $(function() {
         equal(grid.option("data"), data, "loadData loads data");
     });
 
+    test("loadData throws exception when controller method not found", function() {
+        var $element = $("#jsGrid"),
+
+            gridOptions = {
+                controller: function() {
+                    return {};
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        throws(function() {
+            grid.loadData();
+        }, /loadData/, "loadData threw an exception");
+    });
+
     test("onError event should be fired on controller fail", function() {
         var errorArgs,
             errorFired = 0,
