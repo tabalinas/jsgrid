@@ -150,6 +150,7 @@
 .jsgrid-load-shader {
     background: #ddd;
     opacity: .5;
+    filter: alpha(opacity=50);
 }
 
 .jsgrid-load-panel {
