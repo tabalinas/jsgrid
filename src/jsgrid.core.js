@@ -139,6 +139,7 @@
         onDataLoaded: $.noop,
         onOptionChanging: $.noop,
         onOptionChanged: $.noop,
+        onError: $.noop,
 
         containerClass: "jsgrid",
         tableClass: "jsgrid-table",
@@ -863,7 +864,14 @@
 
             return $.when(this._controller[method](param))
                 .done($.proxy(doneCallback, this))
+                .fail($.proxy(this._errorHandler, this))
                 .always($.proxy(this._hideLoading, this));
+        },
+
+        _errorHandler: function() {
+            this._callEventHandler(this.onError, {
+                args: $.makeArray(arguments)
+            });
         },
 
         _showLoading: function() {

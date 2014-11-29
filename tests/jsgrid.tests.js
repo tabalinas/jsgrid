@@ -192,6 +192,31 @@ $(function() {
         equal(grid.option("data"), data, "loadData loads data");
     });
 
+    test("error handler", function() {
+        var errorArgs,
+            errorFired = 0,
+            $element = $("#jsGrid"),
+
+            gridOptions = {
+                controller: {
+                    loadData: function() {
+                        return $.Deferred().reject({ value: 1 }, "test").promise();
+                    }
+                },
+                onError: function(args) {
+                    errorFired++;
+                    errorArgs = args;
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.loadData();
+
+        equal(errorFired, 1, "onError handler fired");
+        deepEqual(errorArgs, { grid: grid, args: [{ value: 1 }, "test"] }, "error has correct params");
+    });
+
     asyncTest("autoload", 1, function() {
         new Grid($("#jsGrid"), {
             autoload: true,
