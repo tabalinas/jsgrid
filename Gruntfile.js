@@ -1,13 +1,16 @@
 ﻿module.exports = function(grunt) {
     "use strict"
 
+    var banner = "/* <%= pkg.name %> <%= grunt.template.today(\"yyyy-mm-dd\") %> */";
+
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
         copy: {
             imgs: {
                 expand: true,
-                src: ["css/icons.png", "css/icons-2x.png"],
+                cwd: "css/",
+                src: "*.png",
                 dest: "dist/"
             }
         },
@@ -17,6 +20,9 @@
                 separator: "\n"
             },
             js: {
+                options : {
+                    banner: banner + "\n"
+                },
                 src: [
                     "src/jsgrid.core.js",
                     "src/jsgrid.load-indicator.js",
@@ -33,21 +39,44 @@
                 dest: "dist/<%= pkg.name %>.js"
             },
             css: {
+                options : {
+                    banner: banner + "\n"
+                },
                 src: [
                     "css/jsgrid.css",
                     "css/theme.css"
                 ],
-                dest: "dist/css/<%= pkg.name %>.css"
+                dest: "dist/<%= pkg.name %>.css"
+            }
+        },
+
+        imageEmbed: {
+            dist: {
+                src: "<%= concat.css.dest %>",
+                dest: "<%= concat.css.dest %>"
+            },
+            options: {
+                deleteAfterEncoding : true
             }
         },
 
         uglify: {
-            options: {
-                banner: "/* <%= pkg.name %> <%= grunt.template.today(\"yyyy-mm-dd\") %> */"
+            options : {
+                banner: banner + "\n"
             },
             build: {
                 src: "<%= concat.js.dest %>",
                 dest: "dist/<%= pkg.name %>.min.js"
+            }
+        },
+
+        cssmin: {
+            options : {
+                banner: banner
+            },
+            build: {
+                src: "<%= concat.css.dest %>",
+                dest: "dist/jsgrid.min.css"
             }
         }
 
@@ -56,6 +85,8 @@
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-image-embed");
+    grunt.loadNpmTasks("grunt-contrib-cssmin");
 
-    grunt.registerTask("default", ["copy", "concat", "uglify"]);
+    grunt.registerTask("default", ["copy", "concat", "imageEmbed", "uglify", "cssmin"]);
 };
