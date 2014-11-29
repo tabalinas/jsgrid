@@ -151,10 +151,7 @@
             this._initController();
             this._initFields();
             this._attachWindowLoadResize();
-
-            if(this.updateOnResize) {
-                this._attachWindowResizeCallback();
-            }
+            this._attachWindowResizeCallback();
         },
 
         loadStrategy: function() {
@@ -192,7 +189,9 @@
         },
 
         _attachWindowResizeCallback: function() {
-            $(window).on("resize", $.proxy(this._refreshSize, this));
+            if(this.updateOnResize) {
+                $(window).on("resize", $.proxy(this._refreshSize, this));
+            }
         },
 
         _detachWindowResizeCallback: function() {
