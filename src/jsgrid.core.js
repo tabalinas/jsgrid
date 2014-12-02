@@ -79,10 +79,7 @@
         editRowClass: "jsgrid-edit-row",
 
         confirmDeleting: true,                  
-        deleteConfirmMessage: "Are you sure?", 
-        deleteConfirm: function(item) {
-            return this.deleteConfirmMessage;
-        },
+        deleteConfirm: "Are you sure?",
 
         selecting: true,                       
         selectedRowClass: "jsgrid-selected-row",
@@ -1098,7 +1095,7 @@
             if(!$row.length)
                 return;
 
-            if(this.confirmDeleting && !window.confirm(this.deleteConfirm($row.data(JSGRID_ROW_DATA_KEY))))
+            if(this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
                 return;
 
             return this._deleteRow($row);
