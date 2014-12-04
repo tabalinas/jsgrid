@@ -257,7 +257,7 @@ A boolean value specifies whether sorting is allowed.
 ### paging (default: `false`)
 A boolean value specifies whether data displayed by pages.
 
-### pageLoading (default: false)
+### pageLoading (default: `false`)
 A boolean value specifies whether to load data by page.
 When `pageLoading` is `true` the `loadData` method of controller `filter` parameter has two properties `pageSize` and `pageIndex`.
 
