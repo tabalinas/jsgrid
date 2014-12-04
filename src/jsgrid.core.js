@@ -367,7 +367,7 @@
 
         _createHeaderRow: function() {
             if($.isFunction(this.headerRowRenderer)) {
-                return this.headerRowRenderer();
+                return $(this.headerRowRenderer());
             }
 
             var $result = $("<tr>").addClass(this.headerRowClass);
@@ -391,7 +391,7 @@
 
         _createFilterRow: function() {
             if($.isFunction(this.filterRowRenderer)) {
-                return this.filterRowRenderer();
+                return $(this.filterRowRenderer());
             }
 
             var $result = $("<tr>").addClass(this.filterRowClass);
@@ -408,7 +408,7 @@
 
         _createInsertRow: function() {
             if($.isFunction(this.insertRowRenderer)) {
-                return this.insertRowRenderer();
+                return $(this.insertRowRenderer());
             }
 
             var $result = $("<tr>").addClass(this.insertRowClass);
@@ -506,7 +506,7 @@
             var $result;
 
             if($.isFunction(this.rowRenderer)) {
-                $result = this.rowRenderer(item, itemIndex);
+                $result = $(this.rowRenderer(item, itemIndex));
             } else {
                 $result = $("<tr>");
                 this._renderCells($result, item);
@@ -559,7 +559,7 @@
             var fieldValue = item[field.name];
 
             if($.isFunction(field.cellRenderer)) {
-                $result = this.cellRenderer(fieldValue, item);
+                $result = $(this.cellRenderer(fieldValue, item));
             } else {
                 $result = $("<td>").append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
             }
@@ -1009,7 +1009,7 @@
 
         _createEditRow: function(item) {
             if($.isFunction(this.editRowRenderer)) {
-                return this.editRowRenderer(item);
+                return $(this.editRowRenderer(item));
             }
 
             var $result = $("<tr>").addClass(this.editRowClass);
