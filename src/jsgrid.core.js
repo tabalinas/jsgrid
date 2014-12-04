@@ -1009,7 +1009,7 @@
 
         _createEditRow: function(item) {
             if($.isFunction(this.editRowRenderer)) {
-                return $(this.editRowRenderer(item));
+                return $(this.editRowRenderer(item, this._itemIndex(item)));
             }
 
             var $result = $("<tr>").addClass(this.editRowClass);
@@ -1038,7 +1038,7 @@
 
         _updateRow: function($updatingRow, editedItem) {
             var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
-                updatingItemIndex = $.inArray(updatingItem, this.data);
+                updatingItemIndex = this._itemIndex(updatingItem);
 
             $.extend(updatingItem, editedItem);
 
@@ -1058,6 +1058,10 @@
                     itemIndex: updatingItemIndex
                 });
             });
+        },
+
+        _itemIndex: function(item) {
+            return $.inArray(item, this.data);
         },
 
         _finishUpdate: function($updatedRow, updatedItem, updatedItemIndex) {
@@ -1103,7 +1107,7 @@
 
         _deleteRow: function($row) {
             var deletingItem = $row.data(JSGRID_ROW_DATA_KEY),
-                deletingItemIndex = $.inArray(deletingItem, this.data);
+                deletingItemIndex = this._itemIndex(deletingItem);
 
             this._callEventHandler(this.onItemDeleting, {
                 row: $row,
