@@ -58,8 +58,7 @@
             }
         },
 
-        noDataText: "Not found",
-        noDataRenderer: null,
+        noDataContent: "Not found",
         noDataRowClass: "jsgrid-nodata-row",
 
         heading: true,
@@ -492,8 +491,9 @@
         },
 
         _createNoDataRow: function() {
+            var noDataContent = getOrApply(this.noDataContent, this);
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", this.fields.length).append(this._createNoDataContent()));
+                .append($("<td>").attr("colspan", this.fields.length).append(noDataContent));
         },
 
         _createNoDataContent: function () {

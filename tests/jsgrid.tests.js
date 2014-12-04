@@ -164,7 +164,7 @@ $(function() {
         ok($bodyGridTable.hasClass(grid.tableClass), "body table");
         equal(grid._content.parent()[0], $bodyGridTable[0], "content is tbody in body table");
         equal($bodyGridTable.find("." + grid.noDataRowClass).length, 1, "no data row");
-        equal($bodyGridTable.text(), grid.noDataText, "no data text");
+        equal($bodyGridTable.text(), grid.noDataContent, "no data text");
     });
 
 
@@ -518,14 +518,14 @@ $(function() {
         grid.option("data", []);
 
         equal(grid._content.find("." + grid.noDataRowClass).length, 1, "no data row rendered");
-        equal(grid._content.text(), grid.noDataText, "no data text rendered");
+        equal(grid._content.text(), grid.noDataContent, "no data text rendered");
     });
 
     test("nodatarow customize content", function() {
         var noDataMessage = "NoData Custom Content",
             $element = $("#jsGrid"),
             gridOptions = {
-                noDataRenderer: function() {
+                noDataContent: function() {
                     return noDataMessage;
                 }
             },
