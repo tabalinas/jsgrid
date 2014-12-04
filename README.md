@@ -102,7 +102,7 @@ The config object may contain following options (default values are specified be
     rowClass: function(item, itemIndex) { ... },
     rowClick: function(args) { ... },
 
-    noDataText: "Not found",
+    noDataContent: "Not found",
 
     confirmDeleting: true,
     deleteConfirm: "Are you sure?",
@@ -130,8 +130,7 @@ The config object may contain following options (default values are specified be
     headerRowRenderer: null,
     filterRowRenderer: null,
     insertRowRenderer: null,
-    editRowRenderer: null,
-    noDataRenderer: null
+    editRowRenderer: null
 }
 
 ````
@@ -167,7 +166,9 @@ General options peculiar to all field types:
 
     filterValue: function() { ... },
     insertValue: function() { ... },
-    editValue: function() { ... }
+    editValue: function() { ... },
+
+    cellRenderer: null
 }
 
 ````
@@ -191,6 +192,7 @@ General options peculiar to all field types:
 - **filterValue** is a function returning the value of filter property associated with the column.
 - **insertValue** is a function returning the value of inserting item property associated with the column.
 - **editValue** is a function returning the value of editing item property associated with the column.
+- **cellRenderer** is a function to customize cell rendering. The function signature is `function(value, item)`, where `value` is a value of column property of data item, and `item` is a row data item. The function should return markup as a string, jQueryElement or DomNode representing table cell `td`.
 
 Specific field options depends on concrete field type.
 Read about build-in fields in **Fields** section.
@@ -275,8 +277,8 @@ A function handling row click. Accepts single argument with following structure:
 
 By default `rowClick` performs row editing when `editing` is `true`.
 
-### noDataText (default `"Not found"`)
-A string specifying the text to be displayed when no data specified.
+### noDataContent (default `"Not found"`)
+A string or a function returning a markup, jQueryElement or DomNode specifying the content to be displayed when `data` is an empty array.
 
 ### confirmDeleting (default `true`)
 A boolean value specifying whether to ask user to confirm item deletion.
@@ -348,6 +350,25 @@ A boolean value specifying whether to show overlay (shader) over grid content du
 ### updateOnResize (default `true`)
 A boolean value specifying whether to refresh grid on window resize event.
 
+### rowRenderer (default `null`)
+A function to customize row rendering. The function signature is `function(item, itemIndex)`, where `item` is row data item, and `itemIndex` is the item index.
+The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
+
+### headerRowRenderer (default `null`)
+A function to customize grid header row.
+The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
+
+### filterRowRenderer (default `null`)
+A function to customize grid filter row.
+The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
+
+### insertRowRenderer (default `null`)
+A function to customize grid inserting row.
+The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
+
+### editRowRenderer (default `null`)
+A function to customize editing row rendering. The function signature is `function(item, itemIndex)`, where `item` is row data item, and `itemIndex` is the item index.
+The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
 
 
 ## Fields
