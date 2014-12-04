@@ -105,10 +105,7 @@ The config object may contain following options (default values are specified be
     noDataText: "Not found",
 
     confirmDeleting: true,
-    deleteConfirmMessage: "Are you sure?",
-    deleteConfirm: function(item) {
-        return this.deleteConfirmMessage;
-    },
+    deleteConfirm: "Are you sure?",
 
     pagerContainer: null,
     pageIndex: 1,
@@ -175,25 +172,22 @@ General options peculiar to all field types:
 
 ````
 
-- **type** is a string key of field in fields registry `jsGrid.fields` (the registry can be easily extended with custom field types).
+- **type** is a string key of field (`"text"|"number"|"checkbox"|"select"|"textarea"|"control"`) in fields registry `jsGrid.fields` (the registry can be easily extended with custom field types).
 - **name** is a property of data item associated with the column.
-- **title** is a text to be displayed in a header of the column. If `title` is not specified, the `name` will be used instead.
+- **title** is a text to be displayed in the header of the column. If `title` is not specified, the `name` will be used instead.
 - **css** is a string representing css classes to be attached to the table cell.
-- **align** is an alignment of text in the cell. Accepts following values `"left"|"center"|"right"`.
+- **align** is alignment of text in the cell. Accepts following values `"left"|"center"|"right"`.
 - **width** is a width of the column.
-
 - **filtering** is a boolean specifying whether or not column has filtering (`filterTemplate()` is rendered and `filterValue()` is included in load filter object).
 - **inserting** is a boolean specifying whether or not column has inserting (`insertTemplate()` is rendered and `insertValue()` is included in inserting item).
 - **editing** is a boolean specifying whether or not column has editing (`editTemplate()` is rendered and `editValue()` is included in editing item).
 - **sorting** is a boolean specifying whether or not column has sorting ability.
 - **sorter** is a string or a function specifying how to sort item by the field. The string is a key of sorting strategy in the registry `jsGrid.sortStrategies` (the registry can be easily extended with custom sorting functions). Sorting function has the signature `function(value1, value2) { return -1|0|1; }`.
-
 - **headerTemplate** is a function to create column header content. It should return markup as string, DomNode or jQueryElement.
-- **itemTemplate** is a function to create cell content. It should return markup as string, DomNode or jQueryElement. The function signature is `function(value, item)`, where `value` is a value of column property of data item and `item` is a row data item.
+- **itemTemplate** is a function to create cell content. It should return markup as string, DomNode or jQueryElement. The function signature is `function(value, item)`, where `value` is a value of column property of data item, and `item` is a row data item.
 - **filterTemplate** is a function to create filter row cell content. It should return markup as string, DomNode or jQueryElement.
 - **insertTemplate** is a function to create insert row cell content. It should return markup as string, DomNode or jQueryElement.
-- **editTemplate** is a function to create cell content of editing row. It should return markup as string, DomNode or jQueryElement. The function signature is `function(value, item)`, where `value` is a value of column property of data item and `item` is a row data item.
-
+- **editTemplate** is a function to create cell content of editing row. It should return markup as string, DomNode or jQueryElement. The function signature is `function(value, item)`, where `value` is a value of column property of data item, and `item` is a row data item.
 - **filterValue** is a function returning the value of filter property associated with the column.
 - **insertValue** is a function returning the value of inserting item property associated with the column.
 - **editValue** is a function returning the value of editing item property associated with the column.
@@ -202,7 +196,7 @@ Specific field options depends on concrete field type.
 Read about build-in fields in **Fields** section.
 
 ### data
-An array of items to be displayed in the grid. The option should be used to provide static data. To provide non static data source the `controller` option should be used.
+An array of items to be displayed in the grid. The option should be used to provide static data. Use the `controller` option to provide non static data.
 
 ### autoload (default `false`)
 A boolean value specifying whether `controller.loadData` will be called when grid is rendered.
@@ -221,7 +215,7 @@ An object or function returning an object with the following structure:
 
 ````
 
-- **loadData** is a function returning data or jQuery promise that will be resolved with data (structure `{ data: [items], itemsCount: [total items count] }` when `pageLoading` is `true`). Accepts filter parameter including current filter options and paging parameters when `pageLoading` is `true.
+- **loadData** is a function returning an array of data or jQuery promise that will be resolved with an array of data (when `pageLoading` is `true` instead of object the structure `{ data: [items], itemsCount: [total items count] }` should be returned). Accepts filter parameter including current filter options and paging parameters when `pageLoading` is `true`.
 - **insertItem** is a function returning inserted item or jQuery promise that will be resolved with inserted item. Accepts inserting item object.
 - **updateItem** is a function returning updated item or jQuery promise that will be resolved with updated item. Accepts updating item object.
 - **deleteItem** is a function deleting item. Returns jQuery promise that will be resolved when deletion is completed. Accepts deleting item object.
@@ -230,11 +224,11 @@ Read more about controller interface in **Controller** section.
 
 ### width (default: `"auto"`)
 Specifies the overall width of the grid.
-Accepts all value types accepting by jQuery.width().
+Accepts all value types accepting by `jQuery.width`.
 
 ### height (default: `"auto"`)
 Specifies the overall height of the grid including the pager.
-Accepts all value types accepting by jQuery.height().
+Accepts all value types accepting by `jQuery.height`.
 
 ### heading (default: `true`)
 A boolean value specifies whether to show grid header or not.
@@ -255,16 +249,16 @@ A boolean value specifies whether to highlight grid rows on hover.
 A boolean value specifies whether sorting is allowed.
 
 ### paging (default: `false`)
-A boolean value specifies whether data displayed by pages.
+A boolean value specifies whether data is displayed by pages.
 
 ### pageLoading (default: `false`)
 A boolean value specifies whether to load data by page.
-When `pageLoading` is `true` the `loadData` method of controller `filter` parameter has two properties `pageSize` and `pageIndex`.
+When `pageLoading` is `true` the `loadData` method of controller accepts `filter` parameter with two additional properties `pageSize` and `pageIndex`.
 
 ### rowClass
 A string or a function specifying row css classes.
-A string should have classes separated with spaces.
-A function has signature `function(item, itemIndex)`. It accepts item and index of item. It should returns a string with classes separated with spaces.
+A string contains classes separated with spaces.
+A function has signature `function(item, itemIndex)`. It accepts the data item and index of the item. It should returns a string containing classes separated with spaces.
 
 ### rowClick
 A function handling row click. Accepts single argument with following structure:
@@ -279,7 +273,7 @@ A function handling row click. Accepts single argument with following structure:
 
 ````
 
-By default rowClick performs row editing when `editing` is `true`.
+By default `rowClick` performs row editing when `editing` is `true`.
 
 ### noDataText (default `"Not found"`)
 A string specifying the text to be displayed when no data specified.
@@ -287,12 +281,12 @@ A string specifying the text to be displayed when no data specified.
 ### confirmDeleting (default `true`)
 A boolean value specifying whether to ask user to confirm item deletion.
 
-### deleteConfirm (default `Are you sure?`)
-A string or a function returning string specifying delete confirmation message to be displayed to user.
+### deleteConfirm (default `"Are you sure?"`)
+A string or a function returning string specifying delete confirmation message to be displayed to the user.
 A function has the signature `function(item)` and accepts item to be deleted.
 
 ### pagerContainer (default `null`)
-A jQueryElement or DomNode to specify where to render a pager. Used for external pager rendering. When it is `null` pager is rendered at the bottom of the grid.
+A jQueryElement or DomNode to specify where to render a pager. Used for external pager rendering. When it is equal to `null`, the pager is rendered at the bottom of the grid.
 
 ### pageIndex (default `1`)
 An integer value specifying current page index. Applied only when `paging` is `true`.
@@ -301,11 +295,12 @@ An integer value specifying current page index. Applied only when `paging` is `t
 An integer value specifying the amount of items on the page. Applied only when `paging` is `true`.
 
 ### pageButtonCount (default `15`)
-An integer value specifying the maximum amount of page buttons to be displayed in pager.
+An integer value specifying the maximum amount of page buttons to be displayed in the pager.
 
 ### pagerFormat
 A string specifying pager format.
 The default value is  `"Pages: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} of {pageCount}"`
+
 There are placeholders that can be used in the format:
 
 ````javascript
@@ -339,10 +334,10 @@ A string specifying the text of the link to move to next set of page links, when
 A string specifying the text of the link to move to previous set of page links, when total amount of pages more than `pageButtonCount`.
 
 ### loadIndication (default `true`)
-A boolean value specifying whether to show loading indication during controller operations executing.
+A boolean value specifying whether to show loading indication during controller operations execution.
 
 ### loadIndicationDelay (default `500`)
-An integer value specifying the delay before showing load indication. Applied only when `loadIndication` is `true`.
+An integer value specifying the delay in ms before showing load indication. Applied only when `loadIndication` is `true`.
 
 ### loadMessage (default `"Please, wait..."`)
 A string specifying the text of loading indication panel. Applied only when `loadIndication` is `true`.
