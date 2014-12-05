@@ -373,7 +373,235 @@ The function should return markup as a string, jQueryElement or DomNode represen
 
 ## Fields
 
+All fields supporting by grid are stored in `jsGrid.fields` object, where key is a type of the field and the value is the field class.
 
+`jsGrid.fields` contains following build-in fields:
+
+````javascript
+
+{
+    text: { ... },      // simple text input
+    number: { ... },    // number input
+    select: { ... },    // select control
+    checkbox: { ... },  // checkbox input
+    textarea: { ... },  // textarea control (renders textarea for inserting and editing and text input for filtering)
+    control: { ... }    // control field with delete and editing buttons for data rows, search and add buttons for filter and inserting row
+}
+
+````
+
+Each build-in field can be easily customized with general configuration properties described in **fields** section of grid config description and custom field-specific properties described below.
+
+### text
+Text field renders `<input type="text">` in filter, inserting and editing rows.
+
+Custom properties:
+
+````javascript
+
+{
+    autosearch: true    // triggers searching when the user presses `enter` key in the filter input
+}
+
+````
+
+### number
+Number field renders `<input type="number">` in filter, inserting and editing rows.
+
+Custom properties:
+
+````javascript
+
+{
+    sorter: "number",   // uses sorter for numbers
+    align: "right"      // right text alignment
+}
+
+````
+
+### select
+Select field renders `<select>` control in filter, inserting and editing rows.
+
+Custom properties:
+
+````javascript
+
+{
+    align: "center",        // center text alignment
+    autosearch: true,       // triggers searching when the user changes the selected item in the filter
+    items: [],              // an array of items for select
+    valueField: "",         // name of property of item to be used as value
+    textField = "",         // name of property of item to be used as displaying value
+    selectedIndex: -1       // index of selected item by default
+}
+
+````
+
+If valueField is not defined, then the item index is used instead.
+If textField is not defined, then item itself is used to display value.
+
+For instance the simple select field config may look like:
+
+````javascript
+
+{
+    name: "Country",
+    type: "select",
+    items: [ "", "United States", "Canada", "United Kingdom" ]
+}
+
+````
+
+or more complex with items as objects:
+
+````javascript
+
+{
+    name: "Country",
+    type: "select"
+    items: [
+         { Name: "", Id: 0 },
+         { Name: "United States", Id: 1 },
+         { Name: "Canada", Id: 2 },
+         { Name: "United Kingdom", Id: 3 }
+    ],
+    valueField: "Id",
+    textField: "Name"
+}
+
+````
+
+### checkbox
+Checkbox field renders `<input type="checkbox">` in filter, inserting and editing rows.
+Filter checkbox supports intermediate state for, so click switches between 3 states (checked|intermediate|unchecked).
+
+Custom properties:
+
+````javascript
+
+{
+    sorter: "number",   // uses sorter for numbers
+    align: "center"     // center text alignment
+    autosearch: true    // triggers searching when the user clicks checkbox in filter
+}
+
+````
+
+### textarea
+Textarea field renders '<textarea>` in inserting and editing rows and `<input type="text">` in filter row.
+
+Custom properties:
+
+````javascript
+
+{
+    autosearch: true    // triggers searching when the user presses `enter` key in the filter input
+}
+
+````
+
+### control
+Control field renders delete and editing buttons in data row, search and add buttons in filter and inserting row accordingly.
+It also renders button switching between filtering and searching in header row.
+
+Custom properties:
+
+````javascript
+
+{
+    editButton: true,                               // show edit button
+    deleteButton: true,                             // show delete button
+    clearFilterButton: true,                        // show clear filter button
+    modeSwitchButton: true,                         // show switching filtering/inserting button
+
+    align: "center",                                // center content alignment
+    width: 50,                                      // default column width is 50px
+    filtering: false,                               // disable filtering for column
+    inserting: false,                               // disable inserting for column
+    editing: false,                                 // disable editing for column
+    sorting: false,                                 // disable sorting for column
+
+    searchModeButtonTooltip: "Switch to searching", // tooltip of switching filtering/inserting button in inserting mode
+    insertModeButtonTooltip: "Switch to inserting", // tooltip of switching filtering/inserting button in filtering mode
+    editButtonTooltip: "Edit",                      // tooltip of edit item button
+    deleteButtonTooltip: "Delete",                  // tooltip of delete item button
+    searchButtonTooltip: "Search",                  // tooltip of search button
+    clearFilterButtonTooltip: "Clear filter",       // tooltip of clear filter button
+    insertButtonTooltip: "Insert",                  // tooltip of insert button
+    updateButtonTooltip: "Update",                  // tooltip of update item button
+    cancelEditButtonTooltip: "Cancel edit",         // tooltip of cancel editing button
+}
+
+````
+
+### Custom Field
+
+If you need a completely custom field, the object `jsGrid.fields` can be easily extended.
+
+In this example we define new grid field `date`:
+
+````javascript
+
+var MyDateField = function(config) {
+    jsGrid.Field.call(this, config);
+};
+
+MyDateField.prototype = new jsGrid.Field({
+
+    css: "date-field",            // redefine general property 'css'
+    align: "center",              // redefine general property 'align'
+
+    myCustomProperty: "foo",      // custom property
+
+    sorter: function(date1, date2) {
+        return new Date(date1) - new Date(date2);
+    },
+
+    itemTemplate: function(value) {
+        return new Date(value).toDateString();
+    },
+
+    insertTemplate: function(value) {
+        return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date() });
+    },
+
+    editTemplate: function(value) {
+        return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value));
+    },
+
+    insertValue: function() {
+        return this._insertPicker.datepicker("getDate").toISOString();
+    },
+
+    editValue: function() {
+        return this._editPicker.datepicker("getDate").toISOString();
+    }
+});
+
+jsGrid.fields.date = MyDateField;
+
+````
+
+To have all general grid field properties custom field class should inherit `jsGrid.Field` class or any other field class.
+Here `itemTemplate` just returns the string representation of a date.
+`insertTemplate` and `editTemplate` create jQuery UI datePicker for inserting and editing row.
+Of course jquery ui library should be included to make it work.
+`insertValue` and `editValue` return date to insert and update items accordingly.
+We also defined date specific sorter.
+
+Now, our new field `date` can be used in the grid config as follows:
+
+````javascript
+
+{
+    fields: [
+      ...
+      { type: "date", myCustomProperty: "bar" },
+      ...
+    ]
+}
+
+````
 
 
 ## Methods
