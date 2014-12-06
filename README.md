@@ -1211,13 +1211,22 @@ All supported sorting strategies are stored in `jsGrid.sortStrategies` object, w
     string: { ... },          // string sorter
     number: { ... },          // number sorter
     date: { ... },            // date sorter
-    numberAsString: { ... }   // numbers parsed before comparing
+    numberAsString: { ... }   // numbers are parsed before comparison
 }
 
 ````
 
-**sortingFunction** is a sorting function with following signature `function(value1, value2) { return -1|0|1; }`.
+**sortingFunction** is a sorting function with the following format:
 
+````javascript
+
+function(value1, value2) {
+    if(value1 < value2) return -1; // return negative value when first is less than second
+    if(value1 === value2) return 0; // return zero if values are equal
+    if(value1 > value2) return 1; // return positive value when first is greater than second
+}
+
+````
 
 ### Custom Sorting Strategy
 
@@ -1230,10 +1239,10 @@ In this example we define new sorting strategy for our client objects:
 // client object format
 var clients = [{
     Name: "John",
-    Age: 25 
-}, ...]
+    Age: 25
+}, ...];
 
-// sorting clients by name and then by age
+// sort clients by name and then by age
 jsGrid.sortStrategies.client = function(client1, client2) {
     return client1.Name.localeCompare(client2.Name) 
         || client1.Age - client2.Age;
@@ -1255,7 +1264,7 @@ Now, our new sorting strategy `client` can be used in the grid config as follows
 
 ````
 
-Worth to mention, that you can just inline sorting function in `sorter` not registering new strategy, if you need it only once:
+Worth to mention, that if you need particular sorting only once, you can just inline sorting function in `sorter` not registering the new strategy:
 
 ````javascript
 
