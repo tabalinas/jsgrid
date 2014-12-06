@@ -1090,6 +1090,50 @@ A controller should implement following interface:
 
 ````
 
+For instance the controller for typical REST service might look like:
+
+````javascript
+
+{
+    loadData: function(filter) {
+        return $.ajax({
+            type: "GET",
+            url: "/items",
+            data: filter,
+            dataType: "json"
+        });
+    },
+    
+    insertItem: function(item) {
+        return $.ajax({
+            type: "POST",
+            url: "/items",
+            data: item,
+            dataType: "json"
+        });
+    },
+    
+    updateItem: function(item) {
+        return $.ajax({
+            type: "PUT",
+            url: "/items",
+            data: item,
+            dataType: "json"
+        });
+    },
+    
+    deleteItem: function(filter) {
+        return $.ajax({
+            type: "DELETE",
+            url: "/items",
+            data: filter,
+            dataType: "json"
+        });
+    },
+}
+
+````
+
 ### loadData(filter): `Promise|dataResult`
 Called on data loading.
 
