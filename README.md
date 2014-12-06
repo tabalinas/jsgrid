@@ -1074,7 +1074,7 @@ Has following arguments:
 
 ## Controller
 
-The controller is a gateway between grid and data storage. All data manipulations call according controller methods.
+The controller is a gateway between grid and data storage. All data manipulations call accordant controller methods.
 By default grid has an empty controller and can work with static array of items stored in option `data`.
  
 A controller should implement following interface:
@@ -1090,12 +1090,12 @@ A controller should implement following interface:
 
 ````
 
-### loadData(filter): `Promise`|`dataResult`
+### loadData(filter): `Promise|dataResult`
 Called on data loading.
 
 **filter** contains all filter parameters of fields with enabled filtering
 
-When `pageLoading` is `true` and data is loaded by page `filter` includes two more parameters:
+When `pageLoading` is `true` and data is loaded by page, `filter` includes two more parameters:
 
 ````javascript
 
@@ -1106,7 +1106,7 @@ When `pageLoading` is `true` and data is loaded by page `filter` includes two mo
 
 ````
 
-When grid sorting is enabled `filter` includes two more parameters:
+When grid sorting is enabled, `filter` includes two more parameters:
 
 ````javascript
 
@@ -1119,30 +1119,39 @@ When grid sorting is enabled `filter` includes two more parameters:
 
 Method should return `dataResult` or jQuery promise that will be resolved with `dataResult`.
   
-**dataResult** depends on `pageLoading`. When `pageLoading` is `false` (by default) then data result is a plain javascript array of objects.
-If `pageLoading` is `true` data result should have following structure `{ data: [items], itemsCount: [total items count] }`
+**dataResult** depends on `pageLoading`. When `pageLoading` is `false` (by default), then data result is a plain javascript array of objects.
+If `pageLoading` is `true` data result should have following structure 
+
+````javascript
+
+{
+    data          // array of items
+    itemsCount    // total items amount in storage
+}
+
+````
 
 
-### insertItem(item): `Promise`|`insertedItem`
+### insertItem(item): `Promise|insertedItem`
 Called on item insertion.
 
 Method should return `insertedItem` or jQuery promise that will be resolved with `insertedItem`. 
-If no item is returned inserting item will be used as inserted item. 
+If no item is returned, inserting item will be used as inserted item. 
 
 **item** is the item to be inserted.
 
-### updateItem(item)
+### updateItem(item): `Promise|updatedItem`
 Called on item update.
 
 Method should return `updatedItem` or jQuery promise that will be resolved with `updatedItem`.
-If no item is returned updating item will be used as updated item.
+If no item is returned, updating item will be used as updated item.
 
 **item** is the item to be updated.
 
-### deleteItem(item)
+### deleteItem(item): `Promise`
 Called on item deletion.
 
-If deletion is asynchronous, method should return jQuery promise that will be resolved deletion is completed.
+If deletion is asynchronous, method should return jQuery promise that will be resolved when deletion is completed.
 
 **item** is the item to be deleted.
 
