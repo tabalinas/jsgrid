@@ -1094,10 +1094,10 @@ A controller should implement following interface:
 ````javascript
 
 {
-    loadData
-    insertItem
-    updateItem
-    deleteItem
+    loadData: function(filter) { ... },
+    insertItem: function(item) { ... },
+    updateItem: function(item) { ... },
+    deleteItem: function(item) { ... }
 }
 
 ````
