@@ -606,6 +606,32 @@ Now, our new field `date` can be used in the grid config as follows:
 
 ## Methods
 
+jsGrid methods could be called jQuery plugin or directly.
+
+To use jsGrid plugin to call a method, just call `jsGrid` with method name and required parameters as next arguments:
+
+````javascript
+
+// calling method with jQuery plugin
+$("#grid").jsGrid("methodName", param1, param2);
+
+````
+
+To call method directly you need to retrieve grid instance or just create grid with the constructor:
+
+````javascript
+
+// retrieve grid instance from element data
+var grid = $("#grid").data("JSGrid");
+
+// create grid with the constructor
+var grid = new jsGrid.Grid($("#grid"), { ... });
+
+// call method directly
+grid.methodName(param1, param2); 
+
+````
+
 ### cancelEdit()
 Cancels row editing. 
 
