@@ -13,10 +13,10 @@ Although jsGrid is tunable and allows to customize appearance and components.
 * [Compatibility](#compatibility)
 * [Basic Usage](#basic-usage)
 * [Configuration](#configuration)
-* [Fields](#fields)
+* [Grid Fields](#grid-fields)
 * [Methods](#methods)
 * [Callbacks](#callbacks)
-* [Controller](#controller)
+* [Grid Controller](#grid-controller)
 * [Sorting Strategies](#sorting-strategies)
 
 ## Requirement
@@ -207,7 +207,7 @@ General options peculiar to all field types:
 - **cellRenderer** is a function to customize cell rendering. The function signature is `function(value, item)`, where `value` is a value of column property of data item, and `item` is a row data item. The function should return markup as a string, jQueryElement or DomNode representing table cell `td`.
 
 Specific field options depends on concrete field type.
-Read about build-in fields in **Fields** section.
+Read about build-in fields in [Grid Fields](#grid-fields) section.
 
 ### data
 An array of items to be displayed in the grid. The option should be used to provide static data. Use the `controller` option to provide non static data.
@@ -234,7 +234,7 @@ An object or function returning an object with the following structure:
 - **updateItem** is a function returning updated item or jQuery promise that will be resolved with updated item. Accepts updating item object.
 - **deleteItem** is a function deleting item. Returns jQuery promise that will be resolved when deletion is completed. Accepts deleting item object.
 
-Read more about controller interface in **Controller** section.
+Read more about controller interface in [Grid Controller](#grid-controller) section.
 
 ### width (default: `"auto"`)
 Specifies the overall width of the grid.
@@ -383,7 +383,7 @@ A function to customize editing row rendering. The function signature is `functi
 The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
 
 
-## Fields
+## Grid Fields
 
 All fields supporting by grid are stored in `jsGrid.fields` object, where key is a type of the field and the value is the field class.
 
@@ -845,7 +845,7 @@ Returns jQuery promise resolved when sorting is completed.
 
 If `order` is not specified, then data is sorted in the reversed to current order, when grid is already sorted by the same field. Or `"asc"` for sorting by another field.
 
-When grid data is loaded by pages (`pageLoading` is `true`) sorting calls `controller.loadData` with sorting parameters. Read more in **Controller** section.
+When grid data is loaded by pages (`pageLoading` is `true`) sorting calls `controller.loadData` with sorting parameters. Read more in [Grid Controller](#grid-controller) section.
 
 ````javascript
 
@@ -1084,7 +1084,7 @@ Has following arguments:
 ````
 
 
-## Controller
+## Grid Controller
 
 The controller is a gateway between grid and data storage. All data manipulations call accordant controller methods.
 By default grid has an empty controller and can work with static array of items stored in option `data`.
