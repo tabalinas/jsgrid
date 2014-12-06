@@ -421,7 +421,7 @@
         },
 
         _callEventHandler: function(handler, eventParams) {
-            handler.call(this, $.extend(eventParams, {
+            return handler.call(this, $.extend(eventParams, {
                 grid: this
             }));
         },
