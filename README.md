@@ -854,8 +854,8 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 
 ## Callbacks
 
-### onRefreshing
-Fires before grid refresh.
+### onDataLoading
+Fires before data loading.
 
 Has following arguments:
 
@@ -863,12 +863,13 @@ Has following arguments:
 
 {
     grid                // grid instance
+    filter              // loading filter object
 }
 
 ````
 
-### onRefreshed
-Fires after grid refresh.
+### onDataLoaded
+Fires after data loading.
 
 Has following arguments:
 
@@ -876,6 +877,21 @@ Has following arguments:
 
 {
     grid                // grid instance
+    data                // load result (array of items or data structure for loading by page scenario) 
+}
+
+````
+
+### onError
+Fires when controller handler promise failed.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    args                // an array of arguments provided to fail promise handler 
 }
 
 ````
@@ -972,34 +988,6 @@ Has following arguments:
 
 ````
 
-### onDataLoading
-Fires before data loading.
-
-Has following arguments:
-
-````javascript
-
-{
-    grid                // grid instance
-    filter              // loading filter object
-}
-
-````
-
-### onDataLoaded
-Fires after data loading.
-
-Has following arguments:
-
-````javascript
-
-{
-    grid                // grid instance
-    data                // load result (array of items or data structure for loading by page scenario) 
-}
-
-````
-
 ### onOptionChanging
 Fires before grid option value change.
 
@@ -1031,8 +1019,8 @@ Has following arguments:
 
 ````
 
-### onError
-Fires when controller handler promise failed.
+### onRefreshing
+Fires before grid refresh.
 
 Has following arguments:
 
@@ -1040,7 +1028,19 @@ Has following arguments:
 
 {
     grid                // grid instance
-    args                // an array of arguments provided to fail promise handler 
+}
+
+````
+
+### onRefreshed
+Fires after grid refresh.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
 }
 
 ````
