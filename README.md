@@ -606,7 +606,246 @@ Now, our new field `date` can be used in the grid config as follows:
 
 ## Methods
 
+### cancelEdit()
+Cancels row editing. 
 
+````javascript
+
+$("#grid").jsGrid("cancelEdit");
+
+````
+
+### clearInsert()
+Clears current inserting row. 
+
+````javascript
+
+$("#grid").jsGrid("clearInsert");
+
+````
+
+### `Promise` clearFilter()
+Clears current filter and performs search with empty filter.
+Returns jQuery promise resolved when data filtering is completed. 
+
+````javascript
+
+$("#grid").jsGrid("clearFilter").done(function() {
+    console.log("filtering completed");
+});
+
+````
+
+### `Promise` deleteItem(item|$row|rowNode)
+Removes specified row from the grid.
+Returns jQuery promise resolved when deletion is completed.
+
+**item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+
+````javascript
+
+// delete row by item reference
+$("#grid").jsGrid("deleteItem", item);
+
+// delete row by jQueryElement
+$("#grid").jsGrid("deleteItem", $(".specific-row"));
+
+// delete row by DomNode
+$("#grid").jsGrid("deleteItem", rowNode);
+
+````
+
+### destroy()
+Destroys the grid and brings the Node to its original state.
+
+````javascript
+
+$("#grid").jsGrid("destroy");
+
+````
+
+### editItem(item|$row|rowNode)
+Set grid editing row.
+
+**item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+
+````javascript
+
+// edit row by item reference
+$("#grid").jsGrid("editItem", item);
+
+// edit row by jQueryElement
+$("#grid").jsGrid("editItem", $(".specific-row"));
+
+// edit row by DomNode
+$("#grid").jsGrid("editItem", rowNode);
+
+````
+
+### `Promise` insertItem([item])
+Inserts row into the grid based on item.
+Returns jQuery promise resolved when insertion is completed. 
+ 
+**item** is the item to pass to `controller.insertItem`. 
+
+If `item` is not specified the data from inserting row will be inserted.
+
+````javascript
+
+// insert item from inserting row
+$("#grid").jsGrid("insertItem");
+
+// insert item
+$("#grid").jsGrid("insertItem", { Name: "John", Age: 25, Country: 2 }).done(function() {
+    console.log("insertion completed");
+});
+
+````
+
+### openPage(pageIndex)
+Opens the page of specified index.
+
+**pageIndex** is one-based index of the page to open. The value should be in range from 1 to [total amount of pages].
+
+
+### option(key, [value])
+Gets or sets the value of an option.
+ 
+**key** is the name of the option.
+
+**value** is the new option value to set. 
+
+If `value` is not specified, then the value of the option `key` will be returned.
+
+````javascript
+
+// turn off paging
+$("#grid").jsGrid("option", "paging", false);
+
+// get current page index
+var pageIndex = $("#grid").jsGrid("option", "pageIndex");
+
+````
+
+### refresh()
+Refreshes the grid. Renders the grid body and pager content, recalculates sizes.
+
+````javascript
+
+$("#grid").jsGrid("refresh");
+
+````
+
+### `Promise` render()
+Makes complete grid rendering. If option `autoload` is `true` calls `controller.loadData`. The state of the grid like current page and sorting is retained. 
+Returns jQuery promise resolved when data loading is completed. If auto-loading is disabled the promise is instantly resolved.   
+
+````javascript
+
+$("#grid").jsGrid("render").done(function() {
+    console.log("rendering completed and data loaded");
+});
+
+````
+
+### reset()
+Resets the state of the grid. Goes to the first data page, resets sorting, and then calls `refresh`.  
+
+````javascript
+
+$("#grid").jsGrid("reset");
+
+````
+
+### `Promise` search([filter])
+Performs filtering of the grid.
+Returns jQuery promise resolved when data loading is completed. 
+ 
+**filter** is a filter to pass to `controller.loadData`. 
+
+If `filter` is not specified the current filter (filtering row values) will be applied.
+
+````javascript
+
+// search with current grid filter
+$("#grid").jsGrid("search");
+
+// search with custom filter
+$("#grid").jsGrid("search", { Name: "John" }).done(function() {
+    console.log("filtering completed");
+});
+
+````
+
+### showPrevPages()
+Shows previous set of pages, when total amount of pages more than `pageButtonCount`.
+
+````javascript
+
+$("#grid").jsGrid("showPrevPages");
+
+````
+
+### showNextPages()
+Shows previous set of pages, when total amount of pages more than `pageButtonCount`.
+
+````javascript
+
+$("#grid").jsGrid("showNextPages");
+
+````
+
+### `Promise` sort(sortConfig|field, [order])
+Sorts grid by specified field.
+Returns jQuery promise resolved when sorting is completed.
+
+**sortConfig** is the plain object of the following structure `{ field: (fieldIndex|fieldName|field), order: ("asc"|"desc") }`
+**field** the field to sort by. It could be zero-based field index or field name or field reference
+**order** the sorting order accepts the following values: "asc"|"desc"
+
+If `order` is not specified then data is sorted in the reversed to current order if grid is already sorted by the same field. Or "asc" for sorting by another field.
+
+When grid data is loaded by pages (`pageLoading` is true) sorting calls `controller.loadData` with sorting parameters. Read more in **Controller** section.
+
+````javascript
+
+// sorting grid by first field
+$("#grid").jsGrid("sort", 0);
+
+// sorting grid by field "Name" in descending order
+$("#grid").jsGrid("sort", { field: "Name", order: "desc" });
+
+// sorting grid by myField in ascending order 
+$("#grid").jsGrid("sort", myField, "asc").done(function() {
+    console.log("sorting completed");
+});
+
+````
+
+### `Promise` updateItem([item|$row|rowNode], [editedItem])
+Updates item and row of the grid.
+Returns jQuery promise resolved when update is completed.
+ 
+**item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+**editedItem** is the changed item to pass to `controller.updateItem`.
+
+If `item|$row|rowNode` is not specified then editing row will be updated.
+If `editedItem` is not specified the data from editing row will be taken.
+
+````javascript
+
+// update currently editing row
+$("#grid").jsGrid("updateItem");
+
+// update currently editing row with specified data
+$("#grid").jsGrid("updateItem", { ID: 1, Name: "John", Age: 25, Country: 2 });
+
+// update specified item with particular data (row DomNode or row jQueryElement can be used instead of item reference)
+$("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2 }).done(function() {
+    console.log("update completed");
+});
+
+````
 
 
 ## Callbacks
