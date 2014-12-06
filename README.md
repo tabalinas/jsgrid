@@ -854,7 +854,196 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 
 ## Callbacks
 
+### onRefreshing
+Fires before grid refresh.
 
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+}
+
+````
+
+### onRefreshed
+Fires after grid refresh.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+}
+
+````
+
+### onItemDeleting
+Fires before item deletion.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    row                 // deleting row jQuery element
+    item                // deleting item
+    itemIndex           // deleting item index
+}
+
+````
+
+### onItemDeleted
+Fires after item deletion.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    row                 // deleted row jQuery element
+    item                // deleted item
+    itemIndex           // deleted item index
+}
+
+````
+
+### onItemInserting
+Fires before item insertion.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    item                // inserting item
+}
+
+````
+
+### onItemInserted
+Fires after item insertion.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    item                // inserted item
+}
+
+````
+
+### onItemUpdating
+Fires before item update.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    row                 // updating row jQuery element
+    item                // updating item
+    itemIndex           // updating item index
+}
+
+````
+
+### onItemUpdated
+Fires after item update.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    row                 // updated row jQuery element
+    item                // updated item
+    itemIndex           // updated item index
+}
+
+````
+
+### onDataLoading
+Fires before data loading.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    filter              // loading filter object
+}
+
+````
+
+### onDataLoaded
+Fires after data loading.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    data                // load result (array of items or data structure for loading by page scenario) 
+}
+
+````
+
+### onOptionChanging
+Fires before grid option value change.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    option              // name of option to be changed
+    oldValue            // old value of option
+    newValue            // new value of option
+}
+
+````
+
+### onOptionChanged
+Fires after grid option value change.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    option              // name of changed option
+    value               // changed option value
+}
+
+````
+
+### onError
+Fires when controller handler promise failed.
+
+Has following arguments:
+
+````javascript
+
+{
+    grid                // grid instance
+    args                // an array of arguments provided to fail promise handler 
+}
+
+````
 
 
 ## Controller
