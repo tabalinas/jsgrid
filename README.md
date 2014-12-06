@@ -402,7 +402,7 @@ All fields supporting by grid are stored in `jsGrid.fields` object, where key is
 
 ````
 
-Each build-in field can be easily customized with general configuration properties described in **fields** section of grid config description and custom field-specific properties described below.
+Each build-in field can be easily customized with general configuration properties described in [fields](#fields) section and custom field-specific properties described below.
 
 ### text
 Text field renders `<input type="text">` in filter, inserting and editing rows.
