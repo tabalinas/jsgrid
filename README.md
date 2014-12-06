@@ -1175,7 +1175,6 @@ If `pageLoading` is `true` data result should have following structure
 
 ````
 
-
 ### insertItem(item): `Promise|insertedItem`
 Called on item insertion.
 
@@ -1202,6 +1201,80 @@ If deletion is asynchronous, method should return jQuery promise that will be re
 
 ## Sorting Strategies
 
+All supported sorting strategies are stored in `jsGrid.sortStrategies` object, where key is a name of the strategy and the value is a `sortingFunction`.
+
+`jsGrid.sortStrategies` contains following build-in sorting strategies:
+
+````javascript
+
+{
+    string: { ... },          // string sorter
+    number: { ... },          // number sorter
+    date: { ... },            // date sorter
+    numberAsString: { ... }   // numbers parsed before comparing
+}
+
+````
+
+**sortingFunction** is a sorting function with following signature `function(value1, value2) { return -1|0|1; }`.
+
+
+### Custom Sorting Strategy
+
+If you need a custom sorting strategy, the object `jsGrid.sortStrategies` can be easily extended.
+
+In this example we define new sorting strategy for our client objects:
+
+````javascript
+
+// client object format
+var clients = [{
+    Name: "John",
+    Age: 25 
+}, ...]
+
+// sorting clients by name and then by age
+jsGrid.sortStrategies.client = function(client1, client2) {
+    return client1.Name.localeCompare(client2.Name) 
+        || client1.Age - client2.Age;
+};
+
+````
+
+Now, our new sorting strategy `client` can be used in the grid config as follows:
+
+````javascript
+
+{
+    fields: [
+      ...
+      { type: "text", name: "Name", sorter: "client" },
+      ...
+    ]
+}
+
+````
+
+Worth to mention, that you can just inline sorting function in `sorter` not registering new strategy, if you need it only once:
+
+````javascript
+
+{
+    fields: [
+      ...
+      { 
+          type: "text", 
+          name: "Name", 
+          sorter: function(client1, client2) {
+              return client1.Name.localeCompare(client2.Name) 
+                  || client1.Age - client2.Age;
+          } 
+      },
+      ...
+    ]
+}
+
+````
 
 
 
