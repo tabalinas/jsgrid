@@ -6,6 +6,18 @@ Although jsGrid is tunable and allows to customize appearance and components.
 
 ![jsGrid lightweight client-side data grid](http://content.screencast.com/users/tabalinas/folders/Jing/media/beada891-57fc-41f3-ad77-fbacecd01d15/00000002.png)
 
+## Table of contents
+
+* [Requirement](#requirement)
+* [Demo](#demo)
+* [Compatibility](#compatibility)
+* [Basic Usage](#basic-usage)
+* [Configuration](#configuration)
+* [Fields](#fields)
+* [Methods](#methods)
+* [Callbacks](#callbacks)
+* [Controller](#controller)
+* [Sorting Strategies](#sorting-strategies)
 
 ## Requirement
 
