@@ -615,15 +615,6 @@ $("#grid").jsGrid("cancelEdit");
 
 ````
 
-### clearInsert()
-Clears current inserting row. 
-
-````javascript
-
-$("#grid").jsGrid("clearInsert");
-
-````
-
 ### clearFilter(): `Promise`
 Clears current filter and performs search with empty filter.
 Returns jQuery promise resolved when data filtering is completed. 
@@ -633,6 +624,15 @@ Returns jQuery promise resolved when data filtering is completed.
 $("#grid").jsGrid("clearFilter").done(function() {
     console.log("filtering completed");
 });
+
+````
+
+### clearInsert()
+Clears current inserting row. 
+
+````javascript
+
+$("#grid").jsGrid("clearInsert");
 
 ````
 
@@ -737,7 +737,7 @@ $("#grid").jsGrid("refresh");
 ````
 
 ### render(): `Promise`
-Makes complete grid rendering. If option `autoload` is `true` calls `controller.loadData`. The state of the grid like current page and sorting is retained. 
+Performs complete grid rendering. If option `autoload` is `true` calls `controller.loadData`. The state of the grid like current page and sorting is retained. 
 Returns jQuery promise resolved when data loading is completed. If auto-loading is disabled the promise is instantly resolved.   
 
 ````javascript
@@ -787,7 +787,7 @@ $("#grid").jsGrid("showPrevPages");
 ````
 
 ### showNextPages()
-Shows previous set of pages, when total amount of pages more than `pageButtonCount`.
+Shows next set of pages, when total amount of pages more than `pageButtonCount`.
 
 ````javascript
 
@@ -800,12 +800,14 @@ Sorts grid by specified field.
 Returns jQuery promise resolved when sorting is completed.
 
 **sortConfig** is the plain object of the following structure `{ field: (fieldIndex|fieldName|field), order: ("asc"|"desc") }`
-**field** the field to sort by. It could be zero-based field index or field name or field reference
-**order** the sorting order accepts the following values: "asc"|"desc"
 
-If `order` is not specified then data is sorted in the reversed to current order if grid is already sorted by the same field. Or "asc" for sorting by another field.
+**field** is the field to sort by. It could be zero-based field index or field name or field reference
 
-When grid data is loaded by pages (`pageLoading` is true) sorting calls `controller.loadData` with sorting parameters. Read more in **Controller** section.
+**order** is the sorting order. Accepts the following values: "asc"|"desc"
+
+If `order` is not specified, then data is sorted in the reversed to current order, when grid is already sorted by the same field. Or `"asc"` for sorting by another field.
+
+When grid data is loaded by pages (`pageLoading` is `true`) sorting calls `controller.loadData` with sorting parameters. Read more in **Controller** section.
 
 ````javascript
 
@@ -827,9 +829,11 @@ Updates item and row of the grid.
 Returns jQuery promise resolved when update is completed.
  
 **item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+
 **editedItem** is the changed item to pass to `controller.updateItem`.
 
 If `item|$row|rowNode` is not specified then editing row will be updated.
+
 If `editedItem` is not specified the data from editing row will be taken.
 
 ````javascript
