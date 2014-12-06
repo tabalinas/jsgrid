@@ -624,7 +624,7 @@ $("#grid").jsGrid("clearInsert");
 
 ````
 
-### `Promise` clearFilter()
+### clearFilter(): `Promise`
 Clears current filter and performs search with empty filter.
 Returns jQuery promise resolved when data filtering is completed. 
 
@@ -636,7 +636,7 @@ $("#grid").jsGrid("clearFilter").done(function() {
 
 ````
 
-### `Promise` deleteItem(item|$row|rowNode)
+### deleteItem(item|$row|rowNode): `Promise`
 Removes specified row from the grid.
 Returns jQuery promise resolved when deletion is completed.
 
@@ -665,7 +665,7 @@ $("#grid").jsGrid("destroy");
 ````
 
 ### editItem(item|$row|rowNode)
-Set grid editing row.
+Sets grid editing row.
 
 **item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
 
@@ -682,7 +682,7 @@ $("#grid").jsGrid("editItem", rowNode);
 
 ````
 
-### `Promise` insertItem([item])
+### insertItem([item]): `Promise`
 Inserts row into the grid based on item.
 Returns jQuery promise resolved when insertion is completed. 
  
@@ -736,7 +736,7 @@ $("#grid").jsGrid("refresh");
 
 ````
 
-### `Promise` render()
+### render(): `Promise`
 Makes complete grid rendering. If option `autoload` is `true` calls `controller.loadData`. The state of the grid like current page and sorting is retained. 
 Returns jQuery promise resolved when data loading is completed. If auto-loading is disabled the promise is instantly resolved.   
 
@@ -757,7 +757,7 @@ $("#grid").jsGrid("reset");
 
 ````
 
-### `Promise` search([filter])
+### search([filter]): `Promise`
 Performs filtering of the grid.
 Returns jQuery promise resolved when data loading is completed. 
  
@@ -795,7 +795,7 @@ $("#grid").jsGrid("showNextPages");
 
 ````
 
-### `Promise` sort(sortConfig|field, [order])
+### sort(sortConfig|field, [order]): `Promise`
 Sorts grid by specified field.
 Returns jQuery promise resolved when sorting is completed.
 
@@ -822,7 +822,7 @@ $("#grid").jsGrid("sort", myField, "asc").done(function() {
 
 ````
 
-### `Promise` updateItem([item|$row|rowNode], [editedItem])
+### updateItem([item|$row|rowNode], [editedItem]): `Promise`
 Updates item and row of the grid.
 Returns jQuery promise resolved when update is completed.
  
