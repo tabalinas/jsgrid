@@ -304,9 +304,7 @@
 
             this.refresh();
 
-            if(this.autoload) {
-                this.loadData();
-            }
+            return this.autoload ? this.loadData() : $.Deferred().resolve().promise();
         },
 
         _createLoadIndicator: function() {
@@ -581,7 +579,7 @@
             this._clearSortingCss();
             this._setSortingParams(field, order);
             this._setSortingCss();
-            this._loadStrategy.sort();
+            return this._loadStrategy.sort();
         },
 
         _clearSortingCss: function() {
@@ -892,7 +890,7 @@
         search: function(filter) {
             this._resetSorting();
             this._resetPager();
-            this.loadData(filter);
+            return this.loadData(filter);
         },
 
         loadData: function(filter) {
@@ -937,7 +935,7 @@
             var $filterRow = this._createFilterRow();
             this._filterRow.replaceWith($filterRow);
             this._filterRow = $filterRow;
-            this.search();
+            return this.search();
         },
 
         insertItem: function(item) {

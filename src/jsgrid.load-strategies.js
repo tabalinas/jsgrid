@@ -35,6 +35,7 @@
         sort: function() {
             this._grid._sortData();
             this._grid.refresh();
+            return $.Deferred().resolve().promise();
         },
 
         finishLoad: function(loadedData) {
@@ -86,7 +87,7 @@
         },
 
         sort: function() {
-            this._grid.loadData();
+            return this._grid.loadData();
         },
 
         finishLoad: function(loadedData) {
