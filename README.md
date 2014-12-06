@@ -606,7 +606,7 @@ Now, our new field `date` can be used in the grid config as follows:
 
 ## Methods
 
-jsGrid methods could be called jQuery plugin or directly.
+jsGrid methods could be called with `jsGrid` jQuery plugin or directly.
 
 To use jsGrid plugin to call a method, just call `jsGrid` with method name and required parameters as next arguments:
 
@@ -1074,7 +1074,77 @@ Has following arguments:
 
 ## Controller
 
+The controller is a gateway between grid and data storage. All data manipulations call according controller methods.
+By default grid has an empty controller and can work with static array of items stored in option `data`.
+ 
+A controller should implement following interface:
 
+````javascript
+
+{
+    loadData
+    insertItem
+    updateItem
+    deleteItem
+}
+
+````
+
+### loadData(filter): `Promise`|`dataResult`
+Called on data loading.
+
+**filter** contains all filter parameters of fields with enabled filtering
+
+When `pageLoading` is `true` and data is loaded by page `filter` includes two more parameters:
+
+````javascript
+
+{
+    pageIndex     // current page index
+    pageSize      // the size of page
+}
+
+````
+
+When grid sorting is enabled `filter` includes two more parameters:
+
+````javascript
+
+{
+    sortField     // the name of sorting field
+    sortOrder     // the order of sorting as string "asc"|"desc"
+}
+
+````
+
+Method should return `dataResult` or jQuery promise that will be resolved with `dataResult`.
+  
+**dataResult** depends on `pageLoading`. When `pageLoading` is `false` (by default) then data result is a plain javascript array of objects.
+If `pageLoading` is `true` data result should have following structure `{ data: [items], itemsCount: [total items count] }`
+
+
+### insertItem(item): `Promise`|`insertedItem`
+Called on item insertion.
+
+Method should return `insertedItem` or jQuery promise that will be resolved with `insertedItem`. 
+If no item is returned inserting item will be used as inserted item. 
+
+**item** is the item to be inserted.
+
+### updateItem(item)
+Called on item update.
+
+Method should return `updatedItem` or jQuery promise that will be resolved with `updatedItem`.
+If no item is returned updating item will be used as updated item.
+
+**item** is the item to be updated.
+
+### deleteItem(item)
+Called on item deletion.
+
+If deletion is asynchronous, method should return jQuery promise that will be resolved deletion is completed.
+
+**item** is the item to be deleted.
 
 
 ## Sorting Strategies
