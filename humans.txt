@@ -1,0 +1,9 @@
+/* TEAM */
+  Developer: Tabalin Artem
+  Site: js-grid.com
+  Twitter: @artem_tabalin
+  Github: @tabalinas
+
+/* SITE */
+  Standards: HTML5, MD, SCSS/CSS3, JS 
+  Components: Zurb Foundation, Jekyll, jQuery, Modernizr, bower, grunt
