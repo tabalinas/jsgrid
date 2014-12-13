@@ -35,13 +35,13 @@ $base-line-height: 180%;
 // $include-html-block-grid-classes: $include-html-classes; 
 // $include-xl-html-grid-classes: false;
 
-$row-width: rem-calc(1000);
+$row-width: rem-calc(1200);
 $total-columns: 12;
 
 // Global
 
 // We use these to define default font weights
-// $font-weight-normal: normal !default
+$font-weight-normal: 300 !default;
 // $font-weight-bold: bold !default
 
 // We use these to control various global styles
@@ -126,7 +126,7 @@ $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (m
 
 // We use these to control header font styles
 // $header-font-family: $body-font-family;
-// $header-font-weight: normal;
+$header-font-weight: 300;
 // $header-font-style: normal;
 // $header-font-color: #222;
 $header-line-height: 1.4;
@@ -153,7 +153,7 @@ $header-bottom-margin: .6rem;
 // These control how subheaders are styled.
 // $subheader-line-height: 1.4;
 // $subheader-font-color: scale-color($header-font-color, $lightness: 35%);
-// $subheader-font-weight: $font-weight-normal;
+$subheader-font-weight: $font-weight-normal;
 // $subheader-top-margin: .2rem;
 // $subheader-bottom-margin: .5rem;
 
@@ -163,7 +163,7 @@ $header-bottom-margin: .6rem;
 
 // We use these to style paragraphs
 // $paragraph-font-family: inherit;
-// $paragraph-font-weight: $font-weight-normal;
+$paragraph-font-weight: $font-weight-normal;
 // $paragraph-font-size: 1rem;
 $paragraph-line-height: 1.8;
 // $paragraph-margin-bottom: rem-calc(20);
@@ -361,7 +361,7 @@ $paragraph-line-height: 1.8;
 // $button-font-sml: rem-calc(13);
 // $button-font-med: rem-calc(16);
 // $button-font-lrg: rem-calc(20);
-// $button-font-weight: $font-weight-normal;
+$button-font-weight: $font-weight-normal;
 // $button-font-align: center;
 
 // We use these to control various hover effects.
@@ -522,7 +522,7 @@ $paragraph-line-height: 1.8;
 // We use these to style the labels in different ways
 // $form-label-pointer: pointer;
 // $form-label-font-size: rem-calc(14);
-// $form-label-font-weight: $font-weight-normal;
+$form-label-font-weight: $font-weight-normal;
 // $form-label-line-height: 1.5;
 // $form-label-font-color: scale-color(#000, $lightness: 30%);
 // $form-label-small-transform: capitalize;
@@ -665,7 +665,7 @@ $paragraph-line-height: 1.8;
 
 // We use these to style the label text
 // $label-font-sizing: rem-calc(11);
-// $label-font-weight: $font-weight-normal;
+$label-font-weight: $font-weight-normal;
 // $label-font-color: #333;
 // $label-font-color-alt: #fff;
 // $label-font-family: $body-font-family;

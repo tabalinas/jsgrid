@@ -5,6 +5,57 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+.header {
+  background: #333;
+}
+
+.main-nav {
+  margin: 1rem;
+
+  .inline-list {
+    margin-bottom: 0;
+  }
+}
+
+.content {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.brand {
+  margin-top: 1rem;
+  line-height: 1;
+  font-size: 1.5rem;
+  font-weight: 300;
+
+  a {
+    color: #fff;
+  }
+}
+
+.page-header {
+  background: #eee;
+
+  h1 {
+
+  }
+
+  p {
+    color: #777;
+    font-size: 1.3rem;
+  }
+}
+
+.page-content {
+
+}
+
+.footer {
+  border-top: solid 1px #e5e5e5;
+  color: #888;
+}
+
+
 .navigation {
   padding: 10px;
   border-right: 1px solid #e9e9e9;
