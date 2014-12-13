@@ -7,7 +7,7 @@
 //
 
 // This is the default html and body font-size for the base rem value.
-$rem-base: 16px;
+$rem-base: 14px;
 
 // Allows the use of rem-calc() or lower-bound() in your settings
 @import "foundation/functions";
@@ -46,9 +46,9 @@ $total-columns: 12;
 
 // We use these to control various global styles
 $body-bg: #fff;
-$body-font-color: #222;
-$body-font-family: "Raleway", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-$body-font-weight: normal;
+$body-font-color: #262626;
+$body-font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+$body-font-weight: 300;
 $body-font-style: normal;
 
 // We use this to control font-smoothing

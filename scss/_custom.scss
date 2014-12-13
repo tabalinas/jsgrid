@@ -1,7 +1,26 @@
 h1, h2, h3, h4, h5, h6 {
-
 	@media #{$medium-up} {
 	}
 	@media #{$large-up} {
 	}
+}
+
+.navigation {
+  padding: 10px;
+  border-right: 1px solid #e9e9e9;
+}
+
+.demo-frame {
+  position: relative;
+  padding-bottom: 75%;
+  height: 0;
+  overflow: hidden;
+}
+
+iframe[name='demo'] {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
