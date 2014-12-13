@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>jsGrid - Data Manipulation</title>
+    <link rel="stylesheet" type="text/css" href="demos.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../css/jsgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme.css" />
+
+    <script src="../external/jquery/jquery-1.8.3.js"></script>
+    <script src="db.js"></script>
+
+    <script src="../src/jsgrid.core.js"></script>
+    <script src="../src/jsgrid.load-indicator.js"></script>
+    <script src="../src/jsgrid.load-strategies.js"></script>
+    <script src="../src/jsgrid.sort-strategies.js"></script>
+    <script src="../src/jsgrid.field.js"></script>
+    <script src="../src/jsgrid.field.text.js"></script>
+    <script src="../src/jsgrid.field.number.js"></script>
+    <script src="../src/jsgrid.field.select.js"></script>
+    <script src="../src/jsgrid.field.checkbox.js"></script>
+    <script src="../src/jsgrid.field.control.js"></script>
+
+    <style>
+        .insert-form {
+            width: 400px;
+            margin: 10px 0;
+        }
+
+        .insert-form-content {
+            padding: 0 10px;
+            overflow: hidden;
+            background: #fcfcfc;
+            border: 1px solid #e9e9e9;
+        }
+
+        .insert-form-content > div {
+            margin: 15px 0;
+        }
+
+        .insert-form input,
+        .insert-form select {
+            width: 250px;
+            float: right;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Data Manipulation</h1>
+    <div id="jsGrid"></div>
+
+    <div class="insert-form">
+        <h2>Add New Client</h2>
+        <div class="insert-form-content">
+            <div>
+                <label>Name: <input id="name" type="text" /></label>
+            </div>
+            <div>
+                <label>Age: <input id="age" type="number" /></label>
+            </div>
+            <div>
+                <label>Address: <input id="address" type="text" /></label>
+            </div>
+            <div>
+                <label>Country:
+                    <select id="country">
+                        <option value="0">(Select)</option>
+                        <option value="1">United States</option>
+                        <option value="2">Canada</option>
+                        <option value="3">United Kingdom</option>
+                        <option value="4">France</option>
+                        <option value="5">Brazil</option>
+                        <option value="6">China</option>
+                        <option value="7">Russia</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>Is Married: <input id="married" type="checkbox" /></label>
+            </div>
+            <div>
+                <button type="button" id="add">Add Client</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+
+            $("#jsGrid").jsGrid({
+                height: "50%",
+                width: "100%",
+                editing: true,
+                autoload: true,
+                paging: true,
+                deleteConfirm: function(item) {
+                    return "The client \"" + item.Name + "\" will be removed. Are you sure?";
+                },
+                controller: db,
+                fields: [
+                    { name: "Name", type: "text", width: 150 },
+                    { name: "Age", type: "number", width: 50 },
+                    { name: "Address", type: "text", width: 200 },
+                    { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
+                    { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                    { type: "control", modeSwitchButton: false, editButton: false }
+                ]
+            });
+
+            $("#add").click(function() {
+                var newItem = {
+                    Name: $("#name").val(),
+                    Age: parseInt($("#age").val(), 10),
+                    Address: $("#address").val(),
+                    Country: parseInt($("#country").val(), 10),
+                    Married: $("#married").is(":checked")
+                };
+
+                $("#jsGrid").jsGrid("insertItem", newItem);
+
+                $("#name").val("");
+                $("#age").val("");
+                $("#address").val("");
+                $("#country").val("0");
+                $("#married").prop("checked", false);
+            });
+
+        });
+    </script>
+</body>
+</html>
