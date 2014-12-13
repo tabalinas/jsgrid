@@ -1,0 +1,71 @@
+---
+layout: default
+title: jsGrid - Getting started
+---
+
+<div class="row">
+    <div class="large-12 columns">
+        <h1>Getting Started</h1>
+
+        <div>
+            <a href="https://github.com/tabalinas/jsgrid/zipball/master" class="button">
+                <small>Download</small>
+                .zip file
+            </a>
+            <a href="https://github.com/tabalinas/jsgrid/tarball/master" class="button">
+                <small>Download</small>
+                .tar.gz file
+            </a>
+        </div>
+
+        <p>Ensure that jQuery library of version 1.8.3 or later is included.</p>
+
+        <p>Include <code>jsgrid.min.js</code> and <code>jsgrid.min.css</code> files into the web page.</p>
+
+        <p>Create grid applying jQuery plugin <code>jsGrid</code> with grid config as follows:</p>
+
+        <div class="highlight highlight-javascript"><pre>
+            $(<span class="pl-s1"><span class="pl-pds">"</span>#jsGrid<span class="pl-pds">"</span></span>).jsGrid({
+                width<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>100%<span
+                class="pl-pds">"</span></span>,
+                height<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>400px<span
+                class="pl-pds">"</span></span>,
+
+                filtering<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+                editing<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+                sorting<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+                paging<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+
+                data<span class="pl-k">:</span> db.clients,
+
+                fields<span class="pl-k">:</span> [
+                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, type<span
+                class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>, width<span
+                class="pl-k">:</span> <span class="pl-c1">150</span> },
+                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Age<span
+                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
+                class="pl-pds">"</span>number<span class="pl-pds">"</span></span>, width<span class="pl-k">:</span> <span
+                class="pl-c1">50</span> },
+                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Address<span
+                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
+                class="pl-pds">"</span>text<span class="pl-pds">"</span></span>, width<span class="pl-k">:</span> <span
+                class="pl-c1">200</span> },
+                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Country<span
+                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
+                class="pl-pds">"</span>select<span class="pl-pds">"</span></span>, items<span class="pl-k">:</span> db.countries, valueField<span
+                class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>, textField<span
+                class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span> },
+                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Married<span
+                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
+                class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span>, title<span class="pl-k">:</span> <span
+                class="pl-s1"><span class="pl-pds">"</span>Is Married<span class="pl-pds">"</span></span>, sorting<span
+                class="pl-k">:</span> <span class="pl-c1">false</span> },
+                    { type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>control<span
+                class="pl-pds">"</span></span> }
+                ]
+            });
+            </pre>
+        </div>
+
+    </div>
+</div>

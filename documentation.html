@@ -11,9 +11,7 @@ title: jsGrid - Documentation
 
         <ul>
             <li><a href="#requirement">Requirement</a></li>
-            <li><a href="#demo">Demo</a></li>
             <li><a href="#compatibility">Compatibility</a></li>
-            <li><a href="#basic-usage">Basic Usage</a></li>
             <li><a href="#configuration">Configuration</a></li>
             <li><a href="#grid-fields">Grid Fields</a></li>
             <li><a href="#methods">Methods</a></li>
@@ -49,59 +47,6 @@ title: jsGrid - Documentation
             <li>Chrome for Android</li>
             <li>IE10 for WP8</li>
         </ul>
-
-        <h2>
-            <a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic
-            Usage</h2>
-
-        <p>Ensure that jQuery library of version 1.8.3 or later is included.</p>
-
-        <p>Include <code>jsgrid.min.js</code> and <code>jsgrid.min.css</code> files into the web page.</p>
-
-        <p>Create grid applying jQuery plugin <code>jsGrid</code> with grid config as follows:</p>
-
-        <div class="highlight highlight-javascript"><pre>
-            $(<span class="pl-s1"><span class="pl-pds">"</span>#jsGrid<span class="pl-pds">"</span></span>).jsGrid({
-                width<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>100%<span
-                class="pl-pds">"</span></span>,
-                height<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>400px<span
-                class="pl-pds">"</span></span>,
-
-                filtering<span class="pl-k">:</span> <span class="pl-c1">true</span>,
-                editing<span class="pl-k">:</span> <span class="pl-c1">true</span>,
-                sorting<span class="pl-k">:</span> <span class="pl-c1">true</span>,
-                paging<span class="pl-k">:</span> <span class="pl-c1">true</span>,
-
-                data<span class="pl-k">:</span> db.clients,
-
-                fields<span class="pl-k">:</span> [
-                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, type<span
-                class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>, width<span
-                class="pl-k">:</span> <span class="pl-c1">150</span> },
-                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Age<span
-                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
-                class="pl-pds">"</span>number<span class="pl-pds">"</span></span>, width<span class="pl-k">:</span> <span
-                class="pl-c1">50</span> },
-                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Address<span
-                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
-                class="pl-pds">"</span>text<span class="pl-pds">"</span></span>, width<span class="pl-k">:</span> <span
-                class="pl-c1">200</span> },
-                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Country<span
-                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
-                class="pl-pds">"</span>select<span class="pl-pds">"</span></span>, items<span class="pl-k">:</span> db.countries, valueField<span
-                class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span>, textField<span
-                class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span> },
-                    { name<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>Married<span
-                class="pl-pds">"</span></span>, type<span class="pl-k">:</span> <span class="pl-s1"><span
-                class="pl-pds">"</span>checkbox<span class="pl-pds">"</span></span>, title<span class="pl-k">:</span> <span
-                class="pl-s1"><span class="pl-pds">"</span>Is Married<span class="pl-pds">"</span></span>, sorting<span
-                class="pl-k">:</span> <span class="pl-c1">false</span> },
-                    { type<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>control<span
-                class="pl-pds">"</span></span> }
-                ]
-            });
-            </pre>
-        </div>
 
         <h2>
             <a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span
@@ -1805,24 +1750,6 @@ title: jsGrid - Documentation
             }
             </pre>
         </div>
-        </section>
-
-        <aside id="sidebar">
-            <a href="https://github.com/tabalinas/jsgrid/zipball/master" class="button">
-                <small>Download</small>
-                .zip file
-            </a>
-            <a href="https://github.com/tabalinas/jsgrid/tarball/master" class="button">
-                <small>Download</small>
-                .tar.gz file
-            </a>
-
-            <p class="repo-owner"><a href="https://github.com/tabalinas/jsgrid"></a> is maintained by <a
-                    href="https://github.com/tabalinas">tabalinas</a>.</p>
-
-            <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a
-                    href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
 
     </div>
 </div>
