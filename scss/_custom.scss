@@ -51,10 +51,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer {
+  margin-top: 2rem;
   border-top: solid 1px #e5e5e5;
   color: #888;
 }
 
+.code {
+  margin: 1rem 0;
+
+  .prettyprint {
+    padding: 0;
+    border: 1px solid #e5e5e5;
+    background: #f5f5f5;
+
+
+    ol {
+      margin-left: 2.7rem;
+      color: #ddd;
+      font-size: .9rem;
+      line-height: 1.5;
+    }
+
+    li {
+      padding-left: .5rem;
+      list-style-type: decimal;
+      background: #fcfcfc;
+    }
+  }
+}
 
 .navigation {
   padding: 10px;
@@ -76,3 +100,4 @@ iframe[name='demo'] {
   height: 100%;
   border: none;
 }
+
