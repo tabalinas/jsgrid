@@ -15,25 +15,35 @@ title: jsGrid - Getting started
 <div class="page-content">
     <div class="row">
         <div class="small-12 columns content">
+            <p class="step">1. Download jsGrid</p>
+
             <div>
-                <a href="https://github.com/tabalinas/jsgrid/zipball/master" class="button">
-                    <small>Download</small>
-                    .zip file
+                <a href="https://github.com/tabalinas/jsgrid/zipball/master" class="button large success">
+                    Download jsGrid<br /><small>combined</small>
                 </a>
-                <a href="https://github.com/tabalinas/jsgrid/tarball/master" class="button">
-                    <small>Download</small>
-                    .tar.gz file
+                <a href="https://github.com/tabalinas/jsgrid/zipball/master" class="button large">
+                    Download source<br /><small>.zip file</small>
+                </a>
+                <a href="https://github.com/tabalinas/jsgrid/tarball/master" class="button large">
+                    Download source<br /><small>.tar.gz file</small>
                 </a>
             </div>
 
-            <p>Ensure that jQuery library of version 1.8.3 or later is included.</p>
+            <p class="step">2. Ensure that <strong>jQuery v1.8.3 or later</strong> is included.</p>
 
-            <p>Include <code>jsgrid.min.js</code> and <code>jsgrid.min.css</code> files into the web page.</p>
-
-            <p>Create grid applying jQuery plugin <code>jsGrid</code> with grid config as follows:</p>
+            <p class="step">3. Include <strong>jqGrid</strong> script and css style sheet files into the web page:</p>
 
             <div class="code">
-                <pre class="prettyprint linenums lang-js">
+<pre class="prettyprint linenums lang-html">
+&lt;link rel="stylesheet" href="jsgrid.min.css"&gt;
+&lt;script type='text/javascript' src='jsgrid.min.js'&gt;&lt;/script&gt;
+</pre>
+            </div>
+
+            <p class="step">4. Create grid applying jQuery plugin <strong>jsGrid</strong> with grid config as follows:</p>
+
+            <div class="code">
+<pre class="prettyprint linenums lang-js">
 $("#jsGrid").jsGrid({
     width: "100%",
     height: "400px",
@@ -53,8 +63,7 @@ $("#jsGrid").jsGrid({
         { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
         { type: "control" }
     ]
-});
-                </pre>
+});</pre>
             </div>
 
         </div>
