@@ -713,7 +713,7 @@ $label-font-weight: $font-weight-normal;
 // $off-canvas-label-margin:0;
 // $off-canvas-link-padding: rem-calc(10, 15);
 // $off-canvas-link-color: rgba(#fff, 0.7);
-// $off-canvas-link-border-bottom: 1px solid scale-color($off-canvas-bg, $lightness: -25%);
+$off-canvas-link-border-bottom: none;
 
 // Off Canvas Menu Icon Variables
 // $tabbar-menu-icon-color: #fff;
