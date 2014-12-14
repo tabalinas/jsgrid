@@ -31,20 +31,25 @@ title: Demos
             </div>
         </div>
         <div class="large-9 columns content">
+            <div class="code demo-code">
+                <pre class="prettyprint linenums lang-js">{% capture code %}{% include demos/basic.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/static-data.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/odata-service.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/data-manipulation.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/sorting.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/loading-by-page.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-view.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-row-renderer.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/external-pager.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-grid-field.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-12 columns">
             <div class="demo-frame">
                 <iframe name="demo" src="basic.html"></iframe>
-            </div>
-            <div class="code demo-code">
-<pre class="prettyprint linenums lang-js">{% include demos/basic.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/static-data.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/odata-service.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/data-manipulation.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/sorting.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/loading-by-page.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/custom-view.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/custom-row-renderer.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/external-pager.js %}</pre>
-<pre class="hidden prettyprint linenums lang-js">{% include demos/custom-grid-field.js %}</pre>
             </div>
         </div>
     </div>
