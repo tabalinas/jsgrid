@@ -1,7 +1,12 @@
 ﻿module.exports = function(grunt) {
     "use strict"
 
-    var banner = "/* <%= pkg.name %> <%= grunt.template.today(\"yyyy-mm-dd\") %> */";
+    var banner =
+        "/*!\n" +
+        " * jsGrid v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
+        " * (c) 2014-<%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
+        " * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n" +
+        " */\n";
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),

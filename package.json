@@ -1,11 +1,17 @@
 {
-  "name": "jsgrid",
-  "version": "0.1.0",
-  "devDependencies": {
+    "name": "jsgrid",
+    "version": "0.1.0",
+    "homepage": "http://js-grid.com",
+    "author": "Artem Tabalin",
+    "license": {
+        "type": "MIT",
+        "url": "https://github.com/tabalinas/jsgrid/blob/master/LICENSE"
+    },
+    "devDependencies": {
     "grunt": "^0.4.4",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-cssmin": "^0.10.0",
     "grunt-contrib-uglify": "~0.2.2"
-  }
+    }
 }
