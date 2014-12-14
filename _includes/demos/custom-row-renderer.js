@@ -24,7 +24,7 @@ $(function() {
             var user = item.user;
             var $photo = $("<div>").addClass("client-photo").append($("<img>").attr("src", user.picture.medium));
             var $info = $("<div>").addClass("client-info")
-                .append($("<p>").append($("<strong>").text(user.name.first.capitalize() + " " + user.name.last.capitalize())))
+                .append($("<p>").append(user.name.first.capitalize() + " " + user.name.last.capitalize()))
                 .append($("<p>").text("Location: " + user.location.city.capitalize() + ", " + user.location.street))
                 .append($("<p>").text("Email: " + user.email))
                 .append($("<p>").text("Phone: " + user.phone))
