@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@media #{$large-up} {
+@media #{$medium-up} {
   .content {
     padding-top: 2rem;
   }
@@ -70,14 +70,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .code {
-  margin: 1rem 0;
 
   .prettyprint {
+    position: relative;
     padding: 0;
     border: 1px solid #e5e5e5;
     background: #f5f5f5;
 
     ol {
+      float: left;
+      min-width: 100%;
       margin-left: 2.7rem;
       padding: .5rem 0;
       background: #fcfcfc;
@@ -108,7 +110,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .demos-navigation {
-  padding: 10px;
 
   a {
     font-size: 1.2rem;
@@ -121,6 +122,16 @@ h1, h2, h3, h4, h5, h6 {
 
   .demo-selected {
     color: #888;
+  }
+}
+
+.demo-info {
+  button {
+    margin-left: 1rem;
+  }
+
+  p {
+    font-size: 1.2rem;
   }
 }
 

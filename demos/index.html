@@ -14,7 +14,7 @@ title: Demos
 
 <div class="page-content">
     <div class="row">
-        <div class="large-3 columns content">
+        <div class="large-3 medium-4 columns content">
             <div class="demos-navigation">
                 <ul>
                     <li><a href="basic.html" target="demo" class="demo-selected">Basic Scenario</a></li>
@@ -30,8 +30,21 @@ title: Demos
                 </ul>
             </div>
         </div>
-        <div class="large-9 columns content">
-            <div class="code demo-code">
+        <div class="large-9 medium-8 columns content">
+            <div class="demo-info clearfix">
+                <button class="button large right" id="toggleCode"><span>Show Code</span> &nbsp; <i class="fa fa-file-code-o"></i></button>
+                <p>Grid with filtering, editing, inserting, deleting, sorting and paging. Data provided by <strong>controller</strong>. Read about controller interface in the docs.</p>
+                <p class="hidden">Simple grid with static data. Provide an array to option <strong>data</strong> in config.</p>
+                <p class="hidden">Controller <strong>loadData</strong> method requests data from OData service with ajax. Any asynchronous source could be used instead. Just return jQuery.promise from controller methods. Field option <strong>itemTemplate</strong> allows to render cell content with jQuery.</p>
+                <p class="hidden">The API methods like <strong>insertItem</strong> allow editing from outside of the grid with ease. Surely, filtering, updating and deleting also have corresponding methods.</p>
+                <p class="hidden">Sorting can be done not only with column header interaction, but also with <strong>sort</strong> method.</p>
+                <p class="hidden">Grid allows to load data by pages. It helps to reduce data loading time and of course necessary for large data sources.</p>
+                <p class="hidden">All components of the grid can be easily configured. Heading, filtering, inserting, editing, sorting, paging and row selection could be switched with a single corresponding boolean option.</p>
+                <p class="hidden">Grid rows can be completely customized. There are special row renderer functions. To customize data row use <strong>rowRenderer</strong>.</p>
+                <p class="hidden">The pager could be placed anywhere outside of the grid. Just specify <strong>pagerContainer</strong> option.</p>
+                <p class="hidden">All existing grid fields (columns) can be easily customized and new field types could be added. Here we create custom date column with jQuery UI datepicker.</p>
+            </div>
+            <div class="code demo-code hidden">
                 <pre class="prettyprint linenums lang-js">{% capture code %}{% include demos/basic.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/static-data.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/odata-service.js %}{% endcapture %}{{ code | xml_escape }}</pre>
