@@ -35,9 +35,8 @@ jQuery (1.8.3 or later)
 
 The config object may contain following options (default values are specified below):
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     fields: [],
     data: [],
 
@@ -93,9 +92,8 @@ The config object may contain following options (default values are specified be
     filterRowRenderer: null,
     insertRowRenderer: null,
     editRowRenderer: null
-}
-
-````
+}</pre>
+</div>
 
 ### fields
 An array of fields (columns) of the grid.
@@ -104,9 +102,8 @@ Each field has general options and specific options depending on field type.
 
 General options peculiar to all field types:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     type: "",
     name: "",
     title: "",
@@ -131,9 +128,8 @@ General options peculiar to all field types:
     editValue: function() { ... },
 
     cellRenderer: null
-}
-
-````
+}</pre>
+</div>
 
 - **type** is a string key of field (`"text"|"number"|"checkbox"|"select"|"textarea"|"control"`) in fields registry `jsGrid.fields` (the registry can be easily extended with custom field types).
 - **name** is a property of data item associated with the column.
@@ -168,16 +164,14 @@ A boolean value specifying whether `controller.loadData` will be called when gri
 ### controller
 An object or function returning an object with the following structure:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     loadData: $.noop,
     insertItem: $.noop,
     updateItem: $.noop,
     deleteItem: $.noop
-}
-
-````
+}</pre>
+</div>
 
 - **loadData** is a function returning an array of data or jQuery promise that will be resolved with an array of data (when `pageLoading` is `true` instead of object the structure `{ data: [items], itemsCount: [total items count] }` should be returned). Accepts filter parameter including current filter options and paging parameters when `pageLoading` is `true`.
 - **insertItem** is a function returning inserted item or jQuery promise that will be resolved with inserted item. Accepts inserting item object.
@@ -227,15 +221,13 @@ A function has signature `function(item, itemIndex)`. It accepts the data item a
 ### rowClick
 A function handling row click. Accepts single argument with following structure:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
      item       // data item
      itemIndex  // data item index
      event      // jQuery event
-}
-
-````
+}</pre>
+</div>
 
 By default `rowClick` performs row editing when `editing` is `true`.
 
@@ -267,17 +259,15 @@ The default value is  `"Pages: {first} {prev} {pages} {next} {last} &nbsp;&nbsp;
 
 There are placeholders that can be used in the format:
 
-````javascript
-
-{first}     // link to first page
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{first}     // link to first page
 {prev}      // link to previous page
 {pages}     // page links
 {next}      // link to next page
 {last}      // link to last page
 {pageIndex} // current page index
-{pageCount} // total amount of pages
-
-````
+{pageCount} // total amount of pages</pre>
+</div>
 
 ### pageNextText (default `"Next"`)
 A string specifying the text of the link to the next page.
@@ -339,18 +329,16 @@ All fields supporting by grid are stored in `jsGrid.fields` object, where key is
 
 `jsGrid.fields` contains following build-in fields:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     text: { ... },      // simple text input
     number: { ... },    // number input
     select: { ... },    // select control
     checkbox: { ... },  // checkbox input
     textarea: { ... },  // textarea control (renders textarea for inserting and editing and text input for filtering)
     control: { ... }    // control field with delete and editing buttons for data rows, search and add buttons for filter and inserting row
-}
-
-````
+}</pre>
+</div>
 
 Each build-in field can be easily customized with general configuration properties described in [fields](#fields) section and custom field-specific properties described below.
 
@@ -359,66 +347,57 @@ Text field renders `<input type="text">` in filter, inserting and editing rows.
 
 Custom properties:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     autosearch: true    // triggers searching when the user presses `enter` key in the filter input
-}
-
-````
+}</pre>
+</div>
 
 ### number
 Number field renders `<input type="number">` in filter, inserting and editing rows.
 
 Custom properties:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     sorter: "number",   // uses sorter for numbers
     align: "right"      // right text alignment
-}
-
-````
+}</pre>
+</div>
 
 ### select
 Select field renders `<select>` control in filter, inserting and editing rows.
 
 Custom properties:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     align: "center",        // center text alignment
     autosearch: true,       // triggers searching when the user changes the selected item in the filter
     items: [],              // an array of items for select
     valueField: "",         // name of property of item to be used as value
     textField = "",         // name of property of item to be used as displaying value
     selectedIndex: -1       // index of selected item by default
-}
-
-````
+}</pre>
+</div>
 
 If valueField is not defined, then the item index is used instead.
 If textField is not defined, then item itself is used to display value.
 
 For instance the simple select field config may look like:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     name: "Country",
     type: "select",
     items: [ "", "United States", "Canada", "United Kingdom" ]
-}
-
-````
+}</pre>
+</div>
 
 or more complex with items as objects:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     name: "Country",
     type: "select"
     items: [
@@ -429,9 +408,8 @@ or more complex with items as objects:
     ],
     valueField: "Id",
     textField: "Name"
-}
-
-````
+}</pre>
+</div>
 
 ### checkbox
 Checkbox field renders `<input type="checkbox">` in filter, inserting and editing rows.
@@ -439,28 +417,24 @@ Filter checkbox supports intermediate state for, so click switches between 3 sta
 
 Custom properties:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     sorter: "number",   // uses sorter for numbers
     align: "center"     // center text alignment
     autosearch: true    // triggers searching when the user clicks checkbox in filter
-}
-
-````
+}</pre>
+</div>
 
 ### textarea
 Textarea field renders '<textarea>` in inserting and editing rows and `<input type="text">` in filter row.
 
 Custom properties:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     autosearch: true    // triggers searching when the user presses `enter` key in the filter input
-}
-
-````
+}</pre>
+</div>
 
 ### control
 Control field renders delete and editing buttons in data row, search and add buttons in filter and inserting row accordingly.
@@ -468,9 +442,8 @@ It also renders button switching between filtering and searching in header row.
 
 Custom properties:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     editButton: true,                               // show edit button
     deleteButton: true,                             // show delete button
     clearFilterButton: true,                        // show clear filter button
@@ -492,9 +465,8 @@ Custom properties:
     insertButtonTooltip: "Insert",                  // tooltip of insert button
     updateButtonTooltip: "Update",                  // tooltip of update item button
     cancelEditButtonTooltip: "Cancel edit",         // tooltip of cancel editing button
-}
-
-````
+}</pre>
+</div>
 
 ### Custom Field
 
@@ -502,9 +474,8 @@ If you need a completely custom field, the object `jsGrid.fields` can be easily 
 
 In this example we define new grid field `date`:
 
-````javascript
-
-var MyDateField = function(config) {
+<div class="code">
+    <pre class="prettyprint linenums lang-js">var MyDateField = function(config) {
     jsGrid.Field.call(this, config);
 };
 
@@ -540,9 +511,8 @@ MyDateField.prototype = new jsGrid.Field({
     }
 });
 
-jsGrid.fields.date = MyDateField;
-
-````
+jsGrid.fields.date = MyDateField;</pre>
+</div>
 
 To have all general grid field properties custom field class should inherit `jsGrid.Field` class or any other field class.
 Here `itemTemplate` just returns the string representation of a date.
@@ -553,17 +523,15 @@ We also defined date specific sorter.
 
 Now, our new field `date` can be used in the grid config as follows:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     fields: [
       ...
       { type: "date", myCustomProperty: "bar" },
       ...
     ]
-}
-
-````
+}</pre>
+</div>
 
 
 ## Methods
@@ -572,57 +540,47 @@ jsGrid methods could be called with `jsGrid` jQuery plugin or directly.
 
 To use jsGrid plugin to call a method, just call `jsGrid` with method name and required parameters as next arguments:
 
-````javascript
-
-// calling method with jQuery plugin
-$("#grid").jsGrid("methodName", param1, param2);
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// calling method with jQuery plugin
+$("#grid").jsGrid("methodName", param1, param2);</pre>
+</div>
 
 To call method directly you need to retrieve grid instance or just create grid with the constructor:
 
-````javascript
-
-// retrieve grid instance from element data
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// retrieve grid instance from element data
 var grid = $("#grid").data("JSGrid");
 
 // create grid with the constructor
 var grid = new jsGrid.Grid($("#grid"), { ... });
 
 // call method directly
-grid.methodName(param1, param2); 
-
-````
+grid.methodName(param1, param2); </pre>
+</div>
 
 ### cancelEdit()
 Cancels row editing. 
 
-````javascript
-
-$("#grid").jsGrid("cancelEdit");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("cancelEdit");</pre>
+</div>
 
 ### clearFilter(): `Promise`
 Clears current filter and performs search with empty filter.
 Returns jQuery promise resolved when data filtering is completed. 
 
-````javascript
-
-$("#grid").jsGrid("clearFilter").done(function() {
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("clearFilter").done(function() {
     console.log("filtering completed");
-});
-
-````
+});</pre>
+</div>
 
 ### clearInsert()
 Clears current inserting row. 
 
-````javascript
-
-$("#grid").jsGrid("clearInsert");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("clearInsert");</pre>
+</div>
 
 ### deleteItem(item|$row|rowNode): `Promise`
 Removes specified row from the grid.
@@ -630,45 +588,39 @@ Returns jQuery promise resolved when deletion is completed.
 
 **item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
 
-````javascript
-
-// delete row by item reference
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// delete row by item reference
 $("#grid").jsGrid("deleteItem", item);
 
 // delete row by jQueryElement
 $("#grid").jsGrid("deleteItem", $(".specific-row"));
 
 // delete row by DomNode
-$("#grid").jsGrid("deleteItem", rowNode);
-
-````
+$("#grid").jsGrid("deleteItem", rowNode);</pre>
+</div>
 
 ### destroy()
 Destroys the grid and brings the Node to its original state.
 
-````javascript
-
-$("#grid").jsGrid("destroy");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("destroy");</pre>
+</div>
 
 ### editItem(item|$row|rowNode)
 Sets grid editing row.
 
 **item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
 
-````javascript
-
-// edit row by item reference
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// edit row by item reference
 $("#grid").jsGrid("editItem", item);
 
 // edit row by jQueryElement
 $("#grid").jsGrid("editItem", $(".specific-row"));
 
 // edit row by DomNode
-$("#grid").jsGrid("editItem", rowNode);
-
-````
+$("#grid").jsGrid("editItem", rowNode);</pre>
+</div>
 
 ### insertItem([item]): `Promise`
 Inserts row into the grid based on item.
@@ -678,17 +630,15 @@ Returns jQuery promise resolved when insertion is completed.
 
 If `item` is not specified the data from inserting row will be inserted.
 
-````javascript
-
-// insert item from inserting row
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// insert item from inserting row
 $("#grid").jsGrid("insertItem");
 
 // insert item
 $("#grid").jsGrid("insertItem", { Name: "John", Age: 25, Country: 2 }).done(function() {
     console.log("insertion completed");
-});
-
-````
+});</pre>
+</div>
 
 ### openPage(pageIndex)
 Opens the page of specified index.
@@ -705,45 +655,37 @@ Gets or sets the value of an option.
 
 If `value` is not specified, then the value of the option `key` will be returned.
 
-````javascript
-
-// turn off paging
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// turn off paging
 $("#grid").jsGrid("option", "paging", false);
 
 // get current page index
-var pageIndex = $("#grid").jsGrid("option", "pageIndex");
-
-````
+var pageIndex = $("#grid").jsGrid("option", "pageIndex");</pre>
+</div>
 
 ### refresh()
 Refreshes the grid. Renders the grid body and pager content, recalculates sizes.
 
-````javascript
-
-$("#grid").jsGrid("refresh");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("refresh");</pre>
+</div>
 
 ### render(): `Promise`
 Performs complete grid rendering. If option `autoload` is `true` calls `controller.loadData`. The state of the grid like current page and sorting is retained. 
 Returns jQuery promise resolved when data loading is completed. If auto-loading is disabled the promise is instantly resolved.   
 
-````javascript
-
-$("#grid").jsGrid("render").done(function() {
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("render").done(function() {
     console.log("rendering completed and data loaded");
-});
-
-````
+});</pre>
+</div>
 
 ### reset()
 Resets the state of the grid. Goes to the first data page, resets sorting, and then calls `refresh`.  
 
-````javascript
-
-$("#grid").jsGrid("reset");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("reset");</pre>
+</div>
 
 ### search([filter]): `Promise`
 Performs filtering of the grid.
@@ -753,35 +695,29 @@ Returns jQuery promise resolved when data loading is completed.
 
 If `filter` is not specified the current filter (filtering row values) will be applied.
 
-````javascript
-
-// search with current grid filter
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// search with current grid filter
 $("#grid").jsGrid("search");
 
 // search with custom filter
 $("#grid").jsGrid("search", { Name: "John" }).done(function() {
     console.log("filtering completed");
-});
-
-````
+});</pre>
+</div>
 
 ### showPrevPages()
 Shows previous set of pages, when total amount of pages more than `pageButtonCount`.
 
-````javascript
-
-$("#grid").jsGrid("showPrevPages");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("showPrevPages");</pre>
+</div>
 
 ### showNextPages()
 Shows next set of pages, when total amount of pages more than `pageButtonCount`.
 
-````javascript
-
-$("#grid").jsGrid("showNextPages");
-
-````
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("showNextPages");</pre>
+</div>
 
 ### sort(sortConfig|field, [order]): `Promise`
 Sorts grid by specified field.
@@ -797,9 +733,8 @@ If `order` is not specified, then data is sorted in the reversed to current orde
 
 When grid data is loaded by pages (`pageLoading` is `true`) sorting calls `controller.loadData` with sorting parameters. Read more in [Grid Controller](#grid-controller) section.
 
-````javascript
-
-// sorting grid by first field
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// sorting grid by first field
 $("#grid").jsGrid("sort", 0);
 
 // sorting grid by field "Name" in descending order
@@ -808,9 +743,8 @@ $("#grid").jsGrid("sort", { field: "Name", order: "desc" });
 // sorting grid by myField in ascending order 
 $("#grid").jsGrid("sort", myField, "asc").done(function() {
     console.log("sorting completed");
-});
-
-````
+});</pre>
+</div>
 
 ### updateItem([item|$row|rowNode], [editedItem]): `Promise`
 Updates item and row of the grid.
@@ -824,9 +758,8 @@ If `item|$row|rowNode` is not specified then editing row will be updated.
 
 If `editedItem` is not specified the data from editing row will be taken.
 
-````javascript
-
-// update currently editing row
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// update currently editing row
 $("#grid").jsGrid("updateItem");
 
 // update currently editing row with specified data
@@ -835,9 +768,8 @@ $("#grid").jsGrid("updateItem", { ID: 1, Name: "John", Age: 25, Country: 2 });
 // update specified item with particular data (row DomNode or row jQueryElement can be used instead of item reference)
 $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2 }).done(function() {
     console.log("update completed");
-});
-
-````
+});</pre>
+</div>
 
 
 ## Callbacks
@@ -847,191 +779,165 @@ Fires before data loading.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     filter              // loading filter object
-}
-
-````
+}</pre>
+</div>
 
 ### onDataLoaded
 Fires after data loading.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     data                // load result (array of items or data structure for loading by page scenario) 
-}
-
-````
+}</pre>
+</div>
 
 ### onError
 Fires when controller handler promise failed.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     args                // an array of arguments provided to fail promise handler 
-}
-
-````
+}</pre>
+</div>
 
 ### onItemDeleting
 Fires before item deletion.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     row                 // deleting row jQuery element
     item                // deleting item
     itemIndex           // deleting item index
-}
-
-````
+}</pre>
+</div>
 
 ### onItemDeleted
 Fires after item deletion.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     row                 // deleted row jQuery element
     item                // deleted item
     itemIndex           // deleted item index
-}
-
-````
+}</pre>
+</div>
 
 ### onItemInserting
 Fires before item insertion.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     item                // inserting item
-}
-
-````
+}</pre>
+</div>
 
 ### onItemInserted
 Fires after item insertion.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     item                // inserted item
-}
-
-````
+}</pre>
+</div>
 
 ### onItemUpdating
 Fires before item update.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     row                 // updating row jQuery element
     item                // updating item
     itemIndex           // updating item index
-}
-
-````
+}</pre>
+</div>
 
 ### onItemUpdated
 Fires after item update.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     row                 // updated row jQuery element
     item                // updated item
     itemIndex           // updated item index
-}
-
-````
+}</pre>
+</div>
 
 ### onOptionChanging
 Fires before grid option value change.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     option              // name of option to be changed
     oldValue            // old value of option
     newValue            // new value of option
-}
-
-````
+}</pre>
+</div>
 
 ### onOptionChanged
 Fires after grid option value change.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
     option              // name of changed option
     value               // changed option value
-}
-
-````
+}</pre>
+</div>
 
 ### onRefreshing
 Fires before grid refresh.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
-}
-
-````
+}</pre>
+</div>
 
 ### onRefreshed
 Fires after grid refresh.
 
 Has following arguments:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     grid                // grid instance
-}
-
-````
+}</pre>
+</div>
 
 
 ## Grid Controller
@@ -1041,22 +947,19 @@ By default grid has an empty controller and can work with static array of items 
  
 A controller should implement following interface:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     loadData: function(filter) { ... },
     insertItem: function(item) { ... },
     updateItem: function(item) { ... },
     deleteItem: function(item) { ... }
-}
-
-````
+}</pre>
+</div>
 
 For instance the controller for typical REST service might look like:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     loadData: function(filter) {
         return $.ajax({
             type: "GET",
@@ -1092,9 +995,8 @@ For instance the controller for typical REST service might look like:
             dataType: "json"
         });
     },
-}
-
-````
+}</pre>
+</div>
 
 ### loadData(filter): `Promise|dataResult`
 Called on data loading.
@@ -1103,39 +1005,33 @@ Called on data loading.
 
 When `pageLoading` is `true` and data is loaded by page, `filter` includes two more parameters:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     pageIndex     // current page index
     pageSize      // the size of page
-}
-
-````
+}</pre>
+</div>
 
 When grid sorting is enabled, `filter` includes two more parameters:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     sortField     // the name of sorting field
     sortOrder     // the order of sorting as string "asc"|"desc"
-}
-
-````
+}</pre>
+</div>
 
 Method should return `dataResult` or jQuery promise that will be resolved with `dataResult`.
   
 **dataResult** depends on `pageLoading`. When `pageLoading` is `false` (by default), then data result is a plain javascript array of objects.
 If `pageLoading` is `true` data result should have following structure 
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     data          // array of items
     itemsCount    // total items amount in storage
-}
-
-````
+}</pre>
+</div>
 
 ### insertItem(item): `Promise|insertedItem`
 Called on item insertion.
@@ -1167,28 +1063,24 @@ All supported sorting strategies are stored in `jsGrid.sortStrategies` object, w
 
 `jsGrid.sortStrategies` contains following build-in sorting strategies:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     string: { ... },          // string sorter
     number: { ... },          // number sorter
     date: { ... },            // date sorter
     numberAsString: { ... }   // numbers are parsed before comparison
-}
-
-````
+}</pre>
+</div>
 
 **sortingFunction** is a sorting function with the following format:
 
-````javascript
-
-function(value1, value2) {
+<div class="code">
+    <pre class="prettyprint linenums lang-js">function(value1, value2) {
     if(value1 < value2) return -1; // return negative value when first is less than second
     if(value1 === value2) return 0; // return zero if values are equal
     if(value1 > value2) return 1; // return positive value when first is greater than second
-}
-
-````
+}</pre>
+</div>
 
 ### Custom Sorting Strategy
 
@@ -1196,9 +1088,8 @@ If you need a custom sorting strategy, the object `jsGrid.sortStrategies` can be
 
 In this example we define new sorting strategy for our client objects:
 
-````javascript
-
-// client object format
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// client object format
 var clients = [{
     Name: "John",
     Age: 25
@@ -1208,29 +1099,25 @@ var clients = [{
 jsGrid.sortStrategies.client = function(client1, client2) {
     return client1.Name.localeCompare(client2.Name) 
         || client1.Age - client2.Age;
-};
-
-````
+};</pre>
+</div>
 
 Now, our new sorting strategy `client` can be used in the grid config as follows:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     fields: [
       ...
       { type: "text", name: "Name", sorter: "client" },
       ...
     ]
-}
-
-````
+}</pre>
+</div>
 
 Worth to mention, that if you need particular sorting only once, you can just inline sorting function in `sorter` not registering the new strategy:
 
-````javascript
-
-{
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
     fields: [
       ...
       { 
@@ -1243,9 +1130,8 @@ Worth to mention, that if you need particular sorting only once, you can just in
       },
       ...
     ]
-}
-
-````
+}</pre>
+</div>
 
 
 

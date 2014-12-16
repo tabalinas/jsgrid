@@ -70,16 +70,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .code {
+  margin-bottom: 1.5rem;
 
   .prettyprint {
-    position: relative;
     padding: 0;
     border: 1px solid #e5e5e5;
     background: #f5f5f5;
 
     ol {
-      float: left;
-      min-width: 100%;
       margin-left: 2.7rem;
       padding: .5rem 0;
       background: #fcfcfc;
