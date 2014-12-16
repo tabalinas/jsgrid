@@ -1,14 +1,3 @@
-## Table of contents
-
-* [Requirement](#requirement)
-* [Compatibility](#compatibility)
-* [Configuration](#configuration)
-* [Grid Fields](#grid-fields)
-* [Methods](#methods)
-* [Callbacks](#callbacks)
-* [Grid Controller](#grid-controller)
-* [Sorting Strategies](#sorting-strategies)
-
 ## Requirement
 
 jQuery (1.8.3 or later)
