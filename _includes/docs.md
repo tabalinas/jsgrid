@@ -1,9 +1,7 @@
 ## Table of contents
 
 * [Requirement](#requirement)
-* [Demo](#demo)
 * [Compatibility](#compatibility)
-* [Basic Usage](#basic-usage)
 * [Configuration](#configuration)
 * [Grid Fields](#grid-fields)
 * [Methods](#methods)
@@ -14,12 +12,6 @@
 ## Requirement
 
 jQuery (1.8.3 or later)
-
-
-## Demo
-
-[Demos](http://www.googledrive.com/host/0BwcJihi374AsdnhNeFk5bm1NaDA/demos/index.html)
-temporary hosted on GoogleDrive (demos using external rest api don't work)
 
 
 ## Compatibility
@@ -37,40 +29,6 @@ temporary hosted on GoogleDrive (demos using external rest api don't work)
 * Safari for iOS
 * Chrome for Android
 * IE10 for WP8
-
-
-## Basic Usage
-
-Ensure that jQuery library of version 1.8.3 or later is included.
-
-Include `jsgrid.min.js` and `jsgrid.min.css` files into the web page.
-
-Create grid applying jQuery plugin `jsGrid` with grid config as follows:
-
-````javascript
-
-$("#jsGrid").jsGrid({
-    width: "100%",
-    height: "400px",
-
-    filtering: true,
-    editing: true,
-    sorting: true,
-    paging: true,
-
-    data: db.clients,
-
-    fields: [
-        { name: "Name", type: "text", width: 150 },
-        { name: "Age", type: "number", width: 50 },
-        { name: "Address", type: "text", width: 200 },
-        { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
-        { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-        { type: "control" }
-    ]
-});
-
-````
 
 
 ## Configuration

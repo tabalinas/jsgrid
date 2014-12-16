@@ -16,8 +16,8 @@ title: Documentation
 <div class="page-content">
     <div class="row">
         <div class="large-12 columns content">
-            {% capture my_include %}{% include docs.md %}{% endcapture %}
-            {{ my_include | markdownify }}
+            {% capture docs %}{% include docs.md %}{% endcapture %}
+            {{ docs | markdownify }}
         </div>
     </div>
 </div>
