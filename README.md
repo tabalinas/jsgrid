@@ -26,9 +26,7 @@ jQuery (1.8.3 or later)
 
 ## Demo
 
-[Demos](http://www.googledrive.com/host/0BwcJihi374AsdnhNeFk5bm1NaDA/demos/index.html)
-temporary hosted on GoogleDrive (demos using external rest api don't work)
-
+See [Demos](http://js-grid.com/demos/) on project site.
 
 ## Compatibility
 
