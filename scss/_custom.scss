@@ -5,12 +5,33 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+$well-bg-color: #fcfcfc;
+$well-border-color: #e5e5e5;
+$larger-text: 1.2rem;
+$faded-text-color: #777;
+
+$header-bg-color: #333;
+$header-brand-color: #fff;
+$footer-border-color: $well-border-color;
+
+$page-header-bg-color: #eee;
+$page-header-text-color: $faded-text-color;
+$page-header-font-size: 1.3rem;
+
+$code-side-bg-color: #f5f5f5;
+$code-bg-color: $well-bg-color;
+$code-border-color: $well-border-color;
+$code-linenums-color: #ddd;
+
+$demo-selected-color: $faded-text-color;
+
+
 .hidden {
   display: none;
 }
 
 .header {
-  background: #333;
+  background: $header-bg-color;
 }
 
 .main-nav {
@@ -42,20 +63,20 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
 
   a {
-    color: #fff;
+    color: $header-brand-color;
   }
 }
 
 .page-header {
-  background: #eee;
+  background: $page-header-bg-color;
 
   h1 {
 
   }
 
   p {
-    color: #777;
-    font-size: 1.3rem;
+    color: $page-header-text-color;
+    font-size: $page-header-font-size;
   }
 }
 
@@ -65,8 +86,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .footer {
   margin-top: 2rem;
-  border-top: solid 1px #e5e5e5;
-  color: #888;
+  border-top: solid 1px $footer-border-color;
+  color: $faded-text-color;
 }
 
 .code {
@@ -74,14 +95,14 @@ h1, h2, h3, h4, h5, h6 {
 
   .prettyprint {
     padding: 0;
-    border: 1px solid #e5e5e5;
-    background: #f5f5f5;
+    border: 1px solid $code-border-color;
+    background: $code-side-bg-color;
 
     ol {
       margin-left: 2.7rem;
       padding: .5rem 0;
-      background: #fcfcfc;
-      color: #ddd;
+      background: $code-bg-color;
+      color: $code-linenums-color;
       font-size: .9rem;
       line-height: 1.5;
     }
@@ -89,13 +110,13 @@ h1, h2, h3, h4, h5, h6 {
     li {
       padding-left: .5rem;
       list-style-type: decimal;
-      background: #fcfcfc;
+      background: $code-bg-color;
     }
   }
 }
 
 .step {
-  font-size: 1.2rem;
+  font-size: $larger-text;
   margin-top: 1.5rem;
 
   &:first-child {
@@ -110,7 +131,7 @@ h1, h2, h3, h4, h5, h6 {
 .demos-navigation {
 
   a {
-    font-size: 1.2rem;
+    font-size: $larger-text;
   }
 
   ul {
@@ -119,7 +140,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .demo-selected {
-    color: #888;
+    color: $demo-selected-color;
   }
 }
 
@@ -129,7 +150,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   p {
-    font-size: 1.2rem;
+    font-size: $larger-text;
   }
 }
 
