@@ -1,6 +1,6 @@
 ## Requirement
 
-jQuery (1.8.3 or later)
+jQuery version 1.8.3 or later.
 
 
 ## Compatibility
