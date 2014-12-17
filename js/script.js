@@ -6,7 +6,7 @@ $(document).foundation();
 
     $.fn.stickyPanel = function(options) {
         var $element = $(this);
-        if(!$element.length)
+        if(!$element.length || Modernizr.mq('only screen and (max-width: 641px)'))
             return;
 
         var $window = $(window);
