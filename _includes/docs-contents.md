@@ -1,7 +1,5 @@
 * [Requirement](#requirement)
-
 * [Compatibility](#compatibility)
-
 * [Configuration](#configuration)
   - [fields](#fields)
   - [data](#data)
@@ -14,11 +12,11 @@
   - [inserting](#inserting-default-false)
   - [editing](#editing-default-false)
   - [selecting](#selecting-default-true)
-  - [sorting](#selecting-default-false)
-  - [paging](#selecting-default-false)
-  - [pageLoading](#selecting-default-false)
-  - [rowClass](#rowClass)
-  - [rowClick](#rowClick)
+  - [sorting](#sorting-default-false)
+  - [paging](#paging-default-false)
+  - [pageLoading](#pageloading-default-false)
+  - [rowClass](#rowclass)
+  - [rowClick](#rowclick)
   - [noDataContent](#nodatacontent-default-not-found)
   - [confirmDeleting](#confirmdeleting-default-true)
   - [deleteConfirm](#deleteconfirm-default-are-you-sure)
@@ -43,7 +41,6 @@
   - [filterRowRenderer](#filterrowrenderer-default-null)
   - [insertRowRenderer](#insertrowrenderer-default-null)
   - [editRowRenderer](#editrowrenderer-default-null)
-  
 * [Grid Fields](#grid-fields)
   - [text](#text)
   - [number](#number)
@@ -52,7 +49,6 @@
   - [textarea](#textarea)
   - [control](#control)
   - [custom field](#custom-field)
-  
 * [Methods](#methods)
   - [cancelEdit](#canceledit)
   - [clearFilter](#clearfilter-promise)
@@ -71,7 +67,6 @@
   - [showNextPages](#shownextpages)
   - [sort](#sortsortconfigfield-order-promise)
   - [updateItem](#updateitemitemrowrownode-editeditem-promise)
-  
 * [Callbacks](#callbacks)
   - [onDataLoading](#onDataLoading)
   - [onDataLoaded](#onDataLoaded)
@@ -86,12 +81,10 @@
   - [onOptionChanged](#onOptionChanged)
   - [onRefreshing](#onRefreshing)
   - [onRefreshed](#onRefreshed)
-
 * [Grid Controller](#grid-controller)
   - [loadData](#loaddatafilter-promisedataresult)
   - [insertItem](#insertitemitem-promiseinserteditem)
   - [updateItem](#updateitemitem-promiseupdateditem)
   - [deleteItem](#deleteitemitem-promise)
-  
 * [Sorting Strategies](#sorting-strategies)
   - [custom sorting strategy](#custom-sorting-strategy)

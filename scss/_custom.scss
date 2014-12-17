@@ -170,3 +170,18 @@ iframe[name='demo'] {
   border: none;
 }
 
+.docs-navigation {
+  padding: .5rem;
+  overflow: auto;
+  background: $well-bg-color;
+  border: 1px solid $well-border-color;
+
+  & > ul {
+    margin-left: .2rem;
+  }
+
+  ul {
+    list-style: none;
+  }
+}
+
