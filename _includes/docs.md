@@ -1,25 +1,3 @@
-## Requirement
-
-jQuery version 1.8.3 or later.
-
-
-## Compatibility
-
-**Desktop**
-
-* Chrome
-* Safari
-* Firefox
-* Opera 15+
-* IE 8+
-
-**Mobile**
-
-* Safari for iOS
-* Chrome for Android
-* IE10 for WP8
-
-
 ## Configuration
 
 The config object may contain following options (default values are specified below):
@@ -484,11 +462,11 @@ MyDateField.prototype = new jsGrid.Field({
     },
 
     insertTemplate: function(value) {
-        return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date() });
+        return this._insertPicker = $("&lt;input&gt;").datepicker({ defaultDate: new Date() });
     },
 
     editTemplate: function(value) {
-        return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value));
+        return this._editPicker = $("&lt;input&gt;").datepicker().datepicker("setDate", new Date(value));
     },
 
     insertValue: function() {
@@ -1123,5 +1101,23 @@ Worth to mention, that if you need particular sorting only once, you can just in
 </div>
 
 
+## Requirement
+
+jQuery version 1.8.3 or later.
 
 
+## Compatibility
+
+**Desktop**
+
+* Chrome
+* Safari
+* Firefox
+* Opera 15+
+* IE 8+
+
+**Mobile**
+
+* Safari for iOS
+* Chrome for Android
+* IE10 for WP8
