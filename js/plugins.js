@@ -1,4 +1,3 @@
-// Avoid `console` errors in browsers that lack a console.
 (function() {
     var method;
     var noop = function () {};
@@ -21,4 +20,127 @@
     }
 }());
 
-// Place any jQuery/helper plugins in here.
+(function ($) {
+
+    $.fn.stickyPanel = function(options) {
+        options = options || {};
+        var $element = $(this);
+        if(!$element.length)
+            return;
+
+        var windowWidth,
+            width,
+            height,
+            fixed;
+
+        var $window = $(window);
+        var topOffset = options.topOffset || 0;
+        var bottomOffset = options.bottomOffset || topOffset;
+        var minWindowWidth = options.minWindowWidth || 0;
+        var threshold = $element.offset().top - topOffset;
+
+        var initDimensions = function() {
+            windowWidth = $window.width();
+            width = $element.outerWidth();
+            fixed = false;
+        };
+
+        var fixPanel = function() {
+            $element.css({
+                position: "fixed",
+                top: topOffset,
+                bottom: bottomOffset,
+                width: width
+            });
+
+            fixed = true;
+        };
+
+        var unfixPanel = function() {
+            $element.css({
+                position: "static",
+                width: "auto"
+            });
+
+            fixed = false;
+        };
+
+        var scrollHandler = function() {
+            if(windowWidth <= minWindowWidth) {
+                unfixPanel();
+                return;
+            }
+
+            var scrollTop = $window.scrollTop();
+
+            if(!fixed && scrollTop > threshold) {
+                fixPanel();
+            } else if(fixed && scrollTop < threshold) {
+                unfixPanel();
+            }
+        };
+
+        var resizeHandler = function() {
+            unfixPanel();
+            initDimensions();
+            scrollHandler();
+        };
+
+        $window.on({
+            scroll: scrollHandler,
+            resize: resizeHandler
+        });
+
+        initDimensions();
+    };
+
+    $.fn.demoNav = function() {
+        var $element = $(this);
+        if(!$element.length)
+            return;
+
+        var DEMO_SELECTED_CLASS = "demo-selected";
+
+        var $links = $element.find("a");
+        var $codes = $(".demo-code").find("pre");
+        var $infos = $(".demo-info").find("p");
+
+        $links.click(function(e) {
+            var $link = $(e.target).closest("a");
+            $links.removeClass(DEMO_SELECTED_CLASS);
+            $link.addClass(DEMO_SELECTED_CLASS);
+
+            $codes.hide()
+                    .eq($link.parent().index()).show();
+
+            $infos.hide()
+                    .eq($link.parent().index()).show();
+        });
+    };
+
+    $.fn.demoCodeExpander = function() {
+        var $element = $(this);
+        if(!$element.length)
+            return;
+
+        var isCodeHidden = true;
+
+        $element.click(function(e) {
+            var $button = $(e.target).closest("button");
+
+            isCodeHidden = !isCodeHidden;
+            $button.find("span").text(isCodeHidden ? "Show Code" : "Hide Code");
+            $(".demo-code").slideToggle(isCodeHidden);
+        });
+    }
+
+    $.fn.treeView = function() {
+        var $element = $(this);
+        if(!$element.length)
+            return;
+
+
+    };
+
+}(jQuery));
+
