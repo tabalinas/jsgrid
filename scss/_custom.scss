@@ -24,7 +24,7 @@ $code-border-color: $well-border-color;
 $code-linenums-color: #ddd;
 
 $demo-selected-color: $faded-text-color;
-
+$tree-toggle-button-color: #aaa;
 
 .hidden {
   display: none;
@@ -176,12 +176,26 @@ iframe[name='demo'] {
   background: $well-bg-color;
   border: 1px solid $well-border-color;
 
-  & > ul {
-    margin-left: .2rem;
+  ul {
+    margin-left: 0;
+    list-style: none;
+
+    &.tree-subtree {
+      margin-left: 1rem;
+      margin-bottom: .5rem;
+    }
   }
 
-  ul {
-    list-style: none;
+  .tree-node-leaf {
+    margin-left: 1.5rem;
+  }
+
+  .tree-toggle-button {
+    margin-right: .5rem;
+    color: $tree-toggle-button-color;
+    font-size: .9rem;
+    cursor: pointer;
+    padding: .2rem;
   }
 }
 

@@ -14,5 +14,5 @@ $(function() {
         minWindowWidth: 641
     });
 
-
+    $(".docs-navigation").children().eq(0).treeView();
 });

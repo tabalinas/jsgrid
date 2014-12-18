@@ -139,7 +139,37 @@
         if(!$element.length)
             return;
 
+        var initTree = function($elem) {
+            $elem.children().each(function() {
+                initNode(this);
+            });
+        };
 
+        var initNode = function(elem) {
+            var $elem = $(elem).addClass("tree-node");
+
+            var $subTree = $elem.find("ul").first();
+
+            if(!$subTree.length) {
+                $elem.addClass("tree-node-leaf");
+                return;
+            }
+
+            $elem.addClass("tree-node-parent");
+            $subTree.addClass("tree-subtree").hide();
+
+            var $collapseButton = $("<i>").addClass("tree-toggle-button fa fa-plus-square-o")
+                .on("click", function() {
+                    $subTree.slideToggle();
+                    $collapseButton.toggleClass("fa-plus-square-o fa-minus-square-o");
+                });
+
+            $elem.prepend($collapseButton);
+
+            initTree($subTree);
+        };
+
+        initTree($element);
     };
 
 }(jQuery));
