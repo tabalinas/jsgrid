@@ -4,6 +4,9 @@ $(document).foundation();
 
 $(function() {
 
+    // fix foundation toggle menu issue on mobile
+    $('a.left-off-canvas-toggle').on('click',function() { });
+
     $(".demos-navigation").demoNav();
 
     $("#toggleCode").demoCodeExpander();
