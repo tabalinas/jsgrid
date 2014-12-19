@@ -17,6 +17,7 @@ $footer-border-color: $well-border-color;
 $page-header-bg-color: #eee;
 $page-header-text-color: $faded-text-color;
 $page-header-font-size: 1.3rem;
+$page-content-addon-bg-color: #fcfcfc;
 
 $code-side-bg-color: #f5f5f5;
 $code-bg-color: $well-bg-color;
@@ -26,12 +27,22 @@ $code-linenums-color: #ddd;
 $demo-selected-color: $faded-text-color;
 $tree-toggle-button-color: #aaa;
 
+$feature-block-icon-color: #3498db;
+
 .hidden {
   display: none;
 }
 
+.center {
+  text-align: center;
+}
+
 .header {
   background: $header-bg-color;
+}
+
+.larger-text {
+  font-size: $larger-text;
 }
 
 .main-nav {
@@ -82,6 +93,10 @@ $tree-toggle-button-color: #aaa;
 
 .page-content {
 
+}
+
+.page-content-addon {
+  background: $page-content-addon-bg-color;
 }
 
 .footer {
@@ -199,3 +214,30 @@ iframe[name='demo'] {
   }
 }
 
+.feature-header {
+  margin: 1rem 0 2rem 0;
+}
+
+.feature-block {
+
+  height: 170px;
+
+  p {
+    font-size: $larger-text;
+  }
+
+  i {
+    font-size: 2rem;
+    margin-right: .5rem;
+    color: $feature-block-icon-color;
+  }
+}
+
+.grid-screenshot {
+  opacity: .5;
+
+  &:hover {
+    opacity: 1;
+    transition: opacity 400ms linear;
+  }
+}
