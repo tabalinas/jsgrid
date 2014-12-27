@@ -2,7 +2,7 @@
     "use strict"
 
     var banner =
-        "/*!\n" +
+        "/*\n" +
         " * jsGrid v<%= pkg.version %> (<%= pkg.homepage %>)\n" +
         " * (c) 2014-<%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
         " * Licensed under <%= pkg.license.type %> (<%= pkg.license.url %>)\n" +
@@ -22,12 +22,10 @@
 
         concat: {
             options: {
+                banner: banner + "\n",
                 separator: "\n"
             },
             js: {
-                options : {
-                    banner: banner + "\n"
-                },
                 src: [
                     "src/jsgrid.core.js",
                     "src/jsgrid.load-indicator.js",
@@ -44,24 +42,22 @@
                 dest: "dist/<%= pkg.name %>.js"
             },
             css: {
-                options : {
-                    banner: banner + "\n"
-                },
-                src: [
-                    "css/jsgrid.css",
-                    "css/theme.css"
-                ],
+                src: "css/jsgrid.css",
                 dest: "dist/<%= pkg.name %>.css"
+            },
+            theme: {
+                src: "css/theme.css",
+                dest: "dist/<%= pkg.name %>-theme.css"
             }
         },
 
         imageEmbed: {
-            dist: {
-                src: "<%= concat.css.dest %>",
-                dest: "<%= concat.css.dest %>"
-            },
             options: {
                 deleteAfterEncoding : true
+            },
+            theme: {
+                src: "<%= concat.theme.dest %>",
+                dest: "<%= concat.theme.dest %>"
             }
         },
 
@@ -69,7 +65,7 @@
             options : {
                 banner: banner + "\n"
             },
-            build: {
+            js: {
                 src: "<%= concat.js.dest %>",
                 dest: "dist/<%= pkg.name %>.min.js"
             }
@@ -79,9 +75,13 @@
             options : {
                 banner: banner
             },
-            build: {
+            css: {
                 src: "<%= concat.css.dest %>",
-                dest: "dist/jsgrid.min.css"
+                dest: "dist/<%= pkg.name %>.min.css"
+            },
+            theme: {
+                src: "<%= concat.theme.dest %>",
+                dest: "dist/<%= pkg.name %>-theme.min.css"
             }
         }
 
