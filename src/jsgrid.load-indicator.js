@@ -23,7 +23,7 @@
         },
 
         _initContainer: function() {
-            this._container = $(this.container).css("position", "relative");
+            this._container = $(this.container);
         },
 
         _initShader: function() {
