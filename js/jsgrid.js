@@ -1,4 +1,4 @@
-/*!
+/*
  * jsGrid v0.1.0 (http://js-grid.com)
  * (c) 2014-2014 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
@@ -302,6 +302,7 @@
             this._clear();
 
             this._container.addClass(this.containerClass)
+                .css("position", "relative")
                 .append(this._createHeader())
                 .append(this._createBody());
 
@@ -323,9 +324,13 @@
 
         _clear: function() {
             this.cancelEdit();
+
             clearTimeout(this._loadingTimer);
+
             this._pagerContainer && this._pagerContainer.empty();
-            this._container.empty();
+
+            this._container.empty()
+                .css({ position: "", width: "", height: "" });
         },
 
         _createHeader: function() {
@@ -1192,7 +1197,7 @@
         },
 
         _initContainer: function() {
-            this._container = $(this.container).css("position", "relative");
+            this._container = $(this.container);
         },
 
         _initShader: function() {
