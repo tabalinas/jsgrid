@@ -443,7 +443,7 @@ Custom properties:
     autosearch: true,       // triggers searching when the user changes the selected item in the filter
     items: [],              // an array of items for select
     valueField: "",         // name of property of item to be used as value
-    textField = "",         // name of property of item to be used as displaying value
+    textField: "",          // name of property of item to be used as displaying value
     selectedIndex: -1       // index of selected item by default
 }
 
@@ -1134,11 +1134,11 @@ For instance the controller for typical REST service might look like:
         });
     },
     
-    deleteItem: function(filter) {
+    deleteItem: function(item) {
         return $.ajax({
             type: "DELETE",
             url: "/items",
-            data: filter,
+            data: item,
             dataType: "json"
         });
     },
