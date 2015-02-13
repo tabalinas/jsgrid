@@ -562,7 +562,7 @@
             var fieldValue = item[field.name];
 
             if($.isFunction(field.cellRenderer)) {
-                $result = $(this.cellRenderer(fieldValue, item));
+                $result = $(field.cellRenderer(fieldValue, item));
             } else {
                 $result = $("<td>").append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
             }

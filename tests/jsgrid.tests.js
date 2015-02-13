@@ -756,6 +756,36 @@ $(function() {
         ok($secondRow.find(".cell-class").hasClass("jsgrid-align-center"), "align class added to cell");
     });
 
+    test("grid field cellRenderer", function() {
+        var testItem = { text: "test" },
+            args;
+
+        var $grid = $("#jsGrid");
+
+        var gridOptions = {
+            data: [testItem],
+            fields: [
+                {
+                    name: "text",
+                    cellRenderer: function(value, item) {
+                        args = {
+                            value: value,
+                            item: item
+                        };
+                        return $("<td>").addClass("custom-class").text(value);
+                    }
+                }
+            ]
+        };
+
+        var grid = new Grid($grid, gridOptions);
+        var $customCell = $grid.find(".custom-class");
+
+        equal($customCell.length, 1, "custom cell rendered");
+        equal($customCell.text(), "test");
+        deepEqual(args, { value: "test", item: testItem }, "cellRenderer args provided");
+    });
+
 
     module("inserting");
 
