@@ -553,7 +553,7 @@ Clears current inserting row.
 Removes specified row from the grid.
 Returns jQuery promise resolved when deletion is completed.
 
-**item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+**item&#124;$row&#124;rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">// delete row by item reference
@@ -576,7 +576,7 @@ Destroys the grid and brings the Node to its original state.
 ### editItem(item|$row|rowNode)
 Sets grid editing row.
 
-**item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+**item&#124;$row&#124;rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">// edit row by item reference
@@ -717,7 +717,7 @@ $("#grid").jsGrid("sort", myField, "asc").done(function() {
 Updates item and row of the grid.
 Returns jQuery promise resolved when update is completed.
  
-**item|$row|rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
+**item&#124;$row&#124;rowNode** is the reference to the item or the row jQueryElement or the row DomNode.
 
 **editedItem** is the changed item to pass to `controller.updateItem`.
 
