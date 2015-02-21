@@ -143,7 +143,7 @@
         gridBodyClass: "jsgrid-grid-body",
                 
         _init: function(config) {
-            $.extend(true, this, config);
+            $.extend(this, config);
             this._initLoadStrategy();
             this._initController();
             this._initFields();

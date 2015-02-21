@@ -23,8 +23,7 @@ $(function() {
 
         equal(grid._container[0], $("#jsGrid")[0], "container saved");
         equal(grid.simpleOption, "test", "primitive option extended");
-        notEqual(grid.complexOption, gridOptions.complexOption, "object option copied");
-        deepEqual(grid.complexOption, gridOptions.complexOption, "object option copied correctly");
+        equal(grid.complexOption, gridOptions.complexOption, "non-primitive option extended");
     });
 
     test("jquery adapter creation", function() {
