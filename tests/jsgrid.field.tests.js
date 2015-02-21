@@ -138,22 +138,60 @@ $(function() {
         strictEqual(field.editValue(), 2);
     });
 
+    test("string value type", function() {
+        var field = new jsGrid.SelectField({
+            name: "testField",
+            items: [
+                { text: "test1", value: "1" },
+                { text: "test2", value: "2" },
+                { text: "test3", value: "3" }
+            ],
+            textField: "text",
+            valueField: "value",
+            valueType: "string",
+            selectedIndex: 1
+        });
+
+        field.filterTemplate();
+        strictEqual(field.filterValue(), "2");
+
+        field.editTemplate("2");
+        strictEqual(field.editValue(), "2");
+
+        field.insertTemplate();
+        strictEqual(field.insertValue(), "2");
+    });
+
+    test("value type auto-defined", function() {
+        var field = new jsGrid.SelectField({
+            name: "testField",
+            items: [
+                { text: "test1", value: "1" },
+                { text: "test2", value: "2" },
+                { text: "test3", value: "3" }
+            ],
+            textField: "text",
+            valueField: "value",
+            selectedIndex: 1
+        });
+
+        field.filterTemplate();
+        strictEqual(field.filterValue(), "2");
+
+        field.editTemplate("2");
+        strictEqual(field.editValue(), "2");
+
+        field.insertTemplate();
+        strictEqual(field.insertValue(), "2");
+    });
+
     test("object items", function() {
         var field = new jsGrid.SelectField({
             name: "testField",
             items: [
-                {
-                    text: "test1",
-                    value: 1
-                },
-                {
-                    text: "test2",
-                    value: 2
-                },
-                {
-                    text: "test3",
-                    value: 3
-                }
+                { text: "test1", value: 1 },
+                { text: "test2", value: 2 },
+                { text: "test3", value: 3 }
             ]
         });
         
