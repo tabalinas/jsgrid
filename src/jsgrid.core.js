@@ -25,6 +25,14 @@
         return value;
     };
 
+    var defaultController = {
+        loadData: $.noop,
+        insertItem: $.noop,
+        updateItem: $.noop,
+        deleteItem: $.noop
+    };
+
+
     function Grid(element, config) {
         var $element = $(element);
 
@@ -111,12 +119,7 @@
         pageLoading: false,
 
         autoload: false,
-        controller: {
-            loadData: $.noop,
-            insertItem: $.noop,
-            updateItem: $.noop,
-            deleteItem: $.noop
-        },
+        controller: defaultController,
 
         loadIndication: true,
         loadIndicationDelay: 500,
@@ -162,7 +165,7 @@
         },
 
         _initController: function() {
-            this._controller = getOrApply(this.controller, this);
+            this._controller = $.extend({}, defaultController, getOrApply(this.controller, this));
         },
 
         loadIndicator: function(config) {

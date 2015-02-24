@@ -84,6 +84,23 @@ $(function() {
         equal(methodResult, "test_invoke", "method invoked");
     });
 
+    test("controller methods are $.noop when not specified", function() {
+        var $element = $("#jsGrid"),
+            gridOptions = {
+                controller: {}
+            },
+            testOption;
+
+        $element.jsGrid(gridOptions);
+
+        deepEqual($element.data(JSGRID_DATA_KEY)._controller, {
+            loadData: $.noop,
+            insertItem: $.noop,
+            updateItem: $.noop,
+            deleteItem: $.noop
+        }, "controller has stub methods");
+    });
+
     test("option method", function() {
         var $element = $("#jsGrid"),
             gridOptions = {
@@ -192,15 +209,9 @@ $(function() {
     });
 
     test("loadData throws exception when controller method not found", function() {
-        var $element = $("#jsGrid"),
-
-            gridOptions = {
-                controller: function() {
-                    return {};
-                }
-            },
-
-            grid = new Grid($element, gridOptions);
+        var $element = $("#jsGrid");
+        var grid = new Grid($element);
+        grid._controller = {};
 
         throws(function() {
             grid.loadData();
