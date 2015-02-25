@@ -1033,7 +1033,6 @@
         updateItem: function(item, editedItem) {
             if(arguments.length === 1) {
                 editedItem = item;
-                item = null;
             }
 
             var $row = item ? this._rowByItem(item) : this._editingRow;

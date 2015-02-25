@@ -1120,6 +1120,36 @@ $(function() {
         deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
     });
 
+    test("updateItem accepts single argument - item to update", function() {
+        var $element = $("#jsGrid"),
+            updatingItem,
+            data = [{
+                field: "value"
+            }],
+
+            gridOptions = {
+                fields: [
+                    { name: "field" }
+                ],
+                controller: {
+                    updateItem: function(item) {
+                        return updatingItem = item;
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
+
+        data[0].field = "new value";
+
+        grid.updateItem(data[0]);
+
+        deepEqual(updatingItem, { field: "new value" }, "controller updateItem called correctly");
+        deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
+    });
+
 
     module("deleting");
 
