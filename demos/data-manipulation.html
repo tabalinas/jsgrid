@@ -9,7 +9,10 @@
     <link rel="stylesheet" type="text/css" href="../css/jsgrid.css" />
     <link rel="stylesheet" type="text/css" href="../css/theme.css" />
 
-    <script src="../external/jquery/jquery-1.8.3.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/cupertino/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
     <script src="db.js"></script>
 
     <script src="../src/jsgrid.core.js"></script>
@@ -24,66 +27,56 @@
     <script src="../src/jsgrid.field.control.js"></script>
 
     <style>
-        .insert-form {
-            width: 400px;
-            margin: 10px 0;
-        }
-
-        .insert-form-content {
-            padding: 0 10px;
-            overflow: hidden;
-            background: #fcfcfc;
-            border: 1px solid #e9e9e9;
-        }
-
-        .insert-form-content > div {
-            margin: 15px 0;
-        }
-
-        .insert-form input,
-        .insert-form select {
+        .details-form-field input,
+        .details-form-field select {
             width: 250px;
             float: right;
         }
 
+        .details-form-field {
+            margin: 15px 0;
+        }
+
+        .ui-widget * {
+            font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+            font-size: 14px;
+            font-weight: 300 !important;
+        }
     </style>
 </head>
 <body>
     <h1>Data Manipulation</h1>
     <div id="jsGrid"></div>
 
-    <div class="insert-form">
-        <h2>Add New Client</h2>
-        <div class="insert-form-content">
-            <div>
-                <label>Name: <input id="name" type="text" /></label>
-            </div>
-            <div>
-                <label>Age: <input id="age" type="number" /></label>
-            </div>
-            <div>
-                <label>Address: <input id="address" type="text" /></label>
-            </div>
-            <div>
-                <label>Country:
-                    <select id="country">
-                        <option value="0">(Select)</option>
-                        <option value="1">United States</option>
-                        <option value="2">Canada</option>
-                        <option value="3">United Kingdom</option>
-                        <option value="4">France</option>
-                        <option value="5">Brazil</option>
-                        <option value="6">China</option>
-                        <option value="7">Russia</option>
-                    </select>
-                </label>
-            </div>
-            <div>
-                <label>Is Married: <input id="married" type="checkbox" /></label>
-            </div>
-            <div>
-                <button type="button" id="add">Add Client</button>
-            </div>
+    <div id="detailsForm">
+        <div class="details-form-field">
+            <label>Name: <input id="name" type="text" /></label>
+        </div>
+        <div class="details-form-field">
+            <label>Age: <input id="age" type="number" /></label>
+        </div>
+        <div class="details-form-field">
+            <label>Address: <input id="address" type="text" /></label>
+        </div>
+        <div class="details-form-field">
+            <label>Country:
+                <select id="country">
+                    <option value="0">(Select)</option>
+                    <option value="1">United States</option>
+                    <option value="2">Canada</option>
+                    <option value="3">United Kingdom</option>
+                    <option value="4">France</option>
+                    <option value="5">Brazil</option>
+                    <option value="6">China</option>
+                    <option value="7">Russia</option>
+                </select>
+            </label>
+        </div>
+        <div class="details-form-field">
+            <label>Is Married: <input id="married" type="checkbox" /></label>
+        </div>
+        <div class="details-form-field">
+            <button type="button" id="save">Save</button>
         </div>
     </div>
 
@@ -91,13 +84,16 @@
         $(function() {
 
             $("#jsGrid").jsGrid({
-                height: "50%",
+                height: "70%",
                 width: "100%",
                 editing: true,
                 autoload: true,
                 paging: true,
                 deleteConfirm: function(item) {
                     return "The client \"" + item.Name + "\" will be removed. Are you sure?";
+                },
+                rowClick: function(args) {
+                    showDetailsDialog("Edit", args.item);
                 },
                 controller: db,
                 fields: [
@@ -106,27 +102,53 @@
                     { name: "Address", type: "text", width: 200 },
                     { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
                     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
-                    { type: "control", modeSwitchButton: false, editButton: false }
+                    {
+                        type: "control",
+                        modeSwitchButton: false,
+                        editButton: false,
+                        headerTemplate: function() {
+                            return $("<button>").attr("type", "button").text("Add")
+                                    .on("click", function () {
+                                        showDetailsDialog("Add", {});
+                                    });
+                        }
+                    }
                 ]
             });
 
-            $("#add").click(function() {
-                var newItem = {
+            $("#detailsForm").dialog({
+                autoOpen: false,
+                width: 400
+            });
+
+            var showDetailsDialog = function(dialogType, client) {
+                $("#name").val(client.Name);
+                $("#age").val(client.Age);
+                $("#address").val(client.Address);
+                $("#country").val(client.Country);
+                $("#married").prop("checked", client.Married);
+
+                $("#save").off("click").on("click", function() {
+                    saveClient(client, dialogType === "Add");
+                });
+
+                $("#detailsForm").dialog("option", "title", dialogType + " Client")
+                    .dialog("open");
+            };
+
+            var saveClient = function(client, isNew) {
+                $.extend(client, {
                     Name: $("#name").val(),
                     Age: parseInt($("#age").val(), 10),
                     Address: $("#address").val(),
                     Country: parseInt($("#country").val(), 10),
                     Married: $("#married").is(":checked")
-                };
+                });
 
-                $("#jsGrid").jsGrid("insertItem", newItem);
+                $("#jsGrid").jsGrid(isNew ? "insertItem" : "updateItem", client);
 
-                $("#name").val("");
-                $("#age").val("");
-                $("#address").val("");
-                $("#country").val("0");
-                $("#married").prop("checked", false);
-            });
+                $("#detailsForm").dialog("close");
+            };
 
         });
     </script>
