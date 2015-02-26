@@ -26,6 +26,7 @@ title: Demos
                     <li><a href="custom-view.html" target="demo">Custom View</a></li>
                     <li><a href="custom-row-renderer.html" target="demo">Custom Row Renderer</a></li>
                     <li><a href="batch-delete.html" target="demo">Batch Delete</a></li>
+                    <li><a href="rows-reordering.html" target="demo">Rows Reordering</a></li>
                     <li><a href="external-pager.html" target="demo">External Pager</a></li>
                     <li><a href="custom-grid-field.html" target="demo">Custom Grid Field</a></li>
                 </ul>
@@ -45,6 +46,7 @@ title: Demos
                 <p class="hidden">Grid rows can be completely customized. There are special row renderer functions. To customize data row use <a href="/docs/#rowrenderer-default-null"><strong>rowRenderer</strong></a>.</p>
                 <p class="hidden">Cell content of every column can be customized with <strong>itemTemplate</strong>, <strong>headerTemplate</strong>, <strong>filterTemplate</strong> and <strong>insertTemplate</strong> functions specified in
                     <a href="/docs/#fields">field config</a>. This example shows how to implement batch deleting with custom field for selecting items.</p>
+                <p class="hidden">Rows reordering is a popular use case of a grid. This example shows how to implement it using jQuery UI Sortable plugin.</p>
                 <p class="hidden">The pager could be placed anywhere outside of the grid. Just specify <a href="/docs/#pagercontainer-default-null"><strong>pagerContainer</strong></a> option.</p>
                 <p class="hidden">All existing grid fields (columns) can be easily customized and <a href="/docs/#custom-field">new field types</a> could be added. Here we create custom date column with jQuery UI datepicker.</p>
             </div>
@@ -58,6 +60,7 @@ title: Demos
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-view.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-row-renderer.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/batch-delete.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/rows-reordering.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/external-pager.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-grid-field.js %}{% endcapture %}{{ code | xml_escape }}</pre>
             </div>
