@@ -71,26 +71,26 @@
 
         heading: true,
         headerRowRenderer: null,
-        headerRowClass: "jsgrid-header-row", 
+        headerRowClass: "jsgrid-header-row",
 
         filtering: false,
         filterRowRenderer: null,
-        filterRowClass: "jsgrid-filter-row", 
+        filterRowClass: "jsgrid-filter-row",
 
         inserting: false,
         insertRowRenderer: null,
-        insertRowClass: "jsgrid-insert-row",    
+        insertRowClass: "jsgrid-insert-row",
 
         editing: false,
         editRowRenderer: null,
         editRowClass: "jsgrid-edit-row",
 
-        confirmDeleting: true,                  
+        confirmDeleting: true,
         deleteConfirm: "Are you sure?",
 
-        selecting: true,                       
+        selecting: true,
         selectedRowClass: "jsgrid-selected-row",
-        oddRowClass: "jsgrid-row", 
+        oddRowClass: "jsgrid-row",
         evenRowClass: "jsgrid-alt-row",
 
         sorting: false,
@@ -100,7 +100,7 @@
 
         paging: false,
         pagerContainer: null,
-        pageIndex: 1,  
+        pageIndex: 1,
         pageSize: 20,
         pageButtonCount: 15,
         pagerFormat: "Pages: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} of {pageCount}",
@@ -144,7 +144,7 @@
         tableClass: "jsgrid-table",
         gridHeaderClass: "jsgrid-grid-header",
         gridBodyClass: "jsgrid-grid-body",
-                
+
         _init: function(config) {
             $.extend(this, config);
             this._initLoadStrategy();
@@ -462,7 +462,7 @@
             this._refreshContent();
             this._refreshPager();
             this._refreshSize();
-            
+
             this._callEventHandler(this.onRefreshed);
         },
 
@@ -502,7 +502,7 @@
                 .append($("<td>").attr("colspan", this.fields.length).append(noDataContent));
         },
 
-        _createNoDataContent: function () {
+        _createNoDataContent: function() {
             return $.isFunction(this.noDataRenderer)
                 ? this.noDataRenderer()
                 : this.noDataText;
@@ -610,7 +610,7 @@
             }
 
             if(typeof field === "string") {
-                return $.grep(this.fields, function (f) {
+                return $.grep(this.fields, function(f) {
                     return f.name === field;
                 })[0];
             }
