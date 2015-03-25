@@ -11,7 +11,7 @@
         css: "",
         align: "",
         width: 100,
-        
+
         filtering: true,
         inserting: true,
         editing: true,
@@ -65,7 +65,7 @@
             throw Error("Wrong sorter for the field \"" + this.name + "\"!");
         }
     };
-    
+
     jsGrid.Field = Field;
-    
+
 }(jsGrid, jQuery));

@@ -7,7 +7,7 @@
     }
 
     TextAreaField.prototype = new TextField({
-        
+
         insertTemplate: function() {
             var $result = this.insertControl = this._createTextArea();
             return $result;
@@ -25,5 +25,5 @@
     });
 
     jsGrid.fields.textarea = jsGrid.TextAreaField = TextAreaField;
-    
+
 }(jsGrid, jQuery));

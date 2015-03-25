@@ -11,7 +11,7 @@
         align: "center",
         width: 50,
         filtering: false,
-		inserting: false,
+        inserting: false,
         editing: false,
         sorting: false,
 

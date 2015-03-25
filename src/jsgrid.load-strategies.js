@@ -1,5 +1,5 @@
 (function(jsGrid, $, undefined) {
-    
+
     function DirectLoadingStrategy(grid) {
         this._grid = grid;
     }
@@ -54,8 +54,8 @@
             grid.reset();
         }
     };
-   
-    
+
+
     function PageLoadingStrategy(grid) {
         this._grid = grid;
         this._itemsCount = 0;
@@ -103,10 +103,10 @@
             this._grid.search();
         }
     };
-    
+
     jsGrid.loadStrategies = {
         DirectLoadingStrategy: DirectLoadingStrategy,
         PageLoadingStrategy: PageLoadingStrategy
     };
-    
+
 }(jsGrid, jQuery));

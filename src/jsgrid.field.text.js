@@ -7,7 +7,7 @@
     }
 
     TextField.prototype = new Field({
-        
+
         autosearch: true,
 
         filterTemplate: function() {
@@ -40,7 +40,7 @@
         filterValue: function() {
             return this.filterControl.val();
         },
-        
+
         insertValue: function() {
             return this.insertControl.val();
         },
@@ -55,5 +55,5 @@
     });
 
     jsGrid.fields.text = jsGrid.TextField = TextField;
-    
+
 }(jsGrid, jQuery));

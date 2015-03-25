@@ -7,7 +7,7 @@
     }
 
     NumberField.prototype = new TextField({
-        
+
         sorter: "number",
         align: "right",
 
@@ -29,5 +29,5 @@
     });
 
     jsGrid.fields.number = jsGrid.NumberField = NumberField;
-    
+
 }(jsGrid, jQuery));

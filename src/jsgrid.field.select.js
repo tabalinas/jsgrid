@@ -100,5 +100,5 @@
     });
 
     jsGrid.fields.select = jsGrid.SelectField = SelectField;
-    
+
 }(jsGrid, jQuery));

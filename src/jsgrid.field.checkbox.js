@@ -7,11 +7,11 @@
     }
 
     CheckboxField.prototype = new Field({
-        
+
         sorter: "number",
         align: "center",
         autosearch: true,
-        
+
         itemTemplate: function(value) {
             return this._createCheckbox().prop({
                 checked: value,
@@ -37,7 +37,7 @@
                         readOnly: false
                     });
                 }
-                else if (!$cb.prop("checked")) {
+                else if(!$cb.prop("checked")) {
                     $cb.prop({
                         readOnly: true,
                         indeterminate: true
@@ -70,7 +70,7 @@
                 ? undefined
                 : this.filterControl.is(":checked");
         },
-        
+
         insertValue: function() {
             return this.insertControl.is(":checked");
         },
@@ -85,5 +85,5 @@
     });
 
     jsGrid.fields.checkbox = jsGrid.CheckboxField = CheckboxField;
-    
+
 }(jsGrid, jQuery));

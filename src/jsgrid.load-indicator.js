@@ -1,5 +1,5 @@
 (function(jsGrid, $, undefined) {
-    
+
     function LoadIndicator(config) {
         this._init(config);
     }
@@ -78,5 +78,5 @@
     };
 
     jsGrid.LoadIndicator = LoadIndicator;
-    
+
 }(jsGrid, jQuery));
