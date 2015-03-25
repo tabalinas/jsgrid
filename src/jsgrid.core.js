@@ -402,7 +402,7 @@
             var $result = $("<tr>").addClass(this.filterRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.css)
+                $("<td>").addClass(field.filtercss || field.css)
                     .appendTo($result)
                     .append(field.filterTemplate ? field.filterTemplate() : "")
                     .width(field.width);
@@ -419,7 +419,7 @@
             var $result = $("<tr>").addClass(this.insertRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.css)
+                $("<td>").addClass(field.insertcss || field.css)
                     .appendTo($result)
                     .append(field.insertTemplate ? field.insertTemplate() : "")
                     .width(field.width);
@@ -1021,7 +1021,7 @@
             var $result = $("<tr>").addClass(this.editRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.css)
+                $("<td>").addClass(field.editcss || field.css)
                     .appendTo($result)
                     .append(field.editTemplate ? field.editTemplate(item[field.name], item) : "")
                     .width(field.width || "auto");
