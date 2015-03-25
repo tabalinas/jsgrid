@@ -1,7 +1,7 @@
 $(function() {
 
     var Grid = jsGrid.Grid;
-    
+
     module("jsGrid.field");
 
     test("basic", function() {
@@ -194,7 +194,7 @@ $(function() {
                 { text: "test3", value: 3 }
             ]
         });
-        
+
         strictEqual(field.itemTemplate(1), field.items[1]);
 
         field.textField = "text";
@@ -210,7 +210,7 @@ $(function() {
         strictEqual(field.itemTemplate(1), "test1");
     });
 
-    
+
     module("jsGrid.field.control");
 
     test("basic", function() {

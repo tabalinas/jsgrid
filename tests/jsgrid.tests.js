@@ -11,15 +11,15 @@ $(function() {
 
     test("default creation", function() {
         var gridOptions = {
-            simpleOption: "test",
-            complexOption: {
-                a: "subtest",
-                b: 1,
-                c: {}
-            }
-        },
+                simpleOption: "test",
+                complexOption: {
+                    a: "subtest",
+                    b: 1,
+                    c: {}
+                }
+            },
 
-        grid = new Grid("#jsGrid", gridOptions);
+            grid = new Grid("#jsGrid", gridOptions);
 
         equal(grid._container[0], $("#jsGrid")[0], "container saved");
         equal(grid.simpleOption, "test", "primitive option extended");
@@ -45,7 +45,7 @@ $(function() {
 
         $element.jsGrid({});
         grid = $element.data(JSGRID_DATA_KEY);
-        
+
         grid.destroy();
 
         strictEqual($element.html(), "", "content is removed");
@@ -1421,7 +1421,7 @@ $(function() {
 
         var $th = grid._headerRow.find("th").eq(0);
         $th.trigger("click");
-        
+
         equal(grid._sortOrder, "asc", "asc sorting order for first click");
         equal(grid._sortField, grid.fields[0], "sort field is set");
         equal(gridData[0].value, 1);
@@ -1489,16 +1489,16 @@ $(function() {
         var $element = $("#jsGrid");
 
         var gridOptions = {
-                sorting: true,
-                data: [
-                    { value: 3 },
-                    { value: 2 },
-                    { value: 1 }
-                ],
-                fields: [
-                    { name: "value", sorting: false }
-                ]
-            };
+            sorting: true,
+            data: [
+                { value: 3 },
+                { value: 2 },
+                { value: 1 }
+            ],
+            fields: [
+                { name: "value", sorting: false }
+            ]
+        };
 
         var grid = new Grid($element, gridOptions);
 
