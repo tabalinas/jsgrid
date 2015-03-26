@@ -1,14 +1,18 @@
 (function(jsGrid, $, undefined) {
 
+    var isDefined = function(val) {
+        return typeof(val) !== "undefined" && val !== null;
+    };
+
     var sortStrategies = {
         string: function(str1, str2) {
-            if((typeof (str1) == 'undefined' || str1 == null) && (typeof (str2) == 'undefined' || str2 == null))
+            if(!isDefined(str1) && !isDefined(str2))
                 return 0;
 
-            if(typeof (str1) == 'undefined' || str1 == null)
+            if(!isDefined(str1))
                 return -1;
 
-            if(typeof (str2) == 'undefined' || str2 == null)
+            if(!isDefined(str2))
                 return 1;
 
             return str1.localeCompare(str2);
