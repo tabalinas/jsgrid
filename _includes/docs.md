@@ -102,6 +102,10 @@ General options peculiar to all field types:
 - **name** is a property of data item associated with the column.
 - **title** is a text to be displayed in the header of the column. If `title` is not specified, the `name` will be used instead.
 - **css** is a string representing css classes to be attached to the table cell.
+- **headercss** is a string representing css classes to be attached to the table header cell. If not specified, then **css** is attached instead.
+- **filtercss** is a string representing css classes to be attached to the table filter row cell. If not specified, then **css** is attached instead.
+- **insertcss** is a string representing css classes to be attached to the table insert row cell. If not specified, then **css** is attached instead.
+- **editcss** is a string representing css classes to be attached to the table edit row cell. If not specified, then **css** is attached instead.
 - **align** is alignment of text in the cell. Accepts following values `"left"|"center"|"right"`.
 - **width** is a width of the column.
 - **filtering** is a boolean specifying whether or not column has filtering (`filterTemplate()` is rendered and `filterValue()` is included in load filter object).
