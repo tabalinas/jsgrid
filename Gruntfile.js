@@ -83,15 +83,22 @@
                 src: "<%= concat.theme.dest %>",
                 dest: "dist/<%= pkg.name %>-theme.min.css"
             }
+        },
+
+        qunit: {
+            files: ["tests/index.html"]
         }
 
     });
 
-    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-image-embed");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks("grunt-contrib-qunit");
 
     grunt.registerTask("default", ["copy", "concat", "imageEmbed", "uglify", "cssmin"]);
+
+    grunt.registerTask("test", "qunit");
 };
