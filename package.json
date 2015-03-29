@@ -1,46 +1,36 @@
 {
     "name": "jsgrid",
     "version": "1.0.1",
+    "description": "Lightweight data grid jQuery plugin. It supports basic grid operations like inserting, filtering, editing, deleting, paging and sorting. Although jsGrid is tunable and allows to customize appearance and components.",
+    "keywords": [
+        "grid",
+        "jquery",
+        "plugin"
+    ],
     "homepage": "http://js-grid.com",
     "author": "Artem Tabalin",
     "license": {
         "type": "MIT",
         "url": "https://github.com/tabalinas/jsgrid/blob/master/LICENSE"
     },
+    "dependencies": {},
     "devDependencies": {
-        "grunt": "^0.4.4",
+        "grunt": "^0.4.5",
         "grunt-contrib-concat": "~0.3.0",
         "grunt-contrib-copy": "^0.7.0",
         "grunt-contrib-cssmin": "^0.10.0",
         "grunt-contrib-qunit": "^0.5.2",
-        "grunt-contrib-uglify": "~0.2.2"
+        "grunt-contrib-uglify": "^0.4.0",
+        "grunt-image-embed": "^0.3.1"
     },
-    "description": "**jsGrid** is a lightweight client-side data grid control based on jQuery. It supports basic grid operations like inserting, filtering, editing, deleting, paging and sorting. Although jsGrid is tunable and allows to customize appearance and components.",
     "main": "Gruntfile.js",
     "directories": {
         "test": "tests"
-    },
-    "dependencies": {
-        "grunt": "^0.4.5",
-        "grunt-contrib-copy": "^0.7.0",
-        "grunt-contrib-cssmin": "^0.10.0",
-        "grunt-contrib-concat": "^0.3.0",
-        "grunt-contrib-uglify": "^0.4.0",
-        "grunt-image-embed": "^0.3.1",
-        "grunt-remove": "^0.1.0",
-        "grunt-sass": "^0.8.1",
-        "grunt-contrib-watch": "^0.5.3",
-        "node-sass": "^0.7.0"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/tabalinas/jsgrid"
     },
-    "keywords": [
-        "grid",
-        "jquery",
-        "plugin"
-    ],
     "bugs": {
         "url": "https://github.com/tabalinas/jsgrid/issues"
     }
