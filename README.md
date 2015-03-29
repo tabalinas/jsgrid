@@ -162,11 +162,15 @@ General options peculiar to all field types:
     type: "",
     name: "",
     title: "",
-    css: "",
-	headercss: "",
     align: "",
     width: 100,
 
+    css: "",
+	headercss: "",
+    filtercss: "",
+    insertcss: "",
+    editcss: "",
+    
     filtering: true,
     inserting: true,
     editing: true,
@@ -191,13 +195,13 @@ General options peculiar to all field types:
 - **type** is a string key of field (`"text"|"number"|"checkbox"|"select"|"textarea"|"control"`) in fields registry `jsGrid.fields` (the registry can be easily extended with custom field types).
 - **name** is a property of data item associated with the column.
 - **title** is a text to be displayed in the header of the column. If `title` is not specified, the `name` will be used instead.
+- **align** is alignment of text in the cell. Accepts following values `"left"|"center"|"right"`.
+- **width** is a width of the column.
 - **css** is a string representing css classes to be attached to the table cell.
 - **headercss** is a string representing css classes to be attached to the table header cell. If not specified, then **css** is attached instead.
 - **filtercss** is a string representing css classes to be attached to the table filter row cell. If not specified, then **css** is attached instead.
 - **insertcss** is a string representing css classes to be attached to the table insert row cell. If not specified, then **css** is attached instead.
 - **editcss** is a string representing css classes to be attached to the table edit row cell. If not specified, then **css** is attached instead.
-- **align** is alignment of text in the cell. Accepts following values `"left"|"center"|"right"`.
-- **width** is a width of the column.
 - **filtering** is a boolean specifying whether or not column has filtering (`filterTemplate()` is rendered and `filterValue()` is included in load filter object).
 - **inserting** is a boolean specifying whether or not column has inserting (`insertTemplate()` is rendered and `insertValue()` is included in inserting item).
 - **editing** is a boolean specifying whether or not column has editing (`editTemplate()` is rendered and `editValue()` is included in editing item).
