@@ -1,5 +1,7 @@
 # jsGrid Lightweight Grid jQuery Plugin
 
+[![Build Status](https://travis-ci.org/tabalinas/jsgrid.svg?branch=master)](https://travis-ci.org/tabalinas/jsgrid)
+
 Project site [js-grid.com](http://js-grid.com/)
 
 **jsGrid** is a lightweight client-side data grid control based on jQuery.
