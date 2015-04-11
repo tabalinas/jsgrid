@@ -341,6 +341,7 @@
                 .append($insertRow);
 
             var $header = this._header = $("<div>").addClass(this.gridHeaderClass)
+                .addClass(this._scrollBarWidth() ? "jsgrid-header-scrollbar" : "")
                 .append($headerGrid);
 
             return $header;
@@ -353,7 +354,10 @@
                 .append($content);
 
             var $body = this._body = $("<div>").addClass(this.gridBodyClass)
-                .append($bodyGrid);
+                .append($bodyGrid)
+                .on("scroll", $.proxy(function(e) {
+                    this._header.scrollLeft(e.target.scrollLeft);
+                }, this));
 
             return $body;
         },
@@ -762,22 +766,18 @@
         _refreshWidth: function() {
             var $headerGrid = this._headerGrid,
                 $bodyGrid = this._bodyGrid,
-                width = this.width,
-                scrollBarWidth = this._scrollBarWidth(),
-                gridWidth;
+                width = this.width;
 
             if(width === "auto") {
                 $headerGrid.width("auto");
-                gridWidth = $headerGrid.outerWidth();
-                width = gridWidth + scrollBarWidth;
+                width = $headerGrid.outerWidth();
             }
 
             $headerGrid.width("");
             $bodyGrid.width("");
-            this._header.css("padding-right", scrollBarWidth);
             this._container.width(width);
-            gridWidth = $headerGrid.outerWidth();
-            $bodyGrid.width(gridWidth);
+            width = $headerGrid.outerWidth();
+            $bodyGrid.width(width);
         },
 
         _scrollBarWidth: (function() {
