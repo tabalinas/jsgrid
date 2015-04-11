@@ -511,7 +511,7 @@ Custom properties:
 ````
 
 ### textarea
-Textarea field renders '<textarea>` in inserting and editing rows and `<input type="text">` in filter row.
+Textarea field renders `<textarea>` in inserting and editing rows and `<input type="text">` in filter row.
 
 Custom properties:
 
