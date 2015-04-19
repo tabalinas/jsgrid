@@ -1162,9 +1162,25 @@
         return result;
     };
 
+    var fields = [];
+
+    var setDefaults = function(config) {
+        var componentPrototype;
+
+        if($.isPlainObject(config)) {
+            componentPrototype = Grid.prototype;
+        } else {
+            componentPrototype = fields[config].prototype;
+            config = arguments[1] || {};
+        }
+
+        $.extend(componentPrototype, config);
+    };
+
     window.jsGrid = {
         Grid: Grid,
-        fields: []
+        fields: fields,
+        setDefaults: setDefaults
     };
 
 }(window, jQuery));

@@ -183,6 +183,16 @@ $(function() {
         equal($bodyGridTable.text(), grid.noDataContent, "no data text");
     });
 
+    test("set default options with setDefaults", function() {
+        jsGrid.setDefaults({
+            defaultOption: "test"
+        });
+
+        var $element = $("#jsGrid").jsGrid({});
+
+        equal($element.jsGrid("option", "defaultOption"), "test", "default option set");
+    });
+
 
     module("loading");
 

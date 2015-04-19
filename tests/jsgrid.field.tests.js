@@ -40,6 +40,18 @@ $(function() {
         strictEqual(field.editValue(), "testEditValue");
     });
 
+    test("set default field options with setDefaults", function() {
+        jsGrid.setDefaults("text", {
+            defaultOption: "test"
+        });
+
+        var $element = $("#jsGrid").jsGrid({
+            fields: [{ type: "text" }]
+        });
+
+        equal($element.jsGrid("option", "fields")[0].defaultOption, "test", "default field option set");
+    });
+
 
     module("jsGrid.field.number");
 
