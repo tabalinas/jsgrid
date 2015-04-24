@@ -65,6 +65,7 @@
                 this.editItem($(args.event.target).closest("tr"));
             }
         },
+        rowDoubleClick: $.noop,
 
         noDataContent: "Not found",
         noDataRowClass: "jsgrid-nodata-row",
