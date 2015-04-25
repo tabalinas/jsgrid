@@ -115,6 +115,7 @@ The config object may contain following options (default values are specified be
 
     rowClass: function(item, itemIndex) { ... },
     rowClick: function(args) { ... },
+    rowDoubleClick: function(args) { ... },
 
     noDataContent: "Not found",
 
@@ -299,6 +300,19 @@ A function handling row click. Accepts single argument with following structure:
 ````
 
 By default `rowClick` performs row editing when `editing` is `true`.
+
+### rowDoubleClick
+A function handling row double click. Accepts single argument with following structure:
+
+````javascript
+
+{
+     item       // data item
+     itemIndex  // data item index
+     event      // jQuery event
+}
+
+````
 
 ### noDataContent (default `"Not found"`)
 A string or a function returning a markup, jQueryElement or DomNode specifying the content to be displayed when `data` is an empty array.
