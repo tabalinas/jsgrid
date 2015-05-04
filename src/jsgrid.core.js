@@ -513,6 +513,17 @@
                 ? this.noDataRenderer()
                 : this.noDataText;
         },
+		
+		clearContent: function () {
+			var $content = this._content;
+			$content.empty();
+			this.data = [];
+
+			if (!this.data.length) {
+				$content.append(this._createNoDataRow());
+				return this;
+			}
+		},
 
         _createRow: function(item, itemIndex) {
             var $result;

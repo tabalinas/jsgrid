@@ -678,6 +678,17 @@ $("#grid").jsGrid("cancelEdit");
 
 ````
 
+### clearContent():
+Removes the current data and adds the NoData row.
+
+````javascript
+
+$("#grid").jsGrid("clearContent").done(function() {
+    console.log("grid cleared");
+});
+
+````
+
 ### clearFilter(): `Promise`
 Clears current filter and performs search with empty filter.
 Returns jQuery promise resolved when data filtering is completed. 
