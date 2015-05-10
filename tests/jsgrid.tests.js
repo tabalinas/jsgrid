@@ -456,10 +456,10 @@ $(function() {
             grid = new Grid($element, gridOptions);
 
         grid.fields[0].filterControl.val("test");
-        deepEqual(grid._getFilter(), { field: "test" }, "get filter");
+        deepEqual(grid.getFilter(), { field: "test" }, "get filter");
 
         grid.clearFilter();
-        deepEqual(grid._getFilter(), { field: "" }, "filter cleared");
+        deepEqual(grid.getFilter(), { field: "" }, "filter cleared");
         equal(grid.fields[0].filterControl.val(), "", "grid field filterControl cleared");
     });
 
@@ -495,7 +495,7 @@ $(function() {
 
         grid.fields[0].filterControl.val("test1");
         grid.fields[1].filterControl.val("test2");
-        deepEqual(grid._getFilter(), { field2: "test2" }, "field with filtering=false is not included in filter");
+        deepEqual(grid.getFilter(), { field2: "test2" }, "field with filtering=false is not included in filter");
     });
 
     test("search with filter", function() {

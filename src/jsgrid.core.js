@@ -911,7 +911,7 @@
         },
 
         loadData: function(filter) {
-            filter = filter || (this.filtering ? this._getFilter() : {});
+            filter = filter || (this.filtering ? this.getFilter() : {});
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
@@ -928,7 +928,7 @@
             });
         },
 
-        _getFilter: function() {
+        getFilter: function() {
             var result = {};
             this._eachField(function(field) {
                 if(field.filtering) {
