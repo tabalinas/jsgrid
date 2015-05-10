@@ -150,6 +150,38 @@ $(function() {
         strictEqual(field.editValue(), 2);
     });
 
+    test("items as array of integers", function() {
+        var field,
+            filterTemplate,
+            insertTemplate,
+            editTemplate;
+
+        field = new jsGrid.SelectField({
+            name: "testField",
+            items: [0, 10, 20],
+            selectedIndex: 0
+        });
+
+        strictEqual(field.itemTemplate(0), 0);
+
+        filterTemplate = field.filterTemplate();
+        equal(filterTemplate[0].tagName.toLowerCase(), "select");
+        equal(filterTemplate.children().length, 3);
+
+        insertTemplate = field.insertTemplate();
+        equal(insertTemplate[0].tagName.toLowerCase(), "select");
+        equal(insertTemplate.children().length, 3);
+
+        editTemplate = field.editTemplate(1);
+        equal(editTemplate[0].tagName.toLowerCase(), "select");
+        equal(editTemplate.find("option:selected").length, 1);
+        ok(editTemplate.children().eq(1).is(":selected"));
+
+        strictEqual(field.filterValue(), 0);
+        strictEqual(field.insertValue(), 0);
+        strictEqual(field.editValue(), 1);
+    });
+
     test("string value type", function() {
         var field = new jsGrid.SelectField({
             name: "testField",

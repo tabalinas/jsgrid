@@ -35,7 +35,9 @@
                 resultItem = items[value];
             }
 
-            return (textField ? resultItem[textField] : resultItem) || "";
+            var result = (textField ? resultItem[textField] : resultItem);
+
+            return (result === undefined || result === null) ? "" : result;
         },
 
         filterTemplate: function() {
