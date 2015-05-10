@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/cupertino/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 
     <script src="db.js"></script>
 
@@ -27,6 +28,12 @@
     <script src="../src/jsgrid.field.control.js"></script>
 
     <style>
+        .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button {
+            font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+            font-size: 14px;
+            font-weight: 300 !important;
+        }
+
         .details-form-field input,
         .details-form-field select {
             width: 250px;
@@ -34,13 +41,33 @@
         }
 
         .details-form-field {
-            margin: 15px 0;
+            margin: 30px 0;
         }
 
-        .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button {
-            font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
-            font-size: 14px;
-            font-weight: 300 !important;
+        .details-form-field:first-child {
+            margin-top: 10px;
+        }
+
+        .details-form-field:last-child {
+            margin-bottom: 10px;
+        }
+
+        .details-form-field button {
+            display: block;
+            width: 100px;
+            margin: 0 auto;
+        }
+
+        input.error, select.error {
+            border: 1px solid #ff9999;
+            background: #ffeeee;
+        }
+
+        label.error {
+            float: right;
+            margin-left: 100px;
+            font-size: .8em;
+            color: #ff6666;
         }
     </style>
 </head>
@@ -48,20 +75,24 @@
     <h1>Data Manipulation</h1>
     <div id="jsGrid"></div>
 
-    <div id="detailsForm">
-        <div class="details-form-field">
-            <label>Name: <input id="name" type="text" /></label>
-        </div>
-        <div class="details-form-field">
-            <label>Age: <input id="age" type="number" /></label>
-        </div>
-        <div class="details-form-field">
-            <label>Address: <input id="address" type="text" /></label>
-        </div>
-        <div class="details-form-field">
-            <label>Country:
-                <select id="country">
-                    <option value="0">(Select)</option>
+    <div id="detailsDialog">
+        <form id="detailsForm">
+            <div class="details-form-field">
+                <label for="name">Name:</label>
+                <input id="name" name="name" type="text" />
+            </div>
+            <div class="details-form-field">
+                <label for="age">Age:</label>
+                <input id="age" name="age" type="number" />
+            </div>
+            <div class="details-form-field">
+                <label for="age">Address:</label>
+                <input id="address" name="address" type="text" />
+            </div>
+            <div class="details-form-field">
+                <label for="country">Country:</label>
+                <select id="country" name="country">
+                    <option value="">(Select)</option>
                     <option value="1">United States</option>
                     <option value="2">Canada</option>
                     <option value="3">United Kingdom</option>
@@ -70,14 +101,15 @@
                     <option value="6">China</option>
                     <option value="7">Russia</option>
                 </select>
-            </label>
-        </div>
-        <div class="details-form-field">
-            <label>Is Married: <input id="married" type="checkbox" /></label>
-        </div>
-        <div class="details-form-field">
-            <button type="button" id="save">Save</button>
-        </div>
+            </div>
+            <div class="details-form-field">
+                <label for="married">Is Married</label>
+                <input id="married" name="married" type="checkbox" />
+            </div>
+            <div class="details-form-field">
+                <button type="submit" id="save">Save</button>
+            </div>
+        </form>
     </div>
 
     <script>
@@ -108,18 +140,42 @@
                         editButton: false,
                         headerTemplate: function() {
                             return $("<button>").attr("type", "button").text("Add")
-                                    .on("click", function () {
-                                        showDetailsDialog("Add", {});
-                                    });
+                                .on("click", function () {
+                                    showDetailsDialog("Add", {});
+                                });
                         }
                     }
                 ]
             });
 
-            $("#detailsForm").dialog({
+            $("#detailsDialog").dialog({
                 autoOpen: false,
-                width: 400
+                width: 400,
+                close: function() {
+                    $("#detailsForm").validate().resetForm();
+                    $("#detailsForm").find(".error").removeClass("error");
+                }
             });
+
+            $("#detailsForm").validate({
+                rules: {
+                    name: "required",
+                    age: { required: true, range: [18, 150] },
+                    address: { required: true, minlength: 10 },
+                    country: "required"
+                },
+                messages: {
+                    name: "Please enter name",
+                    age: "Please enter valid age",
+                    address: "Please enter address",
+                    country: "Please select country"
+                },
+                submitHandler: function() {
+                    formSubmitHandler();
+                }
+            });
+
+            var formSubmitHandler = $.noop();
 
             var showDetailsDialog = function(dialogType, client) {
                 $("#name").val(client.Name);
@@ -128,11 +184,11 @@
                 $("#country").val(client.Country);
                 $("#married").prop("checked", client.Married);
 
-                $("#save").off("click").on("click", function() {
+                formSubmitHandler = function() {
                     saveClient(client, dialogType === "Add");
-                });
+                };
 
-                $("#detailsForm").dialog("option", "title", dialogType + " Client")
+                $("#detailsDialog").dialog("option", "title", dialogType + " Client")
                     .dialog("open");
             };
 
@@ -147,7 +203,7 @@
 
                 $("#jsGrid").jsGrid(isNew ? "insertItem" : "updateItem", client);
 
-                $("#detailsForm").dialog("close");
+                $("#detailsDialog").dialog("close");
             };
 
         });
