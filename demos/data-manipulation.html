@@ -4,6 +4,12 @@ title: Data Manipulation Scenario
 ---
 
 <style>
+    .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button  {
+        font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
+        font-size: 14px;
+        font-weight: 300 !important;
+    }
+
     .details-form-field input,
     .details-form-field select {
         width: 250px;
@@ -11,32 +17,56 @@ title: Data Manipulation Scenario
     }
 
     .details-form-field {
-        margin: 15px 0;
+        margin: 30px 0;
     }
 
-    .ui-widget *, .ui-widget input, .ui-widget select, .ui-widget button  {
-        font-family: 'Helvetica Neue Light', 'Open Sans', Helvetica;
-        font-size: 14px;
-        font-weight: 300 !important;
+    .details-form-field:first-child {
+        margin-top: 10px;
+    }
+
+    .details-form-field:last-child {
+        margin-bottom: 10px;
+    }
+
+    .details-form-field button {
+        display: block;
+        width: 100px;
+        margin: 0 auto;
+    }
+
+    input.error, select.error {
+        border: 1px solid #ff9999;
+        background: #ffeeee;
+    }
+
+    label.error {
+        float: right;
+        margin-left: 100px;
+        font-size: .8em;
+        color: #ff6666;
     }
 </style>
 
 <div id="jsGrid"></div>
 
-<div id="detailsForm">
-    <div class="details-form-field">
-        <label>Name: <input id="name" type="text" /></label>
-    </div>
-    <div class="details-form-field">
-        <label>Age: <input id="age" type="number" /></label>
-    </div>
-    <div class="details-form-field">
-        <label>Address: <input id="address" type="text" /></label>
-    </div>
-    <div class="details-form-field">
-        <label>Country:
-            <select id="country">
-                <option value="0">(Select)</option>
+<div id="detailsDialog">
+    <form id="detailsForm">
+        <div class="details-form-field">
+            <label for="name">Name:</label>
+            <input id="name" name="name" type="text" />
+        </div>
+        <div class="details-form-field">
+            <label for="age">Age:</label>
+            <input id="age" name="age" type="number" />
+        </div>
+        <div class="details-form-field">
+            <label for="age">Address:</label>
+            <input id="address" name="address" type="text" />
+        </div>
+        <div class="details-form-field">
+            <label for="country">Country:</label>
+            <select id="country" name="country">
+                <option value="">(Select)</option>
                 <option value="1">United States</option>
                 <option value="2">Canada</option>
                 <option value="3">United Kingdom</option>
@@ -45,14 +75,15 @@ title: Data Manipulation Scenario
                 <option value="6">China</option>
                 <option value="7">Russia</option>
             </select>
-        </label>
-    </div>
-    <div class="details-form-field">
-        <label>Is Married: <input id="married" type="checkbox" /></label>
-    </div>
-    <div class="details-form-field">
-        <button type="button" id="save">Save</button>
-    </div>
+        </div>
+        <div class="details-form-field">
+            <label for="married">Is Married</label>
+            <input id="married" name="married" type="checkbox" />
+        </div>
+        <div class="details-form-field">
+            <button type="submit" id="save">Save</button>
+        </div>
+    </form>
 </div>
 
 <script>
