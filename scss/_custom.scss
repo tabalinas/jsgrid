@@ -241,3 +241,22 @@ iframe[name='demo'] {
     transition: opacity 400ms linear;
   }
 }
+
+.copyright {
+  font-size: .9em;
+  text-align: right;
+}
+
+@media #{$small-only} {
+  .footer-nav-container {
+    text-align: center;
+  }
+
+  .footer-nav {
+    display: inline-block !important;
+  }
+
+  .copyright {
+    text-align: center;
+  }
+}
