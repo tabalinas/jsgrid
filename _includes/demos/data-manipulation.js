@@ -32,7 +32,7 @@ $(function() {
             }
         ]
     });
-    
+
     $("#detailsDialog").dialog({
         autoOpen: false,
         width: 400,
@@ -60,7 +60,7 @@ $(function() {
         }
     });
 
-    var formSubmitHandler = $.noop();
+    var formSubmitHandler = $.noop;
 
     var showDetailsDialog = function(dialogType, client) {
         $("#name").val(client.Name);
