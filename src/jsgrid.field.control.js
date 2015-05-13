@@ -4,6 +4,7 @@
 
     function ControlField(config) {
         Field.call(this, config);
+        this._configInitialized = false;
     }
 
     ControlField.prototype = new Field({
@@ -18,6 +19,7 @@
         buttonClass: "jsgrid-button",
         modeButtonClass: "jsgrid-mode-button",
 
+        modeOnButtonClass: "jsgrid-mode-on-button",
         searchModeButtonClass: "jsgrid-search-mode-button",
         insertModeButtonClass: "jsgrid-insert-mode-button",
         editButtonClass: "jsgrid-edit-button",
@@ -43,8 +45,35 @@
         clearFilterButton: true,
         modeSwitchButton: true,
 
+        _initConfig: function() {
+            this._hasFiltering = this._grid.filtering;
+            this._hasInserting = this._grid.inserting;
+
+            if(this._hasInserting && this.modeSwitchButton) {
+                this._grid.inserting = false;
+            }
+
+            this._configInitialized = true;
+        },
+
         headerTemplate: function() {
-            return this.modeSwitchButton ? this._createModeSwitchButton() : "";
+            if(!this._configInitialized) {
+                this._initConfig();
+            }
+
+            var hasFiltering = this._hasFiltering;
+            var hasInserting = this._hasInserting;
+
+            if(!this.modeSwitchButton || (!hasFiltering && !hasInserting))
+                return "";
+
+            if(hasFiltering && !hasInserting)
+                return this._createFilterSwitchButton();
+
+            if(hasInserting && !hasFiltering)
+                return this._createInsertSwitchButton();
+
+            return this._createModeSwitchButton();
         },
 
         itemTemplate: function(value, item) {
@@ -72,6 +101,32 @@
 
         editTemplate: function() {
             return this._createUpdateButton().add(this._createCancelEditButton());
+        },
+
+        _createFilterSwitchButton: function() {
+            return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, true);
+        },
+
+        _createInsertSwitchButton: function() {
+            return this._createOnOffSwitchButton("inserting", this.insertModeButtonClass, false);
+        },
+
+        _createOnOffSwitchButton: function(option, cssClass, isOnInitially) {
+            var isOn = isOnInitially;
+
+            var updateButtonState = $.proxy(function() {
+                $button.toggleClass(this.modeOnButtonClass, isOn);
+            }, this);
+
+            var $button = this._createGridButton(this.modeButtonClass + " " + cssClass, "", function(grid) {
+                isOn = !isOn;
+                grid.option(option, isOn);
+                updateButtonState();
+            });
+
+            updateButtonState();
+
+            return $button;
         },
 
         _createModeSwitchButton: function() {

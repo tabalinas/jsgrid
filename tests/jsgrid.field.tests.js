@@ -267,6 +267,8 @@ $(function() {
 
         field = new jsGrid.ControlField();
         field._grid = {
+            filtering: true,
+            inserting: true,
             option: $.noop
         };
 
@@ -296,5 +298,80 @@ $(function() {
         strictEqual(field.filterValue(), "");
         strictEqual(field.insertValue(), "");
         strictEqual(field.editValue(), "");
+    });
+
+    test("switchMode button should consider filtering=false", function() {
+        var optionArgs = {};
+
+        var field = new jsGrid.ControlField();
+        field._grid = {
+            filtering: false,
+            inserting: true,
+            option: function(name, value) {
+                optionArgs = {
+                    name: name,
+                    value: value
+                };
+            }
+        };
+
+        var headerTemplate = field.headerTemplate();
+        equal(headerTemplate.filter("." + field.insertModeButtonClass).length, 1, "inserting switch button rendered");
+
+        var $modeSwitchButton = headerTemplate.filter("." + field.modeButtonClass);
+
+        $modeSwitchButton.trigger("click");
+        ok($modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is attached");
+        equal(headerTemplate.filter("." + field.insertModeButtonClass).length, 1, "insert button rendered");
+        equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 0, "search button not rendered");
+        deepEqual(optionArgs, { name: "inserting", value: true }, "turn on grid inserting mode");
+
+        $modeSwitchButton.trigger("click");
+        ok(!$modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is detached");
+        deepEqual(optionArgs, { name: "inserting", value: false }, "turn off grid inserting mode");
+    });
+
+    test("switchMode button should consider inserting=false", function() {
+        var optionArgs = {};
+
+        var field = new jsGrid.ControlField();
+        field._grid = {
+            filtering: true,
+            inserting: false,
+            option: function(name, value) {
+                optionArgs = {
+                    name: name,
+                    value: value
+                };
+            }
+        };
+
+        var headerTemplate = field.headerTemplate();
+        equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 1, "filtering switch button rendered");
+
+        var $modeSwitchButton = headerTemplate.filter("." + field.modeButtonClass);
+
+        $modeSwitchButton.trigger("click");
+        ok(!$modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is detached");
+        equal(headerTemplate.filter("." + field.searchModeButtonClass).length, 1, "search button rendered");
+        equal(headerTemplate.filter("." + field.insertModeButtonClass).length, 0, "insert button not rendered");
+        deepEqual(optionArgs, { name: "filtering", value: false }, "turn off grid filtering mode");
+
+        $modeSwitchButton.trigger("click");
+        ok($modeSwitchButton.hasClass(field.modeOnButtonClass), "on class is attached");
+        deepEqual(optionArgs, { name: "filtering", value: true }, "turn on grid filtering mode");
+    });
+
+    test("switchMode is not rendered if inserting=false and filtering=false", function() {
+        var optionArgs = {};
+
+        var field = new jsGrid.ControlField();
+        field._grid = {
+            filtering: false,
+            inserting: false
+        };
+
+        var headerTemplate = field.headerTemplate();
+        strictEqual(headerTemplate, "", "empty header");
     });
 });

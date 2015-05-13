@@ -161,6 +161,10 @@
     height: 24px;
 }
 
+.jsgrid-mode-on-button {
+    opacity: .5;
+}
+
 .jsgrid-cancel-button { background-position: 0 0; width: 16px; height: 16px; }
 .jsgrid-clear-filter-button { background-position: 0 -40px; width: 16px; height: 16px; }
 .jsgrid-delete-button { background-position: 0 -80px; width: 16px; height: 16px; }
