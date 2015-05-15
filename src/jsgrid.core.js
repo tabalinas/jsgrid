@@ -1053,7 +1053,8 @@
         _updateRow: function($updatingRow, editedItem) {
             var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
                 updatingItemIndex = this._itemIndex(updatingItem);
-
+            var previousItem = {};
+            $.extend(previousItem, updatingItem);
             $.extend(updatingItem, editedItem);
 
             this._callEventHandler(this.onItemUpdating, {
@@ -1069,7 +1070,8 @@
                 this._callEventHandler(this.onItemUpdated, {
                     row: $updatingRow,
                     item: updatedItem,
-                    itemIndex: updatingItemIndex
+                    itemIndex: updatingItemIndex,
+                    previousItem: previousItem
                 });
             });
         },
