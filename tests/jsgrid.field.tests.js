@@ -2,6 +2,60 @@ $(function() {
 
     var Grid = jsGrid.Grid;
 
+    module("common field config", {
+        setup: function() {
+            this.isFieldExcluded = function(FieldClass) {
+                return FieldClass === jsGrid.ControlField;
+            };
+        }
+    });
+
+    test("filtering=false prevents rendering filter template", function() {
+        var isFieldExcluded = this.isFieldExcluded;
+
+        $.each(jsGrid.fields, function(name, FieldClass) {
+            if(isFieldExcluded(FieldClass))
+                return;
+
+            var field = new FieldClass({ filtering: false });
+
+            equal(field.filterTemplate(), "", "empty filter template for field " + name);
+        });
+    });
+
+    test("inserting=false prevents rendering insert template", function() {
+        var isFieldExcluded = this.isFieldExcluded;
+
+        $.each(jsGrid.fields, function(name, FieldClass) {
+            if(isFieldExcluded(FieldClass))
+                return;
+
+            var field = new FieldClass({ inserting: false });
+
+            equal(field.insertTemplate(), "", "empty insert template for field " + name);
+        });
+    });
+
+    test("editing=false renders itemTemplate", function() {
+        var isFieldExcluded = this.isFieldExcluded;
+
+        $.each(jsGrid.fields, function(name, FieldClass) {
+            if(isFieldExcluded(FieldClass))
+                return;
+
+            var field = new FieldClass({ editing: false });
+
+            var editTemplate = field.editTemplate("test");
+            var itemTemplate = field.itemTemplate("test");
+
+            var editTemplateContent = editTemplate instanceof jQuery ? editTemplate[0].outerHTML : editTemplate;
+            var itemTemplateContent = itemTemplate instanceof jQuery ? itemTemplate[0].outerHTML : itemTemplate;
+
+console.log(name + ": " + editTemplateContent);
+            equal(editTemplateContent, itemTemplateContent, "item template is rendered instead of edit template for field " + name);
+        });
+    });
+
     module("jsGrid.field");
 
     test("basic", function() {
@@ -376,4 +430,5 @@ $(function() {
         var headerTemplate = field.headerTemplate();
         strictEqual(headerTemplate, "", "empty header");
     });
+
 });

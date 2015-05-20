@@ -709,38 +709,42 @@ $(function() {
 
         jsGrid.fields.custom = CustomField;
 
-        var $element = $("#jsGrid"),
-            gridOptions = {
-                fields: [
-                    new jsGrid.Field({
-                        name: "text1",
-                        title: "title1"
-                    }),
-                    {
-                        name: "text2",
-                        title: "title2"
-                    },
-                    {
-                        name: "text3",
-                        type: "custom"
-                    }
-                ]
-            },
-            grid = new Grid($element, gridOptions);
+        try {
+            var $element = $("#jsGrid"),
+                gridOptions = {
+                    fields: [
+                        new jsGrid.Field({
+                            name: "text1",
+                            title: "title1"
+                        }),
+                        {
+                            name: "text2",
+                            title: "title2"
+                        },
+                        {
+                            name: "text3",
+                            type: "custom"
+                        }
+                    ]
+                },
+                grid = new Grid($element, gridOptions);
 
-        var field1 = grid.fields[0];
-        ok(field1 instanceof jsGrid.Field);
-        equal(field1.name, "text1", "name is set for field");
-        equal(field1.title, "title1", "title field");
+            var field1 = grid.fields[0];
+            ok(field1 instanceof jsGrid.Field);
+            equal(field1.name, "text1", "name is set for field");
+            equal(field1.title, "title1", "title field");
 
-        var field2 = grid.fields[1];
-        ok(field2 instanceof jsGrid.Field);
-        equal(field2.name, "text2", "name is set for field");
-        equal(field2.title, "title2", "title field");
+            var field2 = grid.fields[1];
+            ok(field2 instanceof jsGrid.Field);
+            equal(field2.name, "text2", "name is set for field");
+            equal(field2.title, "title2", "title field");
 
-        var field3 = grid.fields[2];
-        ok(field3 instanceof CustomField);
-        equal(field3.name, "text3", "name is set for field");
+            var field3 = grid.fields[2];
+            ok(field3 instanceof CustomField);
+            equal(field3.name, "text3", "name is set for field");
+        } finally {
+            delete jsGrid.fields.custom;
+        }
     });
 
     test("grid field name used for header if title is not specified", function() {

@@ -11,6 +11,9 @@
         autosearch: true,
 
         filterTemplate: function() {
+            if(!this.filtering)
+                return "";
+
             var grid = this._grid,
                 $result = this.filterControl = this._createTextBox();
 
@@ -27,11 +30,17 @@
         },
 
         insertTemplate: function() {
+            if(!this.inserting)
+                return "";
+
             var $result = this.insertControl = this._createTextBox();
             return $result;
         },
 
         editTemplate: function(value) {
+            if(!this.editing)
+                return this.itemTemplate(value);
+
             var $result = this.editControl = this._createTextBox();
             $result.val(value);
             return $result;

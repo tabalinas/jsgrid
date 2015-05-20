@@ -43,6 +43,9 @@
         },
 
         filterTemplate: function() {
+            if(!this.filtering)
+                return "";
+
             var grid = this._grid,
                 $result = this.filterControl = this._createSelect();
 
@@ -56,11 +59,17 @@
         },
 
         insertTemplate: function() {
+            if(!this.inserting)
+                return "";
+
             var $result = this.insertControl = this._createSelect();
             return $result;
         },
 
         editTemplate: function(value) {
+            if(!this.editing)
+                return this.itemTemplate(value);
+
             var $result = this.editControl = this._createSelect();
             (value !== undefined) && $result.val(value);
             return $result;
