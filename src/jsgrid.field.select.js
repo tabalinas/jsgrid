@@ -8,11 +8,13 @@
         this.valueField = "";
         this.textField = "";
 
-        NumberField.call(this, config);
-
-        if(!config.valueType && this.valueField && this.items.length) {
-            this.valueType = typeof this.items[0][this.valueField];
+        if(config.valueField && config.items.length) {
+            this.valueType = typeof config.items[0][config.valueField];
         }
+
+        this.sorter = this.valueType;
+
+        NumberField.call(this, config);
     }
 
     SelectField.prototype = new NumberField({

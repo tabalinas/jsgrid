@@ -219,6 +219,8 @@ $(function() {
             selectedIndex: 1
         });
 
+        strictEqual(field.sorter, "string", "sorter set according to value type");
+
         field.filterTemplate();
         strictEqual(field.filterValue(), "2");
 
