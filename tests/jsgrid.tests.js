@@ -1333,12 +1333,12 @@ $(function() {
     test("pager format", function() {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
-                data: [{}, {}, {}],
+                data: [{}, {}, {}, {}, {}, {}],
                 paging: true,
-                pageSize: 1,
+                pageSize: 2,
                 pageIndex: 2,
                 pageButtonCount: 1,
-                pagerFormat: "a {pageIndex} {first} {prev} {pages} {next} {last} {pageCount} z",
+                pagerFormat: "a {pageIndex} {first} {prev} {pages} {next} {last} {pageCount} {itemCount} z",
                 pagePrevText: "<",
                 pageNextText: ">",
                 pageFirstText: "<<",
@@ -1350,7 +1350,7 @@ $(function() {
         grid._firstDisplayingPage = 2;
         grid._refreshPager();
 
-        equal($.trim(grid._pagerContainer.text()), "a 2 << < pp2np > >> 3 z", "pager text follows the format specified");
+        equal($.trim(grid._pagerContainer.text()), "a 2 << < pp2np > >> 3 6 z", "pager text follows the format specified");
     });
 
     test("loading by page", function() {
