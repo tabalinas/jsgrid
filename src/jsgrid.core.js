@@ -1173,7 +1173,7 @@
         return result;
     };
 
-    var fields = [];
+    var fields = {};
 
     var setDefaults = function(config) {
         var componentPrototype;
