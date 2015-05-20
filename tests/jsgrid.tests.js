@@ -1061,6 +1061,7 @@ $(function() {
         grid.fields[0].editControl.val("new value");
         grid.updateItem();
 
+        deepEqual(updatingArgs.previousItem, { field: "value" }, "item before editing is provided in updating event args");
         deepEqual(updatingArgs.item, { field: "new value" }, "updating item is provided in updating event args");
         equal(updatingArgs.itemIndex, 0, "itemIndex is provided in updating event args");
         equal(updatingArgs.row.length, 1, "row element is provided in updating event args");
@@ -1068,6 +1069,7 @@ $(function() {
         deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
         equal(grid._content.find("." + grid.editRowClass).length, 0, "edit row removed");
         equal(grid._content.find("." + grid.oddRowClass).length, 1, "data row rendered");
+        deepEqual(updatedArgs.previousItem, { field: "value" }, "item before editing is provided in updated event args");
         deepEqual(updatedArgs.item, { field: "new value" }, "updated item is provided in updated event args");
         equal(updatedArgs.itemIndex, 0, "itemIndex is provided in updated event args");
         equal(updatedArgs.row.length, 1, "row element is provided in updated event args");
