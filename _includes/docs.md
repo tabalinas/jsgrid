@@ -29,6 +29,7 @@ The config object may contain following options (default values are specified be
 
     rowClass: function(item, itemIndex) { ... },
     rowClick: function(args) { ... },
+    rowDoubleClick: function(args) { ... },
 
     noDataContent: "Not found",
 
@@ -207,6 +208,17 @@ A function handling row click. Accepts single argument with following structure:
 
 By default `rowClick` performs row editing when `editing` is `true`.
 
+### rowDoubleClick
+A function handling row double click. Accepts single argument with the following structure:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+     item       // data item
+     itemIndex  // data item index
+     event      // jQuery event
+}</pre>
+</div>
+
 ### noDataContent (default `"Not found"`)
 A string or a function returning a markup, jQueryElement or DomNode specifying the content to be displayed when `data` is an empty array.
 
@@ -242,7 +254,8 @@ There are placeholders that can be used in the format:
 {next}      // link to next page
 {last}      // link to last page
 {pageIndex} // current page index
-{pageCount} // total amount of pages</pre>
+{pageCount} // total amount of pages
+{itemCount} // total amount of items</pre>
 </div>
 
 ### pageNextText (default `"Next"`)
@@ -598,6 +611,13 @@ $("#grid").jsGrid("editItem", $(".specific-row"));
 $("#grid").jsGrid("editItem", rowNode);</pre>
 </div>
 
+### getFilter(): `Object`
+Get grid filter as plain object.
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">var filter = $("#grid").jsGrid("getFilter");</pre>
+</div>
+
 ### insertItem([item]): `Promise`
 Inserts row into the grid based on item.
 Returns jQuery promise resolved when insertion is completed. 
@@ -747,6 +767,27 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 });</pre>
 </div>
 
+#### jsGrid.setDefaults(config)
+Set default options for all grids.
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">jsGrid.setDefaults({
+    filtering: true,
+    inserting: true
+});</pre>
+</div>
+
+#### jsGrid.setDefaults(fieldName, config)
+
+Set default options of the particular field.
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">jsGrid.setDefaults("text", {
+    width: 150,
+    css: "text-field-cls"
+});</pre>
+</div>
+
 
 ## Callbacks
 
@@ -849,6 +890,7 @@ Has following arguments:
     row                 // updating row jQuery element
     item                // updating item
     itemIndex           // updating item index
+    previuosItem        // shallow copy (not deep copy) of item before editing
 }</pre>
 </div>
 
@@ -863,6 +905,7 @@ Has following arguments:
     row                 // updated row jQuery element
     item                // updated item
     itemIndex           // updated item index
+    previuosItem        // shallow copy (not deep copy) of item before editing
 }</pre>
 </div>
 

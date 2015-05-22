@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.0.1 (http://js-grid.com)
+ * jsGrid v1.1.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -22,7 +22,7 @@
 
 .jsgrid-grid-header {
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: scroll;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -32,7 +32,7 @@
 }
 
 .jsgrid-grid-body {
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 }

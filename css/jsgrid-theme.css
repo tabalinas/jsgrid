@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.0.1 (http://js-grid.com)
+ * jsGrid v1.1.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -25,8 +25,30 @@
     border-left: none;
 }
 
+.jsgrid-header-row > th:last-child, .jsgrid-filter-row > td:last-child, .jsgrid-insert-row > td:last-child {
+    border-right: none;
+}
+
 .jsgrid-grid-header {
     background: #f9f9f9;
+}
+
+.jsgrid-header-scrollbar {
+    scrollbar-arrow-color: #f1f1f1;
+    scrollbar-base-color: #f1f1f1;
+    scrollbar-3dlight-color: #f1f1f1;
+    scrollbar-highlight-color: #f1f1f1;
+    scrollbar-track-color: #f1f1f1;
+    scrollbar-shadow-color: #f1f1f1;
+    scrollbar-dark-shadow-color: #f1f1f1;
+}
+
+.jsgrid-header-scrollbar::-webkit-scrollbar {
+    visibility: hidden;
+}
+
+.jsgrid-header-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
 .jsgrid-header-sortable:hover {
@@ -71,6 +93,10 @@
 
 .jsgrid-grid-body tr td:first-child {
     border-left: none;
+}
+
+.jsgrid-grid-body tr td:last-child {
+    border-right: none;
 }
 
 .jsgrid-row > td {
@@ -139,6 +165,10 @@
 .jsgrid .jsgrid-mode-button {
     width: 24px;
     height: 24px;
+}
+
+.jsgrid-mode-on-button {
+    opacity: .5;
 }
 
 .jsgrid-cancel-button { background-position: 0 0; width: 16px; height: 16px; }

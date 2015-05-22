@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.0.1 (http://js-grid.com)
+ * jsGrid v1.1.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -21,6 +21,7 @@
         LAST_PAGE_PLACEHOLDER = "{last}",
         PAGE_INDEX_PLACEHOLDER = "{pageIndex}",
         PAGE_COUNT_PLACEHOLDER = "{pageCount}",
+        ITEM_COUNT_PLACEHOLDER = "{itemCount}",
 
         EMPTY_HREF = "javascript:void(0);";
 
@@ -71,32 +72,33 @@
                 this.editItem($(args.event.target).closest("tr"));
             }
         },
+        rowDoubleClick: $.noop,
 
         noDataContent: "Not found",
         noDataRowClass: "jsgrid-nodata-row",
 
         heading: true,
         headerRowRenderer: null,
-        headerRowClass: "jsgrid-header-row", 
+        headerRowClass: "jsgrid-header-row",
 
         filtering: false,
         filterRowRenderer: null,
-        filterRowClass: "jsgrid-filter-row", 
+        filterRowClass: "jsgrid-filter-row",
 
         inserting: false,
         insertRowRenderer: null,
-        insertRowClass: "jsgrid-insert-row",    
+        insertRowClass: "jsgrid-insert-row",
 
         editing: false,
         editRowRenderer: null,
         editRowClass: "jsgrid-edit-row",
 
-        confirmDeleting: true,                  
+        confirmDeleting: true,
         deleteConfirm: "Are you sure?",
 
-        selecting: true,                       
+        selecting: true,
         selectedRowClass: "jsgrid-selected-row",
-        oddRowClass: "jsgrid-row", 
+        oddRowClass: "jsgrid-row",
         evenRowClass: "jsgrid-alt-row",
 
         sorting: false,
@@ -106,7 +108,7 @@
 
         paging: false,
         pagerContainer: null,
-        pageIndex: 1,  
+        pageIndex: 1,
         pageSize: 20,
         pageButtonCount: 15,
         pagerFormat: "Pages: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} of {pageCount}",
@@ -150,7 +152,7 @@
         tableClass: "jsgrid-table",
         gridHeaderClass: "jsgrid-grid-header",
         gridBodyClass: "jsgrid-grid-body",
-                
+
         _init: function(config) {
             $.extend(this, config);
             this._initLoadStrategy();
@@ -239,6 +241,7 @@
                 case "rowClass":
                 case "rowRenderer":
                 case "rowClick":
+                case "rowDoubleClick":
                 case "noDataText":
                 case "noDataRowClass":
                 case "noDataContent":
@@ -347,6 +350,7 @@
                 .append($insertRow);
 
             var $header = this._header = $("<div>").addClass(this.gridHeaderClass)
+                .addClass(this._scrollBarWidth() ? "jsgrid-header-scrollbar" : "")
                 .append($headerGrid);
 
             return $header;
@@ -359,7 +363,10 @@
                 .append($content);
 
             var $body = this._body = $("<div>").addClass(this.gridBodyClass)
-                .append($bodyGrid);
+                .append($bodyGrid)
+                .on("scroll", $.proxy(function(e) {
+                    this._header.scrollLeft(e.target.scrollLeft);
+                }, this));
 
             return $body;
         },
@@ -384,7 +391,7 @@
             var $result = $("<tr>").addClass(this.headerRowClass);
 
             this._eachField(function(field, index) {
-                var $th = $("<th>").addClass(field.css)
+                var $th = $("<th>").addClass(field.headercss || field.css)
                     .appendTo($result)
                     .append(field.headerTemplate ? field.headerTemplate() : "")
                     .css("width", field.width);
@@ -408,7 +415,7 @@
             var $result = $("<tr>").addClass(this.filterRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.css)
+                $("<td>").addClass(field.filtercss || field.css)
                     .appendTo($result)
                     .append(field.filterTemplate ? field.filterTemplate() : "")
                     .width(field.width);
@@ -425,7 +432,7 @@
             var $result = $("<tr>").addClass(this.insertRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.css)
+                $("<td>").addClass(field.insertcss || field.css)
                     .appendTo($result)
                     .append(field.insertTemplate ? field.insertTemplate() : "")
                     .width(field.width);
@@ -468,7 +475,7 @@
             this._refreshContent();
             this._refreshPager();
             this._refreshSize();
-            
+
             this._callEventHandler(this.onRefreshed);
         },
 
@@ -508,7 +515,7 @@
                 .append($("<td>").attr("colspan", this.fields.length).append(noDataContent));
         },
 
-        _createNoDataContent: function () {
+        _createNoDataContent: function() {
             return $.isFunction(this.noDataRenderer)
                 ? this.noDataRenderer()
                 : this.noDataText;
@@ -524,15 +531,22 @@
                 this._renderCells($result, item);
             }
 
-            $result.addClass(this._getRowClasses(item, itemIndex))
-                .data(JSGRID_ROW_DATA_KEY, item)
-                .on("click", $.proxy(function(e) {
-                    this.rowClick({
-                        item: item,
-                        itemIndex: itemIndex,
-                        event: e
-                    });
-                }, this));
+           $result.addClass(this._getRowClasses(item, itemIndex))
+              .data(JSGRID_ROW_DATA_KEY, item)
+              .on("click", $.proxy(function(e) {
+                 this.rowClick({
+                    item: item,
+                    itemIndex: itemIndex,
+                    event: e
+                 });
+              }, this))
+              .on("dblclick", $.proxy(function(e) {
+                 this.rowDoubleClick({
+                    item: item,
+                    itemIndex: itemIndex,
+                    event: e
+                 });
+              }, this));
 
             if(this.selecting) {
                 this._attachRowHover($result);
@@ -616,7 +630,7 @@
             }
 
             if(typeof field === "string") {
-                return $.grep(this.fields, function (f) {
+                return $.grep(this.fields, function(f) {
                     return f.name === field;
                 })[0];
             }
@@ -675,6 +689,7 @@
         _createPager: function() {
             var pageIndex = this.pageIndex,
                 pageCount = this._pagesCount(),
+                itemCount = this._itemsCount(),
                 pagerParts = this.pagerFormat.split(" ");
 
             pagerParts = $.map(pagerParts, $.proxy(function(pagerPart) {
@@ -694,6 +709,8 @@
                     result = pageIndex;
                 } else if(pagerPart === PAGE_COUNT_PLACEHOLDER) {
                     result = pageCount;
+                } else if(pagerPart === ITEM_COUNT_PLACEHOLDER) {
+                    result = itemCount;
                 }
 
                 return $.isArray(result) ? result.concat([" "]) : [result, " "];
@@ -768,22 +785,18 @@
         _refreshWidth: function() {
             var $headerGrid = this._headerGrid,
                 $bodyGrid = this._bodyGrid,
-                width = this.width,
-                scrollBarWidth = this._scrollBarWidth(),
-                gridWidth;
+                width = this.width;
 
             if(width === "auto") {
                 $headerGrid.width("auto");
-                gridWidth = $headerGrid.outerWidth();
-                width = gridWidth + scrollBarWidth;
+                width = $headerGrid.outerWidth();
             }
 
             $headerGrid.width("");
             $bodyGrid.width("");
-            this._header.css("padding-right", scrollBarWidth);
             this._container.width(width);
-            gridWidth = $headerGrid.outerWidth();
-            $bodyGrid.width(gridWidth);
+            width = $headerGrid.outerWidth();
+            $bodyGrid.width(width);
         },
 
         _scrollBarWidth: (function() {
@@ -908,7 +921,7 @@
         },
 
         loadData: function(filter) {
-            filter = filter || (this.filtering ? this._getFilter() : {});
+            filter = filter || (this.filtering ? this.getFilter() : {});
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
@@ -925,7 +938,7 @@
             });
         },
 
-        _getFilter: function() {
+        getFilter: function() {
             var result = {};
             this._eachField(function(field) {
                 if(field.filtering) {
@@ -1027,7 +1040,7 @@
             var $result = $("<tr>").addClass(this.editRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.css)
+                $("<td>").addClass(field.editcss || field.css)
                     .appendTo($result)
                     .append(field.editTemplate ? field.editTemplate(item[field.name], item) : "")
                     .width(field.width || "auto");
@@ -1049,14 +1062,16 @@
 
         _updateRow: function($updatingRow, editedItem) {
             var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
-                updatingItemIndex = this._itemIndex(updatingItem);
+                updatingItemIndex = this._itemIndex(updatingItem),
+                previousItem = $.extend({}, updatingItem);
 
             $.extend(updatingItem, editedItem);
 
             this._callEventHandler(this.onItemUpdating, {
                 row: $updatingRow,
                 item: updatingItem,
-                itemIndex: updatingItemIndex
+                itemIndex: updatingItemIndex,
+                previousItem: previousItem
             });
 
             return this._controllerCall("updateItem", updatingItem, function(updatedItem) {
@@ -1066,7 +1081,8 @@
                 this._callEventHandler(this.onItemUpdated, {
                     row: $updatingRow,
                     item: updatedItem,
-                    itemIndex: updatingItemIndex
+                    itemIndex: updatingItemIndex,
+                    previousItem: previousItem
                 });
             });
         },
@@ -1168,14 +1184,31 @@
         return result;
     };
 
+    var fields = {};
+
+    var setDefaults = function(config) {
+        var componentPrototype;
+
+        if($.isPlainObject(config)) {
+            componentPrototype = Grid.prototype;
+        } else {
+            componentPrototype = fields[config].prototype;
+            config = arguments[1] || {};
+        }
+
+        $.extend(componentPrototype, config);
+    };
+
     window.jsGrid = {
         Grid: Grid,
-        fields: []
+        fields: fields,
+        setDefaults: setDefaults
     };
 
 }(window, jQuery));
+
 (function(jsGrid, $, undefined) {
-    
+
     function LoadIndicator(config) {
         this._init(config);
     }
@@ -1254,10 +1287,11 @@
     };
 
     jsGrid.LoadIndicator = LoadIndicator;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
-    
+
     function DirectLoadingStrategy(grid) {
         this._grid = grid;
     }
@@ -1312,8 +1346,8 @@
             grid.reset();
         }
     };
-   
-    
+
+
     function PageLoadingStrategy(grid) {
         this._grid = grid;
         this._itemsCount = 0;
@@ -1361,17 +1395,31 @@
             this._grid.search();
         }
     };
-    
+
     jsGrid.loadStrategies = {
         DirectLoadingStrategy: DirectLoadingStrategy,
         PageLoadingStrategy: PageLoadingStrategy
     };
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
-    
+
+    var isDefined = function(val) {
+        return typeof(val) !== "undefined" && val !== null;
+    };
+
     var sortStrategies = {
         string: function(str1, str2) {
+            if(!isDefined(str1) && !isDefined(str2))
+                return 0;
+
+            if(!isDefined(str1))
+                return -1;
+
+            if(!isDefined(str2))
+                return 1;
+
             return str1.localeCompare(str2);
         },
 
@@ -1382,15 +1430,16 @@
         date: function(dt1, dt2) {
             return dt1 - dt2;
         },
-        
+
         numberAsString: function(n1, n2) {
             return parseFloat(n1) - parseFloat(n2);
         }
     };
 
     jsGrid.sortStrategies = sortStrategies;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     function Field(config) {
@@ -1404,7 +1453,7 @@
         css: "",
         align: "",
         width: 100,
-        
+
         filtering: true,
         inserting: true,
         editing: true,
@@ -1458,10 +1507,11 @@
             throw Error("Wrong sorter for the field \"" + this.name + "\"!");
         }
     };
-    
+
     jsGrid.Field = Field;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     var Field = jsGrid.Field;
@@ -1471,10 +1521,13 @@
     }
 
     TextField.prototype = new Field({
-        
+
         autosearch: true,
 
         filterTemplate: function() {
+            if(!this.filtering)
+                return "";
+
             var grid = this._grid,
                 $result = this.filterControl = this._createTextBox();
 
@@ -1491,11 +1544,17 @@
         },
 
         insertTemplate: function() {
+            if(!this.inserting)
+                return "";
+
             var $result = this.insertControl = this._createTextBox();
             return $result;
         },
 
         editTemplate: function(value) {
+            if(!this.editing)
+                return this.itemTemplate(value);
+
             var $result = this.editControl = this._createTextBox();
             $result.val(value);
             return $result;
@@ -1504,7 +1563,7 @@
         filterValue: function() {
             return this.filterControl.val();
         },
-        
+
         insertValue: function() {
             return this.insertControl.val();
         },
@@ -1519,8 +1578,9 @@
     });
 
     jsGrid.fields.text = jsGrid.TextField = TextField;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     var TextField = jsGrid.TextField;
@@ -1530,7 +1590,7 @@
     }
 
     NumberField.prototype = new TextField({
-        
+
         sorter: "number",
         align: "right",
 
@@ -1552,8 +1612,9 @@
     });
 
     jsGrid.fields.number = jsGrid.NumberField = NumberField;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     var TextField = jsGrid.TextField;
@@ -1563,13 +1624,19 @@
     }
 
     TextAreaField.prototype = new TextField({
-        
+
         insertTemplate: function() {
+            if(!this.inserting)
+                return "";
+
             var $result = this.insertControl = this._createTextArea();
             return $result;
         },
 
         editTemplate: function(value) {
+            if(!this.editing)
+                return this.itemTemplate(value);
+
             var $result = this.editControl = this._createTextArea();
             $result.val(value);
             return $result;
@@ -1581,8 +1648,9 @@
     });
 
     jsGrid.fields.textarea = jsGrid.TextAreaField = TextAreaField;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     var NumberField = jsGrid.NumberField;
@@ -1593,11 +1661,13 @@
         this.valueField = "";
         this.textField = "";
 
-        NumberField.call(this, config);
-
-        if(!config.valueType && this.valueField && this.items.length) {
-            this.valueType = typeof this.items[0][this.valueField];
+        if(config.valueField && config.items.length) {
+            this.valueType = typeof config.items[0][config.valueField];
         }
+
+        this.sorter = this.valueType;
+
+        NumberField.call(this, config);
     }
 
     SelectField.prototype = new NumberField({
@@ -1620,10 +1690,15 @@
                 resultItem = items[value];
             }
 
-            return (textField ? resultItem[textField] : resultItem) || "";
+            var result = (textField ? resultItem[textField] : resultItem);
+
+            return (result === undefined || result === null) ? "" : result;
         },
 
         filterTemplate: function() {
+            if(!this.filtering)
+                return "";
+
             var grid = this._grid,
                 $result = this.filterControl = this._createSelect();
 
@@ -1637,11 +1712,17 @@
         },
 
         insertTemplate: function() {
+            if(!this.inserting)
+                return "";
+
             var $result = this.insertControl = this._createSelect();
             return $result;
         },
 
         editTemplate: function(value) {
+            if(!this.editing)
+                return this.itemTemplate(value);
+
             var $result = this.editControl = this._createSelect();
             (value !== undefined) && $result.val(value);
             return $result;
@@ -1685,8 +1766,9 @@
     });
 
     jsGrid.fields.select = jsGrid.SelectField = SelectField;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     var Field = jsGrid.Field;
@@ -1696,11 +1778,11 @@
     }
 
     CheckboxField.prototype = new Field({
-        
+
         sorter: "number",
         align: "center",
         autosearch: true,
-        
+
         itemTemplate: function(value) {
             return this._createCheckbox().prop({
                 checked: value,
@@ -1709,6 +1791,9 @@
         },
 
         filterTemplate: function() {
+            if(!this.filtering)
+                return "";
+
             var grid = this._grid,
                 $result = this.filterControl = this._createCheckbox();
 
@@ -1726,7 +1811,7 @@
                         readOnly: false
                     });
                 }
-                else if (!$cb.prop("checked")) {
+                else if(!$cb.prop("checked")) {
                     $cb.prop({
                         readOnly: true,
                         indeterminate: true
@@ -1744,11 +1829,17 @@
         },
 
         insertTemplate: function() {
+            if(!this.inserting)
+                return "";
+
             var $result = this.insertControl = this._createCheckbox();
             return $result;
         },
 
         editTemplate: function(value) {
+            if(!this.editing)
+                return this.itemTemplate(value);
+
             var $result = this.editControl = this._createCheckbox();
             $result.prop("checked", value);
             return $result;
@@ -1759,7 +1850,7 @@
                 ? undefined
                 : this.filterControl.is(":checked");
         },
-        
+
         insertValue: function() {
             return this.insertControl.is(":checked");
         },
@@ -1774,14 +1865,16 @@
     });
 
     jsGrid.fields.checkbox = jsGrid.CheckboxField = CheckboxField;
-    
+
 }(jsGrid, jQuery));
+
 (function(jsGrid, $, undefined) {
 
     var Field = jsGrid.Field;
 
     function ControlField(config) {
         Field.call(this, config);
+        this._configInitialized = false;
     }
 
     ControlField.prototype = new Field({
@@ -1789,13 +1882,14 @@
         align: "center",
         width: 50,
         filtering: false,
-		inserting: false,
+        inserting: false,
         editing: false,
         sorting: false,
 
         buttonClass: "jsgrid-button",
         modeButtonClass: "jsgrid-mode-button",
 
+        modeOnButtonClass: "jsgrid-mode-on-button",
         searchModeButtonClass: "jsgrid-search-mode-button",
         insertModeButtonClass: "jsgrid-insert-mode-button",
         editButtonClass: "jsgrid-edit-button",
@@ -1821,8 +1915,35 @@
         clearFilterButton: true,
         modeSwitchButton: true,
 
+        _initConfig: function() {
+            this._hasFiltering = this._grid.filtering;
+            this._hasInserting = this._grid.inserting;
+
+            if(this._hasInserting && this.modeSwitchButton) {
+                this._grid.inserting = false;
+            }
+
+            this._configInitialized = true;
+        },
+
         headerTemplate: function() {
-            return this.modeSwitchButton ? this._createModeSwitchButton() : "";
+            if(!this._configInitialized) {
+                this._initConfig();
+            }
+
+            var hasFiltering = this._hasFiltering;
+            var hasInserting = this._hasInserting;
+
+            if(!this.modeSwitchButton || (!hasFiltering && !hasInserting))
+                return "";
+
+            if(hasFiltering && !hasInserting)
+                return this._createFilterSwitchButton();
+
+            if(hasInserting && !hasFiltering)
+                return this._createInsertSwitchButton();
+
+            return this._createModeSwitchButton();
         },
 
         itemTemplate: function(value, item) {
@@ -1850,6 +1971,32 @@
 
         editTemplate: function() {
             return this._createUpdateButton().add(this._createCancelEditButton());
+        },
+
+        _createFilterSwitchButton: function() {
+            return this._createOnOffSwitchButton("filtering", this.searchModeButtonClass, true);
+        },
+
+        _createInsertSwitchButton: function() {
+            return this._createOnOffSwitchButton("inserting", this.insertModeButtonClass, false);
+        },
+
+        _createOnOffSwitchButton: function(option, cssClass, isOnInitially) {
+            var isOn = isOnInitially;
+
+            var updateButtonState = $.proxy(function() {
+                $button.toggleClass(this.modeOnButtonClass, isOn);
+            }, this);
+
+            var $button = this._createGridButton(this.modeButtonClass + " " + cssClass, "", function(grid) {
+                isOn = !isOn;
+                grid.option(option, isOn);
+                updateButtonState();
+            });
+
+            updateButtonState();
+
+            return $button;
         },
 
         _createModeSwitchButton: function() {
