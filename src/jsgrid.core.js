@@ -118,6 +118,7 @@
         pageClass: "jsgrid-pager-page",
         currentPageClass: "jsgrid-pager-current-page",
 
+        customLoading: false,
         pageLoading: false,
 
         autoload: false,
@@ -157,6 +158,9 @@
         },
 
         loadStrategy: function() {
+            if(this.customLoading) {
+               return new jsGrid.loadStrategies.CustomLoadingStrategy(this);
+            }
             return this.pageLoading
                 ? new jsGrid.loadStrategies.PageLoadingStrategy(this)
                 : new jsGrid.loadStrategies.DirectLoadingStrategy(this);
