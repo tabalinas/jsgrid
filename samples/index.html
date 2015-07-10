@@ -1,0 +1,22 @@
+---
+layout: default
+title: Backends
+---
+
+<div class="page-header">
+    <div class="row">
+        <div class="small-12 columns content">
+            <h1>Backends</h1>
+            <p>Samples for the most popular backend technologies and <strong>jsGrid</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="page-content">
+    <div class="row">
+        <div class="small-12 columns content samples-list">
+            {% capture samples %}{% include samples.md %}{% endcapture %}
+            {{ samples | markdownify }}
+        </div>
+    </div>
+</div>
