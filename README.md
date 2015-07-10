@@ -33,6 +33,14 @@ jQuery (1.8.3 or later)
 
 See [Demos](http://js-grid.com/demos/) on project site.
 
+Sample projects showing how to use jsGrid with most popular backend technologies:
+
+* **PHP** - https://github.com/tabalinas/jsgrid-php
+* **ASP.NET WebAPI** - https://github.com/tabalinas/jsgrid-webapi
+* **Express (NodeJS)** - https://github.com/tabalinas/jsgrid-express
+* **Ruby on Rail** - https://github.com/tabalinas/jsgrid-rails
+* **Django (Python)** - https://github.com/tabalinas/jsgrid-django
+
 ## Compatibility
 
 **Desktop**
