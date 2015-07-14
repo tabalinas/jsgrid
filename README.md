@@ -23,6 +23,7 @@ Although jsGrid is tunable and allows to customize appearance and components.
 * [Callbacks](#callbacks)
 * [Grid Controller](#grid-controller)
 * [Sorting Strategies](#sorting-strategies)
+* [Load Indication](#load-indication)
 
 ## Requirement
 
