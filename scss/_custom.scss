@@ -195,9 +195,11 @@ iframe[name='demo'] {
   position: absolute;
   top:0;
   left: 0;
-  width: 100%;
   height: 100%;
   border: none;
+  width: 1px;
+  min-width: 100%;
+  *width: 100%;
 }
 
 .docs-navigation {
