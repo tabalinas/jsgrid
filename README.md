@@ -158,6 +158,7 @@ The config object may contain following options (default values are specified be
     loadIndicationDelay: 500,
     loadMessage: "Please, wait...",
     loadShading: true,
+    loadIndicator: function(config) { ... }
 
     updateOnResize: true,
 
@@ -404,6 +405,10 @@ A string specifying the text of loading indication panel. Applied only when `loa
 
 ### loadShading (default `true`)
 A boolean value specifying whether to show overlay (shader) over grid content during loading indication. Applied only when `loadIndication` is `true`.
+
+### loadIndicator
+An object or a function returning an object representing grid load indicator. Load indicator could be any js object supporting two methods `show` and `hide`.
+`show` is called on each loading start. `hide` method is called on each loading finish. Read more about custom load indicator in the [Load Indication](#load-indication) section.
 
 ### updateOnResize (default `true`)
 A boolean value specifying whether to refresh grid on window resize event.
@@ -1377,6 +1382,87 @@ Worth to mention, that if you need particular sorting only once, you can just in
     ]
 }
 ```
+
+## Load Indication
+
+By default jsGrid uses jsGrid.LoadIndicator. Load indicator can be customized with the `loadIndicator` option. 
+Set an object or a function returning an object supporting the following interface:
+
+```javascript
+{
+    show: function() { ... } // called on loading start
+    hide: function() { ... } // called on loading finish
+}
+```
+
+This simple example prints messages to console instead of showing load indicator:
+
+```javascript
+{
+    loadIndicator: {
+        show: function() { 
+            console.log("loading started");
+        },
+        hide: function() {
+            console.log("loading finished"); 
+        }
+    }
+}
+```
+
+If `loadIndicator` is a function, it accepts the config of load indicator in the following format:
+
+```javascript
+{
+    container,  // grid container div
+    message,    // the loading message is a value of the option loadMessage
+    shading     // the boolean value defining whether to show shading. This is a value of the option loadShading
+}
+```
+
+The similar example printing messages to console shows how to configure loading indicator with a function returning an object:
+
+```javascript
+{
+    loadIndicator: function(config) {
+        return {
+            show: function() { 
+                console.log("loading started: " + config.message);
+            },
+            hide: function() {
+                console.log("loading finished"); 
+            }
+        };
+    }
+}
+```
+
+Customization of loading indicator is useful, when you want to use any external load indicator that is used for all other ajax requests on the page.
+
+This example shows how to use [spin.js](http://fgnass.github.io/spin.js/) to indicate loading:
+
+```javascript
+{
+    loadIndicator: function(config) {
+        var container = config.container[0];
+        var spinner = new Spinner();
+    
+        return {
+            show: function() {
+                spinner.spin(container);
+            },
+            hide: function() {
+                spinner.stop();
+            }
+        };
+    }
+}
+```
+
+
+
+
+
 
 
 
