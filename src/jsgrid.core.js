@@ -158,9 +158,6 @@
         },
 
         loadStrategy: function() {
-            if(this.customLoading) {
-               return new jsGrid.loadStrategies.CustomLoadingStrategy(this);
-            }
             return this.pageLoading
                 ? new jsGrid.loadStrategies.PageLoadingStrategy(this)
                 : new jsGrid.loadStrategies.DirectLoadingStrategy(this);
