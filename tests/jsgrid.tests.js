@@ -1021,6 +1021,8 @@ $(function() {
         var $element = $("#jsGrid"),
             updated = false,
             updatingArgs,
+            updatingRow,
+            updatedRow,
             updatedArgs,
             data = [{
                 field: "value"
@@ -1047,9 +1049,11 @@ $(function() {
                 },
                 onItemUpdating: function(e) {
                     updatingArgs = $.extend(true, {}, e);
+                    updatingRow = grid._rowByItem(data[0])[0];
                 },
                 onItemUpdated: function(e) {
                     updatedArgs = $.extend(true, {}, e);
+                    updatedRow = grid._rowByItem(data[0])[0];
                 }
             },
 
@@ -1064,7 +1068,7 @@ $(function() {
         deepEqual(updatingArgs.previousItem, { field: "value" }, "item before editing is provided in updating event args");
         deepEqual(updatingArgs.item, { field: "new value" }, "updating item is provided in updating event args");
         equal(updatingArgs.itemIndex, 0, "itemIndex is provided in updating event args");
-        equal(updatingArgs.row.length, 1, "row element is provided in updating event args");
+        equal(updatingArgs.row[0], updatingRow, "row element is provided in updating event args");
         ok(updated, "controller updateItem called");
         deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
         equal(grid._content.find("." + grid.editRowClass).length, 0, "edit row removed");
@@ -1072,7 +1076,7 @@ $(function() {
         deepEqual(updatedArgs.previousItem, { field: "value" }, "item before editing is provided in updated event args");
         deepEqual(updatedArgs.item, { field: "new value" }, "updated item is provided in updated event args");
         equal(updatedArgs.itemIndex, 0, "itemIndex is provided in updated event args");
-        equal(updatedArgs.row.length, 1, "row element is provided in updated event args");
+        equal(updatedArgs.row[0], updatedRow, "row element is provided in updated event args");
     });
 
     test("cancel edit", function() {

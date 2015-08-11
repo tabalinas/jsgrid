@@ -1071,10 +1071,10 @@
 
             return this._controllerCall("updateItem", updatingItem, function(updatedItem) {
                 updatedItem = updatedItem || updatingItem;
-                this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
+                var $updatedRow = this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
                 this._callEventHandler(this.onItemUpdated, {
-                    row: $updatingRow,
+                    row: $updatedRow,
                     item: updatedItem,
                     itemIndex: updatingItemIndex,
                     previousItem: previousItem
@@ -1086,10 +1086,13 @@
             return $.inArray(item, this.data);
         },
 
-        _finishUpdate: function($updatedRow, updatedItem, updatedItemIndex) {
+        _finishUpdate: function($updatingRow, updatedItem, updatedItemIndex) {
             this.cancelEdit();
             this.data[updatedItemIndex] = updatedItem;
-            $updatedRow.replaceWith(this._createRow(updatedItem, updatedItemIndex));
+
+            var $updatedRow = this._createRow(updatedItem, updatedItemIndex);
+            $updatingRow.replaceWith($updatedRow);
+            return $updatedRow;
         },
 
         _getEditedItem: function() {
