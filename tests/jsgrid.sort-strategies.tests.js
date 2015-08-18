@@ -13,6 +13,14 @@ $(function() {
         deepEqual(data, ["a", "b", "c", "d"]);
     });
 
+    test("string sorting should be robust", function() {
+        var data = ["a", 1, true, "b"];
+
+        data.sort(sortStrategies["string"]);
+
+        deepEqual(data, [1, "a", "b", true]);
+    });
+
     test("number sorting", function() {
         var data = [5, 3.2, 1e2, 4];
 

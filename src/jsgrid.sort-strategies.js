@@ -15,7 +15,7 @@
             if(!isDefined(str2))
                 return 1;
 
-            return str1.localeCompare(str2);
+            return ("" + str1).localeCompare("" + str2);
         },
 
         number: function(n1, n2) {
