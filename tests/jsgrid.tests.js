@@ -529,6 +529,26 @@ $(function() {
         equal(grid.option("data").length, 2, "data filtered");
     });
 
+    test("filtering with static data should not do actual filtering", function() {
+        var $element = $("#jsGrid"),
+            gridOptions = {
+                filtering: true,
+                fields: [
+                    { type: "text", name: "field" }
+                ],
+                data: [
+                    { name: "value1" },
+                    { name: "value2" }
+                ]
+            },
+            grid = new Grid($element, gridOptions);
+
+        grid._filterRow.find("input").val("1");
+
+        grid.search();
+        equal(grid.option("data").length, 2, "data is not filtered");
+    });
+
 
     module("nodatarow");
 

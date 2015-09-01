@@ -925,6 +925,9 @@
             });
 
             return this._controllerCall("loadData", filter, function(loadedData) {
+                if(!loadedData)
+                    return;
+
                 this._loadStrategy.finishLoad(loadedData);
 
                 this._callEventHandler(this.onDataLoaded, {
