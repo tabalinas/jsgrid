@@ -1093,7 +1093,7 @@ Has following arguments:
     row                 // updating row jQuery element
     item                // updating item
     itemIndex           // updating item index
-    previuosItem        // shallow copy (not deep copy) of item before editing
+    previousItem        // shallow copy (not deep copy) of item before editing
 }
 
 ```
@@ -1110,7 +1110,7 @@ Has following arguments:
     row                 // updated row jQuery element
     item                // updated item
     itemIndex           // updated item index
-    previuosItem        // shallow copy (not deep copy) of item before editing
+    previousItem        // shallow copy (not deep copy) of item before editing
 }
 
 ```
