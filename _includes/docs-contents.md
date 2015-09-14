@@ -57,6 +57,7 @@
   - [editItem](#edititemitemrowrownode)
   - [getFilter](#getfilter-object)
   - [insertItem](#insertitemitem-promise)
+  - [loadData](#loaddatafilter-promise)
   - [openPage](#openpagepageindex)
   - [option](#optionkey-value)
   - [refresh](#refresh)
