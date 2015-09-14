@@ -801,6 +801,27 @@ $("#grid").jsGrid("insertItem", { Name: "John", Age: 25, Country: 2 }).done(func
 
 ```
 
+### loadData([filter]): `Promise`
+Loads data calling corresponding `controller.loadData` method. 
+Returns jQuery promise resolved when data loading is completed.
+It preserves current sorting and paging unlike the `search` method .
+ 
+**filter** is a filter to pass to `controller.loadData`. 
+
+If `filter` is not specified the current filter (filtering row values) will be applied.
+
+```javascript
+
+// load data with current grid filter
+$("#grid").jsGrid("loadData");
+
+// loadData with custom filter
+$("#grid").jsGrid("loadData", { Name: "John" }).done(function() {
+    console.log("data loaded");
+});
+
+```
+
 ### openPage(pageIndex)
 Opens the page of specified index.
 
@@ -858,7 +879,8 @@ $("#grid").jsGrid("reset");
 
 ### search([filter]): `Promise`
 Performs filtering of the grid.
-Returns jQuery promise resolved when data loading is completed. 
+Returns jQuery promise resolved when data loading is completed.
+It resets current sorting and paging unlike the `loadData` method.
  
 **filter** is a filter to pass to `controller.loadData`. 
 
