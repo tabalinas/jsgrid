@@ -1173,6 +1173,172 @@ Worth to mention, that if you need particular sorting only once, you can just in
 </div>
 
 
+## Load Strategies
+
+The behavior of the grid regarding data source interaction is defined by load strategy.
+
+The load strategy has the following methods:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    firstDisplayIndex: function() {},                        // returns the index of the first displayed item
+    lastDisplayIndex: function() {},                         // returns the index of the last displayed item
+    itemsCount: function() {},                               // returns the total amount of grid items
+
+    openPage: function(index) {},                            // handles opening of the particular page
+    loadParams: function() {},                               // returns additional parameters for controller.loadData method
+    sort: function() {},                                     // handles sorting of data in the grid
+
+    finishLoad: function(loadedData) {},                     // handles the finish of loading data by controller.loadData
+    finishInsert: function(insertedItem) {},                 // handles the finish of inserting item by controller.insertItem
+    finishDelete: function(deletedItem, deletedItemIndex) {} // handles the finish of deleting item by controller.deleteItem
+}</pre>
+</div>
+
+There are two build-in load strategies: DirectLoadingStrategy (for `pageLoading=false`) and PageLoadingStrategy (for `pageLoading=true`).
+
+### DirectLoadingStrategy
+
+**DirectLoadingStrategy** is used when loading by page is turned off (`pageLoading=false`).
+
+It provides the following behavior:
+
+- **firstDisplayIndex** returns the index of the first item on the displayed page
+- **lastDisplayIndex** returns the index of the last item on the displayed page
+- **itemsCount** returns the actual amount of all the loaded items
+- **openPage** refreshes the grid to render items of current page
+- **loadParams** returns empty object, since no extra load params are needed
+- **sort** sorts data items and refreshes the grid
+- **finishLoad** puts the data coming from `controller.loadData` into the option `data` of the grid
+- **finishInsert** pushes new inserted item into the option `data` and refreshes the grid
+- **finishDelete** removes deleted item from the option `data` and resets the grid
+
+### PageLoadingStrategy
+
+**PageLoadingStrategy** is used when data is loaded to the grid by pages (`pageLoading=true`).
+
+It provides the following behavior:
+
+- **firstDisplayIndex** returns 0, because all loaded items displayed on the current page
+- **lastDisplayIndex** returns the amount of loaded items, since data loaded by page
+- **itemsCount** returns `itemsCount` provided by `controller.loadData` (read more in section [controller.loadData](##loaddatafilter-promisedataresult))
+- **openPage** calls `grid.loadData` to load data for the current page
+- **loadParams** returns an object with the structure `{ pageIndex, pageSize }` to provide server with paging info
+- **sort** calls `grid.loadData` to load sorted data from the server
+- **finishLoad** saves `itemsCount` returned by server and puts the `data` into the option `data` of the grid
+- **finishInsert** calls `grid.search` to reload the data
+- **finishDelete** calls `grid.search` to reload the data
+
+### Custom LoadStrategy
+
+The option `loadStrategy` allows to specify a custom load strategy to customize the behavior of the grid.
+The easiest way to do it is to inherit from existing strategy.
+
+By default DirectLoadingStrategy resets the grid (resets the paging and sorting) when an item is deleted.
+The following example shows how to create a custom strategy to avoid grid reset on deletion of an item.
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">var MyCustomDirectLoadStrategy = function(grid) {
+    jsGrid.loadStrategies.DirectLoadingStrategy.call(this, grid);
+};
+
+MyCustomDirectLoadStrategy.prototype = new jsGrid.loadStrategies.DirectLoadingStrategy();
+
+MyCustomDirectLoadStrategy.prototype.finishDelete = function(deletedItem, deletedItemIndex) {
+    var grid = this._grid;
+    grid.option("data").splice(deletedItemIndex, 1);
+    grid.refresh();
+};
+
+// use custom strategy in grid config
+$("#grid").jsGrid({
+
+    loadStrategy: function() {
+        return new MyCustomDirectLoadStrategy(this);
+    },
+
+    ...
+
+});</pre>
+</div>
+
+## Load Indication
+
+By default jsGrid uses jsGrid.LoadIndicator. Load indicator can be customized with the `loadIndicator` option.
+Set an object or a function returning an object supporting the following interface:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    show: function() { ... } // called on loading start
+    hide: function() { ... } // called on loading finish
+}</pre>
+</div>
+
+This simple example prints messages to console instead of showing load indicator:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    loadIndicator: {
+        show: function() {
+            console.log("loading started");
+        },
+        hide: function() {
+            console.log("loading finished");
+        }
+    }
+}</pre>
+</div>
+
+If `loadIndicator` is a function, it accepts the config of load indicator in the following format:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    container,  // grid container div
+    message,    // the loading message is a value of the option loadMessage
+    shading     // the boolean value defining whether to show shading. This is a value of the option loadShading
+}</pre>
+</div>
+
+The similar example printing messages to console shows how to configure loading indicator with a function returning an object:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    loadIndicator: function(config) {
+        return {
+            show: function() {
+                console.log("loading started: " + config.message);
+            },
+            hide: function() {
+                console.log("loading finished");
+            }
+        };
+    }
+}</pre>
+</div>
+
+Customization of loading indicator is useful, when you want to use any external load indicator that is used for all other ajax requests on the page.
+
+This example shows how to use [spin.js](http://fgnass.github.io/spin.js/) to indicate loading:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    loadIndicator: function(config) {
+        var container = config.container[0];
+        var spinner = new Spinner();
+
+        return {
+            show: function() {
+                spinner.spin(container);
+            },
+            hide: function() {
+                spinner.stop();
+            }
+        };
+    }
+}</pre>
+</div>
+
+
 ## Requirement
 
 jQuery version 1.8.3 or later.
