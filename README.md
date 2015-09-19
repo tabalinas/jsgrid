@@ -1579,13 +1579,3 @@ This example shows how to use [spin.js](http://fgnass.github.io/spin.js/) to ind
     }
 }
 ```
-
-
-
-
-
-
-
-
-
-
