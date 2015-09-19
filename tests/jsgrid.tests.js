@@ -1603,4 +1603,27 @@ $(function() {
         equal(grid._sortOrder, "desc", "desc sorting order for already set asc sorting");
         equal(grid._sortField, grid.fields[0], "sort field is set");
     });
+
+    test("getSorting returns current sorting", function() {
+        var $element = $("#jsGrid"),
+            gridOptions = {
+                sorting: true,
+                data: [
+                    { value: 3 },
+                    { value: 2 },
+                    { value: 1 }
+                ],
+                fields: [
+                    { name: "value", sorter: "number" }
+                ]
+            },
+            grid = new Grid($element, gridOptions);
+
+        deepEqual(grid.getSorting(), { field: undefined, order: undefined }, "undefined field and order before sorting");
+
+        grid.sort("value");
+        deepEqual(grid.getSorting(), { field: "value", order: "asc" }, "current sorting returned");
+    });
+
+
 });

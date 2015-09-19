@@ -956,6 +956,14 @@
             return {};
         },
 
+        getSorting: function() {
+            var sortingParams = this._sortingParams();
+            return {
+                field: sortingParams.sortField,
+                order: sortingParams.sortOrder
+            };
+        },
+
         clearFilter: function() {
             var $filterRow = this._createFilterRow();
             this._filterRow.replaceWith($filterRow);
