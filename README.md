@@ -12,7 +12,6 @@ Although jsGrid is tunable and allows to customize appearance and components.
 
 ## Table of contents
 
-* [Requirement](#requirement)
 * [Demos](#demos)
 * [Installation](#installation)
 * [Basic Usage](#basic-usage)
@@ -24,12 +23,8 @@ Although jsGrid is tunable and allows to customize appearance and components.
 * [Sorting Strategies](#sorting-strategies)
 * [Load Strategies](#load-strategies)
 * [Load Indication](#load-indication)
+* [Requirement](#requirement)
 * [Compatibility](#compatibility)
-
-
-## Requirement
-
-jQuery (1.8.3 or later)
 
 
 ## Demos
@@ -1566,6 +1561,10 @@ This example shows how to use [spin.js](http://fgnass.github.io/spin.js/) to ind
     }
 }
 ```
+
+## Requirement
+
+jQuery (1.8.3 or later)
 
 
 ## Compatibility
