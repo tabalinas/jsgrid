@@ -13,8 +13,7 @@ Although jsGrid is tunable and allows to customize appearance and components.
 ## Table of contents
 
 * [Requirement](#requirement)
-* [Demo](#demo)
-* [Compatibility](#compatibility)
+* [Demos](#demos)
 * [Installation](#installation)
 * [Basic Usage](#basic-usage)
 * [Configuration](#configuration)
@@ -25,13 +24,15 @@ Although jsGrid is tunable and allows to customize appearance and components.
 * [Sorting Strategies](#sorting-strategies)
 * [Load Strategies](#load-strategies)
 * [Load Indication](#load-indication)
+* [Compatibility](#compatibility)
+
 
 ## Requirement
 
 jQuery (1.8.3 or later)
 
 
-## Demo
+## Demos
 
 See [Demos](http://js-grid.com/demos/) on project site.
 
@@ -43,22 +44,6 @@ Sample projects showing how to use jsGrid with the most popular backend technolo
 * **Ruby on Rail** - https://github.com/tabalinas/jsgrid-rails
 * **Django (Python)** - https://github.com/tabalinas/jsgrid-django
 
-## Compatibility
-
-**Desktop**
-
-* Chrome
-* Safari
-* Firefox
-* Opera 15+
-* IE 8+
-
-**Mobile**
-
-* Safari for iOS
-* Chrome for Android
-* IE10 for WP8
-
 
 ## Installation
 
@@ -69,6 +54,8 @@ Install jsgrid with bower:
 $ bower install js-grid 
 
 ```
+
+Find jsGrid cdn links [here](https://cdnjs.com/libraries/jsgrid). 
 
 
 ## Basic Usage
@@ -1579,3 +1566,20 @@ This example shows how to use [spin.js](http://fgnass.github.io/spin.js/) to ind
     }
 }
 ```
+
+
+## Compatibility
+
+**Desktop**
+
+* Chrome
+* Safari
+* Firefox
+* Opera 15+
+* IE 8+
+
+**Mobile**
+
+* Safari for iOS
+* Chrome for Android
+* IE10 for WP8
