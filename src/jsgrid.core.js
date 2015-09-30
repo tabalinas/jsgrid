@@ -272,6 +272,7 @@
                 case "paging":
                     this.refresh();
                     break;
+                case "loadStrategy":
                 case "pageLoading":
                     this._initLoadStrategy();
                     this.search();

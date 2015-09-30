@@ -407,6 +407,42 @@ $(function() {
         strictEqual(grid._sortOrder, "asc", "sortOrder reset");
     });
 
+    test("change loadStrategy on the fly", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            controller: {
+                loadData: function() {
+                    return [];
+                }
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.option("loadStrategy", {
+            firstDisplayIndex: function() {
+                return 0;
+            },
+
+            lastDisplayIndex: function() {
+                return 1;
+            },
+
+            loadParams: function() {
+                return [];
+            },
+
+            finishLoad: function() {
+                grid.option("data", [{}]);
+            }
+        });
+
+        grid.loadData();
+
+        equal(grid.option("data").length, 1, "new load strategy is applied");
+    });
+
 
     module("filtering");
 
