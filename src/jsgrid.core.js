@@ -259,6 +259,7 @@
                 case "pagerNavButtonClass":
                 case "pageClass":
                 case "currentPageClass":
+                case "pagerRenderer":
                     this._refreshPager();
                     break;
                 case "fields":
