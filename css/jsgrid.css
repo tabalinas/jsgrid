@@ -110,6 +110,11 @@
     padding: .2em .6em;
 }
 
+.jsgrid-pager-nav-inactive-button {
+    display: none;
+    pointer-events: none;
+}
+
 .jsgrid-pager-page {
     padding: .2em .6em;
 }

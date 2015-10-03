@@ -1371,7 +1371,8 @@ $(function() {
         equal(pager.find("." + grid.currentPageClass).length, 1, "there is one current page");
         ok(pager.find("." + grid.pageClass).eq(0).hasClass(grid.currentPageClass), "first page is current");
         equal(pager.find("." + grid.pageClass).length, 3, "three pages displayed");
-        equal(pager.find("." + grid.pagerNavButtonClass).length, 3, "three nav buttons displayed: Next Last and ...");
+        equal(pager.find("." + grid.pagerNavButtonClass).length, 5, "five nav buttons displayed: Fisrt Prev Next Last ...");
+        equal(pager.find("." + grid.pagerNavButtonInactiveClass).length, 2, "two nav buttons inactive: Fisrt Prev");
 
         grid.openPage(2);
         equal(pager.find("." + grid.currentPageClass).length, 1, "there is one current page");

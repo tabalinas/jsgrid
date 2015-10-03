@@ -115,6 +115,7 @@
         pagerContainerClass: "jsgrid-pager-container",
         pagerClass: "jsgrid-pager",
         pagerNavButtonClass: "jsgrid-pager-nav-button",
+        pagerNavButtonInactiveClass: "jsgrid-pager-nav-inactive-button",
         pageClass: "jsgrid-pager-page",
         currentPageClass: "jsgrid-pager-current-page",
 
@@ -694,13 +695,13 @@
                 if(pagerPart === PAGES_PLACEHOLDER) {
                     result = this._createPages();
                 } else if(pagerPart === FIRST_PAGE_PLACEHOLDER) {
-                    result = pageIndex > 1 ? this._createPagerNavButton(this.pageFirstText, 1) : "";
+                    result = this._createPagerNavButton(this.pageFirstText, 1, pageIndex > 1);
                 } else if(pagerPart === PREV_PAGE_PLACEHOLDER) {
-                    result = pageIndex > 1 ? this._createPagerNavButton(this.pagePrevText, pageIndex - 1) : "";
+                    result = this._createPagerNavButton(this.pagePrevText, pageIndex - 1, pageIndex > 1);
                 } else if(pagerPart === NEXT_PAGE_PLACEHOLDER) {
-                    result = pageIndex < pageCount ? this._createPagerNavButton(this.pageNextText, pageIndex + 1) : "";
+                    result = this._createPagerNavButton(this.pageNextText, pageIndex + 1, pageIndex < pageCount);
                 } else if(pagerPart === LAST_PAGE_PLACEHOLDER) {
-                    result = pageIndex < pageCount ? this._createPagerNavButton(this.pageLastText, pageCount) : "";
+                    result = this._createPagerNavButton(this.pageLastText, pageCount, pageIndex < pageCount);
                 } else if(pagerPart === PAGE_INDEX_PLACEHOLDER) {
                     result = pageIndex;
                 } else if(pagerPart === PAGE_COUNT_PLACEHOLDER) {
@@ -742,10 +743,9 @@
             return pages;
         },
 
-        _createPagerNavButton: function(text, pageIndex) {
-            return this._createPagerButton(text, this.pagerNavButtonClass, function() {
-                this.openPage(pageIndex);
-            });
+        _createPagerNavButton: function(text, pageIndex, isActive) {
+            return this._createPagerButton(text, this.pagerNavButtonClass + (isActive ? "" : " " + this.pagerNavButtonInactiveClass),
+                isActive ? function() { this.openPage(pageIndex); } : $.noop);
         },
 
         _createPagerPageNavButton: function(text, handler) {

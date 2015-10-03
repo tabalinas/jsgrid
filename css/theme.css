@@ -130,6 +130,10 @@
     font-weight: bold;
 }
 
+.jsgrid-pager-nav-inactive-button a {
+    color: #d3d3d3;
+}
+
 .jsgrid-button + .jsgrid-button {
     margin-left: 5px;
 }
