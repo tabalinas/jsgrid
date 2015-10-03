@@ -1416,6 +1416,28 @@ $(function() {
         equal($.trim(grid._pagerContainer.text()), "a 2 << < pp2np > >> 3 6 z", "pager text follows the format specified");
     });
 
+    test("pagerRenderer", function() {
+        var $element = $("#jsGrid");
+        var pagerRendererConfig;
+        var pageSize = 2;
+        var items = [{}, {}, {}, {}, {}, {}, {}];
+        var pageCount = Math.ceil(items.length / pageSize);
+
+        var grid = new Grid($element, {
+            data: items,
+            paging: true,
+            pageSize: pageSize,
+            pagerRenderer: function(pagerConfig) {
+                pagerRendererConfig = pagerConfig;
+            }
+        });
+
+        deepEqual(pagerRendererConfig, { pageIndex: 1, pageCount: pageCount });
+
+        grid.openPage(2);
+        deepEqual(pagerRendererConfig, { pageIndex: 2, pageCount: pageCount });
+    });
+
     test("loading by page", function() {
         var $element = $("#jsGrid"),
             data = [],

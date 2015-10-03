@@ -684,12 +684,29 @@
         },
 
         _createPager: function() {
+            var $result;
+
+            if($.isFunction(this.pagerRenderer)) {
+                $result = $(this.pagerRenderer({
+                    pageIndex: this.pageIndex,
+                    pageCount: this._pagesCount()
+                }));
+            } else {
+                $result = $("<div>").append(this._createPagerByFormat());
+            }
+
+            $result.addClass(this.pagerClass);
+
+            return $result;
+        },
+
+        _createPagerByFormat: function() {
             var pageIndex = this.pageIndex,
                 pageCount = this._pagesCount(),
                 itemCount = this._itemsCount(),
                 pagerParts = this.pagerFormat.split(" ");
 
-            pagerParts = $.map(pagerParts, $.proxy(function(pagerPart) {
+            return $.map(pagerParts, $.proxy(function(pagerPart) {
                 var result = pagerPart;
 
                 if(pagerPart === PAGES_PLACEHOLDER) {
@@ -712,11 +729,6 @@
 
                 return $.isArray(result) ? result.concat([" "]) : [result, " "];
             }, this));
-
-            var $pager = $("<div>").addClass(this.pagerClass)
-                .append(pagerParts);
-
-            return $pager;
         },
 
         _createPages: function() {
