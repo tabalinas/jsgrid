@@ -1335,7 +1335,7 @@ $(function() {
 
         grid.option("data", [{}, {}]);
         ok(grid._pagerContainer.is(":hidden"), "pager is hidden for single page");
-        equal(grid._pagerContainer.html(), "", "pager is not rendered for single page");
+        ok(grid._pagerContainer.html(), "pager is rendered for single page when paging=true");
     });
 
     test("external pagerContainer", function() {

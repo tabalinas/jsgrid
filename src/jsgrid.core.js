@@ -675,12 +675,12 @@
             var $pagerContainer = this._pagerContainer;
             $pagerContainer.empty();
 
-            if(this.paging && this._pagesCount() > 1) {
-                $pagerContainer.show()
-                    .append(this._createPager());
-            } else {
-                $pagerContainer.hide();
+            if(this.paging) {
+                $pagerContainer.append(this._createPager());
             }
+
+            var showPager = this.paging && this._pagesCount() > 1;
+            $pagerContainer.toggle(showPager);
         },
 
         _createPager: function() {
