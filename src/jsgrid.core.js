@@ -528,23 +528,23 @@
                 this._renderCells($result, item);
             }
 
-           $result.addClass(this._getRowClasses(item, itemIndex))
-              .data(JSGRID_ROW_DATA_KEY, item)
-              .on("click", $.proxy(function(e) {
-                 this.rowClick({
-                    item: item,
-                    itemIndex: itemIndex,
-                    event: e
-                 });
-              }, this))
-              .on("dblclick", $.proxy(function(e) {
-                 this.rowDoubleClick({
-                    item: item,
-                    itemIndex: itemIndex,
-                    event: e
-                 });
-              }, this));
-
+            $result.addClass(this._getRowClasses(item, itemIndex))
+                .data(JSGRID_ROW_DATA_KEY, item)
+                .on("click", $.proxy(function(e) {
+                    this.rowClick({
+                        item: item,
+                        itemIndex: itemIndex,
+                        event: e
+                    });
+                }, this))
+                .on("dblclick", $.proxy(function(e) {
+                    this.rowDoubleClick({
+                        item: item,
+                        itemIndex: itemIndex,
+                        event: e
+                    });
+                }, this));
+            
             if(this.selecting) {
                 this._attachRowHover($result);
             }
