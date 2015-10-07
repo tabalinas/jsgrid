@@ -440,9 +440,11 @@
         },
 
         _callEventHandler: function(handler, eventParams) {
-            return handler.call(this, $.extend(eventParams, {
+            handler.call(this, $.extend(eventParams, {
                 grid: this
             }));
+
+            return eventParams;
         },
 
         reset: function() {
@@ -545,7 +547,7 @@
                         event: e
                     });
                 }, this));
-            
+
             if(this.selecting) {
                 this._attachRowHover($result);
             }
@@ -890,7 +892,10 @@
             }
         },
 
-        _controllerCall: function(method, param, doneCallback) {
+        _controllerCall: function(method, param, isCanceled, doneCallback) {
+            if(isCanceled)
+                return $.Deferred().reject().promise();
+
             this._showLoading();
 
             var controller = this._controller;
@@ -934,11 +939,11 @@
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
-            this._callEventHandler(this.onDataLoading, {
+            var args = this._callEventHandler(this.onDataLoading, {
                 filter: filter
             });
 
-            return this._controllerCall("loadData", filter, function(loadedData) {
+            return this._controllerCall("loadData", filter, args.cancel, function(loadedData) {
                 if(!loadedData)
                     return;
 
@@ -988,11 +993,11 @@
         insertItem: function(item) {
             var insertingItem = item || this._getInsertItem();
 
-            this._callEventHandler(this.onItemInserting, {
+            var args = this._callEventHandler(this.onItemInserting, {
                 item: insertingItem
             });
 
-            return this._controllerCall("insertItem", insertingItem, function(insertedItem) {
+            return this._controllerCall("insertItem", insertingItem, args.cancel, function(insertedItem) {
                 insertedItem = insertedItem || insertingItem;
                 this._loadStrategy.finishInsert(insertedItem);
 
@@ -1087,14 +1092,14 @@
 
             $.extend(updatingItem, editedItem);
 
-            this._callEventHandler(this.onItemUpdating, {
+            var args = this._callEventHandler(this.onItemUpdating, {
                 row: $updatingRow,
                 item: updatingItem,
                 itemIndex: updatingItemIndex,
                 previousItem: previousItem
             });
 
-            return this._controllerCall("updateItem", updatingItem, function(updatedItem) {
+            return this._controllerCall("updateItem", updatingItem, args.cancel, function(updatedItem) {
                 updatedItem = updatedItem || updatingItem;
                 var $updatedRow = this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
@@ -1159,13 +1164,13 @@
             var deletingItem = $row.data(JSGRID_ROW_DATA_KEY),
                 deletingItemIndex = this._itemIndex(deletingItem);
 
-            this._callEventHandler(this.onItemDeleting, {
+            var args = this._callEventHandler(this.onItemDeleting, {
                 row: $row,
                 item: deletingItem,
                 itemIndex: deletingItemIndex
             });
 
-            return this._controllerCall("deleteItem", deletingItem, function() {
+            return this._controllerCall("deleteItem", deletingItem, args.cancel, function() {
                 this._loadStrategy.finishDelete(deletingItem, deletingItemIndex);
 
                 this._callEventHandler(this.onItemDeleted, {

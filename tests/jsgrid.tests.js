@@ -1685,4 +1685,128 @@ $(function() {
     });
 
 
+    module("canceling controller calls");
+
+    test("cancel controller.loadData", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            onDataLoading: function(e) {
+                e.cancel = true;
+            },
+
+            controller: {
+                loadData: function() {
+                    return [{}];
+                }
+            },
+
+            fields: [
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.loadData();
+
+        equal(grid.option("data").length, 0, "no data loaded");
+    });
+
+    test("cancel controller.insertItem", function() {
+        var $element = $("#jsGrid");
+        var insertedItem = null;
+
+        var gridOptions = {
+
+            onItemInserting: function(e) {
+                e.cancel = true;
+            },
+
+            controller: {
+                insertItem: function(item) {
+                    insertedItem = item;
+                }
+            },
+
+            fields: [
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.insertItem({ test: "value" });
+
+        strictEqual(insertedItem, null, "item was not inserted");
+    });
+
+    test("cancel controller.updateItem", function() {
+        var $element = $("#jsGrid");
+        var updatedItem = null;
+        var existingItem = { test: "value" };
+
+        var gridOptions = {
+
+            data: [
+                existingItem
+            ],
+
+            onItemUpdating: function(e) {
+                e.cancel = true;
+            },
+
+            controller: {
+                updateItem: function(item) {
+                    updatedItem = item;
+                }
+            },
+
+            fields: [
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.updateItem(existingItem, { test: "new_value" });
+
+        strictEqual(updatedItem, null, "item was not updated");
+    });
+
+    test("cancel controller.deleteItem", function() {
+        var $element = $("#jsGrid");
+        var deletingItem = { test: "value" };
+        var deletedItem = null;
+
+        var gridOptions = {
+
+            data: [
+                deletingItem
+            ],
+
+            confirmDeleting: false,
+
+            onItemDeleting: function(e) {
+                e.cancel = true;
+            },
+
+            controller: {
+                deleteItem: function(item) {
+                    deletedItem = item;
+                }
+            },
+
+            fields: [
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.deleteItem(deletingItem);
+
+        strictEqual(deletedItem, null, "item was not deleted");
+    });
 });
