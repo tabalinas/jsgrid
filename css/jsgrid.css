@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.1.0 (http://js-grid.com)
+ * jsGrid v1.2.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -114,6 +114,11 @@
 
 .jsgrid-pager-nav-button {
     padding: .2em .6em;
+}
+
+.jsgrid-pager-nav-inactive-button {
+    display: none;
+    pointer-events: none;
 }
 
 .jsgrid-pager-page {

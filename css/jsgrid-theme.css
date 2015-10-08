@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.1.0 (http://js-grid.com)
+ * jsGrid v1.2.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -136,6 +136,10 @@
     font-weight: bold;
 }
 
+.jsgrid-pager-nav-inactive-button a {
+    color: #d3d3d3;
+}
+
 .jsgrid-button + .jsgrid-button {
     margin-left: 5px;
 }
@@ -228,8 +232,8 @@
 
 /* old IE */
 .jsgrid-load-panel {
-    padding-top: 1.5em \ ;
+    padding-top: 1.5em\9;
 }
 .jsgrid-load-panel:before {
-    display: none \ ;
+    display: none\9;
 }

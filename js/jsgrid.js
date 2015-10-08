@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.1.0 (http://js-grid.com)
+ * jsGrid v1.2.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -121,9 +121,11 @@
         pagerContainerClass: "jsgrid-pager-container",
         pagerClass: "jsgrid-pager",
         pagerNavButtonClass: "jsgrid-pager-nav-button",
+        pagerNavButtonInactiveClass: "jsgrid-pager-nav-inactive-button",
         pageClass: "jsgrid-pager-page",
         currentPageClass: "jsgrid-pager-current-page",
 
+        customLoading: false,
         pageLoading: false,
 
         autoload: false,
@@ -263,6 +265,7 @@
                 case "pagerNavButtonClass":
                 case "pageClass":
                 case "currentPageClass":
+                case "pagerRenderer":
                     this._refreshPager();
                     break;
                 case "fields":
@@ -277,6 +280,7 @@
                 case "paging":
                     this.refresh();
                     break;
+                case "loadStrategy":
                 case "pageLoading":
                     this._initLoadStrategy();
                     this.search();
@@ -442,9 +446,11 @@
         },
 
         _callEventHandler: function(handler, eventParams) {
-            return handler.call(this, $.extend(eventParams, {
+            handler.call(this, $.extend(eventParams, {
                 grid: this
             }));
+
+            return eventParams;
         },
 
         reset: function() {
@@ -531,22 +537,22 @@
                 this._renderCells($result, item);
             }
 
-           $result.addClass(this._getRowClasses(item, itemIndex))
-              .data(JSGRID_ROW_DATA_KEY, item)
-              .on("click", $.proxy(function(e) {
-                 this.rowClick({
-                    item: item,
-                    itemIndex: itemIndex,
-                    event: e
-                 });
-              }, this))
-              .on("dblclick", $.proxy(function(e) {
-                 this.rowDoubleClick({
-                    item: item,
-                    itemIndex: itemIndex,
-                    event: e
-                 });
-              }, this));
+            $result.addClass(this._getRowClasses(item, itemIndex))
+                .data(JSGRID_ROW_DATA_KEY, item)
+                .on("click", $.proxy(function(e) {
+                    this.rowClick({
+                        item: item,
+                        itemIndex: itemIndex,
+                        event: e
+                    });
+                }, this))
+                .on("dblclick", $.proxy(function(e) {
+                    this.rowDoubleClick({
+                        item: item,
+                        itemIndex: itemIndex,
+                        event: e
+                    });
+                }, this));
 
             if(this.selecting) {
                 this._attachRowHover($result);
@@ -678,33 +684,50 @@
             var $pagerContainer = this._pagerContainer;
             $pagerContainer.empty();
 
-            if(this.paging && this._pagesCount() > 1) {
-                $pagerContainer.show()
-                    .append(this._createPager());
-            } else {
-                $pagerContainer.hide();
+            if(this.paging) {
+                $pagerContainer.append(this._createPager());
             }
+
+            var showPager = this.paging && this._pagesCount() > 1;
+            $pagerContainer.toggle(showPager);
         },
 
         _createPager: function() {
+            var $result;
+
+            if($.isFunction(this.pagerRenderer)) {
+                $result = $(this.pagerRenderer({
+                    pageIndex: this.pageIndex,
+                    pageCount: this._pagesCount()
+                }));
+            } else {
+                $result = $("<div>").append(this._createPagerByFormat());
+            }
+
+            $result.addClass(this.pagerClass);
+
+            return $result;
+        },
+
+        _createPagerByFormat: function() {
             var pageIndex = this.pageIndex,
                 pageCount = this._pagesCount(),
                 itemCount = this._itemsCount(),
                 pagerParts = this.pagerFormat.split(" ");
 
-            pagerParts = $.map(pagerParts, $.proxy(function(pagerPart) {
+            return $.map(pagerParts, $.proxy(function(pagerPart) {
                 var result = pagerPart;
 
                 if(pagerPart === PAGES_PLACEHOLDER) {
                     result = this._createPages();
                 } else if(pagerPart === FIRST_PAGE_PLACEHOLDER) {
-                    result = pageIndex > 1 ? this._createPagerNavButton(this.pageFirstText, 1) : "";
+                    result = this._createPagerNavButton(this.pageFirstText, 1, pageIndex > 1);
                 } else if(pagerPart === PREV_PAGE_PLACEHOLDER) {
-                    result = pageIndex > 1 ? this._createPagerNavButton(this.pagePrevText, pageIndex - 1) : "";
+                    result = this._createPagerNavButton(this.pagePrevText, pageIndex - 1, pageIndex > 1);
                 } else if(pagerPart === NEXT_PAGE_PLACEHOLDER) {
-                    result = pageIndex < pageCount ? this._createPagerNavButton(this.pageNextText, pageIndex + 1) : "";
+                    result = this._createPagerNavButton(this.pageNextText, pageIndex + 1, pageIndex < pageCount);
                 } else if(pagerPart === LAST_PAGE_PLACEHOLDER) {
-                    result = pageIndex < pageCount ? this._createPagerNavButton(this.pageLastText, pageCount) : "";
+                    result = this._createPagerNavButton(this.pageLastText, pageCount, pageIndex < pageCount);
                 } else if(pagerPart === PAGE_INDEX_PLACEHOLDER) {
                     result = pageIndex;
                 } else if(pagerPart === PAGE_COUNT_PLACEHOLDER) {
@@ -715,11 +738,6 @@
 
                 return $.isArray(result) ? result.concat([" "]) : [result, " "];
             }, this));
-
-            var $pager = $("<div>").addClass(this.pagerClass)
-                .append(pagerParts);
-
-            return $pager;
         },
 
         _createPages: function() {
@@ -746,10 +764,9 @@
             return pages;
         },
 
-        _createPagerNavButton: function(text, pageIndex) {
-            return this._createPagerButton(text, this.pagerNavButtonClass, function() {
-                this.openPage(pageIndex);
-            });
+        _createPagerNavButton: function(text, pageIndex, isActive) {
+            return this._createPagerButton(text, this.pagerNavButtonClass + (isActive ? "" : " " + this.pagerNavButtonInactiveClass),
+                isActive ? function() { this.openPage(pageIndex); } : $.noop);
         },
 
         _createPagerPageNavButton: function(text, handler) {
@@ -881,7 +898,10 @@
             }
         },
 
-        _controllerCall: function(method, param, doneCallback) {
+        _controllerCall: function(method, param, isCanceled, doneCallback) {
+            if(isCanceled)
+                return $.Deferred().reject().promise();
+
             this._showLoading();
 
             var controller = this._controller;
@@ -925,11 +945,14 @@
 
             $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
 
-            this._callEventHandler(this.onDataLoading, {
+            var args = this._callEventHandler(this.onDataLoading, {
                 filter: filter
             });
 
-            return this._controllerCall("loadData", filter, function(loadedData) {
+            return this._controllerCall("loadData", filter, args.cancel, function(loadedData) {
+                if(!loadedData)
+                    return;
+
                 this._loadStrategy.finishLoad(loadedData);
 
                 this._callEventHandler(this.onDataLoaded, {
@@ -958,6 +981,14 @@
             return {};
         },
 
+        getSorting: function() {
+            var sortingParams = this._sortingParams();
+            return {
+                field: sortingParams.sortField,
+                order: sortingParams.sortOrder
+            };
+        },
+
         clearFilter: function() {
             var $filterRow = this._createFilterRow();
             this._filterRow.replaceWith($filterRow);
@@ -968,11 +999,11 @@
         insertItem: function(item) {
             var insertingItem = item || this._getInsertItem();
 
-            this._callEventHandler(this.onItemInserting, {
+            var args = this._callEventHandler(this.onItemInserting, {
                 item: insertingItem
             });
 
-            return this._controllerCall("insertItem", insertingItem, function(insertedItem) {
+            return this._controllerCall("insertItem", insertingItem, args.cancel, function(insertedItem) {
                 insertedItem = insertedItem || insertingItem;
                 this._loadStrategy.finishInsert(insertedItem);
 
@@ -1067,19 +1098,19 @@
 
             $.extend(updatingItem, editedItem);
 
-            this._callEventHandler(this.onItemUpdating, {
+            var args = this._callEventHandler(this.onItemUpdating, {
                 row: $updatingRow,
                 item: updatingItem,
                 itemIndex: updatingItemIndex,
                 previousItem: previousItem
             });
 
-            return this._controllerCall("updateItem", updatingItem, function(updatedItem) {
+            return this._controllerCall("updateItem", updatingItem, args.cancel, function(updatedItem) {
                 updatedItem = updatedItem || updatingItem;
-                this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
+                var $updatedRow = this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
                 this._callEventHandler(this.onItemUpdated, {
-                    row: $updatingRow,
+                    row: $updatedRow,
                     item: updatedItem,
                     itemIndex: updatingItemIndex,
                     previousItem: previousItem
@@ -1091,10 +1122,13 @@
             return $.inArray(item, this.data);
         },
 
-        _finishUpdate: function($updatedRow, updatedItem, updatedItemIndex) {
+        _finishUpdate: function($updatingRow, updatedItem, updatedItemIndex) {
             this.cancelEdit();
             this.data[updatedItemIndex] = updatedItem;
-            $updatedRow.replaceWith(this._createRow(updatedItem, updatedItemIndex));
+
+            var $updatedRow = this._createRow(updatedItem, updatedItemIndex);
+            $updatingRow.replaceWith($updatedRow);
+            return $updatedRow;
         },
 
         _getEditedItem: function() {
@@ -1136,13 +1170,13 @@
             var deletingItem = $row.data(JSGRID_ROW_DATA_KEY),
                 deletingItemIndex = this._itemIndex(deletingItem);
 
-            this._callEventHandler(this.onItemDeleting, {
+            var args = this._callEventHandler(this.onItemDeleting, {
                 row: $row,
                 item: deletingItem,
                 itemIndex: deletingItemIndex
             });
 
-            return this._controllerCall("deleteItem", deletingItem, function() {
+            return this._controllerCall("deleteItem", deletingItem, args.cancel, function() {
                 this._loadStrategy.finishDelete(deletingItem, deletingItemIndex);
 
                 this._callEventHandler(this.onItemDeleted, {
@@ -1420,7 +1454,7 @@
             if(!isDefined(str2))
                 return 1;
 
-            return str1.localeCompare(str2);
+            return ("" + str1).localeCompare("" + str2);
         },
 
         number: function(n1, n2) {
