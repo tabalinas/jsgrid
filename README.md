@@ -771,6 +771,8 @@ var filter = $("#grid").jsGrid("getFilter");
 ```
 
 ### getSorting()
+> version added: 1.2
+
 Get grid current sorting params as a plain object with the following format:
 
 ```javascript
