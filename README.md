@@ -1028,7 +1028,7 @@ jsGrid.setDefaults("text", {
 
 jsGrid config allows to specify a callback function to be executed on a particular grid event.
 
-Currently the following callbacks are supported:
+The following callbacks are supported:
 
 ```javascript
 
@@ -1067,9 +1067,12 @@ Has the following arguments:
 
 ```
 
+#### Cancel Data Loading 
+> version added: 1.2
+
 To cancel data loading set `args.cancel = true`.
 
-In the following example loading is canceled is the case of wrong filter data:
+In the following example loading is canceled when the filter has empty 'name' field:
 
 ```javascript
 
@@ -1144,6 +1147,9 @@ Has following arguments:
 
 ```
 
+#### Cancel Item Deletion 
+> version added: 1.2
+
 To cancel item deletion set `args.cancel = true`. This allows to do a validation before performing the actual deletion.
 
 In the following example the deletion of items marked as `protected` is canceled:
@@ -1193,9 +1199,12 @@ Has following arguments:
 
 ```
 
+#### Cancel Item Insertion 
+> version added: 1.2
+
 To cancel item insertion set `args.cancel = true`. This allows to do a validation before performing the actual insertion.
 
-In the following example insertion only items with the field 'name' specified is allowed:
+In the following example insertion of items with the 'name' specified is allowed:
 
 ```javascript
 
@@ -1244,9 +1253,12 @@ Has following arguments:
 
 ```
 
+#### Cancel Item Update 
+> version added: 1.2
+
 To cancel item update set `args.cancel = true`. This allows to do a validation before performing the actual update.
 
-In the following example update only items with the field 'name' specified is allowed:
+In the following example update of items with the 'name' specified is allowed:
 
 ```javascript
 
