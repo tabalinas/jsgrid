@@ -151,7 +151,8 @@ The config object may contain following options (default values are specified be
     headerRowRenderer: null,
     filterRowRenderer: null,
     insertRowRenderer: null,
-    editRowRenderer: null
+    editRowRenderer: null,
+    pagerRenderer: null
 }
 
 ```
@@ -422,6 +423,21 @@ The function should return markup as a string, jQueryElement or DomNode represen
 ### editRowRenderer (default `null`)
 A function to customize editing row rendering. The function signature is `function(item, itemIndex)`, where `item` is row data item, and `itemIndex` is the item index.
 The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
+
+### pagerRenderer (default `null`)
+> version added: 1.2 
+
+A function to customize pager rendering. The function accepts a single argument with the following structure:
+
+```javascript
+{
+    pageIndex,      // index of the current selected page
+    pageCount       // total amount of data pages 
+} 
+```
+
+The function should return markup as a string, jQueryElement or DomNode representing the pager.
+If `pagerRenderer` is specified, then `pagerFormat` option is ignored.
 
 
 ## Grid Fields
