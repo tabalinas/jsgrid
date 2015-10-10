@@ -57,6 +57,7 @@
   - [destroy](#destroy)
   - [editItem](#edititemitemrowrownode)
   - [getFilter](#getfilter-object)
+  - [getSorting](#getsorting-object)
   - [insertItem](#insertitemitem-promise)
   - [loadData](#loaddatafilter-promise)
   - [openPage](#openpagepageindex)

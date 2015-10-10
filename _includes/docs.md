@@ -633,6 +633,22 @@ Get grid filter as plain object.
     <pre class="prettyprint linenums lang-js">var filter = $("#grid").jsGrid("getFilter");</pre>
 </div>
 
+### getSorting(): `Object`
+> version added: 1.2
+
+Get grid current sorting params as a plain object with the following format:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    field,      // the name of the field by which grid is sorted
+    order       // 'asc' or 'desc' depending on sort order
+}</pre>
+</div>
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">var sorting = $("#grid").jsGrid("getSorting");</pre>
+</div>
+
 ### insertItem([item]): `Promise`
 Inserts row into the grid based on item.
 Returns jQuery promise resolved when insertion is completed. 
