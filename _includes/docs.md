@@ -311,6 +311,21 @@ The function should return markup as a string, jQueryElement or DomNode represen
 A function to customize editing row rendering. The function signature is `function(item, itemIndex)`, where `item` is row data item, and `itemIndex` is the item index.
 The function should return markup as a string, jQueryElement or DomNode representing table row `tr`.
 
+### pagerRenderer (default `null`)
+> version added: 1.2
+
+A function to customize pager rendering. The function accepts a single argument with the following structure:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    pageIndex,      // index of the currently opened page
+    pageCount       // total amount of grid pages
+}</pre>
+</div>
+
+The function should return markup as a string, jQueryElement or DomNode representing the pager.
+If `pagerRenderer` is specified, then `pagerFormat` option will be ignored.
+
 
 ## Grid Fields
 

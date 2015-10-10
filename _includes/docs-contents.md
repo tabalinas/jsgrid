@@ -40,6 +40,7 @@
   - [filterRowRenderer](#filterrowrenderer-default-null)
   - [insertRowRenderer](#insertrowrenderer-default-null)
   - [editRowRenderer](#editrowrenderer-default-null)
+  - [pagerRenderer](#pagerrenderer-default-null)
 * [Grid Fields](#grid-fields)
   - [text](#text)
   - [number](#number)
