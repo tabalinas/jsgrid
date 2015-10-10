@@ -762,11 +762,29 @@ $("#grid").jsGrid("editItem", rowNode);
 ```
 
 ### getFilter()
-Get grid filter as plain object.
+Get grid filter as a plain object.
 
 ```javascript
 
 var filter = $("#grid").jsGrid("getFilter");
+
+```
+
+### getSorting()
+Get grid current sorting params as a plain object with the following format:
+
+```javascript
+
+{  
+    field,      // the name of the field by which grid is sorted
+    order       // 'asc' or 'desc' depending on sort order
+}
+
+```
+
+```javascript
+
+var sorting = $("#grid").jsGrid("getSorting");
 
 ```
 
