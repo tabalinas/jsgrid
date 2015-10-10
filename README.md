@@ -431,13 +431,13 @@ A function to customize pager rendering. The function accepts a single argument 
 
 ```javascript
 {
-    pageIndex,      // index of the current selected page
-    pageCount       // total amount of data pages 
+    pageIndex,      // index of the currently opened page
+    pageCount       // total amount of grid pages 
 } 
 ```
 
 The function should return markup as a string, jQueryElement or DomNode representing the pager.
-If `pagerRenderer` is specified, then `pagerFormat` option is ignored.
+If `pagerRenderer` is specified, then `pagerFormat` option will be ignored.
 
 
 ## Grid Fields
