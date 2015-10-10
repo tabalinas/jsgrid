@@ -1056,7 +1056,7 @@ Currently the following callbacks are supported:
 ### onDataLoading
 Fires before data loading.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1064,6 +1064,25 @@ Has following arguments:
     grid                // grid instance
     filter              // loading filter object
 }
+
+```
+
+To cancel data loading set `args.cancel = true`.
+
+In the following example loading is canceled is the case of wrong filter data:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onDataLoading: function(args) {
+        // cancel loading data if 'name' is empty
+        if(args.filter.name === "") {
+            args.cancel = true;
+        }
+    }
+});
 
 ```
 
@@ -1078,6 +1097,20 @@ Has following arguments:
     grid                // grid instance
     data                // load result (array of items or data structure for loading by page scenario) 
 }
+
+```
+
+In the following example the loaded data is written to the browser console.
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onDataLoaded: function(args) {
+        console.log(args.data);
+    }
+});
 
 ```
 
@@ -1111,6 +1144,25 @@ Has following arguments:
 
 ```
 
+To cancel item deletion set `args.cancel = true`. This allows to do a validation before performing the actual deletion.
+
+In the following example the deletion of items marked as `protected` is canceled:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onItemDeleting: function(args) {
+        // cancel deletion of the item with 'protected' field
+        if(args.item.protected) {
+            args.cancel = true;
+        }
+    }
+});
+
+```
+
 ### onItemDeleted
 Fires after item deletion.
 
@@ -1138,6 +1190,26 @@ Has following arguments:
     grid                // grid instance
     item                // inserting item
 }
+
+```
+
+To cancel item insertion set `args.cancel = true`. This allows to do a validation before performing the actual insertion.
+
+In the following example insertion only items with the field 'name' specified is allowed:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onItemInserting: function(args) {
+        // cancel insertion of the item with empty 'name' field
+        if(args.item.name === "") {
+            args.cancel = true;
+            alert("Specify the name of the item!");
+        }
+    }
+});
 
 ```
 
@@ -1169,6 +1241,26 @@ Has following arguments:
     itemIndex           // updating item index
     previousItem        // shallow copy (not deep copy) of item before editing
 }
+
+```
+
+To cancel item update set `args.cancel = true`. This allows to do a validation before performing the actual update.
+
+In the following example update only items with the field 'name' specified is allowed:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onItemUpdating: function(args) {
+        // cancel update of the item with empty 'name' field
+        if(args.item.name === "") {
+            args.cancel = true;
+            alert("Specify the name of the item!");
+        }
+    }
+});
 
 ```
 
