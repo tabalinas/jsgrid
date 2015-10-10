@@ -1026,6 +1026,33 @@ jsGrid.setDefaults("text", {
 
 ## Callbacks
 
+jsGrid config allows to specify a callback function to be executed on a particular grid event.
+
+Currently the following callbacks are supported:
+
+```javascript
+
+{
+    onDataLoading: function(args) {},    // before controller.loadData
+    onDataLoaded: function(args) {},     // on done of controller.loadData
+    onItemInserting: function(args) {},  // before controller.insertItem
+    onItemInserted: function(args) {},   // on done of controller.insertItem
+    onItemUpdating: function(args) {},   // before controller.updateItem
+    onItemUpdated: function(args) {},    // on done of controller.updateItem
+    onItemDeleting: function(args) {},   // before controller.deleteItem
+    onItemDeleted: function(args) {},    // on done of controller.deleteItem
+        
+    onError: function(args) {},          // on fail of any controller call
+    
+    onOptionChanging: function(args) {}, // before changing the grid option
+    onOptionChanged: function(args) {},  // after changing the grid option
+    
+    onRefreshing: function(args) {},     // before grid refresh
+    onRefreshed: function(args) {},      // after grid refresh
+}
+
+```
+
 ### onDataLoading
 Fires before data loading.
 
