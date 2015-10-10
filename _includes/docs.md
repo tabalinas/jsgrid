@@ -842,10 +842,35 @@ Set default options of the particular field.
 
 ## Callbacks
 
+jsGrid allows to specify a callback function to be executed on a particular event.
+
+The following callbacks are supported:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    onDataLoading: function(args) {},    // before controller.loadData
+    onDataLoaded: function(args) {},     // on done of controller.loadData
+    onItemInserting: function(args) {},  // before controller.insertItem
+    onItemInserted: function(args) {},   // on done of controller.insertItem
+    onItemUpdating: function(args) {},   // before controller.updateItem
+    onItemUpdated: function(args) {},    // on done of controller.updateItem
+    onItemDeleting: function(args) {},   // before controller.deleteItem
+    onItemDeleted: function(args) {},    // on done of controller.deleteItem
+
+    onError: function(args) {},          // on fail of any controller call
+
+    onOptionChanging: function(args) {}, // before changing the grid option
+    onOptionChanged: function(args) {},  // after changing the grid option
+
+    onRefreshing: function(args) {},     // before grid refresh
+    onRefreshed: function(args) {},      // after grid refresh
+}</pre>
+</div>
+
 ### onDataLoading
 Fires before data loading.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -854,10 +879,30 @@ Has following arguments:
 }</pre>
 </div>
 
+#### Cancel Data Loading
+> version added: 1.2
+
+To cancel data loading set `args.cancel = true`.
+
+In the following example loading is canceled when the filter has empty 'name' field:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    onDataLoading: function(args) {
+        // cancel loading data if 'name' is empty
+        if(args.filter.name === "") {
+            args.cancel = true;
+        }
+    }
+});</pre>
+</div>
+
 ### onDataLoaded
 Fires after data loading.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -869,7 +914,7 @@ Has following arguments:
 ### onError
 Fires when controller handler promise failed.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -881,7 +926,7 @@ Has following arguments:
 ### onItemDeleting
 Fires before item deletion.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -892,10 +937,30 @@ Has following arguments:
 }</pre>
 </div>
 
+#### Cancel Item Deletion
+> version added: 1.2
+
+To cancel item deletion set `args.cancel = true`. This allows to do a validation before performing the actual deletion.
+
+In the following example the deletion of items marked as `protected` is canceled:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    onItemDeleting: function(args) {
+        // cancel deletion of the item with 'protected' field
+        if(args.item.protected) {
+            args.cancel = true;
+        }
+    }
+});</pre>
+</div>
+
 ### onItemDeleted
 Fires after item deletion.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -909,7 +974,7 @@ Has following arguments:
 ### onItemInserting
 Fires before item insertion.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -918,10 +983,31 @@ Has following arguments:
 }</pre>
 </div>
 
+#### Cancel Item Insertion
+> version added: 1.2
+
+To cancel item insertion set `args.cancel = true`. This allows to do a validation before performing the actual insertion.
+
+In the following example insertion of items with the 'name' specified is allowed:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    onItemInserting: function(args) {
+        // cancel insertion of the item with empty 'name' field
+        if(args.item.name === "") {
+            args.cancel = true;
+            alert("Specify the name of the item!");
+        }
+    }
+});</pre>
+</div>
+
 ### onItemInserted
 Fires after item insertion.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -933,7 +1019,7 @@ Has following arguments:
 ### onItemUpdating
 Fires before item update.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -945,10 +1031,31 @@ Has following arguments:
 }</pre>
 </div>
 
+#### Cancel Item Update
+> version added: 1.2
+
+To cancel item update set `args.cancel = true`. This allows to do a validation before performing the actual update.
+
+In the following example update of items with the 'name' specified is allowed:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    onItemUpdating: function(args) {
+        // cancel update of the item with empty 'name' field
+        if(args.item.name === "") {
+            args.cancel = true;
+            alert("Specify the name of the item!");
+        }
+    }
+});</pre>
+</div>
+
 ### onItemUpdated
 Fires after item update.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -963,7 +1070,7 @@ Has following arguments:
 ### onOptionChanging
 Fires before grid option value change.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -977,7 +1084,7 @@ Has following arguments:
 ### onOptionChanged
 Fires after grid option value change.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -990,7 +1097,7 @@ Has following arguments:
 ### onRefreshing
 Fires before grid refresh.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
@@ -1001,7 +1108,7 @@ Has following arguments:
 ### onRefreshed
 Fires after grid refresh.
 
-Has following arguments:
+Has the following arguments:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
