@@ -1026,7 +1026,7 @@ jsGrid.setDefaults("text", {
 
 ## Callbacks
 
-jsGrid config allows to specify a callback function to be executed on a particular grid event.
+jsGrid allows to specify a callback function to be executed on a particular event.
 
 The following callbacks are supported:
 
@@ -1092,7 +1092,7 @@ $("#grid").jsGrid({
 ### onDataLoaded
 Fires after data loading.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1120,7 +1120,7 @@ $("#grid").jsGrid({
 ### onError
 Fires when controller handler promise failed.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1134,7 +1134,7 @@ Has following arguments:
 ### onItemDeleting
 Fires before item deletion.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1172,7 +1172,7 @@ $("#grid").jsGrid({
 ### onItemDeleted
 Fires after item deletion.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1188,7 +1188,7 @@ Has following arguments:
 ### onItemInserting
 Fires before item insertion.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1225,7 +1225,7 @@ $("#grid").jsGrid({
 ### onItemInserted
 Fires after item insertion.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1239,7 +1239,7 @@ Has following arguments:
 ### onItemUpdating
 Fires before item update.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1279,7 +1279,7 @@ $("#grid").jsGrid({
 ### onItemUpdated
 Fires after item update.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1296,7 +1296,7 @@ Has following arguments:
 ### onOptionChanging
 Fires before grid option value change.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1312,7 +1312,7 @@ Has following arguments:
 ### onOptionChanged
 Fires after grid option value change.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1327,7 +1327,7 @@ Has following arguments:
 ### onRefreshing
 Fires before grid refresh.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
@@ -1340,7 +1340,7 @@ Has following arguments:
 ### onRefreshed
 Fires after grid refresh.
 
-Has following arguments:
+Has the following arguments:
 
 ```javascript
 
