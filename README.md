@@ -777,7 +777,7 @@ $("#grid").jsGrid("editItem", rowNode);
 
 ```
 
-### getFilter()
+### getFilter(): `Object`
 Get grid filter as a plain object.
 
 ```javascript
@@ -786,7 +786,7 @@ var filter = $("#grid").jsGrid("getFilter");
 
 ```
 
-### getSorting()
+### getSorting(): `Object`
 > version added: 1.2
 
 Get grid current sorting params as a plain object with the following format:
