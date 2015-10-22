@@ -226,6 +226,17 @@
             this._callEventHandler(this.onOptionChanged, optionChangedEventArgs);
         },
 
+        fieldOption: function(field, key, value) {
+            field = this._normalizeField(field);
+
+            if(arguments.length === 2) {
+                return field[key];
+            }
+
+            field[key] = value;
+            this.render();
+        },
+
         _handleOptionChange: function(name, value) {
             this[name] = value;
 
@@ -617,14 +628,14 @@
         },
 
         _setSortingParams: function(field, order) {
-            field = this._normalizeSortingField(field);
+            field = this._normalizeField(field);
             order = order || ((this._sortField === field) ? this._reversedSortOrder(this._sortOrder) : SORT_ORDER_ASC);
 
             this._sortField = field;
             this._sortOrder = order;
         },
 
-        _normalizeSortingField: function(field) {
+        _normalizeField: function(field) {
             if($.isNumeric(field)) {
                 return this.fields[field];
             }

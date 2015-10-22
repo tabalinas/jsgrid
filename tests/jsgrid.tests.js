@@ -118,6 +118,30 @@ $(function() {
         equal(testOption, "new_value", "set option value");
     });
 
+    test("fieldOption method", function() {
+        var $element = $("#jsGrid"),
+            gridOptions = {
+                loadMessage: "",
+
+                data: [{ prop1: "value1", prop2: "value2", prop3: "value3" }],
+
+                fields: [
+                    { name: "prop1", title: "_" }
+                ]
+            };
+
+        $element.jsGrid(gridOptions);
+
+        var fieldOptionValue = $element.jsGrid("fieldOption", "prop1", "name");
+        equal(fieldOptionValue, "prop1", "read field option");
+
+        $element.jsGrid("fieldOption", "prop1", "name", "prop2");
+        equal($element.text(), "_value2", "set field option by field name");
+
+        $element.jsGrid("fieldOption", 0, "name", "prop3");
+        equal($element.text(), "_value3", "set field option by field index");
+    });
+
     test("option changing event handlers", function() {
         var $element = $("#jsGrid"),
             optionChangingEventArgs,
