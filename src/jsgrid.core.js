@@ -234,7 +234,7 @@
             }
 
             field[key] = value;
-            this.render();
+            this._renderGrid();
         },
 
         _handleOptionChange: function(name, value) {
@@ -314,6 +314,11 @@
         },
 
         render: function() {
+            this._renderGrid();
+            return this.autoload ? this.loadData() : $.Deferred().resolve().promise();
+        },
+
+        _renderGrid: function() {
             this._clear();
 
             this._container.addClass(this.containerClass)
@@ -325,8 +330,6 @@
             this._loadIndicator = this._createLoadIndicator();
 
             this.refresh();
-
-            return this.autoload ? this.loadData() : $.Deferred().resolve().promise();
         },
 
         _createLoadIndicator: function() {

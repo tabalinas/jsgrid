@@ -119,11 +119,19 @@ $(function() {
     });
 
     test("fieldOption method", function() {
+        var dataLoadedCount = 0;
         var $element = $("#jsGrid"),
             gridOptions = {
                 loadMessage: "",
 
-                data: [{ prop1: "value1", prop2: "value2", prop3: "value3" }],
+                autoload: true,
+
+                controller: {
+                    loadData: function() {
+                        dataLoadedCount++;
+                        return [{ prop1: "value1", prop2: "value2", prop3: "value3" }];
+                    }
+                },
 
                 fields: [
                     { name: "prop1", title: "_" }
@@ -137,6 +145,7 @@ $(function() {
 
         $element.jsGrid("fieldOption", "prop1", "name", "prop2");
         equal($element.text(), "_value2", "set field option by field name");
+        equal(dataLoadedCount, 1, "data not reloaded on field option change");
 
         $element.jsGrid("fieldOption", 0, "name", "prop3");
         equal($element.text(), "_value3", "set field option by field index");
