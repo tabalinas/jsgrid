@@ -391,7 +391,9 @@
         _eachField: function(callBack) {
             var self = this;
             $.each(this.fields, function(index, field) {
-                return callBack.call(self, field, index);
+                if(field.visible) {
+                    callBack.call(self, field, index);
+                }
             });
         },
 
@@ -525,8 +527,14 @@
 
         _createNoDataRow: function() {
             var noDataContent = getOrApply(this.noDataContent, this);
+
+            var amountOfFields = 0;
+            this._eachField(function() {
+                amountOfFields++;
+            });
+
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", this.fields.length).append(noDataContent));
+                .append($("<td>").attr("colspan", amountOfFields).append(noDataContent));
         },
 
         _createNoDataContent: function() {

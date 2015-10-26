@@ -904,6 +904,32 @@ $(function() {
         deepEqual(args, { value: "test", item: testItem }, "cellRenderer args provided");
     });
 
+    test("grid field 'visible' option", function() {
+        var $grid = $("#jsGrid");
+
+        var gridOptions = {
+            editing: true,
+            fields: [
+                { name: "id", visible: false },
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($grid, gridOptions);
+
+        equal($grid.find("." + grid.noDataRowClass).children().eq(0).prop("colspan"), 1, "no data row colspan only for visible cells");
+
+        grid.option("data", this.testData);
+        grid.editItem(this.testData[2]);
+
+        equal($grid.find("." + grid.headerRowClass).children().length, 1, "header single cell");
+        equal($grid.find("." + grid.filterRowClass).children().length, 1, "filter single cell");
+        equal($grid.find("." + grid.insertRowClass).children().length, 1, "insert single cell");
+        equal($grid.find("." + grid.editRowClass).children().length, 1, "edit single cell");
+        equal($grid.find("." + grid.oddRowClass).eq(0).children().length, 1, "odd data row single cell");
+        equal($grid.find("." + grid.evenRowClass).eq(0).children().length, 1, "even data row single cell");
+    });
+
 
     module("inserting");
 

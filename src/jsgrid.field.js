@@ -12,6 +12,7 @@
         align: "",
         width: 100,
 
+        visible: true,
         filtering: true,
         inserting: true,
         editing: true,
