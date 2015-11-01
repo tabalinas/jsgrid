@@ -978,10 +978,18 @@
         },
 
         getFilter: function() {
-            var result = {};
+            var result = { fields: [] };
             this._eachField(function(field) {
                 if(field.filtering) {
                     result[field.name] = field.filterValue();
+
+                    var field = {
+                        name: field.name,
+                        value: field.filterValue(),
+                        hasValue: field.filterValue() !== undefined,
+                        selectedFilterOption: field.selectedFilterOption
+                    };
+                    result.fields.push(field);
                 }
             });
             return result;

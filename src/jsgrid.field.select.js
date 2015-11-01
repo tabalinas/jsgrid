@@ -46,8 +46,8 @@
             if(!this.filtering)
                 return "";
 
-            var grid = this._grid,
-                $result = this.filterControl = this._createSelect();
+            var grid = this._grid;
+            var $result = this.filterControl = this.showFilterOption ? this._createFilterSelect() : this._createSelect();
 
             if(this.autosearch) {
                 $result.on("change", function(e) {
@@ -90,6 +90,17 @@
             return this.valueType === "number" ? parseInt(val || 0, 10) : val;
         },
 
+        _createFilterSelect: function() {
+            var div = $("<div>");
+            var select = this._createSelect();
+            div.append(this._createFilterOption()).append(select);
+            div.val = function(value) {
+                return select.val();
+            };
+
+            return div;
+        },
+
         _createSelect: function() {
             var $result = $("<select>"),
                 valueField = this.valueField,
@@ -111,6 +122,8 @@
             return $result;
         }
     });
+
+    SelectField.prototype.filterOptions = ['eq', 'ne'];
 
     jsGrid.fields.select = jsGrid.SelectField = SelectField;
 
