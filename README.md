@@ -1610,7 +1610,7 @@ It provides the following behavior:
 
 - **firstDisplayIndex** returns 0, because all loaded items displayed on the current page
 - **lastDisplayIndex** returns the amount of loaded items, since data loaded by page
-- **itemsCount** returns `itemsCount` provided by `controller.loadData` (read more in section [controller.loadData](##loaddatafilter-promisedataresult))
+- **itemsCount** returns `itemsCount` provided by `controller.loadData` (read more in section [controller.loadData](#loaddatafilter-promisedataresult))
 - **openPage** calls `grid.loadData` to load data for the current page
 - **loadParams** returns an object with the structure `{ pageIndex, pageSize }` to provide server with paging info
 - **sort** calls `grid.loadData` to load sorted data from the server
