@@ -612,8 +612,9 @@
                 $result = $("<td>").append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
             }
 
-            $result.addClass(field.css)
-                .width(field.width);
+            $result.addClass(field.css);
+            $result.css("width": field.width);
+            
 
             field.align && $result.addClass("jsgrid-align-" + field.align);
 
