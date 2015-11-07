@@ -613,7 +613,7 @@
             }
 
             $result.addClass(field.css);
-            $result.css("width": field.width);
+            $result.css({"width": field.width});
             
 
             field.align && $result.addClass("jsgrid-align-" + field.align);
