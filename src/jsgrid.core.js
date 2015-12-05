@@ -938,6 +938,9 @@
         },
 
         _showLoading: function() {
+            if(!this.loadIndication)
+                return;
+
             clearTimeout(this._loadingTimer);
 
             this._loadingTimer = setTimeout($.proxy(function() {
@@ -946,6 +949,9 @@
         },
 
         _hideLoading: function() {
+            if(!this.loadIndication)
+                return;
+
             clearTimeout(this._loadingTimer);
             this._loadIndicator.hide();
         },

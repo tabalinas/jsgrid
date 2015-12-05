@@ -399,6 +399,48 @@ $(function() {
         grid.loadData();
     });
 
+    asyncTest("loadingIndication=false should not show loading", 0, function() {
+        var $element = $("#jsGrid"),
+            timeout = 10,
+
+            gridOptions = {
+                loadIndication: false,
+                loadIndicationDelay: timeout,
+
+                loadIndicator: function() {
+                    return {
+                        show: function() {
+                            ok(false, "should not call show");
+                        },
+                        hide: function() {
+                            ok(false, "should not call hide");
+                        }
+                    };
+                },
+
+                fields: [
+                    { name: "field" }
+                ],
+
+                controller: {
+                    loadData: function() {
+                        var deferred = $.Deferred();
+
+                        setTimeout(function() {
+                            deferred.resolve([]);
+                            start();
+                        }, timeout);
+
+                        return deferred.promise();
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.loadData();
+    });
+
     test("search", function() {
         var $element = $("#jsGrid"),
             data = [
