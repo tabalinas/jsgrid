@@ -77,6 +77,7 @@ General options peculiar to all field types:
     title: "",
     align: "",
     width: 100,
+    visible: true,
 
     css: "",
     headercss: "",
@@ -109,6 +110,7 @@ General options peculiar to all field types:
 - **title** is a text to be displayed in the header of the column. If `title` is not specified, the `name` will be used instead.
 - **align** is alignment of text in the cell. Accepts following values `"left"|"center"|"right"`.
 - **width** is a width of the column.
+- **visible** is a boolean specifying whether to show a column or not. (version added: 1.3)
 - **css** is a string representing css classes to be attached to the table cell.
 - **headercss** is a string representing css classes to be attached to the table header cell. If not specified, then **css** is attached instead.
 - **filtercss** is a string representing css classes to be attached to the table filter row cell. If not specified, then **css** is attached instead.
@@ -376,12 +378,13 @@ Custom properties:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
-    align: "center",        // center text alignment
-    autosearch: true,       // triggers searching when the user changes the selected item in the filter
-    items: [],              // an array of items for select
-    valueField: "",         // name of property of item to be used as value
-    textField: "",         // name of property of item to be used as displaying value
-    selectedIndex: -1       // index of selected item by default
+    align: "center",            // center text alignment
+    autosearch: true,           // triggers searching when the user changes the selected item in the filter
+    items: [],                  // an array of items for select
+    valueField: "",             // name of property of item to be used as value
+    textField: "",              // name of property of item to be used as displaying value
+    selectedIndex: -1           // index of selected item by default
+    valueType: "number|string"  // the data type of the value
 }</pre>
 </div>
 
@@ -414,6 +417,9 @@ or more complex with items as objects:
     textField: "Name"
 }</pre>
 </div>
+
+`valueType` defines whether the field value should be converted to a number or returned as a string.
+The value of the option is determined automatically depending on the data type of `valueField` of the first item, but it can be overridden.
 
 ### checkbox
 Checkbox field renders `<input type="checkbox">` in filter, inserting and editing rows.
@@ -649,6 +655,27 @@ Get grid current sorting params as a plain object with the following format:
     <pre class="prettyprint linenums lang-js">var sorting = $("#grid").jsGrid("getSorting");</pre>
 </div>
 
+### fieldOption(fieldName|fieldIndex, optionName, [optionValue])
+> version added: 1.3
+
+Gets or sets the value of a field option.
+
+**fieldName|fieldIndex** is the name or the index of the field to get/set the option value (if the grid contains more than one field with the same name, the first field will be used).
+
+**optionName** is the name of the field option.
+
+**optionValue** is the new option value to set.
+
+If `optionValue` is not specified, then the value of the field option `optionName` will be returned.
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// hide the field "ClientName"
+$("#grid").jsGrid("fieldOption", "ClientName", "visible", false);
+
+// get width of the 2nd field
+var secondFieldOption = $("#grid").jsGrid("fieldOption", 1, "width");</pre>
+</div>
+
 ### insertItem([item]): `Promise`
 Inserts row into the grid based on item.
 Returns jQuery promise resolved when insertion is completed. 
@@ -692,14 +719,14 @@ Opens the page of specified index.
 **pageIndex** is one-based index of the page to open. The value should be in range from 1 to [total amount of pages].
 
 
-### option(key, [value])
+### option(optionName, [optionValue])
 Gets or sets the value of an option.
  
-**key** is the name of the option.
+**optionName** is the name of the option.
 
-**value** is the new option value to set. 
+**optionValue** is the new option value to set.
 
-If `value` is not specified, then the value of the option `key` will be returned.
+If `optionValue` is not specified, then the value of the option `optionName` will be returned.
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">// turn off paging
@@ -731,6 +758,17 @@ Resets the state of the grid. Goes to the first data page, resets sorting, and t
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">$("#grid").jsGrid("reset");</pre>
+</div>
+
+### rowByItem(item): `jQueryElement`
+> version added: 1.3
+
+Gets the row jQuery element corresponding to the item.
+
+**item** is the item corresponding to the row.
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">var $row = $("#grid").jsGrid("rowByItem", item);</pre>
 </div>
 
 ### search([filter]): `Promise`
@@ -829,7 +867,6 @@ Set default options for all grids.
 </div>
 
 #### jsGrid.setDefaults(fieldName, config)
-
 Set default options of the particular field.
 
 <div class="code">
