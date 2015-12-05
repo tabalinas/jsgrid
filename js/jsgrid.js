@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.2.0 (http://js-grid.com)
+ * jsGrid v1.3.0 (http://js-grid.com)
  * (c) 2015 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -232,6 +232,17 @@
             this._callEventHandler(this.onOptionChanged, optionChangedEventArgs);
         },
 
+        fieldOption: function(field, key, value) {
+            field = this._normalizeField(field);
+
+            if(arguments.length === 2) {
+                return field[key];
+            }
+
+            field[key] = value;
+            this._renderGrid();
+        },
+
         _handleOptionChange: function(name, value) {
             this[name] = value;
 
@@ -296,6 +307,10 @@
                 case "editRowClass":
                     this.cancelEdit();
                     break;
+                case "updateOnResize":
+                    this._detachWindowResizeCallback();
+                    this._attachWindowResizeCallback();
+                    break;
                 default:
                     this.render();
                     break;
@@ -309,6 +324,11 @@
         },
 
         render: function() {
+            this._renderGrid();
+            return this.autoload ? this.loadData() : $.Deferred().resolve().promise();
+        },
+
+        _renderGrid: function() {
             this._clear();
 
             this._container.addClass(this.containerClass)
@@ -320,8 +340,6 @@
             this._loadIndicator = this._createLoadIndicator();
 
             this.refresh();
-
-            return this.autoload ? this.loadData() : $.Deferred().resolve().promise();
         },
 
         _createLoadIndicator: function() {
@@ -383,7 +401,9 @@
         _eachField: function(callBack) {
             var self = this;
             $.each(this.fields, function(index, field) {
-                return callBack.call(self, field, index);
+                if(field.visible) {
+                    callBack.call(self, field, index);
+                }
             });
         },
 
@@ -517,8 +537,14 @@
 
         _createNoDataRow: function() {
             var noDataContent = getOrApply(this.noDataContent, this);
+
+            var amountOfFields = 0;
+            this._eachField(function() {
+                amountOfFields++;
+            });
+
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", this.fields.length).append(noDataContent));
+                .append($("<td>").attr("colspan", amountOfFields).append(noDataContent));
         },
 
         _createNoDataContent: function() {
@@ -623,14 +649,14 @@
         },
 
         _setSortingParams: function(field, order) {
-            field = this._normalizeSortingField(field);
+            field = this._normalizeField(field);
             order = order || ((this._sortField === field) ? this._reversedSortOrder(this._sortOrder) : SORT_ORDER_ASC);
 
             this._sortField = field;
             this._sortOrder = order;
         },
 
-        _normalizeSortingField: function(field) {
+        _normalizeField: function(field) {
             if($.isNumeric(field)) {
                 return this.fields[field];
             }
@@ -922,6 +948,9 @@
         },
 
         _showLoading: function() {
+            if(!this.loadIndication)
+                return;
+
             clearTimeout(this._loadingTimer);
 
             this._loadingTimer = setTimeout($.proxy(function() {
@@ -930,6 +959,9 @@
         },
 
         _hideLoading: function() {
+            if(!this.loadIndication)
+                return;
+
             clearTimeout(this._loadingTimer);
             this._loadIndicator.hide();
         },
@@ -1031,13 +1063,13 @@
         },
 
         editItem: function(item) {
-            var $row = this._rowByItem(item);
+            var $row = this.rowByItem(item);
             if($row.length) {
                 this._editRow($row);
             }
         },
 
-        _rowByItem: function(item) {
+        rowByItem: function(item) {
             if(item.jquery || item.nodeType)
                 return $(item);
 
@@ -1085,7 +1117,7 @@
                 editedItem = item;
             }
 
-            var $row = item ? this._rowByItem(item) : this._editingRow;
+            var $row = item ? this.rowByItem(item) : this._editingRow;
             editedItem = editedItem || this._getEditedItem();
 
             return this._updateRow($row, editedItem);
@@ -1155,7 +1187,7 @@
         },
 
         deleteItem: function(item) {
-            var $row = this._rowByItem(item);
+            var $row = this.rowByItem(item);
 
             if(!$row.length)
                 return;
@@ -1488,6 +1520,7 @@
         align: "",
         width: 100,
 
+        visible: true,
         filtering: true,
         inserting: true,
         editing: true,
