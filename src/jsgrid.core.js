@@ -301,6 +301,10 @@
                 case "editRowClass":
                     this.cancelEdit();
                     break;
+                case "updateOnResize":
+                    this._detachWindowResizeCallback();
+                    this._attachWindowResizeCallback();
+                    break;
                 default:
                     this.render();
                     break;
