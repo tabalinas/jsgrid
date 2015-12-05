@@ -1057,13 +1057,13 @@
         },
 
         editItem: function(item) {
-            var $row = this._rowByItem(item);
+            var $row = this.rowByItem(item);
             if($row.length) {
                 this._editRow($row);
             }
         },
 
-        _rowByItem: function(item) {
+        rowByItem: function(item) {
             if(item.jquery || item.nodeType)
                 return $(item);
 
@@ -1111,7 +1111,7 @@
                 editedItem = item;
             }
 
-            var $row = item ? this._rowByItem(item) : this._editingRow;
+            var $row = item ? this.rowByItem(item) : this._editingRow;
             editedItem = editedItem || this._getEditedItem();
 
             return this._updateRow($row, editedItem);
@@ -1181,7 +1181,7 @@
         },
 
         deleteItem: function(item) {
-            var $row = this._rowByItem(item);
+            var $row = this.rowByItem(item);
 
             if(!$row.length)
                 return;

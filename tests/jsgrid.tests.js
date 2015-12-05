@@ -1206,11 +1206,11 @@ $(function() {
                 },
                 onItemUpdating: function(e) {
                     updatingArgs = $.extend(true, {}, e);
-                    updatingRow = grid._rowByItem(data[0])[0];
+                    updatingRow = grid.rowByItem(data[0])[0];
                 },
                 onItemUpdated: function(e) {
                     updatedArgs = $.extend(true, {}, e);
-                    updatedRow = grid._rowByItem(data[0])[0];
+                    updatedRow = grid.rowByItem(data[0])[0];
                 }
             },
 
