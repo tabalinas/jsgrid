@@ -11,6 +11,8 @@
         sorter: "number",
         align: "right",
 
+        showFilterOption: true,
+
         filterValue: function() {
             return parseInt(this.filterControl.val() || 0, 10);
         },
@@ -27,6 +29,8 @@
             return $("<input>").attr("type", "number");
         }
     });
+
+    NumberField.prototype.filterOptions = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'nu', 'nn', 'in', 'ni'];
 
     jsGrid.fields.number = jsGrid.NumberField = NumberField;
 

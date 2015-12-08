@@ -10,12 +10,15 @@
 
         autosearch: true,
 
+        showFilterOption: true,
+        filterOptions: ['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni'],
+
         filterTemplate: function() {
             if(!this.filtering)
                 return "";
 
-            var grid = this._grid,
-                $result = this.filterControl = this._createTextBox();
+            var grid = this._grid;
+            var $result = this.filterControl = this.showFilterOption ? this._createFilterTextBox() : this._createTextBox();
 
             if(this.autosearch) {
                 $result.on("keypress", function(e) {
@@ -60,6 +63,17 @@
 
         _createTextBox: function() {
             return $("<input>").attr("type", "text");
+        },
+
+        _createFilterTextBox: function() {
+            var div = $("<div>");
+            var textBox = this._createTextBox();
+            div.append(this._createFilterOption()).append(textBox);
+            div.val = function(value) {
+                return textBox.val();
+            };
+
+            return div;
         }
     });
 
