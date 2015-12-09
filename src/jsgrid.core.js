@@ -606,20 +606,20 @@
             return this;
         },
 
-        _getFieldValue: function(item, name, field) {
-            var props = name.split('.');
-            var fieldValue = item[props.shift()];
+        _getFieldValue: function(item, field) {
+            var props = field.name.split('.');
+            var result = item[props.shift()];
 
-            while (props.length > 0) {
-                fieldValue = fieldValue[props.shift()];
+            while(props.length) {
+                result = result[props.shift()];
             }
 
-            return fieldValue;
+            return result;
         },
 
         _createCell: function(item, field) {
             var $result;
-            var fieldValue = this._getFieldValue(item, field.name, field);
+            var fieldValue = this._getFieldValue(item, field);
 
             if($.isFunction(field.cellRenderer)) {
                 $result = $(field.cellRenderer(fieldValue, item));
@@ -1107,9 +1107,8 @@
 
             var $result = $("<tr>").addClass(this.editRowClass);
 
-            var self = this;
             this._eachField(function(field) {
-                var fieldValue = self._getFieldValue(item, field.name, field);
+                var fieldValue = this._getFieldValue(item, field);
                 $("<td>").addClass(field.editcss || field.css)
                     .appendTo($result)
                     .append(field.editTemplate ? field.editTemplate(fieldValue, item) : "")

@@ -1910,4 +1910,52 @@ $(function() {
 
         strictEqual(deletedItem, null, "item was not deleted");
     });
+
+
+    module("complex properties binding");
+
+    test("rendering", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            loadMessage: "",
+
+            data: [
+                { complexProp: { prop: "test" } }
+            ],
+
+            fields: [
+                { name: "complexProp.prop", title: "" }
+            ]
+        };
+
+        new Grid($element, gridOptions);
+
+        strictEqual($element.text(), "test", "complex property value rendered");
+    });
+
+    test("editing", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            editing: true,
+
+            data: [
+                { complexProp: { prop: "test" } }
+            ],
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        strictEqual(grid.fields[0].editControl.val(), "test", "complex property value set in editor");
+    });
+
+
 });
