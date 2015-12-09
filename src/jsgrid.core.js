@@ -606,20 +606,9 @@
             return this;
         },
 
-        _getFieldValue: function(item, field) {
-            var props = field.name.split('.');
-            var result = item[props.shift()];
-
-            while(result && props.length) {
-                result = result[props.shift()];
-            }
-
-            return result;
-        },
-
         _createCell: function(item, field) {
             var $result;
-            var fieldValue = this._getFieldValue(item, field);
+            var fieldValue = this._getItemFieldValue(item, field);
 
             if($.isFunction(field.cellRenderer)) {
                 $result = $(field.cellRenderer(fieldValue, item));
@@ -633,6 +622,38 @@
             field.align && $result.addClass("jsgrid-align-" + field.align);
 
             return $result;
+        },
+
+        _getItemFieldValue: function(item, field) {
+            var props = field.name.split('.');
+            var result = item[props.shift()];
+
+            while(result && props.length) {
+                result = result[props.shift()];
+            }
+
+            return result;
+        },
+
+        _setItemFieldValue: function(item, field, value) {
+            var props = field.name.split('.');
+            var current = item;
+            var prop = props[0];
+
+            while(current && props.length > 1) {
+                item = current;
+                prop = props.shift();
+                current = item[prop];
+            }
+
+            if(!current) {
+                while(props.length) {
+                    item = item[prop] = {};
+                    prop = props.shift();
+                }
+            }
+
+            item[prop] = value;
         },
 
         sort: function(field, order) {
@@ -1002,7 +1023,7 @@
             var result = {};
             this._eachField(function(field) {
                 if(field.filtering) {
-                    result[field.name] = field.filterValue();
+                    this._setItemFieldValue(result, field, field.filterValue());
                 }
             });
             return result;
@@ -1054,7 +1075,7 @@
             var result = {};
             this._eachField(function(field) {
                 if(field.inserting) {
-                    result[field.name] = field.insertValue();
+                    this._setItemFieldValue(result, field, field.insertValue());
                 }
             });
             return result;
@@ -1108,7 +1129,8 @@
             var $result = $("<tr>").addClass(this.editRowClass);
 
             this._eachField(function(field) {
-                var fieldValue = this._getFieldValue(item, field);
+                var fieldValue = this._getItemFieldValue(item, field);
+
                 $("<td>").addClass(field.editcss || field.css)
                     .appendTo($result)
                     .append(field.editTemplate ? field.editTemplate(fieldValue, item) : "")
@@ -1132,9 +1154,9 @@
         _updateRow: function($updatingRow, editedItem) {
             var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
                 updatingItemIndex = this._itemIndex(updatingItem),
-                previousItem = $.extend({}, updatingItem);
+                previousItem = $.extend(true, {}, updatingItem);
 
-            $.extend(updatingItem, editedItem);
+            $.extend(true, updatingItem, editedItem);
 
             var args = this._callEventHandler(this.onItemUpdating, {
                 row: $updatingRow,
@@ -1173,7 +1195,7 @@
             var result = {};
             this._eachField(function(field) {
                 if(field.editing) {
-                    result[field.name] = field.editValue();
+                    this._setItemFieldValue(result, field, field.editValue());
                 }
             });
             return result;

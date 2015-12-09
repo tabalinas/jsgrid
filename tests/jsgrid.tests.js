@@ -1978,7 +1978,134 @@ $(function() {
         equal($element.text(), "", "rendered empty value");
     });
 
+    test("inserting", function() {
+        var $element = $("#jsGrid");
+        var insertingItem;
+
+        var gridOptions = {
+            inserting: true,
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ],
+
+            onItemInserting: function(args) {
+                insertingItem = args.item;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        deepEqual(insertingItem, { complexProp: { prop: "test" } }, "inserting item has complex properties");
     });
 
+    test("filtering", function() {
+        var $element = $("#jsGrid");
+        var loadFilter;
 
+        var gridOptions = {
+            filtering: true,
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ],
+
+            controller: {
+                loadData: function(filter) {
+                    loadFilter = filter;
+                }
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].filterControl.val("test");
+        grid.search();
+
+        deepEqual(loadFilter, { complexProp: { prop: "test" } }, "filter has complex properties");
+    });
+
+    test("updating", function() {
+        var $element = $("#jsGrid");
+        var updatingItem;
+
+        var gridOptions = {
+            editing: true,
+
+            data: [
+                { complexProp: { } }
+            ],
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ],
+
+            onItemUpdating: function(args) {
+                updatingItem = args.item;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        grid.fields[0].editControl.val("test");
+        grid.updateItem();
+
+        deepEqual(updatingItem, { complexProp: { prop: "test" } }, "updating item has complex properties");
+    });
+
+    test("updating deeply nested prop", function() {
+        var $element = $("#jsGrid");
+        var updatingItem;
+        var previousItem;
+
+        var gridOptions = {
+            editing: true,
+
+            data: [
+                { complexProp: { subprop1: { another_prop: "test" } } }
+            ],
+
+            fields: [
+                { type: "text", name: "complexProp.subprop1.prop1" },
+                { type: "text", name: "complexProp.subprop1.subprop2.prop12" }
+            ],
+
+            onItemUpdating: function(args) {
+                updatingItem = args.item;
+                previousItem = args.previousItem;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        grid.fields[0].editControl.val("test1");
+        grid.fields[1].editControl.val("test2");
+        grid.updateItem();
+
+        var expectedUpdatingItem = {
+            complexProp: {
+                subprop1: {
+                    another_prop: "test",
+                    prop1: "test1",
+                    subprop2: { prop12: "test2" }
+                }
+            }
+        };
+
+        var expectedPreviousItem = {
+            complexProp: {
+                subprop1: {
+                    another_prop: "test"
+                }
+            }
+        };
+
+        deepEqual(updatingItem, expectedUpdatingItem, "updating item has deeply nested properties");
+        deepEqual(previousItem, expectedPreviousItem, "previous item preserved correctly");
+    });
 });
