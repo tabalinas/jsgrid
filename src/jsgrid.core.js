@@ -610,7 +610,7 @@
             var props = field.name.split('.');
             var result = item[props.shift()];
 
-            while(props.length) {
+            while(result && props.length) {
                 result = result[props.shift()];
             }
 

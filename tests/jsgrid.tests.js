@@ -1932,7 +1932,7 @@ $(function() {
 
         new Grid($element, gridOptions);
 
-        strictEqual($element.text(), "test", "complex property value rendered");
+        equal($element.text(), "test", "complex property value rendered");
     });
 
     test("editing", function() {
@@ -1954,7 +1954,30 @@ $(function() {
         var grid = new Grid($element, gridOptions);
 
         grid.editItem(gridOptions.data[0]);
-        strictEqual(grid.fields[0].editControl.val(), "test", "complex property value set in editor");
+        equal(grid.fields[0].editControl.val(), "test", "complex property value set in editor");
+    });
+
+    test("should not fail if property is absent", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            loadMessage: "",
+
+            data: [
+                { complexProp: { } }
+            ],
+
+            fields: [
+                { name: "complexProp.subprop.prop", title: "" }
+            ]
+        };
+
+        new Grid($element, gridOptions);
+
+        equal($element.text(), "", "rendered empty value");
+    });
+
     });
 
 
