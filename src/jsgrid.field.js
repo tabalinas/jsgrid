@@ -7,7 +7,7 @@
 
     Field.prototype = {
         name: "",
-        title: "",
+        title: null,
         css: "",
         align: "",
         width: 100,
@@ -20,7 +20,7 @@
         sorter: "string", // name of SortStrategy or function to compare elements
 
         headerTemplate: function() {
-            return this.title || this.name;
+            return (this.title === undefined || this.title === null) ? this.name : this.title;
         },
 
         itemTemplate: function(value, item) {
