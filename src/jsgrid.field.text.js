@@ -9,6 +9,8 @@
     TextField.prototype = new Field({
 
         autosearch: true,
+		classNames: "",
+		readOnly: false,
 
         filterTemplate: function() {
             if(!this.filtering)
@@ -59,7 +61,15 @@
         },
 
         _createTextBox: function() {
-            return $("<input>").attr("type", "text");
+            var $result = $("<input>").attr("type", "text");
+			
+			if (this.readOnly) $result.attr("readonly", "readonly");
+			
+			if (this.classNames !== undefined && this.classNames !== null) {
+				$result.addClass(this.classNames);
+			}
+			
+            return $result;
         }
     });
 
