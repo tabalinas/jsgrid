@@ -136,6 +136,7 @@
         onItemDeleted: $.noop,
         onItemInserting: $.noop,
         onItemInserted: $.noop,
+        onItemEditing: $.noop,
         onItemUpdating: $.noop,
         onItemUpdated: $.noop,
         onDataLoading: $.noop,
@@ -1108,12 +1109,22 @@
             if(!this.editing)
                 return;
 
+            var item = $row.data(JSGRID_ROW_DATA_KEY);
+
+            var args = this._callEventHandler(this.onItemEditing, {
+                row: $row,
+                item: item,
+                itemIndex: this._itemIndex(item)
+            });
+
+            if(args.cancel)
+                return;
+
             if(this._editingRow) {
                 this.cancelEdit();
             }
 
-            var item = $row.data(JSGRID_ROW_DATA_KEY),
-                $editRow = this._createEditRow(item);
+            var $editRow = this._createEditRow(item);
 
             this._editingRow = $row;
             $row.hide();

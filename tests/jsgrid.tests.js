@@ -1176,6 +1176,8 @@ $(function() {
 
     test("edit item", function() {
         var $element = $("#jsGrid"),
+            editingArgs,
+            editingRow,
             updated = false,
             updatingArgs,
             updatingRow,
@@ -1204,6 +1206,10 @@ $(function() {
                         updated = true;
                     }
                 },
+                onItemEditing: function(e) {
+                    editingArgs = $.extend(true, {}, e);
+                    editingRow = grid.rowByItem(data[0])[0];
+                },
                 onItemUpdating: function(e) {
                     updatingArgs = $.extend(true, {}, e);
                     updatingRow = grid.rowByItem(data[0])[0];
@@ -1219,6 +1225,11 @@ $(function() {
         grid.option("data", data);
 
         grid.editItem(data[0]);
+
+        deepEqual(editingArgs.item, { field: "value" }, "item before editing is provided in editing event args");
+        equal(editingArgs.itemIndex, 0, "itemIndex is provided in editing event args");
+        equal(editingArgs.row[0], editingRow, "row element is provided in editing event args");
+
         grid.fields[0].editControl.val("new value");
         grid.updateItem();
 
@@ -1786,7 +1797,36 @@ $(function() {
     });
 
 
-    module("canceling controller calls");
+    module("canceling events");
+
+    test("cancel item edit", function() {
+        var $element = $("#jsGrid");
+        var data = [{}];
+
+        var gridOptions = {
+            editing: true,
+
+            onItemEditing: function(e) {
+                e.cancel = true;
+            },
+
+            controller: {
+                loadData: function() {
+                    return data;
+                }
+            },
+
+            fields: [
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.loadData();
+        grid.editItem(data[0]);
+        strictEqual(grid._editingRow, null, "no editing row");
+    });
 
     test("cancel controller.loadData", function() {
         var $element = $("#jsGrid");
