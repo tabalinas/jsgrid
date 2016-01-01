@@ -410,10 +410,9 @@
             var $result = $("<tr>").addClass(this.headerRowClass);
 
             this._eachField(function(field, index) {
-                var $th = $("<th>").addClass(field.headercss || field.css)
-                    .appendTo($result)
+                var $th = this._prepareCell("<th>", field, "headercss")
                     .append(field.headerTemplate ? field.headerTemplate() : "")
-                    .css("width", field.width);
+                    .appendTo($result);
 
                 if(this.sorting && field.sorting) {
                     $th.addClass(this.sortableClass)
@@ -426,6 +425,12 @@
             return $result;
         },
 
+        _prepareCell: function(cell, field, cssprop) {
+            return $(cell).css("width", field.width)
+                .addClass((cssprop && field[cssprop]) || field.css)
+                .addClass(field.align ? ("jsgrid-align-" + field.align) : "");
+        },
+
         _createFilterRow: function() {
             if($.isFunction(this.filterRowRenderer)) {
                 return $(this.filterRowRenderer());
@@ -434,10 +439,9 @@
             var $result = $("<tr>").addClass(this.filterRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.filtercss || field.css)
-                    .appendTo($result)
+                this._prepareCell("<td>", field, "filtercss")
                     .append(field.filterTemplate ? field.filterTemplate() : "")
-                    .width(field.width);
+                    .appendTo($result);
             });
 
             return $result;
@@ -451,10 +455,9 @@
             var $result = $("<tr>").addClass(this.insertRowClass);
 
             this._eachField(function(field) {
-                $("<td>").addClass(field.insertcss || field.css)
-                    .appendTo($result)
+                this._prepareCell("<td>", field, "insertcss")
                     .append(field.insertTemplate ? field.insertTemplate() : "")
-                    .width(field.width);
+                    .appendTo($result);
             });
 
             return $result;
@@ -617,12 +620,7 @@
                 $result = $("<td>").append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
             }
 
-            $result.addClass(field.css)
-                .width(field.width);
-
-            field.align && $result.addClass("jsgrid-align-" + field.align);
-
-            return $result;
+            return this._prepareCell($result, field);
         },
 
         _getItemFieldValue: function(item, field) {
@@ -1142,10 +1140,9 @@
             this._eachField(function(field) {
                 var fieldValue = this._getItemFieldValue(item, field);
 
-                $("<td>").addClass(field.editcss || field.css)
-                    .appendTo($result)
+                this._prepareCell("<td>", field, "editcss")
                     .append(field.editTemplate ? field.editTemplate(fieldValue, item) : "")
-                    .width(field.width || "auto");
+                    .appendTo($result);
             });
 
             return $result;

@@ -528,6 +528,7 @@ $(function() {
                 fields: [
                     {
                         name: "test",
+                        align: "right",
                         filtercss: "filter-class",
                         filterTemplate: function() {
                             var result = this.filterControl = $("<input>").attr("type", "text").addClass("filter-input");
@@ -540,6 +541,7 @@ $(function() {
 
         equal(grid._filterRow.find(".filter-class").length, 1, "filtercss class is attached");
         equal(grid._filterRow.find(".filter-input").length, 1, "filter control rendered");
+        ok(grid._filterRow.find(".filter-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
     });
 
@@ -899,7 +901,7 @@ $(function() {
                         title: "title",
                         css: "cell-class",
                         headercss: "header-class",
-                        align: "center"
+                        align: "right"
                     })
                 ]
             },
@@ -909,11 +911,12 @@ $(function() {
 
         equal(grid._headerRow.text(), "title", "header rendered");
         equal(grid._headerRow.find(".header-class").length, 1, "headercss class is attached");
+        ok(grid._headerRow.find(".header-class").hasClass("jsgrid-align-right"), "align class is attached");
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
         equal($secondRow.text(), "test2", "item rendered");
         equal($secondRow.find(".cell-class").length, 1, "css class added to cell");
-        ok($secondRow.find(".cell-class").hasClass("jsgrid-align-center"), "align class added to cell");
+        ok($secondRow.find(".cell-class").hasClass("jsgrid-align-right"), "align class added to cell");
     });
 
     test("grid field cellRenderer", function() {
@@ -982,6 +985,7 @@ $(function() {
                 fields: [
                     {
                         name: "test",
+                        align: "right",
                         insertcss: "insert-class",
                         insertTemplate: function() {
                             var result = this.insertControl = $("<input>").attr("type", "text").addClass("insert-input");
@@ -994,6 +998,7 @@ $(function() {
 
         equal(grid._insertRow.find(".insert-class").length, 1, "insertcss class is attached");
         equal(grid._insertRow.find(".insert-input").length, 1, "insert control rendered");
+        ok(grid._insertRow.find(".insert-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].insertControl.is("input[type=text]"), "insert control saved in field");
     });
 
@@ -1117,6 +1122,7 @@ $(function() {
                 fields: [
                     {
                         name: "test",
+                        align: "right",
                         editcss: "edit-class",
                         editTemplate: function(value) {
                             var result = this.editControl = $("<input>").attr("type", "text").val(value).addClass("edit-input");
@@ -1138,6 +1144,7 @@ $(function() {
         equal($editRow.length, 1, "edit row rendered");
         equal($editRow.find(".edit-class").length, 1, "editcss class is attached");
         equal($editRow.find(".edit-input").length, 1, "edit control rendered");
+        ok($editRow.find(".edit-class").hasClass("jsgrid-align-right"), "align class is attached");
 
         ok(grid.fields[0].editControl.is("input[type=text]"), "edit control saved in field");
         equal(grid.fields[0].editControl.val(), "value", "edit control value");
