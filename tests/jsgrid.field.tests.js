@@ -51,7 +51,6 @@ $(function() {
             var editTemplateContent = editTemplate instanceof jQuery ? editTemplate[0].outerHTML : editTemplate;
             var itemTemplateContent = itemTemplate instanceof jQuery ? itemTemplate[0].outerHTML : itemTemplate;
 
-console.log(name + ": " + editTemplateContent);
             equal(editTemplateContent, itemTemplateContent, "item template is rendered instead of edit template for field " + name);
         });
     });
