@@ -795,8 +795,7 @@
             var pageCount = this._pagesCount(),
                 pageButtonCount = this.pageButtonCount,
                 firstDisplayingPage = this._firstDisplayingPage,
-                pages = [],
-                pageNumber;
+                pages = [];
 
             if(firstDisplayingPage > 1) {
                 pages.push(this._createPagerPageNavButton(this.pageNavigatorPrevText, this.showPrevPages));
