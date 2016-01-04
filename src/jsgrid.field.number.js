@@ -10,7 +10,6 @@
 
         sorter: "number",
         align: "right",
-		classNames: null,
 		readOnly: false,
 
         filterValue: function() {
@@ -29,10 +28,6 @@
 			var $result = $("<input>").attr("type", "number");
 			
 			if (this.readOnly) $result.attr("readonly", "readonly");
-			
-			if (this.classNames !== undefined && this.classNames !== null) {
-				$result.addClass(this.classNames);
-			}
 			
             return $result;
         }
