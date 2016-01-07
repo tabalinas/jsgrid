@@ -207,9 +207,8 @@
             var optionChangingEventArgs,
                 optionChangedEventArgs;
 
-            if(arguments.length === 1) {
+            if(arguments.length === 1)
                 return this[key];
-            }
 
             optionChangingEventArgs = {
                 option: key,
@@ -230,9 +229,8 @@
         fieldOption: function(field, key, value) {
             field = this._normalizeField(field);
 
-            if(arguments.length === 2) {
+            if(arguments.length === 2)
                 return field[key];
-            }
 
             field[key] = value;
             this._renderGrid();
@@ -403,9 +401,8 @@
         },
 
         _createHeaderRow: function() {
-            if($.isFunction(this.headerRowRenderer)) {
+            if($.isFunction(this.headerRowRenderer))
                 return $(this.headerRowRenderer());
-            }
 
             var $result = $("<tr>").addClass(this.headerRowClass);
 
@@ -432,9 +429,8 @@
         },
 
         _createFilterRow: function() {
-            if($.isFunction(this.filterRowRenderer)) {
+            if($.isFunction(this.filterRowRenderer))
                 return $(this.filterRowRenderer());
-            }
 
             var $result = $("<tr>").addClass(this.filterRowClass);
 
@@ -448,9 +444,8 @@
         },
 
         _createInsertRow: function() {
-            if($.isFunction(this.insertRowRenderer)) {
+            if($.isFunction(this.insertRowRenderer))
                 return $(this.insertRowRenderer());
-            }
 
             var $result = $("<tr>").addClass(this.insertRowClass);
 
@@ -1209,9 +1204,8 @@
         },
 
         cancelEdit: function() {
-            if(!this._editingRow) {
+            if(!this._editingRow)
                 return;
-            }
 
             var $row = this._editingRow,
                 $editRow = $row.data(JSGRID_EDIT_ROW_DATA_KEY);
