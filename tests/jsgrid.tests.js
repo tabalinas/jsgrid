@@ -2155,4 +2155,247 @@ $(function() {
         deepEqual(updatingItem, expectedUpdatingItem, "updating item has deeply nested properties");
         deepEqual(previousItem, expectedPreviousItem, "previous item preserved correctly");
     });
+
+
+    module("validation");
+
+    test("insertItem should call validation.validate", function() {
+        var $element = $("#jsGrid");
+        var fieldValidationRules = { test: "value" };
+        var validatingArgs;
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function(args) {
+                    validatingArgs = args;
+                    return [];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: fieldValidationRules }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        deepEqual(validatingArgs, { value: "test", item: { Name: "test" }, itemIndex: -1,
+            row: grid._insertRow, rules: fieldValidationRules }, "validating args is provided");
+    });
+
+    test("insertItem rejected when data is not valid", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem().done(function() {
+            ok(false, "insertItem should not be completed");
+        }).fail(function() {
+            ok(true, "insertItem should fail");
+        });
+    });
+
+    test("invalidClass is attached on invalid cell on inserting", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+        var $insertCell = grid._insertRow.children().eq(0);
+
+        grid.insertItem();
+
+        ok($insertCell.hasClass(grid.invalidClass), "invalid class is attached");
+        equal($insertCell.attr("title"), "Error", "cell tooltip contains error message");
+    });
+
+    test("onItemInvalid callback", function() {
+        var $element = $("#jsGrid");
+        var errors = ["Error"];
+        var onItemInvalidCalled = 0;
+        var onItemInvalidArgs;
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            onItemInvalid: function(args) {
+                onItemInvalidCalled++;
+                onItemInvalidArgs = args;
+            },
+
+            validation: {
+                validate: function(args) {
+                    return !args.value ? errors : [];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.insertItem();
+
+        equal(onItemInvalidCalled, 1, "onItemInvalid is called, when item data is invalid");
+        deepEqual(onItemInvalidArgs, { grid: grid, errors: [{ field: grid.fields[0], message: "Error" }],
+            item: { Name: "" }, itemIndex: -1, row: grid._insertRow }, "arguments provided");
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        equal(onItemInvalidCalled, 1, "onItemInvalid was not called, when data is valid");
+    });
+
+    test("invalidNotify", function() {
+        var $element = $("#jsGrid");
+        var errors = ["Error"];
+        var invalidNotifyCalled = 0;
+        var invalidNotifyArgs;
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+
+            invalidNotify: function(args) {
+                invalidNotifyCalled++;
+                invalidNotifyArgs = args;
+            },
+
+            validation: {
+                validate: function(args) {
+                    return !args.value ? errors : [];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.insertItem();
+
+        equal(invalidNotifyCalled, 1, "invalidNotify is called, when item data is invalid");
+        deepEqual(invalidNotifyArgs, { grid: grid, errors: [{ field: grid.fields[0], message: "Error" }],
+            row: grid._insertRow, item: { Name: "" }, itemIndex: -1 }, "arguments provided");
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        equal(invalidNotifyCalled, 1, "invalidNotify was not called, when data is valid");
+    });
+
+    test("invalidMessage", function() {
+        var $element = $("#jsGrid");
+        var invalidMessage;
+        var originalAlert = window.alert;
+
+        window.alert = function(message) {
+            invalidMessage = message;
+        };
+
+        try {
+            Grid.prototype.invalidMessage = "InvalidTest";
+            Grid.prototype.invalidNotify({ errors: [{ message: "Message1" }, { message: "Message2" }] });
+
+            var expectedInvalidMessage = ["InvalidTest", "Message1", "Message2"].join("\n");
+            equal(invalidMessage, expectedInvalidMessage, "message contains invalidMessage and field error messages");
+        } finally {
+            window.alert = originalAlert;
+        }
+    });
+
+    test("updateItem should call validation.validate", function() {
+        var $element = $("#jsGrid");
+        var validatingArgs;
+
+        var gridOptions = {
+            data: [{ Name: "" }],
+            editing: true,
+
+            invalidNotify: $.noop,
+            validation: {
+                validate: function(args) {
+                    validatingArgs = args;
+                    return ["Error"];
+                }
+            },
+
+            fields: [
+                { type: "text", name: "Name", validate: "required" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+
+        grid.fields[0].editControl.val("test");
+        grid.updateItem();
+
+        deepEqual(validatingArgs, { value: "test", item: { Name: "test" }, itemIndex: 0,
+            row: grid._getEditRow(), rules: "required" }, "validating args is provided");
+    });
+
+    test("invalidClass is attached on invalid cell on updating", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            data: [{}],
+            editing: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        var $editCell = grid._getEditRow().children().eq(0);
+
+        grid.updateItem();
+
+        ok($editCell.hasClass(grid.invalidClass), "invalid class is attached");
+        equal($editCell.attr("title"), "Error", "cell tooltip contains error message");
+    });
 });

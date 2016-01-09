@@ -131,6 +131,13 @@
     background: #fff;
 }
 
+.jsgrid-invalid input,
+.jsgrid-invalid select,
+.jsgrid-invalid textarea {
+    background: #ffe3e5;
+    border: 1px solid #ff808a;
+}
+
 .jsgrid-pager-current-page {
     font-weight: bold;
 }

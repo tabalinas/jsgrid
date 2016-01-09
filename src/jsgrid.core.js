@@ -130,6 +130,16 @@
         loadMessage: "Please, wait...",
         loadShading: true,
 
+        invalidMessage: "Invalid data entered!",
+
+        invalidNotify: function(args) {
+            var messages = $.map(args.errors, function(error) {
+                return error.message || null;
+            });
+
+            window.alert([this.invalidMessage].concat(messages).join("\n"));
+        },
+
         onRefreshing: $.noop,
         onRefreshed: $.noop,
         onItemDeleting: $.noop,
@@ -139,11 +149,14 @@
         onItemEditing: $.noop,
         onItemUpdating: $.noop,
         onItemUpdated: $.noop,
+        onItemInvalid: $.noop,
         onDataLoading: $.noop,
         onDataLoaded: $.noop,
         onOptionChanging: $.noop,
         onOptionChanged: $.noop,
         onError: $.noop,
+
+        invalidClass: "jsgrid-invalid",
 
         containerClass: "jsgrid",
         tableClass: "jsgrid-table",
@@ -175,6 +188,10 @@
 
         loadIndicator: function(config) {
             return new jsGrid.LoadIndicator(config);
+        },
+
+        validation: function(config) {
+            return new jsGrid.Validation(config);
         },
 
         _initFields: function() {
@@ -331,6 +348,7 @@
 
             this._pagerContainer = this._createPagerContainer();
             this._loadIndicator = this._createLoadIndicator();
+            this._validation = this._createValidation();
 
             this.refresh();
         },
@@ -341,6 +359,10 @@
                 shading: this.loadShading,
                 container: this._container
             });
+        },
+
+        _createValidation: function() {
+            return getOrApply(this.validation, this);
         },
 
         _clear: function() {
@@ -1048,7 +1070,10 @@
         },
 
         insertItem: function(item) {
-            var insertingItem = item || this._getInsertItem();
+            var insertingItem = item || this._getValidatedInsertItem();
+
+            if(!insertingItem)
+                return $.Deferred().reject().promise();
 
             var args = this._callEventHandler(this.onItemInserting, {
                 item: insertingItem
@@ -1064,6 +1089,11 @@
             });
         },
 
+        _getValidatedInsertItem: function() {
+            var item = this._getInsertItem();
+            return this._validateItem(item, this._insertRow) ? item : null;
+        },
+
         _getInsertItem: function() {
             var result = {};
             this._eachField(function(field) {
@@ -1072,6 +1102,53 @@
                 }
             });
             return result;
+        },
+
+        _validateItem: function(item, $row) {
+            var validationErrors = [];
+
+            var args = {
+                item: item,
+                itemIndex: this._rowIndex($row),
+                row: $row
+            };
+
+            this._eachField(function(field, index) {
+                if(!field.validate)
+                    return;
+
+                var errors = this._validation.validate($.extend({
+                    value: item[field.name],
+                    rules: field.validate
+                }, args));
+
+                this._setCellValidity($row.children().eq(index), errors);
+
+                if(!errors.length)
+                    return;
+
+                validationErrors.push.apply(validationErrors,
+                    $.map(errors, function(message) {
+                        return { field: field, message: message };
+                    }));
+            });
+
+            if(!validationErrors.length)
+                return true;
+
+            var invalidArgs = $.extend({
+                errors: validationErrors
+            }, args);
+            this._callEventHandler(this.onItemInvalid, invalidArgs);
+            this.invalidNotify(invalidArgs);
+
+            return false;
+        },
+
+        _setCellValidity: function($cell, errors) {
+            $cell
+                .toggleClass(this.invalidClass, !!errors.length)
+                .attr("title", errors.join("\n"));
         },
 
         clearInsert: function() {
@@ -1120,7 +1197,7 @@
 
             this._editingRow = $row;
             $row.hide();
-            $editRow.insertAfter($row);
+            $editRow.insertBefore($row);
             $row.data(JSGRID_EDIT_ROW_DATA_KEY, $editRow);
         },
 
@@ -1148,9 +1225,17 @@
             }
 
             var $row = item ? this.rowByItem(item) : this._editingRow;
-            editedItem = editedItem || this._getEditedItem();
+            editedItem = editedItem || this._getValidatedEditedItem();
+
+            if(!editedItem)
+                return;
 
             return this._updateRow($row, editedItem);
+        },
+
+        _getValidatedEditedItem: function() {
+            var item = this._getEditedItem();
+            return this._validateItem(item, this._getEditRow()) ? item : null;
         },
 
         _updateRow: function($updatingRow, editedItem) {
@@ -1180,6 +1265,10 @@
             });
         },
 
+        _rowIndex: function(row) {
+            return this._content.children().index($(row));
+        },
+
         _itemIndex: function(item) {
             return $.inArray(item, this.data);
         },
@@ -1207,12 +1296,13 @@
             if(!this._editingRow)
                 return;
 
-            var $row = this._editingRow,
-                $editRow = $row.data(JSGRID_EDIT_ROW_DATA_KEY);
-
-            $editRow.remove();
-            $row.show();
+            this._getEditRow().remove();
+            this._editingRow.show();
             this._editingRow = null;
+        },
+
+        _getEditRow: function() {
+            return this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
         },
 
         deleteItem: function(item) {

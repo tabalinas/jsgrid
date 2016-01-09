@@ -16,6 +16,7 @@
     <script src="../src/jsgrid.load-indicator.js"></script>
     <script src="../src/jsgrid.load-strategies.js"></script>
     <script src="../src/jsgrid.sort-strategies.js"></script>
+    <script src="../src/jsgrid.validation.js"></script>
     <script src="../src/jsgrid.field.js"></script>
     <script src="../src/jsgrid.field.text.js"></script>
     <script src="../src/jsgrid.field.number.js"></script>
@@ -44,10 +45,11 @@
                 deleteConfirm: "Do you really want to delete the client?",
                 controller: db,
                 fields: [
-                    { name: "Name", type: "text", width: 150 },
-                    { name: "Age", type: "number", width: 50 },
-                    { name: "Address", type: "text", width: 200 },
-                    { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
+                    { name: "Name", type: "text", width: 150, validate: "required" },
+                    { name: "Age", type: "number", width: 50, validate: { validator: "range", param: [18,80] } },
+                    { name: "Address", type: "text", width: 200, validate: { validator: "rangeLength", param: [10, 250] } },
+                    { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name",
+                        validate: { message: "Country should be specified", validator: function(value) { return value > 0; } } },
                     { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
                     { type: "control" }
                 ]
