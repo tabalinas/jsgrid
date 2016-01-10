@@ -321,6 +321,9 @@
                     this._detachWindowResizeCallback();
                     this._attachWindowResizeCallback();
                     break;
+                case "invalidNotify":
+                case "invalidMessage":
+                    break;
                 default:
                     this.render();
                     break;
