@@ -191,7 +191,7 @@
         },
 
         validation: function(config) {
-            return new jsGrid.Validation(config);
+            return jsGrid.Validation && new jsGrid.Validation(config);
         },
 
         _initFields: function() {
