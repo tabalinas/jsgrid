@@ -976,7 +976,7 @@
 
             var controller = this._controller;
             if(!controller || !controller[method]) {
-                throw new Error("controller has no method '" + method + "'");
+                throw Error("controller has no method '" + method + "'");
             }
 
             return $.when(controller[method](param))

@@ -43,7 +43,7 @@
             if($.isPlainObject(rule))
                 rule = $.extend({}, rule);
             else
-                throw new Error("wrong validation config specified");
+                throw Error("wrong validation config specified");
 
             if($.isFunction(rule.validator))
                 return rule;
@@ -56,7 +56,7 @@
 
             var validator = validators[validatorName];
             if(!validator)
-                throw new Error("unknown validator \"" + validatorName + "\"");
+                throw Error("unknown validator \"" + validatorName + "\"");
 
             if($.isFunction(validator)) {
                 validator = { validator: validator };

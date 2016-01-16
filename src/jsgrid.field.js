@@ -63,7 +63,7 @@
                 return jsGrid.sortStrategies[sorter];
             }
 
-            throw Error("Wrong sorter for the field \"" + this.name + "\"!");
+            throw Error("wrong sorter for the field \"" + this.name + "\"!");
         }
     };
 
