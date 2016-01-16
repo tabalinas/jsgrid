@@ -1387,10 +1387,38 @@
         $.extend(componentPrototype, config);
     };
 
+    var locales = {};
+
+    var locale = function(lang) {
+        var localeConfig = $.isPlainObject(lang) ? lang : locales[lang];
+
+        if(!localeConfig)
+            throw Error("unknown locale " + lang);
+
+        setLocale(jsGrid, localeConfig);
+    };
+
+    var setLocale = function(obj, localeConfig) {
+        $.each(localeConfig, function(field, value) {
+            if($.isPlainObject(value)) {
+                setLocale(obj[field] || obj[field[0].toUpperCase() + field.slice(1)], value);
+                return;
+            }
+
+            if(obj.hasOwnProperty(field)) {
+                obj[field] = value;
+            } else {
+                obj.prototype[field] = value;
+            }
+        });
+    };
+
     window.jsGrid = {
         Grid: Grid,
         fields: fields,
-        setDefaults: setDefaults
+        setDefaults: setDefaults,
+        locales: locales,
+        locale: locale
     };
 
 }(window, jQuery));

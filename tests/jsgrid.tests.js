@@ -2398,4 +2398,39 @@ $(function() {
         ok($editCell.hasClass(grid.invalidClass), "invalid class is attached");
         equal($editCell.attr("title"), "Error", "cell tooltip contains error message");
     });
+
+
+    module("i18n");
+
+    test("set locale by name", function() {
+        jsGrid.locales.my_lang = {
+            grid: {
+                test: "test_text"
+            }
+        };
+
+        jsGrid.locale("my_lang");
+
+        var $element = $("#jsGrid").jsGrid({});
+
+        equal($element.jsGrid("option", "test"), "test_text", "option localized");
+    });
+
+    test("set locale by config", function() {
+        jsGrid.locale( {
+            grid: {
+                test: "test_text"
+            }
+        });
+
+        var $element = $("#jsGrid").jsGrid({});
+
+        equal($element.jsGrid("option", "test"), "test_text", "option localized");
+    });
+
+    test("locale throws exception for unknown locale", function() {
+        throws(function() {
+            jsGrid.locale("unknown_lang");
+        }, /unknown_lang/, "locale threw an exception");
+    });
 });
