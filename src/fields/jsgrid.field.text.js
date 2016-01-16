@@ -34,8 +34,7 @@
             if(!this.inserting)
                 return "";
 
-            var $result = this.insertControl = this._createTextBox();
-            return $result;
+            return this.insertControl = this._createTextBox();
         },
 
         editTemplate: function(value) {

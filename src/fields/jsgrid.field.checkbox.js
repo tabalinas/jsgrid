@@ -61,8 +61,7 @@
             if(!this.inserting)
                 return "";
 
-            var $result = this.insertControl = this._createCheckbox();
-            return $result;
+            return this.insertControl = this._createCheckbox();
         },
 
         editTemplate: function(value) {

@@ -12,8 +12,7 @@
             if(!this.inserting)
                 return "";
 
-            var $result = this.insertControl = this._createTextArea();
-            return $result;
+            return this.insertControl = this._createTextArea();
         },
 
         editTemplate: function(value) {
