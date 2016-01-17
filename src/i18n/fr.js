@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales.ru = {
+    jsGrid.locales.fr = {
         grid: {
             noDataContent: "Pas de données",
             deleteConfirm: "Êtes-vous sûr ?",
