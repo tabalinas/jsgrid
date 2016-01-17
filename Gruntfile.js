@@ -17,6 +17,15 @@
                 cwd: "css/",
                 src: "*.png",
                 dest: "dist/"
+            },
+            i18n: {
+                expand: true,
+                cwd: "src/i18n/",
+                src: "*.js",
+                dest: "dist/i18n/",
+                rename: function(dest, src) {
+                    return dest + "jsgrid-" + src;
+                }
             }
         },
 
