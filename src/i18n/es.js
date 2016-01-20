@@ -3,14 +3,14 @@
     jsGrid.locales.es = {
         grid: {
             noDataContent: "No encontrado",
-            deleteConfirm: "Esta seguro?",
+            deleteConfirm: "¿Está seguro?",
             pagerFormat: "Paginas: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} de {pageCount}",
             pagePrevText: "Anterior",
             pageNextText: "Siguiente",
             pageFirstText: "Primero",
             pageLastText: "Ultimo",
-            loadMessage: "Espere, por favor...",
-            invalidMessage: "Datos inválidos!"
+            loadMessage: "Por favor, espere...",
+            invalidMessage: "¡Datos no válidos!"
         },
 
         loadIndicator: {
@@ -19,8 +19,8 @@
 
         fields: {
             control: {
-                searchModeButtonTooltip: "Cambia a búsqueda",
-                insertModeButtonTooltip: "Cambia a inserción",
+                searchModeButtonTooltip: "Cambiar a búsqueda",
+                insertModeButtonTooltip: "Cambiar a inserción",
                 editButtonTooltip: "Editar",
                 deleteButtonTooltip: "Suprimir",
                 searchButtonTooltip: "Buscar",
@@ -33,11 +33,11 @@
 
         validators: {
             required: { message: "Campo requerido" },
-            rangeLength: { message: "La longitud del valor esta fuera del intervalo definido" },
-            minLength: { message: "La longitud del valor esta demasiado largo" },
-            maxLength: { message: "La longitud del valor esta demasiado corto" },
-            pattern: { message: "Valor no coincide con el patrón definido" },
-            range: { message: "Valor fuera del intervalo definido" },
+            rangeLength: { message: "La longitud del valor está fuera del intervalo definido" },
+            minLength: { message: "La longitud del valor es demasiado larga" },
+            maxLength: { message: "La longitud del valor es demasiado corta" },
+            pattern: { message: "El valor no se ajusta al patrón definido" },
+            range: { message: "Valor fuera del rango definido" },
             min: { message: "Valor demasiado alto" },
             max: { message: "Valor demasiado bajo" }
         }
