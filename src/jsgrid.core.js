@@ -720,7 +720,7 @@
         },
 
         _setSortingCss: function() {
-            var fieldIndex = $.inArray(this._sortField, this.fields);
+            var fieldIndex = $.inArray(this._sortField, $.grep(this.fields, function(f) { return f.visible; }));
 
             this._headerRow.find("th").eq(fieldIndex)
                 .addClass(this._sortOrder === SORT_ORDER_ASC ? this.sortAscClass : this.sortDescClass);

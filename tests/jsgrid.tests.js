@@ -1803,6 +1803,27 @@ $(function() {
         deepEqual(grid.getSorting(), { field: "value", order: "asc" }, "current sorting returned");
     });
 
+    test("sorting css attached correctly when a field is hidden", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            sorting: true,
+            data: [],
+            fields: [
+                { name: "field1", visible: false },
+                { name: "field2" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        var gridData = grid.option("data");
+
+        var $th = grid._headerRow.find("th").eq(0);
+        $th.trigger("click");
+
+        equal($th.hasClass(grid.sortAscClass), true, "sorting css is attached to first field");
+    });
 
     module("canceling events");
 
