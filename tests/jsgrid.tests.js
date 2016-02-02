@@ -528,6 +528,7 @@ $(function() {
                 fields: [
                     {
                         name: "test",
+                        align: "right",
                         filtercss: "filter-class",
                         filterTemplate: function() {
                             var result = this.filterControl = $("<input>").attr("type", "text").addClass("filter-input");
@@ -540,6 +541,7 @@ $(function() {
 
         equal(grid._filterRow.find(".filter-class").length, 1, "filtercss class is attached");
         equal(grid._filterRow.find(".filter-input").length, 1, "filter control rendered");
+        ok(grid._filterRow.find(".filter-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
     });
 
@@ -899,7 +901,7 @@ $(function() {
                         title: "title",
                         css: "cell-class",
                         headercss: "header-class",
-                        align: "center"
+                        align: "right"
                     })
                 ]
             },
@@ -909,11 +911,12 @@ $(function() {
 
         equal(grid._headerRow.text(), "title", "header rendered");
         equal(grid._headerRow.find(".header-class").length, 1, "headercss class is attached");
+        ok(grid._headerRow.find(".header-class").hasClass("jsgrid-align-right"), "align class is attached");
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
         equal($secondRow.text(), "test2", "item rendered");
         equal($secondRow.find(".cell-class").length, 1, "css class added to cell");
-        ok($secondRow.find(".cell-class").hasClass("jsgrid-align-center"), "align class added to cell");
+        ok($secondRow.find(".cell-class").hasClass("jsgrid-align-right"), "align class added to cell");
     });
 
     test("grid field cellRenderer", function() {
@@ -982,6 +985,7 @@ $(function() {
                 fields: [
                     {
                         name: "test",
+                        align: "right",
                         insertcss: "insert-class",
                         insertTemplate: function() {
                             var result = this.insertControl = $("<input>").attr("type", "text").addClass("insert-input");
@@ -994,6 +998,7 @@ $(function() {
 
         equal(grid._insertRow.find(".insert-class").length, 1, "insertcss class is attached");
         equal(grid._insertRow.find(".insert-input").length, 1, "insert control rendered");
+        ok(grid._insertRow.find(".insert-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].insertControl.is("input[type=text]"), "insert control saved in field");
     });
 
@@ -1117,6 +1122,7 @@ $(function() {
                 fields: [
                     {
                         name: "test",
+                        align: "right",
                         editcss: "edit-class",
                         editTemplate: function(value) {
                             var result = this.editControl = $("<input>").attr("type", "text").val(value).addClass("edit-input");
@@ -1138,6 +1144,7 @@ $(function() {
         equal($editRow.length, 1, "edit row rendered");
         equal($editRow.find(".edit-class").length, 1, "editcss class is attached");
         equal($editRow.find(".edit-input").length, 1, "edit control rendered");
+        ok($editRow.find(".edit-class").hasClass("jsgrid-align-right"), "align class is attached");
 
         ok(grid.fields[0].editControl.is("input[type=text]"), "edit control saved in field");
         equal(grid.fields[0].editControl.val(), "value", "edit control value");
@@ -1176,6 +1183,8 @@ $(function() {
 
     test("edit item", function() {
         var $element = $("#jsGrid"),
+            editingArgs,
+            editingRow,
             updated = false,
             updatingArgs,
             updatingRow,
@@ -1204,6 +1213,10 @@ $(function() {
                         updated = true;
                     }
                 },
+                onItemEditing: function(e) {
+                    editingArgs = $.extend(true, {}, e);
+                    editingRow = grid.rowByItem(data[0])[0];
+                },
                 onItemUpdating: function(e) {
                     updatingArgs = $.extend(true, {}, e);
                     updatingRow = grid.rowByItem(data[0])[0];
@@ -1219,6 +1232,11 @@ $(function() {
         grid.option("data", data);
 
         grid.editItem(data[0]);
+
+        deepEqual(editingArgs.item, { field: "value" }, "item before editing is provided in editing event args");
+        equal(editingArgs.itemIndex, 0, "itemIndex is provided in editing event args");
+        equal(editingArgs.row[0], editingRow, "row element is provided in editing event args");
+
         grid.fields[0].editControl.val("new value");
         grid.updateItem();
 
@@ -1785,8 +1803,58 @@ $(function() {
         deepEqual(grid.getSorting(), { field: "value", order: "asc" }, "current sorting returned");
     });
 
+    test("sorting css attached correctly when a field is hidden", function() {
+        var $element = $("#jsGrid");
 
-    module("canceling controller calls");
+        var gridOptions = {
+            sorting: true,
+            data: [],
+            fields: [
+                { name: "field1", visible: false },
+                { name: "field2" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        var gridData = grid.option("data");
+
+        var $th = grid._headerRow.find("th").eq(0);
+        $th.trigger("click");
+
+        equal($th.hasClass(grid.sortAscClass), true, "sorting css is attached to first field");
+    });
+
+    module("canceling events");
+
+    test("cancel item edit", function() {
+        var $element = $("#jsGrid");
+        var data = [{}];
+
+        var gridOptions = {
+            editing: true,
+
+            onItemEditing: function(e) {
+                e.cancel = true;
+            },
+
+            controller: {
+                loadData: function() {
+                    return data;
+                }
+            },
+
+            fields: [
+                { name: "test" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.loadData();
+        grid.editItem(data[0]);
+        strictEqual(grid._editingRow, null, "no editing row");
+    });
 
     test("cancel controller.loadData", function() {
         var $element = $("#jsGrid");
@@ -1909,5 +1977,481 @@ $(function() {
         grid.deleteItem(deletingItem);
 
         strictEqual(deletedItem, null, "item was not deleted");
+    });
+
+
+    module("complex properties binding");
+
+    test("rendering", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            loadMessage: "",
+
+            data: [
+                { complexProp: { prop: "test" } }
+            ],
+
+            fields: [
+                { name: "complexProp.prop", title: "" }
+            ]
+        };
+
+        new Grid($element, gridOptions);
+
+        equal($element.text(), "test", "complex property value rendered");
+    });
+
+    test("editing", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            editing: true,
+
+            data: [
+                { complexProp: { prop: "test" } }
+            ],
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        equal(grid.fields[0].editControl.val(), "test", "complex property value set in editor");
+    });
+
+    test("should not fail if property is absent", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+
+            loadMessage: "",
+
+            data: [
+                { complexProp: { } }
+            ],
+
+            fields: [
+                { name: "complexProp.subprop.prop", title: "" }
+            ]
+        };
+
+        new Grid($element, gridOptions);
+
+        equal($element.text(), "", "rendered empty value");
+    });
+
+    test("inserting", function() {
+        var $element = $("#jsGrid");
+        var insertingItem;
+
+        var gridOptions = {
+            inserting: true,
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ],
+
+            onItemInserting: function(args) {
+                insertingItem = args.item;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        deepEqual(insertingItem, { complexProp: { prop: "test" } }, "inserting item has complex properties");
+    });
+
+    test("filtering", function() {
+        var $element = $("#jsGrid");
+        var loadFilter;
+
+        var gridOptions = {
+            filtering: true,
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ],
+
+            controller: {
+                loadData: function(filter) {
+                    loadFilter = filter;
+                }
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].filterControl.val("test");
+        grid.search();
+
+        deepEqual(loadFilter, { complexProp: { prop: "test" } }, "filter has complex properties");
+    });
+
+    test("updating", function() {
+        var $element = $("#jsGrid");
+        var updatingItem;
+
+        var gridOptions = {
+            editing: true,
+
+            data: [
+                { complexProp: { } }
+            ],
+
+            fields: [
+                { type: "text", name: "complexProp.prop" }
+            ],
+
+            onItemUpdating: function(args) {
+                updatingItem = args.item;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        grid.fields[0].editControl.val("test");
+        grid.updateItem();
+
+        deepEqual(updatingItem, { complexProp: { prop: "test" } }, "updating item has complex properties");
+    });
+
+    test("updating deeply nested prop", function() {
+        var $element = $("#jsGrid");
+        var updatingItem;
+        var previousItem;
+
+        var gridOptions = {
+            editing: true,
+
+            data: [
+                { complexProp: { subprop1: { another_prop: "test" } } }
+            ],
+
+            fields: [
+                { type: "text", name: "complexProp.subprop1.prop1" },
+                { type: "text", name: "complexProp.subprop1.subprop2.prop12" }
+            ],
+
+            onItemUpdating: function(args) {
+                updatingItem = args.item;
+                previousItem = args.previousItem;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        grid.fields[0].editControl.val("test1");
+        grid.fields[1].editControl.val("test2");
+        grid.updateItem();
+
+        var expectedUpdatingItem = {
+            complexProp: {
+                subprop1: {
+                    another_prop: "test",
+                    prop1: "test1",
+                    subprop2: { prop12: "test2" }
+                }
+            }
+        };
+
+        var expectedPreviousItem = {
+            complexProp: {
+                subprop1: {
+                    another_prop: "test"
+                }
+            }
+        };
+
+        deepEqual(updatingItem, expectedUpdatingItem, "updating item has deeply nested properties");
+        deepEqual(previousItem, expectedPreviousItem, "previous item preserved correctly");
+    });
+
+
+    module("validation");
+
+    test("insertItem should call validation.validate", function() {
+        var $element = $("#jsGrid");
+        var fieldValidationRules = { test: "value" };
+        var validatingArgs;
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function(args) {
+                    validatingArgs = args;
+                    return [];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: fieldValidationRules }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        deepEqual(validatingArgs, { value: "test", item: { Name: "test" }, itemIndex: -1,
+            row: grid._insertRow, rules: fieldValidationRules }, "validating args is provided");
+    });
+
+    test("insertItem rejected when data is not valid", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem().done(function() {
+            ok(false, "insertItem should not be completed");
+        }).fail(function() {
+            ok(true, "insertItem should fail");
+        });
+    });
+
+    test("invalidClass is attached on invalid cell on inserting", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+        var $insertCell = grid._insertRow.children().eq(0);
+
+        grid.insertItem();
+
+        ok($insertCell.hasClass(grid.invalidClass), "invalid class is attached");
+        equal($insertCell.attr("title"), "Error", "cell tooltip contains error message");
+    });
+
+    test("onItemInvalid callback", function() {
+        var $element = $("#jsGrid");
+        var errors = ["Error"];
+        var onItemInvalidCalled = 0;
+        var onItemInvalidArgs;
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+            invalidNotify: $.noop,
+            onItemInvalid: function(args) {
+                onItemInvalidCalled++;
+                onItemInvalidArgs = args;
+            },
+
+            validation: {
+                validate: function(args) {
+                    return !args.value ? errors : [];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.insertItem();
+
+        equal(onItemInvalidCalled, 1, "onItemInvalid is called, when item data is invalid");
+        deepEqual(onItemInvalidArgs, { grid: grid, errors: [{ field: grid.fields[0], message: "Error" }],
+            item: { Name: "" }, itemIndex: -1, row: grid._insertRow }, "arguments provided");
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        equal(onItemInvalidCalled, 1, "onItemInvalid was not called, when data is valid");
+    });
+
+    test("invalidNotify", function() {
+        var $element = $("#jsGrid");
+        var errors = ["Error"];
+        var invalidNotifyCalled = 0;
+        var invalidNotifyArgs;
+
+        var gridOptions = {
+            data: [],
+            inserting: true,
+
+            invalidNotify: function(args) {
+                invalidNotifyCalled++;
+                invalidNotifyArgs = args;
+            },
+
+            validation: {
+                validate: function(args) {
+                    return !args.value ? errors : [];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.insertItem();
+
+        equal(invalidNotifyCalled, 1, "invalidNotify is called, when item data is invalid");
+        deepEqual(invalidNotifyArgs, { grid: grid, errors: [{ field: grid.fields[0], message: "Error" }],
+            row: grid._insertRow, item: { Name: "" }, itemIndex: -1 }, "arguments provided");
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        equal(invalidNotifyCalled, 1, "invalidNotify was not called, when data is valid");
+    });
+
+    test("invalidMessage", function() {
+        var $element = $("#jsGrid");
+        var invalidMessage;
+        var originalAlert = window.alert;
+
+        window.alert = function(message) {
+            invalidMessage = message;
+        };
+
+        try {
+            Grid.prototype.invalidMessage = "InvalidTest";
+            Grid.prototype.invalidNotify({ errors: [{ message: "Message1" }, { message: "Message2" }] });
+
+            var expectedInvalidMessage = ["InvalidTest", "Message1", "Message2"].join("\n");
+            equal(invalidMessage, expectedInvalidMessage, "message contains invalidMessage and field error messages");
+        } finally {
+            window.alert = originalAlert;
+        }
+    });
+
+    test("updateItem should call validation.validate", function() {
+        var $element = $("#jsGrid");
+        var validatingArgs;
+
+        var gridOptions = {
+            data: [{ Name: "" }],
+            editing: true,
+
+            invalidNotify: $.noop,
+            validation: {
+                validate: function(args) {
+                    validatingArgs = args;
+                    return ["Error"];
+                }
+            },
+
+            fields: [
+                { type: "text", name: "Name", validate: "required" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+
+        grid.fields[0].editControl.val("test");
+        grid.updateItem();
+
+        deepEqual(validatingArgs, { value: "test", item: { Name: "test" }, itemIndex: 0,
+            row: grid._getEditRow(), rules: "required" }, "validating args is provided");
+    });
+
+    test("invalidClass is attached on invalid cell on updating", function() {
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            data: [{}],
+            editing: true,
+            invalidNotify: $.noop,
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+            fields: [
+                { type: "text", name: "Name", validate: true }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        var $editCell = grid._getEditRow().children().eq(0);
+
+        grid.updateItem();
+
+        ok($editCell.hasClass(grid.invalidClass), "invalid class is attached");
+        equal($editCell.attr("title"), "Error", "cell tooltip contains error message");
+    });
+
+
+    module("i18n");
+
+    test("set locale by name", function() {
+        jsGrid.locales.my_lang = {
+            grid: {
+                test: "test_text"
+            }
+        };
+
+        jsGrid.locale("my_lang");
+
+        var $element = $("#jsGrid").jsGrid({});
+
+        equal($element.jsGrid("option", "test"), "test_text", "option localized");
+    });
+
+    test("set locale by config", function() {
+        jsGrid.locale( {
+            grid: {
+                test: "test_text"
+            }
+        });
+
+        var $element = $("#jsGrid").jsGrid({});
+
+        equal($element.jsGrid("option", "test"), "test_text", "option localized");
+    });
+
+    test("locale throws exception for unknown locale", function() {
+        throws(function() {
+            jsGrid.locale("unknown_lang");
+        }, /unknown_lang/, "locale threw an exception");
     });
 });

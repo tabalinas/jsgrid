@@ -23,6 +23,11 @@
     border-right: none;
 }
 
+.jsgrid-header-row .jsgrid-align-right,
+.jsgrid-header-row .jsgrid-align-left {
+    text-align: center;
+}
+
 .jsgrid-grid-header {
     background: #f9f9f9;
 }
@@ -124,6 +129,13 @@
 
 .jsgrid-nodata-row td {
     background: #fff;
+}
+
+.jsgrid-invalid input,
+.jsgrid-invalid select,
+.jsgrid-invalid textarea {
+    background: #ffe3e5;
+    border: 1px solid #ff808a;
 }
 
 .jsgrid-pager-current-page {

@@ -9,6 +9,7 @@
     TextField.prototype = new Field({
 
         autosearch: true,
+		readOnly: false,
 
         filterTemplate: function() {
             if(!this.filtering)
@@ -33,8 +34,7 @@
             if(!this.inserting)
                 return "";
 
-            var $result = this.insertControl = this._createTextBox();
-            return $result;
+            return this.insertControl = this._createTextBox();
         },
 
         editTemplate: function(value) {
@@ -59,7 +59,11 @@
         },
 
         _createTextBox: function() {
-            return $("<input>").attr("type", "text");
+            var $result = $("<input>").attr("type", "text");
+			
+			if (this.readOnly) $result.attr("readonly", "readonly");
+			
+            return $result;
         }
     });
 

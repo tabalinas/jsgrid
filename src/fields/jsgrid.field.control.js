@@ -178,8 +178,9 @@
 
         _createInsertButton: function() {
             return this._createGridButton(this.insertButtonClass, this.insertButtonTooltip, function(grid) {
-                grid.insertItem();
-                grid.clearInsert();
+                grid.insertItem().done(function() {
+                    grid.clearInsert();
+                });
             });
         },
 

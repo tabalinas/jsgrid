@@ -62,8 +62,7 @@
             if(!this.inserting)
                 return "";
 
-            var $result = this.insertControl = this._createSelect();
-            return $result;
+            return this.insertControl = this._createSelect();
         },
 
         editTemplate: function(value) {

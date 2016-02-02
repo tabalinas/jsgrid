@@ -17,6 +17,15 @@
                 cwd: "css/",
                 src: "*.png",
                 dest: "dist/"
+            },
+            i18n: {
+                expand: true,
+                cwd: "src/i18n/",
+                src: "*.js",
+                dest: "dist/i18n/",
+                rename: function(dest, src) {
+                    return dest + "jsgrid-" + src;
+                }
             }
         },
 
@@ -32,12 +41,12 @@
                     "src/jsgrid.load-strategies.js",
                     "src/jsgrid.sort-strategies.js",
                     "src/jsgrid.field.js",
-                    "src/jsgrid.field.text.js",
-                    "src/jsgrid.field.number.js",
-                    "src/jsgrid.field.textarea.js",
-                    "src/jsgrid.field.select.js",
-                    "src/jsgrid.field.checkbox.js",
-                    "src/jsgrid.field.control.js"
+                    "src/fields/jsgrid.field.text.js",
+                    "src/fields/jsgrid.field.number.js",
+                    "src/fields/jsgrid.field.textarea.js",
+                    "src/fields/jsgrid.field.select.js",
+                    "src/fields/jsgrid.field.checkbox.js",
+                    "src/fields/jsgrid.field.control.js"
                 ],
                 dest: "dist/<%= pkg.name %>.js"
             },

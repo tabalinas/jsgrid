@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>jsGrid - Basic Scenario</title>
+    <title>jsGrid - Localization (FR)</title>
     <link rel="stylesheet" type="text/css" href="demos.css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
 
@@ -16,19 +16,23 @@
     <script src="../src/jsgrid.load-indicator.js"></script>
     <script src="../src/jsgrid.load-strategies.js"></script>
     <script src="../src/jsgrid.sort-strategies.js"></script>
+    <script src="../src/jsgrid.validation.js"></script>
     <script src="../src/jsgrid.field.js"></script>
     <script src="../src/fields/jsgrid.field.text.js"></script>
     <script src="../src/fields/jsgrid.field.number.js"></script>
     <script src="../src/fields/jsgrid.field.select.js"></script>
     <script src="../src/fields/jsgrid.field.checkbox.js"></script>
     <script src="../src/fields/jsgrid.field.control.js"></script>
+    <script src="../src/i18n/fr.js"></script>
 </head>
 <body>
-    <h1>Basic Scenario</h1>
+    <h1>Localization (FR)</h1>
     <div id="jsGrid"></div>
 
     <script>
         $(function() {
+
+            jsGrid.locale("fr");
 
             $("#jsGrid").jsGrid({
                 height: "70%",
@@ -41,14 +45,13 @@
                 autoload: true,
                 pageSize: 15,
                 pageButtonCount: 5,
-                deleteConfirm: "Do you really want to delete the client?",
                 controller: db,
                 fields: [
-                    { name: "Name", type: "text", width: 150 },
-                    { name: "Age", type: "number", width: 50 },
-                    { name: "Address", type: "text", width: 200 },
-                    { name: "Country", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
-                    { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                    { name: "Name", title: "Nom", type: "text", width: 150, validate: "required" },
+                    { name: "Age", title: "Âge", type: "number", width: 50, validate: { validator: "range", param: [18,80] } },
+                    { name: "Address", title: "Adresse", type: "text", width: 200, validate: { validator: "rangeLength", param: [10, 250] } },
+                    { name: "Country", title: "Pays", type: "select", items: db.countries, valueField: "Id", textField: "Name" },
+                    { name: "Married", title: "Marié", type: "checkbox", sorting: false },
                     { type: "control" }
                 ]
             });

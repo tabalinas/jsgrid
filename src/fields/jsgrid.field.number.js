@@ -10,6 +10,7 @@
 
         sorter: "number",
         align: "right",
+		readOnly: false,
 
         filterValue: function() {
             return parseInt(this.filterControl.val() || 0, 10);
@@ -24,7 +25,11 @@
         },
 
         _createTextBox: function() {
-            return $("<input>").attr("type", "number");
+			var $result = $("<input>").attr("type", "number");
+			
+			if (this.readOnly) $result.attr("readonly", "readonly");
+			
+            return $result;
         }
     });
 
