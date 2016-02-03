@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.4 (http://js-grid.com)
+ * jsGrid v1.4.0 (http://js-grid.com)
  * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */

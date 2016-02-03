@@ -1,6 +1,6 @@
 {
     "name": "jsgrid",
-    "version": "1.4",
+    "version": "1.4.0",
     "main": [
         "dist/jsgrid.js",
         "dist/jsgrid.css",
