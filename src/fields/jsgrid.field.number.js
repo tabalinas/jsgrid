@@ -25,11 +25,8 @@
         },
 
         _createTextBox: function() {
-			var $result = $("<input>").attr("type", "number");
-			
-			if (this.readOnly) $result.attr("readonly", "readonly");
-			
-            return $result;
+			return $("<input>").attr("type", "number")
+                .prop("readonly", !!this.readOnly);
         }
     });
 

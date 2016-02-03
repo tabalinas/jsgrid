@@ -107,6 +107,8 @@
                 $option.prop("selected", (selectedIndex === index));
             });
 
+            $result.prop("disabled", !!this.readOnly);
+
             return $result;
         }
     });
