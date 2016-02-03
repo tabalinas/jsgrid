@@ -1,6 +1,6 @@
 /*
- * jsGrid v1.3.1 (http://js-grid.com)
- * (c) 2015 Artem Tabalin
+ * jsGrid v1.4.0 (http://js-grid.com)
+ * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
 
@@ -57,11 +57,17 @@
     text-align: left;
 }
 
-.jsgrid-align-center {
+.jsgrid-align-center,
+.jsgrid-align-center input,
+.jsgrid-align-center textarea,
+.jsgrid-align-center select {
     text-align: center;
 }
 
-.jsgrid-align-right {
+.jsgrid-align-right,
+.jsgrid-align-right input,
+.jsgrid-align-right textarea,
+.jsgrid-align-right select {
     text-align: right;
 }
 
@@ -78,7 +84,7 @@
 .jsgrid-insert-row input,
 .jsgrid-insert-row textarea,
 .jsgrid-insert-row select {
-    width: 90%;
+    width: 100%;
     padding: .3em .5em;
 }
 
@@ -88,12 +94,6 @@
     width: auto;
 }
 
-.jsgrid-header-row > th,
-.jsgrid-filter-row > td,
-.jsgrid-insert-row > td,
-.jsgrid-edit-row > td {
-    text-align: center;
-}
 
 .jsgrid-selected-row td {
     cursor: pointer;

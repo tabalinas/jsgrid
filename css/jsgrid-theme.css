@@ -1,6 +1,6 @@
 /*
- * jsGrid v1.3.1 (http://js-grid.com)
- * (c) 2015 Artem Tabalin
+ * jsGrid v1.4.0 (http://js-grid.com)
+ * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
 
@@ -27,6 +27,11 @@
 
 .jsgrid-header-row > th:last-child, .jsgrid-filter-row > td:last-child, .jsgrid-insert-row > td:last-child {
     border-right: none;
+}
+
+.jsgrid-header-row .jsgrid-align-right,
+.jsgrid-header-row .jsgrid-align-left {
+    text-align: center;
 }
 
 .jsgrid-grid-header {
@@ -130,6 +135,13 @@
 
 .jsgrid-nodata-row td {
     background: #fff;
+}
+
+.jsgrid-invalid input,
+.jsgrid-invalid select,
+.jsgrid-invalid textarea {
+    background: #ffe3e5;
+    border: 1px solid #ff808a;
 }
 
 .jsgrid-pager-current-page {
