@@ -1225,6 +1225,46 @@ Has the following arguments:
 
 ```
 
+
+### onItemEditing
+> version added: 1.4
+
+Fires before item editing.
+
+Has the following arguments:
+
+```javascript
+
+{
+    grid                // grid instance
+    row                 // editing row jQuery element
+    item                // editing item
+    itemIndex           // editing item index
+}
+
+```
+
+#### Cancel Item Editing 
+To cancel item editing set `args.cancel = true`. This allows to prevent row from editing conditionally.
+
+In the following example the editing of the row for item with 'ID' = 0 is canceled:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onItemEditing: function(args) {
+        // cancel editing of the row of item with field 'ID' = 0 
+        if(args.item.ID === 0) {
+            args.cancel = true;
+        }
+    }
+});
+
+```
+
+
 ### onItemInserting
 Fires before item insertion.
 
