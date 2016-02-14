@@ -1045,6 +1045,8 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 ```
 
 ### jsGrid.locale(localeName|localeConfig)
+> version added: 1.4
+
 Set current locale of all grids.
 
 **localeName|localeConfig** is the name of supported locale ('fr', 'es', 'pl', 'ru') or custom localization config. 
