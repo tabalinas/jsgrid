@@ -1044,7 +1044,7 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 
 ```
 
-#### jsGrid.locale(localeName|localeConfig)
+### jsGrid.locale(localeName|localeConfig)
 Set current locale of all grids.
 
 **localeName|localeConfig** is the name of supported locale ('fr', 'es', 'pl', 'ru') or custom localization config. 
@@ -1057,7 +1057,7 @@ jsGrid.locale("fr");
 
 ```
 
-#### jsGrid.setDefaults(config)
+### jsGrid.setDefaults(config)
 Set default options for all grids.
 
 ```javascript
@@ -1069,7 +1069,7 @@ jsGrid.setDefaults({
 
 ```
 
-#### jsGrid.setDefaults(fieldName, config)
+### jsGrid.setDefaults(fieldName, config)
 Set default options of the particular field.
 
 ```javascript
