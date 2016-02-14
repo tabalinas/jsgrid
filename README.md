@@ -1596,7 +1596,7 @@ jsGrid.locales.my_lang = {
 
 Here is how localization config looks like for Spanish [i18n/es.js](src/i18n/es.js).
 
-Find all available locales [here](src/i18n)
+Find all available locales [here](src/i18n).
 
 
 ## Sorting Strategies
