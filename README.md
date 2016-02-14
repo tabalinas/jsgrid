@@ -472,7 +472,7 @@ Custom properties:
 
 {
     autosearch: true,   // triggers searching when the user presses `enter` key in the filter input
-    readOnly: false     // a boolean defines whether input is readonly (added in v1.4.0)
+    readOnly: false     // a boolean defines whether input is readonly (added in v1.4)
 }
 
 ```
@@ -487,7 +487,7 @@ Custom properties:
 {
     sorter: "number",   // uses sorter for numbers
     align: "right",     // right text alignment
-    readOnly: false     // a boolean defines whether input is readonly (added in v1.4.0)
+    readOnly: false     // a boolean defines whether input is readonly (added in v1.4)
 }
 
 ```
@@ -507,7 +507,7 @@ Custom properties:
     textField: "",              // name of property of item to be used as displaying value
     selectedIndex: -1           // index of selected item by default
     valueType: "number|string"  // the data type of the value
-    readOnly: false             // a boolean defines whether select is readonly (added in v1.4.0)
+    readOnly: false             // a boolean defines whether select is readonly (added in v1.4)
 }
 
 ```
@@ -561,7 +561,7 @@ Custom properties:
     sorter: "number",   // uses sorter for numbers
     align: "center"     // center text alignment
     autosearch: true,   // triggers searching when the user clicks checkbox in filter
-    readOnly: false     // a boolean defines whether textarea is readonly (added in v1.4.0)
+    readOnly: false     // a boolean defines whether textarea is readonly (added in v1.4)
 }
 
 ```
