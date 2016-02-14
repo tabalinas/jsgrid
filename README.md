@@ -20,6 +20,7 @@ Although jsGrid is tunable and allows to customize appearance and components.
 * [Methods](#methods)
 * [Callbacks](#callbacks)
 * [Grid Controller](#grid-controller)
+* [Localization](#localization)
 * [Sorting Strategies](#sorting-strategies)
 * [Load Strategies](#load-strategies)
 * [Load Indication](#load-indication)
@@ -1043,6 +1044,19 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 
 ```
 
+#### jsGrid.locale(localeName|localeConfig)
+Set current locale of all grids.
+
+**localeName|localeConfig** is the name of supported locale ('fr', 'es', 'pl', 'ru') or custom localization config. 
+Find more information on custom localization config in [Localization](#localization). 
+
+```javascript
+
+// set French locale
+jsGrid.locale("fr");
+
+```
+
 #### jsGrid.setDefaults(config)
 Set default options for all grids.
 
@@ -1560,6 +1574,27 @@ Called on item deletion.
 If deletion is asynchronous, method should return jQuery promise that will be resolved when deletion is completed.
 
 **item** is the item to be deleted.
+
+
+## Localization
+> version added: 1.4
+
+Current locale can be set for all grids on the page with the [`jsGrid.locale(localeName)`](#jsgridlocalelocalenamelocaleconfig) method.
+
+New custom locale can be added to `jsGrid.locales` hash like the following:
+
+```javascript
+
+jsGrid.locales.my_lang = {
+    // localization config goes here
+    ...
+};
+    
+```
+
+Here is how localization config looks like for Spanish [i18n/es.js](src/i18n/es.js).
+
+Find all available locales [here](src/i18n)
 
 
 ## Sorting Strategies
