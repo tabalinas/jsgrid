@@ -139,6 +139,9 @@ The config object may contain following options (default values are specified be
     pageNavigatorNextText: "...",
     pageNavigatorPrevText: "...",
 
+    invalidNotify: function(args) { ... }
+    invalidMessage: "Invalid data entered!",
+    
     loadIndication: true,
     loadIndicationDelay: 500,
     loadMessage: "Please, wait...",
@@ -382,6 +385,46 @@ A string specifying the text of the link to move to next set of page links, when
 
 ### pageNavigatorPrevText (default `"..."`)
 A string specifying the text of the link to move to previous set of page links, when total amount of pages more than `pageButtonCount`.
+
+### invalidMessage (default `"Invalid data entered!"`)
+A string specifying the text of the alert message, when invalid data was entered.
+
+### invalidNotify
+A function triggered, when invalid data was entered.
+By default all violated validators messages are alerted.
+The behavior can be customized by providing custom function.
+
+The function accepts a single argument with the following structure:
+
+```javascript
+
+{
+    item                // inserting/editing item
+    itemIndex           // inserting/editing item index
+    errors              // array of validation violations in format { field: "fieldName", message: "validator message" }
+}
+
+```
+
+In the following example error messages are printed in the console instead of alerting:
+
+```javascript
+    
+$("#grid").jsGrid({
+    ...
+    
+    invalidNotify: function(args) {
+        var messages = $.map(args.errors, function(error) {
+            return error.field + ": " + error.message;
+        });
+        
+        console.log(message);
+    }
+    
+    ...
+}); 
+    
+```
 
 ### loadIndication (default `true`)
 A boolean value specifying whether to show loading indication during controller operations execution.
@@ -1101,7 +1144,8 @@ The following callbacks are supported:
     onItemUpdated: function(args) {},    // on done of controller.updateItem
     onItemDeleting: function(args) {},   // before controller.deleteItem
     onItemDeleted: function(args) {},    // on done of controller.deleteItem
-        
+    onItemInvalid: function(args) {},    // after item validation, in case data is invalid
+    
     onError: function(args) {},          // on fail of any controller call
     
     onOptionChanging: function(args) {}, // before changing the grid option
@@ -1333,6 +1377,38 @@ Has the following arguments:
     grid                // grid instance
     item                // inserted item
 }
+
+```
+
+### onItemInvalid
+Fired when item is not following validation rules on inserting or updating.
+
+Has the following arguments:
+
+```javascript
+
+{
+    grid                // grid instance
+    row                 // inserting/editing row jQuery element
+    item                // inserting/editing item
+    itemIndex           // inserting/editing item index
+    errors              // array of validation violations in format { field: "fieldName", message: "validator message" }
+}
+
+```
+
+The following handler prints errors on the console
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    onItemInvalid: function(args) {
+        // prints [{ field: "Name", message: "Enter client name" }]
+        console.log(args.errors);
+    }
+});
 
 ```
 
