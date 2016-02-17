@@ -2125,6 +2125,44 @@ $(function() {
         deepEqual(updatingItem, { complexProp: { prop: "test" } }, "updating item has complex properties");
     });
 
+    test("update nested prop", function() {
+        var $element = $("#jsGrid");
+        var updatingItem;
+        var previousItem;
+
+        var gridOptions = {
+            editing: true,
+
+            data: [
+                { prop: { subprop1: "test1", subprop2: "test2" } }
+            ],
+
+            fields: [
+                { type: "text", name: "prop.subprop1" },
+                { type: "text", name: "prop.subprop2" }
+            ],
+
+            onItemUpdating: function(args) {
+                updatingItem = args.item;
+            }
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        grid.fields[0].editControl.val("new_test1");
+        grid.updateItem();
+
+        var expectedUpdatingItem = {
+            prop: {
+                subprop1: "new_test1",
+                subprop2: "test2"
+            }
+        };
+
+        deepEqual(updatingItem, expectedUpdatingItem, "updating item has nested properties");
+    });
+
     test("updating deeply nested prop", function() {
         var $element = $("#jsGrid");
         var updatingItem;

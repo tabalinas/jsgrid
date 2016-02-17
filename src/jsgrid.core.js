@@ -659,7 +659,7 @@
             var current = item;
             var prop = props[0];
 
-            while(current && props.length > 1) {
+            while(current && props.length) {
                 item = current;
                 prop = props.shift();
                 current = item[prop];
