@@ -40,6 +40,7 @@
                     "src/jsgrid.load-indicator.js",
                     "src/jsgrid.load-strategies.js",
                     "src/jsgrid.sort-strategies.js",
+                    "src/jsgrid.validation.js",
                     "src/jsgrid.field.js",
                     "src/fields/jsgrid.field.text.js",
                     "src/fields/jsgrid.field.number.js",
