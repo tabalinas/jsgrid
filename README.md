@@ -20,6 +20,7 @@ Although jsGrid is tunable and allows to customize appearance and components.
 * [Methods](#methods)
 * [Callbacks](#callbacks)
 * [Grid Controller](#grid-controller)
+* [Validation](#validation)
 * [Localization](#localization)
 * [Sorting Strategies](#sorting-strategies)
 * [Load Strategies](#load-strategies)
@@ -200,7 +201,9 @@ General options peculiar to all field types:
     insertValue: function() { ... },
     editValue: function() { ... },
 
-    cellRenderer: null
+    cellRenderer: null,
+    
+    validate: null
 }
 
 ```
@@ -230,6 +233,7 @@ General options peculiar to all field types:
 - **insertValue** is a function returning the value of inserting item property associated with the column.
 - **editValue** is a function returning the value of editing item property associated with the column.
 - **cellRenderer** is a function to customize cell rendering. The function signature is `function(value, item)`, where `value` is a value of column property of data item, and `item` is a row data item. The function should return markup as a string, jQueryElement or DomNode representing table cell `td`.
+- **validate** is a string as validate rule name or validation function or a validation configuration object or an array of validation configuration objects. Read more details about validation in the [Validation section](#validation). 
 
 Specific field options depends on concrete field type.
 Read about build-in fields in [Grid Fields](#grid-fields) section.
@@ -1652,6 +1656,151 @@ Called on item deletion.
 If deletion is asynchronous, method should return jQuery promise that will be resolved when deletion is completed.
 
 **item** is the item to be deleted.
+
+## Validation
+> version added: 1.4
+
+### Field Validation Config
+
+`validate` option of the field can have 4 different value types `string|Object|Array|function`:
+
+1. `validate: "validatorName"`
+
+**validatorName** - is a string key of the validator in the `jsGrid.validators` registry. The registry can be easily extended. See available [built-in validators here](#built-in-validators). 
+
+In the following example the `required` validator is applied:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    fields: [{ type: "text", name: "FieldName", validate: "required" }]
+});
+
+```
+
+2. `validate: validationConfig`
+
+**validateConfig** - is a plain object of the following structure:
+ 
+```javascript
+{
+    validator: string|function(value, item, param), // built-in validator name or custom validation function 
+    message: string|function,                       // validation message or a function(value, item) returning validation message 
+    param: any                                      // a plain object with parameters to be passed to validation function
+}
+```
+
+In the following example the `range` validator is applied with custom validation message and range provided in parameters:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    fields: [{ 
+        type: "number", 
+        name: "Age", 
+        validate: {
+            validator: "range",
+            message: function(value, item) {
+                return "The client age should be between 21 and 80. Entered age is \"" + value + "\" is out of specified range.";
+            },
+            param: [21, 80]
+        }
+    }]
+});
+
+```
+
+3. `validate: validateArray`
+
+**validateArray** - is an array of validators. It can contain 
+
+ * `string` - validator name
+ * `Object` - validator configuration of structure `{ validator, message, param }`
+ * `function` - validation function as `function(value, item)`
+
+In the following example the field has three validators: `required`, `range`, and a custom function validator:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    fields: [{ 
+        type: "number", 
+        name: "Age", 
+        validate: [
+            "required",
+            { validator: "range", param: [21, 80] },
+            function(value, item) {
+                return item.IsRetired ? value > 55 : true; 
+            }
+        ]
+    }]
+});
+
+```
+
+4. `validate: function(value, item, param)`
+
+The parameters of the function:
+
+ * `value` - entered value of the field
+ * `item` - editing/inserting item
+ * `param` - a parameter provided by validator (applicable only when validation config is defined at validation object or an array of objects)
+
+In the following example the field has custom validation function:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+    
+    fields: [{ 
+        type: "text", 
+        name: "Phone", 
+        validate: function(value, item) {
+            return value.length == 10 && phoneBelongsToCountry(value, item.Country); 
+        }
+    }]
+});
+
+```
+
+### Built-in Validators
+
+The `jsGrid.validators` object contains all built-in validators. The key of the hash is a validator name and the value is the validator config.
+
+`jsGrid.validators` contains the following build-in validators:
+
+ * **required** - the field value is required
+ * **rangeLength** - the length of the field value is limited by range (the range should be provided as an array in `param` field of validation config)
+ * **minLength** - the minimum length of the field value is limited (the minimum value should be provided in `param` field of validation config)
+ * **maxLength** - the maximum length of the field value is limited (the maximum value should be provided in `param` field of validation config)
+ * **pattern** - the field value should match the defined pattern (the pattern should be provided as a string regexp in `param` field of validation config)
+ * **range** - the value of the number field is limited by range (the range should be provided as an array in `param` field of validation config)
+ * **min** - the minimum value of the number field is limited (the minimum should be provided in `param` field of validation config)
+ * **max** - the maximum value of the number field is limited (the maximum should be provided in `param` field of validation config)
+
+### Custom Validators
+
+To define a custom validator just add it to the `jsGrid.validators` object.
+ 
+In the following example a custom validator `time` is registered:
+
+```javascript
+
+    jsGrid.validators.time = {
+        message: "Please enter a valid time, between 00:00 and 23:59",
+        validator: function(value, item) {
+            return /^([01]\d|2[0-3]|[0-9])(:[0-5]\d){1,2}$/.test(value);
+        }
+    }
+    
+```
 
 
 ## Localization
