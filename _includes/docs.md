@@ -952,6 +952,7 @@ The following callbacks are supported:
     onItemUpdated: function(args) {},    // on done of controller.updateItem
     onItemDeleting: function(args) {},   // before controller.deleteItem
     onItemDeleted: function(args) {},    // on done of controller.deleteItem
+    onItemInvalid: function(args) {},    // after item validation, in case data is invalid
 
     onError: function(args) {},          // on fail of any controller call
 
@@ -1144,6 +1145,34 @@ Has the following arguments:
     grid                // grid instance
     item                // inserted item
 }</pre>
+</div>
+
+### onItemInvalid
+Fired when item is not following validation rules on inserting or updating.
+
+Has the following arguments:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    grid                // grid instance
+    row                 // inserting/editing row jQuery element
+    item                // inserting/editing item
+    itemIndex           // inserting/editing item index
+    errors              // array of validation violations in format { field: "fieldName", message: "validator message" }
+}</pre>
+</div>
+
+The following handler prints errors on the console
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    onItemInvalid: function(args) {
+        // prints [{ field: "Name", message: "Enter client name" }]
+        console.log(args.errors);
+    }
+});</pre>
 </div>
 
 ### onItemUpdating
