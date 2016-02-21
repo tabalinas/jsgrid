@@ -1,4 +1,4 @@
-####See how to use jsGrid with the following backend technologies
+See how to use jsGrid with the following backend technologies
 
 * [PHP](https://github.com/tabalinas/jsgrid-php){:target="_blank"}
 * [ASP.NET WebAPI](https://github.com/tabalinas/jsgrid-webapi){:target="_blank"}
