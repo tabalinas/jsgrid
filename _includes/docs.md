@@ -48,6 +48,9 @@ The config object may contain following options (default values are specified be
     pageNavigatorNextText: "...",
     pageNavigatorPrevText: "...",
 
+    invalidNotify: function(args) { ... }
+    invalidMessage: "Invalid data entered!",
+
     loadIndication: true,
     loadIndicationDelay: 500,
     loadMessage: "Please, wait...",
@@ -101,7 +104,9 @@ General options peculiar to all field types:
     insertValue: function() { ... },
     editValue: function() { ... },
 
-    cellRenderer: null
+    cellRenderer: null,
+
+    validate: null
 }</pre>
 </div>
 
@@ -130,6 +135,7 @@ General options peculiar to all field types:
 - **insertValue** is a function returning the value of inserting item property associated with the column.
 - **editValue** is a function returning the value of editing item property associated with the column.
 - **cellRenderer** is a function to customize cell rendering. The function signature is `function(value, item)`, where `value` is a value of column property of data item, and `item` is a row data item. The function should return markup as a string, jQueryElement or DomNode representing table cell `td`.
+- **validate** is a string as validate rule name or validation function or a validation configuration object or an array of validation configuration objects. Read more details about validation in the [Validation section](#validation).
 
 Specific field options depends on concrete field type.
 Read about build-in fields in [Grid Fields](#grid-fields) section.
@@ -278,6 +284,42 @@ A string specifying the text of the link to move to next set of page links, when
 ### pageNavigatorPrevText (default `"..."`)
 A string specifying the text of the link to move to previous set of page links, when total amount of pages more than `pageButtonCount`.
 
+### invalidMessage (default `"Invalid data entered!"`)
+A string specifying the text of the alert message, when invalid data was entered.
+
+### invalidNotify
+A function triggered, when invalid data was entered.
+By default all violated validators messages are alerted.
+The behavior can be customized by providing custom function.
+
+The function accepts a single argument with the following structure:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    item                // inserting/editing item
+    itemIndex           // inserting/editing item index
+    errors              // array of validation violations in format { field: "fieldName", message: "validator message" }
+}</pre>
+</div>
+
+In the following example error messages are printed in the console instead of alerting:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    invalidNotify: function(args) {
+        var messages = $.map(args.errors, function(error) {
+            return error.field + ": " + error.message;
+        });
+
+        console.log(message);
+    }
+
+    ...
+});</pre>
+</div>
+
 ### loadIndication (default `true`)
 A boolean value specifying whether to show loading indication during controller operations execution.
 
@@ -355,7 +397,8 @@ Custom properties:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
-    autosearch: true    // triggers searching when the user presses `enter` key in the filter input
+    autosearch: true,   // triggers searching when the user presses `enter` key in the filter input
+    readOnly: false     // a boolean defines whether input is readonly (added in v1.4)
 }</pre>
 </div>
 
@@ -367,7 +410,8 @@ Custom properties:
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
     sorter: "number",   // uses sorter for numbers
-    align: "right"      // right text alignment
+    align: "right",     // right text alignment
+    readOnly: false     // a boolean defines whether input is readonly (added in v1.4)
 }</pre>
 </div>
 
@@ -384,7 +428,8 @@ Custom properties:
     valueField: "",             // name of property of item to be used as value
     textField: "",              // name of property of item to be used as displaying value
     selectedIndex: -1           // index of selected item by default
-    valueType: "number|string"  // the data type of the value
+    valueType: "number|string", // the data type of the value
+    readOnly: false             // a boolean defines whether select is readonly (added in v1.4)
 }</pre>
 </div>
 
@@ -431,7 +476,7 @@ Custom properties:
     <pre class="prettyprint linenums lang-js">{
     sorter: "number",   // uses sorter for numbers
     align: "center"     // center text alignment
-    autosearch: true    // triggers searching when the user clicks checkbox in filter
+    autosearch: true   // triggers searching when the user clicks checkbox in filter
 }</pre>
 </div>
 
@@ -442,7 +487,8 @@ Custom properties:
 
 <div class="code">
     <pre class="prettyprint linenums lang-js">{
-    autosearch: true    // triggers searching when the user presses `enter` key in the filter input
+    autosearch: true,   // triggers searching when the user presses `enter` key in the filter input
+    readOnly: false     // a boolean defines whether checkbox is readonly (added in v1.4)
 }</pre>
 </div>
 
@@ -856,7 +902,20 @@ $("#grid").jsGrid("updateItem", item, { ID: 1, Name: "John", Age: 25, Country: 2
 });</pre>
 </div>
 
-#### jsGrid.setDefaults(config)
+### jsGrid.locale(localeName|localeConfig)
+> version added: 1.4
+
+Set current locale of all grids.
+
+**localeName|localeConfig** is the name of the supported locale ('fr', 'es', 'pl', 'ru', 'pt_br') or a custom localization config.
+Find more information on custom localization config in [Localization](#localization).
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">// set French locale
+jsGrid.locale("fr");</pre>
+</div>
+
+### jsGrid.setDefaults(config)
 Set default options for all grids.
 
 <div class="code">
@@ -866,7 +925,7 @@ Set default options for all grids.
 });</pre>
 </div>
 
-#### jsGrid.setDefaults(fieldName, config)
+### jsGrid.setDefaults(fieldName, config)
 Set default options of the particular field.
 
 <div class="code">
@@ -1006,6 +1065,40 @@ Has the following arguments:
     item                // deleted item
     itemIndex           // deleted item index
 }</pre>
+</div>
+
+### onItemEditing
+> version added: 1.4
+
+Fires before item editing.
+
+Has the following arguments:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    grid                // grid instance
+    row                 // editing row jQuery element
+    item                // editing item
+    itemIndex           // editing item index
+}</pre>
+</div>
+
+#### Cancel Item Editing
+To cancel item editing set `args.cancel = true`. This allows to prevent row from editing conditionally.
+
+In the following example the editing of the row for item with 'ID' = 0 is canceled:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    onItemEditing: function(args) {
+        // cancel editing of the row of item with field 'ID' = 0
+        if(args.item.ID === 0) {
+            args.cancel = true;
+        }
+    }
+});</pre>
 </div>
 
 ### onItemInserting
@@ -1271,6 +1364,161 @@ If deletion is asynchronous, method should return jQuery promise that will be re
 **item** is the item to be deleted.
 
 
+## Validation
+> version added: 1.4
+
+### Field Validation Config
+
+`validate` option of the field can have 4 different value types `string|Object|Array|function`:
+
+1. `validate: "validatorName"`
+
+**validatorName** - is a string key of the validator in the `jsGrid.validators` registry. The registry can be easily extended. See available [built-in validators here](#built-in-validators).
+
+In the following example the `required` validator is applied:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    fields: [{ type: "text", name: "FieldName", validate: "required" }]
+});</pre>
+</div>
+
+2. `validate: validationConfig`
+
+**validateConfig** - is a plain object of the following structure:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">{
+    validator: string|function(value, item, param), // built-in validator name or custom validation function
+    message: string|function,                       // validation message or a function(value, item) returning validation message
+    param: any                                      // a plain object with parameters to be passed to validation function
+}</pre>
+</div>
+
+In the following example the `range` validator is applied with custom validation message and range provided in parameters:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    fields: [{
+        type: "number",
+        name: "Age",
+        validate: {
+            validator: "range",
+            message: function(value, item) {
+                return "The client age should be between 21 and 80. Entered age is \"" + value + "\" is out of specified range.";
+            },
+            param: [21, 80]
+        }
+    }]
+});</pre>
+</div>
+
+3. `validate: validateArray`
+
+**validateArray** - is an array of validators. It can contain
+
+ * `string` - validator name
+ * `Object` - validator configuration of structure `{ validator, message, param }`
+ * `function` - validation function as `function(value, item)`
+
+In the following example the field has three validators: `required`, `range`, and a custom function validator:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    fields: [{
+        type: "number",
+        name: "Age",
+        validate: [
+            "required",
+            { validator: "range", param: [21, 80] },
+            function(value, item) {
+                return item.IsRetired ? value > 55 : true;
+            }
+        ]
+    }]
+});</pre>
+</div>
+
+4. `validate: function(value, item, param)`
+
+The parameters of the function:
+
+ * `value` - entered value of the field
+ * `item` - editing/inserting item
+ * `param` - a parameter provided by validator (applicable only when validation config is defined at validation object or an array of objects)
+
+In the following example the field has custom validation function:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">$("#grid").jsGrid({
+    ...
+
+    fields: [{
+        type: "text",
+        name: "Phone",
+        validate: function(value, item) {
+            return value.length == 10 && phoneBelongsToCountry(value, item.Country);
+        }
+    }]
+});</pre>
+</div>
+
+### Built-in Validators
+
+The `jsGrid.validators` object contains all built-in validators. The key of the hash is a validator name and the value is the validator config.
+
+`jsGrid.validators` contains the following build-in validators:
+
+ * **required** - the field value is required
+ * **rangeLength** - the length of the field value is limited by range (the range should be provided as an array in `param` field of validation config)
+ * **minLength** - the minimum length of the field value is limited (the minimum value should be provided in `param` field of validation config)
+ * **maxLength** - the maximum length of the field value is limited (the maximum value should be provided in `param` field of validation config)
+ * **pattern** - the field value should match the defined pattern (the pattern should be provided as a string regexp in `param` field of validation config)
+ * **range** - the value of the number field is limited by range (the range should be provided as an array in `param` field of validation config)
+ * **min** - the minimum value of the number field is limited (the minimum should be provided in `param` field of validation config)
+ * **max** - the maximum value of the number field is limited (the maximum should be provided in `param` field of validation config)
+
+### Custom Validators
+
+To define a custom validator just add it to the `jsGrid.validators` object.
+
+In the following example a custom validator `time` is registered:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">jsGrid.validators.time = {
+    message: "Please enter a valid time, between 00:00 and 23:59",
+    validator: function(value, item) {
+        return /^([01]\d|2[0-3]|[0-9])(:[0-5]\d){1,2}$/.test(value);
+    }
+}</pre>
+</div>
+
+
+## Localization
+> version added: 1.4
+
+Current locale can be set for all grids on the page with the [`jsGrid.locale(localeName)`](#jsgridlocalelocalenamelocaleconfig) method.
+
+New custom locale can be added to `jsGrid.locales` hash like the following:
+
+<div class="code">
+    <pre class="prettyprint linenums lang-js">jsGrid.locales.my_lang = {
+    // localization config goes here
+    ...
+};</pre>
+</div>
+
+Here is how localization config looks like for Spanish [i18n/es.js](http://github.com/tabalinas/jsgrid/tree/master/src/i18n/es.js).
+
+Find all available locales [here](http://github.com/tabalinas/jsgrid/tree/master/src/i18n).
+
+
 ## Sorting Strategies
 
 All supported sorting strategies are stored in `jsGrid.sortStrategies` object, where key is a name of the strategy and the value is a `sortingFunction`.
@@ -1396,7 +1644,7 @@ It provides the following behavior:
 
 - **firstDisplayIndex** returns 0, because all loaded items displayed on the current page
 - **lastDisplayIndex** returns the amount of loaded items, since data loaded by page
-- **itemsCount** returns `itemsCount` provided by `controller.loadData` (read more in section [controller.loadData](##loaddatafilter-promisedataresult))
+- **itemsCount** returns `itemsCount` provided by `controller.loadData` (read more in section [controller.loadData](#loaddatafilter-promisedataresult))
 - **openPage** calls `grid.loadData` to load data for the current page
 - **loadParams** returns an object with the structure `{ pageIndex, pageSize }` to provide server with paging info
 - **sort** calls `grid.loadData` to load sorted data from the server

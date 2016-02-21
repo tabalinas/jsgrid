@@ -22,6 +22,8 @@ title: Demos
                     <li><a href="odata-service.html" target="demo">OData Service</a></li>
                     <li><a href="data-manipulation.html" target="demo">Data Manipulation</a></li>
                     <li><a href="sorting.html" target="demo">Sorting</a></li>
+                    <li><a href="validation.html" target="demo">Validation</a></li>
+                    <li><a href="localization.html" target="demo">Localization</a></li>
                     <li><a href="loading-by-page.html" target="demo">Loading by Page</a></li>
                     <li><a href="custom-view.html" target="demo">Custom View</a></li>
                     <li><a href="custom-row-renderer.html" target="demo">Custom Row Renderer</a></li>
@@ -41,6 +43,8 @@ title: Demos
                 <p class="hidden">Controller <a href="/docs/#loaddatafilter-promisedataresult"><strong>loadData</strong></a> method requests data from OData service with ajax. Any asynchronous source could be used instead. Just return jQuery.promise from controller method. Field option <a href="/docs/#fields"><strong>itemTemplate</strong></a> allows to render any custom cell content, just return your markup as string, DOM Node or jQuery Element.</p>
                 <p class="hidden">The API methods <a href="/docs/#updateitemitemrowrownode-editeditem-promise"><strong>updateItem</strong></a>, <a href="/docs/#insertitemitem-promise"><strong>insertItem</strong></a> and <a href="/docs/#deleteitemitemrowrownode-promise"><strong>deleteItem</strong></a> allow editing from outside of the grid with ease. This demo shows how to implement editing and inserting data to the grid with external details dialog. Here for popup we use jQuery UI dialog plugin. The <a href="http://jqueryvalidation.org/" target="_blank">jQuery Validation Plugin</a> is used for form validation.</p>
                 <p class="hidden">Sorting can be done not only with column header interaction, but also with <a href="/docs/#sortsortconfigfield-order-promise"><strong>sort</strong></a> method.</p>
+                <p class="hidden">Grid supports field values validation for inserting and editing. There are plenty of <a href="/docs/#built-in-validators"><strong>built-in validators</strong></a> available. Furthermore <a href="/docs/#custom-validators"><strong>custom validators</strong></a> can be easily added.</p>
+                <p class="hidden">Grid supports localization. Find how to set locale and register custom locale in the <a href="/docs/#localization"><strong>Localization section</strong></a>.</p>
                 <p class="hidden">Grid allows to <a href="/docs/#pageloading-default-false">load data by pages</a>. It helps to reduce data loading time and of course necessary for large data sources.</p>
                 <p class="hidden">All components of the grid can be easily configured. Heading, filtering, inserting, editing, sorting, paging and row selection could be switched with a single corresponding boolean <a href="/docs/#heading-default-true">option</a>.</p>
                 <p class="hidden">Grid rows can be completely customized. There are special row renderer functions. To customize data row use <a href="/docs/#rowrenderer-default-null"><strong>rowRenderer</strong></a>.</p>
@@ -56,6 +60,8 @@ title: Demos
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/odata-service.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/data-manipulation.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/sorting.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/validation.js %}{% endcapture %}{{ code | xml_escape }}</pre>
+                <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/localization.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/loading-by-page.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-view.js %}{% endcapture %}{{ code | xml_escape }}</pre>
                 <pre class="hidden prettyprint linenums lang-js">{% capture code %}{% include demos/custom-row-renderer.js %}{% endcapture %}{{ code | xml_escape }}</pre>
