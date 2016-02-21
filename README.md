@@ -553,8 +553,8 @@ Custom properties:
     items: [],                  // an array of items for select
     valueField: "",             // name of property of item to be used as value
     textField: "",              // name of property of item to be used as displaying value
-    selectedIndex: -1           // index of selected item by default
-    valueType: "number|string"  // the data type of the value
+    selectedIndex: -1,          // index of selected item by default
+    valueType: "number|string", // the data type of the value
     readOnly: false             // a boolean defines whether select is readonly (added in v1.4)
 }
 
@@ -607,9 +607,8 @@ Custom properties:
 
 {
     sorter: "number",   // uses sorter for numbers
-    align: "center"     // center text alignment
-    autosearch: true,   // triggers searching when the user clicks checkbox in filter
-    readOnly: false     // a boolean defines whether textarea is readonly (added in v1.4)
+    align: "center",    // center text alignment
+    autosearch: true    // triggers searching when the user clicks checkbox in filter
 }
 
 ```
@@ -622,7 +621,8 @@ Custom properties:
 ```javascript
 
 {
-    autosearch: true    // triggers searching when the user presses `enter` key in the filter input
+    autosearch: true,   // triggers searching when the user presses `enter` key in the filter input
+    readOnly: false     // a boolean defines whether textarea is readonly (added in v1.4)
 }
 
 ```
