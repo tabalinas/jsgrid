@@ -1121,7 +1121,7 @@
                     return;
 
                 var errors = this._validation.validate($.extend({
-                    value: item[field.name],
+                    value: this._getItemFieldValue(item, field),
                     rules: field.validate
                 }, args));
 
