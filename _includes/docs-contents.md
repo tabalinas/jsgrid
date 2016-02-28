@@ -72,7 +72,7 @@
   - [showNextPages](#shownextpages)
   - [sort](#sortsortconfigfield-order-promise)
   - [updateItem](#updateitemitemrowrownode-editeditem-promise)
-  - [jsGrid.locale(localeName|localeConfig)](#jsgridlocalelocalenamelocaleconfig)
+  - [jsGrid.locale(localeName)](#jsgridlocalelocalenamelocaleconfig)
   - [jsGrid.setDefaults(config)](#jsgridsetdefaultsconfig)
   - [jsGrid.setDefaults(fieldName, config)](#jsgridsetdefaultsfieldname-config)
 * [Callbacks](#callbacks)
