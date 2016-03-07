@@ -81,6 +81,7 @@
   - [onError](#onerror)
   - [onItemDeleting](#onitemdeleting)
   - [onItemDeleted](#onitemdeleted)
+  - [onItemEditing](#onitemediting)
   - [onItemInserting](#oniteminserting)
   - [onItemInserted](#oniteminserted)
   - [onItemUpdating](#onitemupdating)
