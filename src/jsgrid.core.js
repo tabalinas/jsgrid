@@ -91,7 +91,6 @@
         deleteConfirm: "Are you sure?",
 
         confirmationPopupProvider: null,
-        alertPopupProvider: null,
 
         selecting: true,
         selectedRowClass: "jsgrid-selected-row",
@@ -140,13 +139,7 @@
                 return error.message || null;
             });
 
-            var message = [this.invalidMessage].concat(messages).join("\n");
-
-            if (this.alertPopupProvider) {
-                this.alertPopupProvider(message);
-            } else {
-                window.alert(message);
-            }
+            window.alert([this.invalidMessage].concat(messages).join("\n"));
         },
 
         onRefreshing: $.noop,
