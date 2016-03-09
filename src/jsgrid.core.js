@@ -90,7 +90,8 @@
         confirmDeleting: true,
         deleteConfirm: "Are you sure?",
 
-        confirmationProvider: null,
+        confirmationPopupProvider: null,
+        alertPopupProvider: null,
 
         selecting: true,
         selectedRowClass: "jsgrid-selected-row",
@@ -139,7 +140,13 @@
                 return error.message || null;
             });
 
-            window.alert([this.invalidMessage].concat(messages).join("\n"));
+            var message = [this.invalidMessage].concat(messages).join("\n");
+
+            if (this.alertPopupProvider) {
+                this.alertPopupProvider(message);
+            } else {
+                window.alert(message);
+            }
         },
 
         onRefreshing: $.noop,
@@ -1320,8 +1327,8 @@
                 var message = getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY));
                 var self = this;
 
-                if (this.confirmationProvider) {
-                    this.confirmationProvider(message, function () {
+                if (this.confirmationPopupProvider) {
+                    this.confirmationPopupProvider(message, function () {
                         self._deleteRow($row);
                     });
 
