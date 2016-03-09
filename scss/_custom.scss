@@ -278,3 +278,34 @@ iframe[name='demo'] {
     text-align: center;
   }
 }
+
+// Ads
+.carbon {
+  &-container {
+    padding-top: 1rem;
+  }
+
+  &-wrap {
+    text-align: center;
+    cursor: pointer;
+  }
+
+  &-img {
+    display: block;
+  }
+
+  &-text {
+    display: block;
+    margin-top: .5em;
+    line-height: 1.5;
+    color: #777777;
+    font-size: .9rem;
+  }
+
+  &-poweredby {
+    display: none;
+    color: #ADB0BA;
+    font-size: .8rem;
+    text-align: center;
+  }
+}
