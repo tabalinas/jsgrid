@@ -2287,6 +2287,7 @@ $(function() {
                 }
             },
             fields: [
+                { type: "text", name: "Id", visible: false },
                 { type: "text", name: "Name", validate: true }
             ]
         };

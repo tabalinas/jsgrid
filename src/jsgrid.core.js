@@ -720,10 +720,14 @@
         },
 
         _setSortingCss: function() {
-            var fieldIndex = $.inArray(this._sortField, $.grep(this.fields, function(f) { return f.visible; }));
+            var fieldIndex = this._visibleFieldIndex(this._sortField);
 
             this._headerRow.find("th").eq(fieldIndex)
                 .addClass(this._sortOrder === SORT_ORDER_ASC ? this.sortAscClass : this.sortDescClass);
+        },
+
+        _visibleFieldIndex: function(field) {
+            return $.inArray(field, $.grep(this.fields, function(f) { return f.visible; }));
         },
 
         _sortData: function() {
@@ -1116,7 +1120,7 @@
                 row: $row
             };
 
-            this._eachField(function(field, index) {
+            this._eachField(function(field) {
                 if(!field.validate)
                     return;
 
@@ -1125,7 +1129,7 @@
                     rules: field.validate
                 }, args));
 
-                this._setCellValidity($row.children().eq(index), errors);
+                this._setCellValidity($row.children().eq(this._visibleFieldIndex(field)), errors);
 
                 if(!errors.length)
                     return;
