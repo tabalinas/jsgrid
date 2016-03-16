@@ -34,12 +34,12 @@
         validators: {
             required: { message: "Champ requis" },
             rangeLength: { message: "Longueur de la valeur du champ est hors de la plage définie" },
-            minLength: { message: "La valeur du champ est trop long" },
-            maxLength: { message: "La valeur du champ est trop court" },
+            minLength: { message: "La valeur du champ est trop court" },
+            maxLength: { message: "La valeur du champ est trop long" },
             pattern: { message: "La valeur du champ ne correspond pas à la configuration définie" },
             range: { message: "La valeur du champ est hors de la plage définie" },
-            min: { message: "La valeur du champ est trop grande" },
-            max: { message: "La valeur du champ est trop petit" }
+            min: { message: "La valeur du champ est trop petit" },
+            max: { message: "La valeur du champ est trop grande" }
         }
     };
 

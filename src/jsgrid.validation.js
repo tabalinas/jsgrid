@@ -85,14 +85,14 @@
         },
 
         minLength: {
-            message: "Field value is too long",
+            message: "Field value is too short",
             validator: function(value, _, param) {
                 return value.length >= param;
             }
         },
 
         maxLength: {
-            message: "Field value is too short",
+            message: "Field value is too long",
             validator: function(value, _, param) {
                 return value.length <= param;
             }
@@ -116,14 +116,14 @@
         },
 
         min: {
-            message: "Field value is too large",
+            message: "Field value is too small",
             validator: function(value, _, param) {
                 return value >= param;
             }
         },
 
         max: {
-            message: "Field value is too small",
+            message: "Field value is too large",
             validator: function(value, _, param) {
                 return value <= param;
             }

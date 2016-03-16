@@ -39,10 +39,10 @@
                 message: "Długość wartości pola znajduje się poza zdefiniowanym zakresem"
             },
             minLength: {
-                message: "Wartość pola jest zbyt długa"
+                message: "Wartość pola jest zbyt krótka"
             },
             maxLength: {
-                message: "Wartość pola jest zbyt krótka"
+                message: "Wartość pola jest zbyt długa"
             },
             pattern: {
                 message: "Wartość pola nie zgadza się ze zdefiniowanym wzorem"
@@ -51,10 +51,10 @@
                 message: "Wartość pola znajduje się poza zdefiniowanym zakresem"
             },
             min: {
-                message: "Wartość pola jest zbyt duża"
+                message: "Wartość pola jest zbyt mała"
             },
             max: {
-                message: "Wartość pola jest zbyt mała"
+                message: "Wartość pola jest zbyt duża"
             }
         }
     };
