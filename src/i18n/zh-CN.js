@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales.es = {
+    jsGrid.locales["zh-cn"] = {
         grid: {
             noDataContent: "暂无数据",
             deleteConfirm: "确认删除？",
