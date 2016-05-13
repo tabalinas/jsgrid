@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales.ge = {
+    jsGrid.locales.ka = {
         grid: {
             noDataContent: "მონაცემები ცარიელია.",
             deleteConfirm: "ნამდვილად გსურთ ჩანაწერის წაშლა?",
