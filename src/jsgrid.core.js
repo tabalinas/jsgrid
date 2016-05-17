@@ -142,6 +142,7 @@
 
         onRefreshing: $.noop,
         onRefreshed: $.noop,
+        onPageChanged: $.noop,
         onItemDeleting: $.noop,
         onItemDeleted: $.noop,
         onItemInserting: $.noop,
@@ -970,6 +971,10 @@
             if(pageIndex > firstDisplayingPage + pageButtonCount - 1) {
                 this._firstDisplayingPage = pageIndex - pageButtonCount + 1;
             }
+            
+            this._callEventHandler(this.onPageChanged, {
+                pageIndex: pageIndex
+            });
         },
 
         _controllerCall: function(method, param, isCanceled, doneCallback) {
