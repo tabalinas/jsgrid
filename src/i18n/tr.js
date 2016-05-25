@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales.fr = {
+    jsGrid.locales.tr = {
         grid: {
             noDataContent: "Kayıt Bulunamadı",
             deleteConfirm: "Emin misiniz ?",
