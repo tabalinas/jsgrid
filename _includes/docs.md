@@ -1580,17 +1580,21 @@ If you need a custom sorting strategy, the object `jsGrid.sortStrategies` can be
 In this example we define new sorting strategy for our client objects:
 
 <div class="code">
-    <pre class="prettyprint linenums lang-js">// client object format
-var clients = [{
-    Name: "John",
-    Age: 25
-}, ...];
-
-// sort clients by name and then by age
-jsGrid.sortStrategies.client = function(client1, client2) {
-    return client1.Name.localeCompare(client2.Name) 
-        || client1.Age - client2.Age;
-};</pre>
+    <pre class="prettyprint linenums lang-js">// clients array
+    var clients = [{
+        Index: 1,
+        Name: "John",
+        Age: 25
+    }, ...];
+    
+    // sort clients by name and then by age
+    jsGrid.sortStrategies.client = function(index1, index2) {
+        var client1 = clients[index1];
+        var client2 = clients[index2];
+        return client1.Name.localeCompare(client2.Name) 
+            || client1.Age - client2.Age;
+    };
+    </pre>
 </div>
 
 Now, our new sorting strategy `client` can be used in the grid config as follows:
@@ -1599,7 +1603,7 @@ Now, our new sorting strategy `client` can be used in the grid config as follows
     <pre class="prettyprint linenums lang-js">{
     fields: [
       ...
-      { type: "text", name: "Name", sorter: "client" },
+      { name: "Index", sorter: "client" },
       ...
     ]
 }</pre>
@@ -1611,13 +1615,14 @@ Worth to mention, that if you need particular sorting only once, you can just in
     <pre class="prettyprint linenums lang-js">{
     fields: [
       ...
-      { 
-          type: "text", 
-          name: "Name", 
-          sorter: function(client1, client2) {
+      {  
+          name: "Index", 
+          sorter: function(index1, index2) {
+              var client1 = clients[index1];
+              var client2 = clients[index2];
               return client1.Name.localeCompare(client2.Name) 
                   || client1.Age - client2.Age;
-          } 
+          }
       },
       ...
     ]
