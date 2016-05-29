@@ -1861,14 +1861,17 @@ In this example we define new sorting strategy for our client objects:
 
 ```javascript
 
-// client object format
+// clients array
 var clients = [{
+    Index: 1,
     Name: "John",
     Age: 25
 }, ...];
 
 // sort clients by name and then by age
-jsGrid.sortStrategies.client = function(client1, client2) {
+jsGrid.sortStrategies.client = function(index1, index2) {
+    var client1 = clients[index1];
+    var client2 = clients[index2];
     return client1.Name.localeCompare(client2.Name) 
         || client1.Age - client2.Age;
 };
@@ -1882,7 +1885,7 @@ Now, our new sorting strategy `client` can be used in the grid config as follows
 {
     fields: [
       ...
-      { type: "text", name: "Name", sorter: "client" },
+      { name: "Index", sorter: "client" },
       ...
     ]
 }
@@ -1896,12 +1899,13 @@ Worth to mention, that if you need particular sorting only once, you can just in
     fields: [
       ...
       { 
-          type: "text", 
-          name: "Name", 
-          sorter: function(client1, client2) {
+          name: "Index", 
+          sorter: function(index1, index2) {
+              var client1 = clients[index1];
+              var client2 = clients[index2];
               return client1.Name.localeCompare(client2.Name) 
                   || client1.Age - client2.Age;
-          } 
+          }
       },
       ...
     ]
