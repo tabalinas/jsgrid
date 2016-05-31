@@ -282,7 +282,7 @@ iframe[name='demo'] {
 // Ads
 .carbon {
   &-container {
-    padding-top: 1rem;
+    margin-top: 1rem;
   }
 
   &-wrap {
@@ -303,9 +303,13 @@ iframe[name='demo'] {
   }
 
   &-poweredby {
-    display: none;
+    display: block;
     color: #ADB0BA;
     font-size: .8rem;
     text-align: center;
+
+    &:hover {
+      color: #ADB0BA;
+    }
   }
 }
