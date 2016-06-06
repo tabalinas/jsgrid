@@ -119,6 +119,8 @@
         pageClass: "jsgrid-pager-page",
         currentPageClass: "jsgrid-pager-current-page",
 
+        refreshHeader: false,
+
         customLoading: false,
         pageLoading: false,
 
@@ -300,6 +302,7 @@
                 case "filtering":
                 case "inserting":
                 case "paging":
+                case "refreshHeader":
                     this.refresh();
                     break;
                 case "loadStrategy":
@@ -520,6 +523,7 @@
             this._refreshContent();
             this._refreshPager();
             this._refreshSize();
+            this._refreshHeaderRow();
 
             this._callEventHandler(this.onRefreshed);
         },
@@ -551,6 +555,33 @@
             for(var itemIndex = indexFrom; itemIndex < indexTo; itemIndex++) {
                 var item = this.data[itemIndex];
                 $content.append(this._createRow(item, itemIndex));
+            }
+        },
+
+        _refreshHeaderRow: function() {
+            if (this.refreshHeader) {
+                var $headerRow = this._headerRow;
+                this._eachField(function(field, index) {
+                    this._refreshHeaderCell($headerRow.children().eq(index), field, index);
+                });
+            }
+        },
+
+        _refreshHeaderCell: function($cell, field, index) {
+            var sortableDirClass = $cell.hasClass(this.sortAscClass) ? this.sortAscClass :
+                                    $cell.hasClass(this.sortDescClass) ? this.sortDescClass : '';
+
+            $cell.removeClass();
+
+            this._prepareCell($cell, field, "headercss");
+
+            $cell.off("click");
+            if(this.sorting && field.sorting) {
+                $cell.addClass(sortableDirClass)
+                    .addClass(this.sortableClass)
+                    .on("click", $.proxy(function() {
+                        this.sort(index);
+                    }, this));
             }
         },
 
