@@ -25,7 +25,7 @@ $(function() {
 
         rowRenderer: function(item) {
             var user = item;
-            var $photo = $("<div>").addClass("client-photo").append($("<img>").attr("src", user.picture.medium));
+            var $photo = $("<div>").addClass("client-photo").append($("<img>").attr("src", user.picture.large));
             var $info = $("<div>").addClass("client-info")
                 .append($("<p>").append($("<strong>").text(user.name.first.capitalize() + " " + user.name.last.capitalize())))
                 .append($("<p>").text("Location: " + user.location.city.capitalize() + ", " + user.location.street))
