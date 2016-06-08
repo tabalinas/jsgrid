@@ -24,7 +24,7 @@ $(function() {
         },
 
         rowRenderer: function(item) {
-            var user = item.user;
+            var user = item;
             var $photo = $("<div>").addClass("client-photo").append($("<img>").attr("src", user.picture.medium));
             var $info = $("<div>").addClass("client-info")
                 .append($("<p>").append($("<strong>").text(user.name.first.capitalize() + " " + user.name.last.capitalize())))
