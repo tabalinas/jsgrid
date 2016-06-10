@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales["pt"] = {
+    jsGrid.locales.pt = {
         grid: {
             noDataContent: "Não encontrado",
             deleteConfirm: "Você tem certeza que deseja remover este item?",
