@@ -84,6 +84,20 @@ $(function() {
         equal(methodResult, "test_invoke", "method invoked");
     });
 
+    test("onInit callback", function() {
+        var $element = $("#jsGrid"),
+            onInitArguments,
+            gridOptions = {
+                onInit: function(args) {
+                    onInitArguments = args;
+                }
+            };
+
+        var grid = new Grid($element, gridOptions);
+
+        equal(onInitArguments.grid, grid, "grid instance is provided in onInit callback arguments");
+    });
+
     test("controller methods are $.noop when not specified", function() {
         var $element = $("#jsGrid"),
             gridOptions = {

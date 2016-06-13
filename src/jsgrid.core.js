@@ -140,6 +140,7 @@
             window.alert([this.invalidMessage].concat(messages).join("\n"));
         },
 
+        onInit: $.noop,
         onRefreshing: $.noop,
         onRefreshed: $.noop,
         onPageChanged: $.noop,
@@ -171,6 +172,7 @@
             this._initFields();
             this._attachWindowLoadResize();
             this._attachWindowResizeCallback();
+            this._callEventHandler(this.onInit)
         },
 
         loadStrategy: function() {
@@ -971,7 +973,7 @@
             if(pageIndex > firstDisplayingPage + pageButtonCount - 1) {
                 this._firstDisplayingPage = pageIndex - pageButtonCount + 1;
             }
-            
+
             this._callEventHandler(this.onPageChanged, {
                 pageIndex: pageIndex
             });
