@@ -189,6 +189,11 @@
             this._controller = $.extend({}, defaultController, getOrApply(this.controller, this));
         },
 
+        renderTemplate: function(source, context) {
+            source = getOrApply.apply(null, arguments);
+            return source || "";
+        },
+
         loadIndicator: function(config) {
             return new jsGrid.LoadIndicator(config);
         },
@@ -268,7 +273,6 @@
                 case "rowRenderer":
                 case "rowClick":
                 case "rowDoubleClick":
-                case "noDataText":
                 case "noDataRowClass":
                 case "noDataContent":
                 case "selecting":
@@ -430,13 +434,13 @@
 
         _createHeaderRow: function() {
             if($.isFunction(this.headerRowRenderer))
-                return $(this.headerRowRenderer());
+                return $(this.renderTemplate(this.headerRowRenderer, this));
 
             var $result = $("<tr>").addClass(this.headerRowClass);
 
             this._eachField(function(field, index) {
                 var $th = this._prepareCell("<th>", field, "headercss")
-                    .append(field.headerTemplate ? field.headerTemplate() : "")
+                    .append(this.renderTemplate(field.headerTemplate, field))
                     .appendTo($result);
 
                 if(this.sorting && field.sorting) {
@@ -458,13 +462,13 @@
 
         _createFilterRow: function() {
             if($.isFunction(this.filterRowRenderer))
-                return $(this.filterRowRenderer());
+                return $(this.renderTemplate(this.filterRowRenderer, this));
 
             var $result = $("<tr>").addClass(this.filterRowClass);
 
             this._eachField(function(field) {
                 this._prepareCell("<td>", field, "filtercss")
-                    .append(field.filterTemplate ? field.filterTemplate() : "")
+                    .append(this.renderTemplate(field.filterTemplate, field))
                     .appendTo($result);
             });
 
@@ -473,13 +477,13 @@
 
         _createInsertRow: function() {
             if($.isFunction(this.insertRowRenderer))
-                return $(this.insertRowRenderer());
+                return $(this.renderTemplate(this.insertRowRenderer, this));
 
             var $result = $("<tr>").addClass(this.insertRowClass);
 
             this._eachField(function(field) {
                 this._prepareCell("<td>", field, "insertcss")
-                    .append(field.insertTemplate ? field.insertTemplate() : "")
+                    .append(this.renderTemplate(field.insertTemplate, field))
                     .appendTo($result);
             });
 
@@ -557,28 +561,21 @@
         },
 
         _createNoDataRow: function() {
-            var noDataContent = getOrApply(this.noDataContent, this);
-
             var amountOfFields = 0;
             this._eachField(function() {
                 amountOfFields++;
             });
 
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", amountOfFields).append(noDataContent));
-        },
-
-        _createNoDataContent: function() {
-            return $.isFunction(this.noDataRenderer)
-                ? this.noDataRenderer()
-                : this.noDataText;
+                .append($("<td>").attr("colspan", amountOfFields)
+                    .append(this.renderTemplate(this.noDataContent, this)));
         },
 
         _createRow: function(item, itemIndex) {
             var $result;
 
             if($.isFunction(this.rowRenderer)) {
-                $result = $(this.rowRenderer(item, itemIndex));
+                $result = this.renderTemplate(this.rowRenderer, this, item, itemIndex);
             } else {
                 $result = $("<tr>");
                 this._renderCells($result, item);
@@ -638,9 +635,9 @@
             var fieldValue = this._getItemFieldValue(item, field);
 
             if($.isFunction(field.cellRenderer)) {
-                $result = $(field.cellRenderer(fieldValue, item));
+                $result = this.renderTemplate(field.cellRenderer, field, fieldValue, item);
             } else {
-                $result = $("<td>").append(field.itemTemplate ? field.itemTemplate(fieldValue, item) : fieldValue);
+                $result = $("<td>").append(this.renderTemplate(field.itemTemplate || fieldValue, field, fieldValue, item));
             }
 
             return this._prepareCell($result, field);
