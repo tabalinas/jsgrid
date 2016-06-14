@@ -1489,8 +1489,12 @@ $(function() {
     test("pager functionality", function() {
         var $element = $("#jsGrid"),
             pager,
+            pageChangedArgs,
             grid = new Grid($element, {
                 data: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+                onPageChanged: function(args) {
+                    pageChangedArgs = args;
+                },
                 paging: true,
                 pageSize: 2,
                 pageButtonCount: 3
@@ -1512,6 +1516,7 @@ $(function() {
         ok(pager.find("." + grid.pageClass).eq(1).hasClass(grid.currentPageClass), "second page is current");
         equal(pager.find("." + grid.pageClass).length, 3, "three pages displayed");
         equal(pager.find("." + grid.pagerNavButtonClass).length, 5, "five nav buttons displayed: First Prev Next Last and ...");
+        equal(pageChangedArgs.pageIndex, 2, "onPageChanged callback provides pageIndex in arguments");
 
         grid.showNextPages();
         equal(grid._firstDisplayingPage, 3, "navigate by pages forward");
