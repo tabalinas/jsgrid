@@ -24,6 +24,7 @@
 
         align: "center",
         valueType: numberValueType,
+        defaultValue: undefined,
 
         itemTemplate: function(value) {
             var items = this.items,
@@ -65,7 +66,12 @@
             if(!this.inserting)
                 return "";
 
-            return this.insertControl = this._createSelect();
+            this.insertControl = this._createSelect();
+            if(this.defaultValue) {
+                this.insertControl.val(this.defaultValue);
+            }
+
+            return this.insertControl;
         },
 
         editTemplate: function(value) {
