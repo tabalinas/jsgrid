@@ -1,6 +1,8 @@
 (function(jsGrid, $, undefined) {
 
     var NumberField = jsGrid.NumberField;
+    var numberValueType = "number";
+    var stringValueType = "string";
 
     function SelectField(config) {
         this.items = [];
@@ -9,7 +11,8 @@
         this.textField = "";
 
         if(config.valueField && config.items.length) {
-            this.valueType = typeof config.items[0][config.valueField];
+            var firstItemValue = config.items[0][config.valueField];
+            this.valueType = (typeof firstItemValue) === numberValueType ? numberValueType : stringValueType;
         }
 
         this.sorter = this.valueType;
@@ -20,7 +23,7 @@
     SelectField.prototype = new NumberField({
 
         align: "center",
-        valueType: "number",
+        valueType: numberValueType,
 
         itemTemplate: function(value) {
             var items = this.items,
@@ -76,17 +79,17 @@
 
         filterValue: function() {
             var val = this.filterControl.val();
-            return this.valueType === "number" ? parseInt(val || 0, 10) : val;
+            return this.valueType === numberValueType ? parseInt(val || 0, 10) : val;
         },
 
         insertValue: function() {
             var val = this.insertControl.val();
-            return this.valueType === "number" ? parseInt(val || 0, 10) : val;
+            return this.valueType === numberValueType ? parseInt(val || 0, 10) : val;
         },
 
         editValue: function() {
             var val = this.editControl.val();
-            return this.valueType === "number" ? parseInt(val || 0, 10) : val;
+            return this.valueType === numberValueType ? parseInt(val || 0, 10) : val;
         },
 
         _createSelect: function() {

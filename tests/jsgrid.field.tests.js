@@ -284,6 +284,20 @@ $(function() {
         strictEqual(field.insertValue(), "2");
     });
 
+    test("value type defaulted to string", function() {
+        var field = new jsGrid.SelectField({
+            name: "testField",
+            items: [
+                { text: "test1" },
+                { text: "test2", value: "2" }
+            ],
+            textField: "text",
+            valueField: "value"
+        });
+
+        strictEqual(field.sorter, "string", "sorter set to string if first item has no value field");
+    });
+
     test("object items", function() {
         var field = new jsGrid.SelectField({
             name: "testField",
