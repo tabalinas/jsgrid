@@ -26,6 +26,22 @@
         return value;
     };
 
+    var normalizePromise = function(promise) {
+        var d = $.Deferred();
+
+        if(promise && promise.then) {
+            promise.then(function() {
+                d.resolve.apply(d, arguments);
+            }, function() {
+                d.reject.apply(d, arguments);
+            });
+        } else {
+            d.resolve(promise);
+        }
+
+        return d.promise();
+    };
+
     var defaultController = {
         loadData: $.noop,
         insertItem: $.noop,
@@ -987,7 +1003,7 @@
                 throw Error("controller has no method '" + method + "'");
             }
 
-            return $.when(controller[method](param))
+            return normalizePromise(controller[method](param))
                 .done($.proxy(doneCallback, this))
                 .fail($.proxy(this._errorHandler, this))
                 .always($.proxy(this._hideLoading, this));

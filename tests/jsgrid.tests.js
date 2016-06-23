@@ -2512,4 +2512,136 @@ $(function() {
             jsGrid.locale("unknown_lang");
         }, /unknown_lang/, "locale threw an exception");
     });
+
+
+    module("controller promise");
+
+    asyncTest("should support jQuery promise success callback", 1, function() {
+        var data = [];
+        var gridOptions = {
+            autoload: false,
+            controller: {
+                loadData: function() {
+                    var d = $.Deferred();
+
+                    setTimeout(function() {
+                        d.resolve(data);
+                        start();
+                    });
+
+                    return d.promise();
+                }
+            }
+        };
+
+        var grid = new Grid($("#jsGrid"), gridOptions);
+
+        var promise = grid._controllerCall("loadData", {}, false, $.noop);
+        promise.done(function(result) {
+            equal(result, data, "data provided to done callback");
+        });
+    });
+
+    asyncTest("should support jQuery promise fail callback", 1, function() {
+        var failArgs = {};
+        var gridOptions = {
+            autoload: false,
+            controller: {
+                loadData: function() {
+                    var d = $.Deferred();
+
+                    setTimeout(function() {
+                        d.reject(failArgs);
+                        start();
+                    });
+
+                    return d.promise();
+                }
+            }
+        };
+
+        var grid = new Grid($("#jsGrid"), gridOptions);
+
+        var promise = grid._controllerCall("loadData", {}, false, $.noop);
+        promise.fail(function(result) {
+            equal(result, failArgs, "fail args provided to fail callback");
+        });
+    });
+
+    asyncTest("should support JS promise success callback", 1, function() {
+        if(!Promise) {
+            ok(true, "Promise not supported");
+            return;
+        }
+
+        var data = [];
+        var gridOptions = {
+            autoload: false,
+            controller: {
+                loadData: function() {
+                    return new Promise(function(resolve, reject) {
+                        setTimeout(function() {
+                            resolve(data);
+                            start();
+                        });
+                    });
+                }
+            }
+        };
+
+        var grid = new Grid($("#jsGrid"), gridOptions);
+
+        var promise = grid._controllerCall("loadData", {}, false, $.noop);
+        promise.done(function(result) {
+            equal(result, data, "data provided to done callback");
+        });
+    });
+
+    asyncTest("should support JS promise fail callback", 1, function() {
+        if(!Promise) {
+            ok(true, "Promise not supported");
+            return;
+        }
+
+        var failArgs = {};
+        var gridOptions = {
+            autoload: false,
+            controller: {
+                loadData: function() {
+                    return new Promise(function(resolve, reject) {
+                        setTimeout(function() {
+                            reject(failArgs);
+                            start();
+                        });
+                    });
+                }
+            }
+        };
+
+        var grid = new Grid($("#jsGrid"), gridOptions);
+
+        var promise = grid._controllerCall("loadData", {}, false, $.noop);
+        promise.fail(function(result) {
+            equal(result, failArgs, "fail args provided to fail callback");
+        });
+    });
+
+    test("should support non-promise result", 1, function() {
+        var data = [];
+        var gridOptions = {
+            autoload: false,
+            controller: {
+                loadData: function() {
+                    return data;
+                }
+            }
+        };
+
+        var grid = new Grid($("#jsGrid"), gridOptions);
+
+        var promise = grid._controllerCall("loadData", {}, false, $.noop);
+        promise.done(function(result) {
+            equal(result, data, "data provided to done callback");
+        });
+    });
 });
