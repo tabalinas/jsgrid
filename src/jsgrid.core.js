@@ -1230,7 +1230,7 @@
 
         _createEditRow: function(item) {
             if($.isFunction(this.editRowRenderer)) {
-                return $(this.editRowRenderer(item, this._itemIndex(item)));
+                return $(this.renderTemplate(field.editRowRenderer, field, item, this._itemIndex(item)));
             }
 
             var $result = $("<tr>").addClass(this.editRowClass);
@@ -1239,7 +1239,7 @@
                 var fieldValue = this._getItemFieldValue(item, field);
 
                 this._prepareCell("<td>", field, "editcss")
-                    .append(field.editTemplate ? field.editTemplate(fieldValue, item) : "")
+                    .append(this.renderTemplate(field.editTemplate || "", field, fieldValue, item))
                     .appendTo($result);
             });
 
