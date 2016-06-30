@@ -1144,8 +1144,13 @@
                 if(!field.validate)
                     return;
 
+                var fieldValue = this._getItemFieldValue(item, field);
+
+                if(fieldValue === undefined)
+                    return;
+
                 var errors = this._validation.validate($.extend({
-                    value: this._getItemFieldValue(item, field),
+                    value: fieldValue,
                     rules: field.validate
                 }, args));
 

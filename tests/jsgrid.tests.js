@@ -2478,6 +2478,36 @@ $(function() {
         equal($editCell.attr("title"), "Error", "cell tooltip contains error message");
     });
 
+    test("validation should ignore not editable fields", function() {
+        var invalidNotifyCalled = 0;
+        var $element = $("#jsGrid");
+        var validatingArgs;
+
+        var gridOptions = {
+            data: [{ Name: "" }],
+            editing: true,
+
+            invalidNotify: function() {
+                invalidNotifyCalled++;
+            },
+            validation: {
+                validate: function() {
+                    return ["Error"];
+                }
+            },
+
+            fields: [
+                { type: "text", name: "Name", editing: false, validate: "required" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.editItem(gridOptions.data[0]);
+        grid.updateItem();
+        equal(invalidNotifyCalled, 0, "data is valid");
+    });
+
 
     module("i18n");
 
