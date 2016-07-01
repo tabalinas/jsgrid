@@ -555,7 +555,7 @@ $(function() {
 
         equal(grid._filterRow.find(".filter-class").length, 1, "filtercss class is attached");
         equal(grid._filterRow.find(".filter-input").length, 1, "filter control rendered");
-        equal(grid._filterRow.find("." + this.gridClass).length, 1, "cell class is attached");
+        equal(grid._filterRow.find("." + grid.cellClass).length, 1, "cell class is attached");
         ok(grid._filterRow.find(".filter-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
     });
