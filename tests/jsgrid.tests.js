@@ -555,6 +555,7 @@ $(function() {
 
         equal(grid._filterRow.find(".filter-class").length, 1, "filtercss class is attached");
         equal(grid._filterRow.find(".filter-input").length, 1, "filter control rendered");
+        equal(grid._filterRow.find("." + this.gridClass).length, 1, "cell class is attached");
         ok(grid._filterRow.find(".filter-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].filterControl.is("input[type=text]"), "filter control saved in field");
     });
@@ -924,12 +925,14 @@ $(function() {
         grid.option("data", this.testData);
 
         equal(grid._headerRow.text(), "title", "header rendered");
+        equal(grid._headerRow.find("." + grid.headerCellClass).length, 1, "header cell class is attached");
         equal(grid._headerRow.find(".header-class").length, 1, "headercss class is attached");
         ok(grid._headerRow.find(".header-class").hasClass("jsgrid-align-right"), "align class is attached");
 
         $secondRow = grid._content.find("." + grid.evenRowClass);
         equal($secondRow.text(), "test2", "item rendered");
         equal($secondRow.find(".cell-class").length, 1, "css class added to cell");
+        equal($secondRow.find("." + grid.cellClass).length, 1, "cell class is attached");
         ok($secondRow.find(".cell-class").hasClass("jsgrid-align-right"), "align class added to cell");
     });
 
@@ -1012,6 +1015,7 @@ $(function() {
 
         equal(grid._insertRow.find(".insert-class").length, 1, "insertcss class is attached");
         equal(grid._insertRow.find(".insert-input").length, 1, "insert control rendered");
+        equal(grid._insertRow.find("." + grid.cellClass).length, 1, "cell class is attached");
         ok(grid._insertRow.find(".insert-class").hasClass("jsgrid-align-right"), "align class is attached");
         ok(grid.fields[0].insertControl.is("input[type=text]"), "insert control saved in field");
     });
@@ -1158,6 +1162,7 @@ $(function() {
         equal($editRow.length, 1, "edit row rendered");
         equal($editRow.find(".edit-class").length, 1, "editcss class is attached");
         equal($editRow.find(".edit-input").length, 1, "edit control rendered");
+        equal($editRow.find("." + grid.cellClass).length, 1, "cell class is attached");
         ok($editRow.find(".edit-class").hasClass("jsgrid-align-right"), "align class is attached");
 
         ok(grid.fields[0].editControl.is("input[type=text]"), "edit control saved in field");
