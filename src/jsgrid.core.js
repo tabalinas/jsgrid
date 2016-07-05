@@ -209,7 +209,7 @@
 
         renderTemplate: function(source, context) {
             source = getOrApply.apply(null, arguments);
-            return source || "";
+            return (source === undefined || source === null) ? "" : source;
         },
 
         loadIndicator: function(config) {

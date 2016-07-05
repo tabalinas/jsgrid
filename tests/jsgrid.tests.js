@@ -895,6 +895,18 @@ $(function() {
         }
     });
 
+    test("'0' itemTemplate should be rendered", function() {
+        var $element = $("#jsGrid"),
+            grid = new Grid($element, {
+                data: [{}],
+                fields: [
+                    new jsGrid.Field({ name: "id", itemTemplate: function() { return 0; } })
+                ]
+            });
+
+        equal(grid._bodyGrid.text(), "0", "item template is rendered");
+    });
+
     test("grid field name used for header if title is not specified", function() {
         var $element = $("#jsGrid"),
             grid = new Grid($element, {
