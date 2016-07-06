@@ -38,6 +38,11 @@
             return $.Deferred().resolve().promise();
         },
 
+        reset: function() {
+            this._grid.refresh();
+            return $.Deferred().resolve().promise();
+        },
+
         finishLoad: function(loadedData) {
             this._grid.option("data", loadedData);
         },
@@ -62,6 +67,7 @@
     }
 
     PageLoadingStrategy.prototype = {
+
         firstDisplayIndex: function() {
             return 0;
         },
@@ -84,6 +90,10 @@
                 pageIndex: grid.option("pageIndex"),
                 pageSize: grid.option("pageSize")
             };
+        },
+
+        reset: function() {
+            return this._grid.loadData();
         },
 
         sort: function() {

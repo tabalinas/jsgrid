@@ -2525,6 +2525,38 @@ $(function() {
         equal(invalidNotifyCalled, 0, "data is valid");
     });
 
+    module("api");
+
+    test("reset method should go the first page when pageLoading is truned on", function() {
+        var items = [{ Name: "1" }, { Name: "2" }];
+        var $element = $("#jsGrid");
+
+        var gridOptions = {
+            paging: true,
+            pageSize: 1,
+            pageLoading: true,
+            autoload: true,
+            controller: {
+                loadData: function(args) {
+                    return {
+                        data: [items[args.pageIndex - 1]],
+                        itemsCount: items.length
+                    };
+                }
+            },
+
+            fields: [
+                { type: "text", name: "Name" }
+            ]
+        };
+
+        var grid = new Grid($element, gridOptions);
+
+        grid.openPage(2);
+        grid.reset();
+        equal(grid._bodyGrid.text(), "1", "grid content reset");
+    });
+
 
     module("i18n");
 

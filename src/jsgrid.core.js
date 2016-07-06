@@ -520,7 +520,7 @@
         reset: function() {
             this._resetSorting();
             this._resetPager();
-            this.refresh();
+            return this._loadStrategy.reset();
         },
 
         _resetPager: function() {
