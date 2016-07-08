@@ -105,13 +105,6 @@ $(function() {
         equal($element.jsGrid("option", "fields")[0].defaultOption, "test", "default field option set");
     });
 
-    test("insert default value", function() {
-      var field = new jsGrid.TextField({ defaultValue: "foo" });
-
-      field.insertTemplate();
-      strictEqual(field.insertValue(), "foo");
-    });
-
 
     module("jsGrid.field.number");
 
@@ -125,13 +118,6 @@ $(function() {
         strictEqual(field.filterValue(), 0);
         strictEqual(field.insertValue(), 0);
         strictEqual(field.editValue(), 6);
-    });
-
-    test("insert default value", function() {
-      var field = new jsGrid.NumberField({ defaultValue: 42 });
-
-      field.insertTemplate();
-      strictEqual(field.insertValue(), 42);
     });
 
 
@@ -335,22 +321,6 @@ $(function() {
 
         field.textField = "text";
         strictEqual(field.itemTemplate(1), "test1");
-    });
-
-    test("insert default value", function() {
-      var field = new jsGrid.SelectField({
-          name: "testField",
-          items: [
-              { text: "test1", value: "foo" },
-              { text: "test2", value: "bar" },
-              { text: "test3", value: "baz" },
-          ],
-          valueField: "value",
-          defaultValue: "bar"
-      });
-
-      field.insertTemplate();
-      equal(field.insertValue(), "bar");
     });
 
 

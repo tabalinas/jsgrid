@@ -9,8 +9,7 @@
     TextField.prototype = new Field({
 
         autosearch: true,
-        readOnly: false,
-        defaultValue: undefined,
+		readOnly: false,
 
         filterTemplate: function() {
             if(!this.filtering)
@@ -35,7 +34,7 @@
             if(!this.inserting)
                 return "";
 
-            return this.insertControl = this._createTextBox().val(this.defaultValue);
+            return this.insertControl = this._createTextBox();
         },
 
         editTemplate: function(value) {
