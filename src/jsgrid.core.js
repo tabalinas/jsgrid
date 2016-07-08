@@ -1450,7 +1450,8 @@
         fields: fields,
         setDefaults: setDefaults,
         locales: locales,
-        locale: locale
+        locale: locale,
+        version: "@VERSION"
     };
 
 }(window, jQuery));
