@@ -207,8 +207,13 @@
             this._controller = $.extend({}, defaultController, getOrApply(this.controller, this));
         },
 
-        renderTemplate: function(source, context) {
-            source = getOrApply.apply(null, arguments);
+        renderTemplate: function(source, context, args) {
+            args = $.map(args || [], function(arg) {
+                return arg;
+            });
+            args.unshift(source, context);
+
+            source = getOrApply.apply(null, args);
             return (source === undefined || source === null) ? "" : source;
         },
 
@@ -594,7 +599,7 @@
             var $result;
 
             if($.isFunction(this.rowRenderer)) {
-                $result = this.renderTemplate(this.rowRenderer, this, item, itemIndex);
+                $result = this.renderTemplate(this.rowRenderer, this, { item: item, itemIndex: itemIndex });
             } else {
                 $result = $("<tr>");
                 this._renderCells($result, item);
@@ -653,10 +658,11 @@
             var $result;
             var fieldValue = this._getItemFieldValue(item, field);
 
+            var args = { value: fieldValue, item : item };
             if($.isFunction(field.cellRenderer)) {
-                $result = this.renderTemplate(field.cellRenderer, field, fieldValue, item);
+                $result = this.renderTemplate(field.cellRenderer, field, args);
             } else {
-                $result = $("<td>").append(this.renderTemplate(field.itemTemplate || fieldValue, field, fieldValue, item));
+                $result = $("<td>").append(this.renderTemplate(field.itemTemplate || fieldValue, field, args));
             }
 
             return this._prepareCell($result, field);
@@ -1238,7 +1244,7 @@
 
         _createEditRow: function(item) {
             if($.isFunction(this.editRowRenderer)) {
-                return $(this.renderTemplate(field.editRowRenderer, field, item, this._itemIndex(item)));
+                return $(this.renderTemplate(field.editRowRenderer, field, { item: item, itemIndex: this._itemIndex(item) }));
             }
 
             var $result = $("<tr>").addClass(this.editRowClass);
@@ -1247,7 +1253,7 @@
                 var fieldValue = this._getItemFieldValue(item, field);
 
                 this._prepareCell("<td>", field, "editcss")
-                    .append(this.renderTemplate(field.editTemplate || "", field, fieldValue, item))
+                    .append(this.renderTemplate(field.editTemplate || "", field, { value: fieldValue, item: item }))
                     .appendTo($result);
             });
 
