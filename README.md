@@ -422,7 +422,7 @@ $("#grid").jsGrid({
             return error.field + ": " + error.message;
         });
         
-        console.log(message);
+        console.log(messages);
     }
     
     ...
