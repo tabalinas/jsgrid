@@ -313,7 +313,7 @@ In the following example error messages are printed in the console instead of al
             return error.field + ": " + error.message;
         });
 
-        console.log(message);
+        console.log(messages);
     }
 
     ...
