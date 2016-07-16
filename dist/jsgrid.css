@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.4.1 (http://js-grid.com)
+ * jsGrid v1.5.0 (http://js-grid.com)
  * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -44,12 +44,12 @@
     border-spacing: 0;
 }
 
-.jsgrid-table td {
+.jsgrid-cell {
     padding: 0.5em 0.5em;
 }
 
-.jsgrid-table td,
-.jsgrid-table th {
+.jsgrid-сell,
+.jsgrid-header-cell {
     box-sizing: border-box;
 }
 
@@ -71,7 +71,7 @@
     text-align: right;
 }
 
-.jsgrid-header-row > th {
+.jsgrid-header-cell {
     padding: .5em .5em;
 }
 
@@ -95,11 +95,11 @@
 }
 
 
-.jsgrid-selected-row td {
+.jsgrid-selected-row .jsgrid-cell {
     cursor: pointer;
 }
 
-.jsgrid-nodata-row td {
+.jsgrid-nodata-row .jsgrid-cell {
     padding: .5em 0;
     text-align: center;
 }
