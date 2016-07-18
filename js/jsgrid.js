@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.5.0 (http://js-grid.com)
+ * jsGrid v1.5.1 (http://js-grid.com)
  * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -213,10 +213,12 @@
             this._controller = $.extend({}, defaultController, getOrApply(this.controller, this));
         },
 
-        renderTemplate: function(source, context, args) {
-            args = $.map(args || [], function(arg) {
-                return arg;
-            });
+        renderTemplate: function(source, context, config) {
+            args = [];
+            for(var key in config) {
+                args.push(config[key]);
+            }
+
             args.unshift(source, context);
 
             source = getOrApply.apply(null, args);
@@ -1463,7 +1465,7 @@
         setDefaults: setDefaults,
         locales: locales,
         locale: locale,
-        version: '1.5.0'
+        version: '1.5.1'
     };
 
 }(window, jQuery));
