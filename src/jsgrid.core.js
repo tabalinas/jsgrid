@@ -207,10 +207,12 @@
             this._controller = $.extend({}, defaultController, getOrApply(this.controller, this));
         },
 
-        renderTemplate: function(source, context, args) {
-            args = $.map(args || [], function(arg) {
-                return arg;
-            });
+        renderTemplate: function(source, context, config) {
+            args = [];
+            for(var key in config) {
+                args.push(config[key]);
+            }
+
             args.unshift(source, context);
 
             source = getOrApply.apply(null, args);

@@ -2723,4 +2723,27 @@ $(function() {
             equal(result, data, "data provided to done callback");
         });
     });
+
+
+    module("renderTemplate");
+
+    test("should pass undefined and null arguments to the renderer", function() {
+        var rendererArgs;
+        var rendererContext;
+        var context = {};
+
+        var renderer = function() {
+            rendererArgs = arguments;
+            rendererContext = this;
+        };
+
+        Grid.prototype.renderTemplate(renderer, context, { arg1: undefined, arg2: null, arg3: "test" });
+
+        equal(rendererArgs.length, 3);
+        strictEqual(rendererArgs[0], undefined, "undefined passed");
+        strictEqual(rendererArgs[1], null, "null passed");
+        strictEqual(rendererArgs[2], "test", "null passed");
+        strictEqual(rendererContext, context, "context is preserved");
+    });
+
 });
