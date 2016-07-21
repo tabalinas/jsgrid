@@ -1,0 +1,41 @@
+---
+layout: default
+title: Releases
+---
+
+<div class="page-header">
+    <div class="row">
+        <div class="medium-9 columns content">
+            <h1>What's New</h1>
+            <p>Features and updates in <strong>js-grid</strong> releases</p>
+        </div>
+        <div class="medium-3 columns content">
+            {% include ads.html %}
+        </div>
+    </div>
+</div>
+
+<div class="page-content">
+    <div class="row">
+        <div class="small-12 columns content">
+            <div class="current-release">
+                {% assign currentrelease = site.releases | sort: 'title' | reverse | first %}
+                <h2 class="release-current-title">{{ currentrelease.title }}</h2>
+                <div class="release-current-description release-description">
+                    {{ currentrelease.content | markdownify }}
+                </div>
+            </div>
+            <div class="releases-list js-accordion">
+                {% assign releases = site.releases | sort: 'title' | reverse %}
+                {% for release in releases %}
+                {% unless release.title contains site.version %}
+                <h2 class="release-title js-accordion-title">{{ release.title }}<i class="fa fa-angle-down text-right release-title-icon js-accordion-title-icon"></i></h2>
+                <div class="release-description js-accordion-content">
+                    {{ release.content | markdownify }}
+                </div>
+                {% endunless %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

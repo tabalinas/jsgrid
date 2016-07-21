@@ -132,7 +132,7 @@
             $button.find("span").text(isCodeHidden ? "Show Code" : "Hide Code");
             $(".demo-code").slideToggle(isCodeHidden);
         });
-    }
+    };
 
     $.fn.treeView = function() {
         var $element = $(this);
@@ -170,6 +170,37 @@
         };
 
         initTree($element);
+    };
+
+    $.fn.accordion = function() {
+        var IS_EXPANDED_DATA_KEY = "ACCORDION_IS_EXPANDED";
+
+        var $element = $(this);
+        if(!$element.length)
+            return;
+
+        var toggleItem = function($title, isExpanding, speed) {
+            $title.data(IS_EXPANDED_DATA_KEY, isExpanding);
+            $title.toggleClass("is-expanded", isExpanding);
+
+            var $icon = $title.find(".js-accordion-title-icon");
+            $icon.toggleClass("fa-angle-up", isExpanding);
+            $icon.toggleClass("fa-angle-down", !isExpanding);
+
+            var $content = $title.next(".js-accordion-content");
+            isExpanding ? $content.slideDown(speed) : $content.slideUp(speed);
+        };
+
+        $element.find(".js-accordion-title")
+            .each(function() {
+                var $title = $(this);
+                toggleItem($title, $title.hasClass("is-expanded"), 0);
+            })
+            .on("click", function() {
+                var $title = $(this);
+                var isExpanding = !$title.data(IS_EXPANDED_DATA_KEY);
+                toggleItem($title, isExpanding, "fast");
+            });
     };
 
 }(jQuery));

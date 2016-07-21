@@ -251,6 +251,43 @@ iframe[name='demo'] {
   }
 }
 
+.release {
+  &-current-title, &-title {
+    padding: 1rem;
+    margin: 0;
+  }
+
+  &-title {
+    border-top: 1px solid $well-border-color;
+    cursor: pointer;
+
+    &-icon {
+      float: right;
+      margin-top: .5rem;
+    }
+
+    &.is-expanded {
+      color: $primary-color;
+    }
+
+    &:hover {
+      background: $well-bg-color;
+    }
+  }
+
+  &-current-description {
+    margin-bottom: 3rem;
+  }
+
+  &-description {
+    margin-left: 1rem;
+
+    ul {
+      margin-left: 2rem;
+    }
+  }
+}
+
 .grid-screenshot {
   opacity: .5;
 
