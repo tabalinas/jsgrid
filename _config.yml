@@ -9,5 +9,7 @@ github : tabalinas
 author: Artem Tabalin
 analytics: UA-44114514-5
 year: 2015
+collections:
+  - releases
 markdown: kramdown
 version: 1.5.1

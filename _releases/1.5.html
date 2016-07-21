@@ -1,0 +1,18 @@
+---
+title: "1.5.0 - 1.5.1"
+---
+
+### Changes
+
+ - Support Promise/A in controller methods
+ - Add onPageChanged callback fired when current grid page index is changed
+ - Add 5 new locales: Japanese, Chinese, Georgian, Turkish, German
+ - Add `onInit` callback fired on the grid creation
+ - Add `jsGrid.version` static field to get current lib version
+
+### Fixes
+
+ - Incorrect validation for grid with hidden fields #226
+ - Improve styling to be able to put tables inside jsgrid w/o styling clashing
+ - Fix reset api method incorrect behavior for `pageLoading:true` scenario
+ - Fixed critical rendering bug: fields with undefined or null values where incorrectly passed to the template function

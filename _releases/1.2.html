@@ -1,0 +1,18 @@
+---
+title: "1.2.0"
+---
+
+### Changes
+
+ - Add new option `pagerRenderer` to be able to specify renderer function for custom pager
+ - Hide unnecessary pager buttons instead of not rendering them (to be able to show missing buttons in case of custom pager scenario)
+ - Add `getSorting` method to be able to get current grid sorting
+ - Now `onDataLoading`, `onItemInserting`, `onItemUpdating`, and `onItemDeleting` allow to cancel operation setting `args.cancel = true` (could be used for validation purposes).
+
+
+### Fixes
+
+ - `onItemUpdated` doesn't return the updated row but the updating one
+ - String sort strategy for number issue
+ - Filter with static data exception
+ - Fix changing load strategy on the fly issue
