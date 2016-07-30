@@ -593,7 +593,7 @@
             });
 
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", amountOfFields)
+                .append($("<td>").addClass(this.cellClass).attr("colspan", amountOfFields)
                     .append(this.renderTemplate(this.noDataContent, this)));
         },
 

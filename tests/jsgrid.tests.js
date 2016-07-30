@@ -688,6 +688,7 @@ $(function() {
         grid.option("data", []);
 
         equal(grid._content.find("." + grid.noDataRowClass).length, 1, "no data row rendered");
+        equal(grid._content.find("." + grid.cellClass).length, 1, "grid cell class attached");
         equal(grid._content.text(), grid.noDataContent, "no data text rendered");
     });
 
@@ -703,6 +704,7 @@ $(function() {
 
         grid.option("data", []);
 
+        equal(grid._content.find("." + grid.cellClass).length, 1, "grid cell class attached");
         equal(grid._content.text(), noDataMessage, "custom noDataContent");
     });
 
