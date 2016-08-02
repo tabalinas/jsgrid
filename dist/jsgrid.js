@@ -22,6 +22,7 @@
         PAGE_INDEX_PLACEHOLDER = "{pageIndex}",
         PAGE_COUNT_PLACEHOLDER = "{pageCount}",
         ITEM_COUNT_PLACEHOLDER = "{itemCount}",
+        ITEM_INDEX_PLACEHOLDER = "{itemIndex}",
 
         EMPTY_HREF = "javascript:void(0);";
 
@@ -821,6 +822,7 @@
             var pageIndex = this.pageIndex,
                 pageCount = this._pagesCount(),
                 itemCount = this._itemsCount(),
+                itemIndex = ((this.pageIndex - 1) * this.pageSize + 1) + '-' + Math.min((this.pageIndex * this.pageSize), itemCount),
                 pagerParts = this.pagerFormat.split(" ");
 
             return $.map(pagerParts, $.proxy(function(pagerPart) {
@@ -842,6 +844,8 @@
                     result = pageCount;
                 } else if(pagerPart === ITEM_COUNT_PLACEHOLDER) {
                     result = itemCount;
+                } else if (pagerPart === ITEM_INDEX_PLACEHOLDER) {
+                    result = itemIndex;
                 }
 
                 return $.isArray(result) ? result.concat([" "]) : [result, " "];
