@@ -68,6 +68,7 @@
   - [refresh](#refresh)
   - [render](#render-promise)
   - [reset](#reset)
+  - [rowByItem](#rowbyitemitem-jqueryelement)
   - [search](#searchfilter-promise)
   - [showPrevPages](#showprevpages)
   - [showNextPages](#shownextpages)
