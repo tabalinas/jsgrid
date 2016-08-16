@@ -90,11 +90,11 @@
                 selectedItems = [];
             };
 
-            var deleteClientsFromDb = function(deletingClient) {
+            var deleteClientsFromDb = function(deletingClients) {
                 db.clients = $.map(db.clients, function(client) {
-                    return ($.inArray(client, selectedItems) > -1) ? null : client;
+                    return ($.inArray(client, deletingClients) > -1) ? null : client;
                 });
-            }
+            };
 
         });
     </script>
