@@ -50,6 +50,7 @@
                         },
                         itemTemplate: function(_, item) {
                             return $("<input>").attr("type", "checkbox")
+                                    .prop("checked", $.inArray(item, selectedItems) > -1)
                                     .on("change", function () {
                                         $(this).is(":checked") ? selectItem(item) : unselectItem(item);
                                     });
@@ -80,14 +81,20 @@
                 if(!selectedItems.length || !confirm("Are you sure?"))
                     return;
 
-                var $grid = $("#jsGrid");
+                deleteClientsFromDb(selectedItems);
 
-                $.each(selectedItems, function(_, item) {
-                    $grid.jsGrid("deleteItem", item);
-                });
+                var $grid = $("#jsGrid");
+                $grid.jsGrid("option", "pageIndex", 1);
+                $grid.jsGrid("loadData");
 
                 selectedItems = [];
             };
+
+            var deleteClientsFromDb = function(deletingClient) {
+                db.clients = $.map(db.clients, function(client) {
+                    return ($.inArray(client, selectedItems) > -1) ? null : client;
+                });
+            }
 
         });
     </script>
