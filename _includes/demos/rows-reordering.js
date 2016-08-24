@@ -29,7 +29,7 @@ $(function() {
             $gridData.sortable({
                 update: function(e, ui) {
                     // array of indexes
-                    var clientIndexRegExp = /\s+client-(\d+)\s+/;
+                    var clientIndexRegExp = /\s*client-(\d+)\s*/;
                     var indexes = $.map($gridData.sortable("toArray", { attribute: "class" }), function(classes) {
                         return clientIndexRegExp.exec(classes)[1];
                     });
