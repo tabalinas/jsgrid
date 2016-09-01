@@ -13,11 +13,7 @@
         "type": "MIT",
         "url": "https://github.com/tabalinas/jsgrid/blob/master/LICENSE"
     },
-    "main": [
-        "dist/jsgrid.js",
-        "dist/jsgrid.css",
-        "dist/jsgrid-theme.css"
-    ],
+    "main": "dist/jsgrid.js",
     "directories": {
         "test": "tests"
     },
