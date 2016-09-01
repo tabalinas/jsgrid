@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.5.1 (http://js-grid.com)
+ * jsGrid v1.5.2 (http://js-grid.com)
  * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -599,7 +599,7 @@
             });
 
             return $("<tr>").addClass(this.noDataRowClass)
-                .append($("<td>").attr("colspan", amountOfFields)
+                .append($("<td>").addClass(this.cellClass).attr("colspan", amountOfFields)
                     .append(this.renderTemplate(this.noDataContent, this)));
         },
 
@@ -1465,7 +1465,7 @@
         setDefaults: setDefaults,
         locales: locales,
         locale: locale,
-        version: '1.5.1'
+        version: '1.5.2'
     };
 
 }(window, jQuery));
