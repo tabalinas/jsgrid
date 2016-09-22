@@ -1387,6 +1387,35 @@ $(function() {
         deepEqual(grid.option("data")[0], { field: "new value" }, "correct data updated");
     });
 
+    test("editRowRenderer", function() {
+        var $element = $("#jsGrid"),
+
+            data = [
+                { value: "test" }
+            ],
+
+            gridOptions = {
+                data: data,
+                editing: true,
+
+                editRowRenderer: function(item, itemIndex) {
+                    return $("<tr>").addClass("custom-edit-row").append($("<td>").text(itemIndex + ":" + item.value));
+                },
+
+                fields: [
+                    { name: "value" }
+                ]
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.editItem(data[0]);
+
+        var $editRow = grid._content.find(".custom-edit-row");
+        equal($editRow.length, 1, "edit row rendered");
+        equal($editRow.text(), "0:test", "custom edit row renderer rendered");
+    });
+
 
     module("deleting");
 
