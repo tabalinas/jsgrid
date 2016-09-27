@@ -1379,6 +1379,37 @@
                     itemIndex: deletingItemIndex
                 });
             });
+        },
+
+        exportJSON: function() {
+            objects = [];
+            
+            for(var i=0, len = this.data.length; i < len; i++){
+                o = this.data[ i ];
+                objects.push( this._createJSONForSingle( o ));
+            }
+
+            return JSON.stringify( objects, null, 2 );
+        },
+
+        _headerValues: function() {
+            return this.fields
+                       .filter( function( d ){
+                            return d.name != '';
+                        })
+                       .map( function( d ){
+                            return d.name;
+                        })
+        },
+
+        _createJSONForSingle: function( object ) {
+            var hash = {};
+              
+            this._headerValues().map( function( key ){
+                hash[ key ] = object[ key ];
+            });
+
+            return hash;
         }
     };
 

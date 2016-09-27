@@ -2777,4 +2777,25 @@ $(function() {
         strictEqual(rendererContext, context, "context is preserved");
     });
 
+
+    module("export");
+
+    test("should export as JSON", function() {
+        var data = [{name: 'Foo', price: 25}, {name: 'Bar', price: 33}];
+
+        var gridOptions = {
+            data: data,
+            fields: [
+                { type: "text", name: "name" },
+                { type: "text", name: "price" }
+            ]
+        };
+
+        var $element = $("#jsGrid");
+        var grid = new Grid($element, gridOptions);
+        var expected = JSON.stringify( data, null, 2 );
+
+        equal(grid.exportJSON(), expected);
+    });
+
 });
