@@ -104,7 +104,7 @@
 
                 var $option = $("<option>")
                     .attr("value", value)
-                    .text(text)
+                    .html(text)
                     .appendTo($result);
 
                 $option.prop("selected", (selectedIndex === index));
