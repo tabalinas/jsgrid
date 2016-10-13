@@ -43,15 +43,29 @@ $(function() {
             if(isFieldExcluded(FieldClass))
                 return;
 
-            var field = new FieldClass({ editing: false });
+            var item = {
+                field: "test"
+            };
+            var args;
 
-            var editTemplate = field.editTemplate("test");
-            var itemTemplate = field.itemTemplate("test");
+            var field = new FieldClass({
+                editing: false,
+                itemTemplate: function() {
+                    args = arguments;
+                    FieldClass.prototype.itemTemplate.apply(this, arguments);
+                }
+            });
+
+            var itemTemplate = field.itemTemplate("test", item);
+            var editTemplate = field.editTemplate("test", item);
 
             var editTemplateContent = editTemplate instanceof jQuery ? editTemplate[0].outerHTML : editTemplate;
             var itemTemplateContent = itemTemplate instanceof jQuery ? itemTemplate[0].outerHTML : itemTemplate;
 
-            equal(editTemplateContent, itemTemplateContent, "item template is rendered instead of edit template for field " + name);
+            equal(editTemplateContent, itemTemplateContent, "item template is rendered instead of edit template for " + name);
+            equal(args.length, 2, "passed both arguments for " + name);
+            equal(args[0], "test", "field value passed as a first argument for " + name);
+            equal(args[1], item, "item passed as a second argument for " + name);
         });
     });
 

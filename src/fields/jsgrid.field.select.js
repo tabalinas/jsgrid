@@ -70,7 +70,7 @@
 
         editTemplate: function(value) {
             if(!this.editing)
-                return this.itemTemplate(value);
+                return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createSelect();
             (value !== undefined) && $result.val(value);

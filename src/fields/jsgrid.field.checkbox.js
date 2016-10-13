@@ -66,7 +66,7 @@
 
         editTemplate: function(value) {
             if(!this.editing)
-                return this.itemTemplate(value);
+                return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createCheckbox();
             $result.prop("checked", value);
