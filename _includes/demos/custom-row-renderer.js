@@ -13,7 +13,7 @@ $(function() {
 
                 $.ajax({
                     url: 'http://api.randomuser.me/?results=40',
-                    dataType: 'json',
+                    dataType: 'jsonp',
                     success: function(data){
                         deferred.resolve(data.results);
                     }
