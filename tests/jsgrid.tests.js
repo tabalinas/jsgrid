@@ -1287,6 +1287,45 @@ $(function() {
         equal(updatedArgs.row[0], updatedRow, "row element is provided in updated event args");
     });
 
+    test("failed update should not change original item", function() {
+        var $element = $("#jsGrid"),
+            data = [{
+                field: "value"
+            }],
+
+            gridOptions = {
+                editing: true,
+                fields: [
+                    {
+                        name: "field",
+                        editTemplate: function(value) {
+                            var result = this.editControl = $("<input>").attr("type", "text").val(value);
+                            return result;
+                        },
+                        editValue: function() {
+                            return this.editControl.val();
+                        }
+                    }
+                ],
+                controller: {
+                    updateItem: function(updatingItem) {
+                        return $.Deferred().reject();
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.option("data", data);
+
+        grid.editItem(data[0]);
+
+        grid.fields[0].editControl.val("new value");
+        grid.updateItem();
+
+        deepEqual(grid.option("data")[0], { field: "value" }, "value is not updated");
+    });
+
     test("cancel edit", function() {
         var $element = $("#jsGrid"),
             updated = false,
@@ -2248,8 +2287,8 @@ $(function() {
             ],
 
             onItemUpdating: function(args) {
-                updatingItem = args.item;
-                previousItem = args.previousItem;
+                updatingItem = $.extend(true, {}, args.item);
+                previousItem = $.extend(true, {}, args.previousItem);
             }
         };
 

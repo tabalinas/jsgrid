@@ -1284,19 +1284,19 @@
         _updateRow: function($updatingRow, editedItem) {
             var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
                 updatingItemIndex = this._itemIndex(updatingItem),
-                previousItem = $.extend(true, {}, updatingItem);
-
-            $.extend(true, updatingItem, editedItem);
+                updatedItem = $.extend(true, {}, updatingItem, editedItem);
 
             var args = this._callEventHandler(this.onItemUpdating, {
                 row: $updatingRow,
-                item: updatingItem,
+                item: updatedItem,
                 itemIndex: updatingItemIndex,
-                previousItem: previousItem
+                previousItem: updatingItem
             });
 
-            return this._controllerCall("updateItem", updatingItem, args.cancel, function(updatedItem) {
-                updatedItem = updatedItem || updatingItem;
+            return this._controllerCall("updateItem", updatedItem, args.cancel, function(loadedUpdatedItem) {
+                var previousItem = $.extend(true, {}, updatingItem);
+                updatedItem = loadedUpdatedItem || $.extend(true, updatingItem, editedItem);
+
                 var $updatedRow = this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
                 this._callEventHandler(this.onItemUpdated, {
