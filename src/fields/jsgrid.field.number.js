@@ -13,7 +13,9 @@
 		readOnly: false,
 
         filterValue: function() {
-            return parseInt(this.filterControl.val() || 0, 10);
+            return this.filterControl.val()
+                ? parseInt(this.filterControl.val() || 0, 10)
+                : undefined;
         },
 
         insertValue: function() {
