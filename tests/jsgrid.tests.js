@@ -2679,8 +2679,9 @@ $(function() {
     });
 
     asyncTest("should support JS promise success callback", 1, function() {
-        if(!Promise) {
+        if(typeof Promise === "undefined") {
             ok(true, "Promise not supported");
+            start();
             return;
         }
 
@@ -2708,8 +2709,9 @@ $(function() {
     });
 
     asyncTest("should support JS promise fail callback", 1, function() {
-        if(!Promise) {
+        if(typeof Promise === "undefined") {
             ok(true, "Promise not supported");
+            start();
             return;
         }
 
