@@ -1152,13 +1152,12 @@
             };
 
             this._eachField(function(field) {
-                if(!field.validate)
+                if(!field.validate ||
+                   ($row === this._insertRow && !field.inserting) ||
+                   ($row === this._getEditRow() && !field.editing))
                     return;
 
                 var fieldValue = this._getItemFieldValue(item, field);
-
-                if(fieldValue === undefined)
-                    return;
 
                 var errors = this._validation.validate($.extend({
                     value: fieldValue,
@@ -1345,7 +1344,7 @@
         },
 
         _getEditRow: function() {
-            return this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
+            return this._editingRow && this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
         },
 
         deleteItem: function(item) {

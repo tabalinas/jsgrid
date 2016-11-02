@@ -19,11 +19,15 @@
         },
 
         insertValue: function() {
-            return parseInt(this.insertControl.val() || 0, 10);
+            return this.insertControl.val()
+                ? parseInt(this.insertControl.val() || 0, 10)
+                : undefined;
         },
 
         editValue: function() {
-            return parseInt(this.editControl.val() || 0, 10);
+            return this.editControl.val()
+                ? parseInt(this.editControl.val() || 0, 10)
+                : undefined;
         },
 
         _createTextBox: function() {

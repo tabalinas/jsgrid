@@ -130,7 +130,7 @@ $(function() {
         equal(field.insertTemplate()[0].tagName.toLowerCase(), "input");
         equal(field.editTemplate(6)[0].tagName.toLowerCase(), "input");
         strictEqual(field.filterValue(), undefined);
-        strictEqual(field.insertValue(), 0);
+        strictEqual(field.insertValue(), undefined);
         strictEqual(field.editValue(), 6);
     });
 
