@@ -35,7 +35,7 @@
 
             $("#jsGrid").jsGrid({
                 height: "auto",
-                width: "100%",
+                width: "auto",
                 sorting: true,
                 paging: false,
                 autoload: true,
@@ -54,14 +54,14 @@
                     }
                 },
                 fields: [
-                    { name: "Name", type: "text" },
-                    { name: "Description", type: "textarea", width: 150 },
-                    { name: "Rating", type: "number", width: 50, align: "center",
+                    { name: "Name", type: "text", width: 100 },
+                    { name: "Description", type: "textarea", width: 200 },
+                    { name: "Rating", type: "number", width: 150, align: "center",
                         itemTemplate: function(value) {
                             return $("<div>").addClass("rating").append(Array(value + 1).join("&#9733;"));
                         }
                     },
-                    { name: "Price", type: "number", width: 50,
+                    { name: "Price", type: "number", width: 100,
                         itemTemplate: function(value) {
                             return value.toFixed(2) + "$"; }
                     }

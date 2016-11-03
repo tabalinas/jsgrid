@@ -901,20 +901,23 @@
         },
 
         _refreshWidth: function() {
-            var $headerGrid = this._headerGrid,
-                $bodyGrid = this._bodyGrid,
-                width = this.width;
+            var width = (this.width === "auto") ? this._getAutoWidth() : this.width;
 
-            if(width === "auto") {
-                $headerGrid.width("auto");
-                width = $headerGrid.outerWidth();
-            }
+            this._container.width(width);
+        },
+
+        _getAutoWidth: function() {
+            var $headerGrid = this._headerGrid,
+                $header = this._header;
+
+            $headerGrid.width("auto");
+
+            var contentWidth = $headerGrid.outerWidth();
+            var borderWidth = $header.outerWidth() - $header.innerWidth();
 
             $headerGrid.width("");
-            $bodyGrid.width("");
-            this._container.width(width);
-            width = $headerGrid.outerWidth();
-            $bodyGrid.width(width);
+
+            return contentWidth + borderWidth;
         },
 
         _scrollBarWidth: (function() {
