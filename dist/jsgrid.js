@@ -1,5 +1,5 @@
 /*
- * jsGrid v1.5.2 (http://js-grid.com)
+ * jsGrid v1.5.3 (http://js-grid.com)
  * (c) 2016 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
@@ -22,8 +22,6 @@
         PAGE_INDEX_PLACEHOLDER = "{pageIndex}",
         PAGE_COUNT_PLACEHOLDER = "{pageCount}",
         ITEM_COUNT_PLACEHOLDER = "{itemCount}",
-        ITEM_INDEX_FROM_PLACEHOLDER = "{itemIndexFrom}",
-        ITEM_INDEX_TO_PLACEHOLDER = "{itemIndexTo}",
 
         EMPTY_HREF = "javascript:void(0);";
 
@@ -823,8 +821,6 @@
             var pageIndex = this.pageIndex,
                 pageCount = this._pagesCount(),
                 itemCount = this._itemsCount(),
-                itemIndexFrom = ((this.pageIndex - 1) * this.pageSize + 1),
-                itemIndexTo = Math.min((this.pageIndex * this.pageSize), itemCount),
                 pagerParts = this.pagerFormat.split(" ");
 
             return $.map(pagerParts, $.proxy(function(pagerPart) {
@@ -846,10 +842,6 @@
                     result = pageCount;
                 } else if(pagerPart === ITEM_COUNT_PLACEHOLDER) {
                     result = itemCount;
-                } else if (pagerPart === ITEM_INDEX_FROM_PLACEHOLDER) {
-                    result = itemIndexFrom;
-                } else if (pagerPart === ITEM_INDEX_TO_PLACEHOLDER) {
-                    result = itemIndexTo;
                 }
 
                 return $.isArray(result) ? result.concat([" "]) : [result, " "];
@@ -915,20 +907,23 @@
         },
 
         _refreshWidth: function() {
-            var $headerGrid = this._headerGrid,
-                $bodyGrid = this._bodyGrid,
-                width = this.width;
+            var width = (this.width === "auto") ? this._getAutoWidth() : this.width;
 
-            if(width === "auto") {
-                $headerGrid.width("auto");
-                width = $headerGrid.outerWidth();
-            }
+            this._container.width(width);
+        },
+
+        _getAutoWidth: function() {
+            var $headerGrid = this._headerGrid,
+                $header = this._header;
+
+            $headerGrid.width("auto");
+
+            var contentWidth = $headerGrid.outerWidth();
+            var borderWidth = $header.outerWidth() - $header.innerWidth();
 
             $headerGrid.width("");
-            $bodyGrid.width("");
-            this._container.width(width);
-            width = $headerGrid.outerWidth();
-            $bodyGrid.width(width);
+
+            return contentWidth + borderWidth;
         },
 
         _scrollBarWidth: (function() {
@@ -1166,13 +1161,12 @@
             };
 
             this._eachField(function(field) {
-                if(!field.validate)
+                if(!field.validate ||
+                   ($row === this._insertRow && !field.inserting) ||
+                   ($row === this._getEditRow() && !field.editing))
                     return;
 
                 var fieldValue = this._getItemFieldValue(item, field);
-
-                if(fieldValue === undefined)
-                    return;
 
                 var errors = this._validation.validate($.extend({
                     value: fieldValue,
@@ -1260,7 +1254,7 @@
 
         _createEditRow: function(item) {
             if($.isFunction(this.editRowRenderer)) {
-                return $(this.renderTemplate(field.editRowRenderer, field, { item: item, itemIndex: this._itemIndex(item) }));
+                return $(this.renderTemplate(this.editRowRenderer, this, { item: item, itemIndex: this._itemIndex(item) }));
             }
 
             var $result = $("<tr>").addClass(this.editRowClass);
@@ -1298,19 +1292,19 @@
         _updateRow: function($updatingRow, editedItem) {
             var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
                 updatingItemIndex = this._itemIndex(updatingItem),
-                previousItem = $.extend(true, {}, updatingItem);
-
-            $.extend(true, updatingItem, editedItem);
+                updatedItem = $.extend(true, {}, updatingItem, editedItem);
 
             var args = this._callEventHandler(this.onItemUpdating, {
                 row: $updatingRow,
-                item: updatingItem,
+                item: updatedItem,
                 itemIndex: updatingItemIndex,
-                previousItem: previousItem
+                previousItem: updatingItem
             });
 
-            return this._controllerCall("updateItem", updatingItem, args.cancel, function(updatedItem) {
-                updatedItem = updatedItem || updatingItem;
+            return this._controllerCall("updateItem", updatedItem, args.cancel, function(loadedUpdatedItem) {
+                var previousItem = $.extend(true, {}, updatingItem);
+                updatedItem = loadedUpdatedItem || $.extend(true, updatingItem, editedItem);
+
                 var $updatedRow = this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
                 this._callEventHandler(this.onItemUpdated, {
@@ -1359,7 +1353,7 @@
         },
 
         _getEditRow: function() {
-            return this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
+            return this._editingRow && this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
         },
 
         deleteItem: function(item) {
@@ -1473,7 +1467,7 @@
         setDefaults: setDefaults,
         locales: locales,
         locale: locale,
-        version: '1.5.2'
+        version: '1.5.3'
     };
 
 }(window, jQuery));
@@ -1971,7 +1965,7 @@
 
         editTemplate: function(value) {
             if(!this.editing)
-                return this.itemTemplate(value);
+                return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createTextBox();
             $result.val(value);
@@ -2015,15 +2009,21 @@
 		readOnly: false,
 
         filterValue: function() {
-            return parseInt(this.filterControl.val() || 0, 10);
+            return this.filterControl.val()
+                ? parseInt(this.filterControl.val() || 0, 10)
+                : undefined;
         },
 
         insertValue: function() {
-            return parseInt(this.insertControl.val() || 0, 10);
+            return this.insertControl.val()
+                ? parseInt(this.insertControl.val() || 0, 10)
+                : undefined;
         },
 
         editValue: function() {
-            return parseInt(this.editControl.val() || 0, 10);
+            return this.editControl.val()
+                ? parseInt(this.editControl.val() || 0, 10)
+                : undefined;
         },
 
         _createTextBox: function() {
@@ -2055,7 +2055,7 @@
 
         editTemplate: function(value) {
             if(!this.editing)
-                return this.itemTemplate(value);
+                return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createTextArea();
             $result.val(value);
@@ -2143,7 +2143,7 @@
 
         editTemplate: function(value) {
             if(!this.editing)
-                return this.itemTemplate(value);
+                return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createSelect();
             (value !== undefined) && $result.val(value);
@@ -2261,7 +2261,7 @@
 
         editTemplate: function(value) {
             if(!this.editing)
-                return this.itemTemplate(value);
+                return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createCheckbox();
             $result.prop("checked", value);
