@@ -8,8 +8,8 @@ twitter : artem_tabalin
 github : tabalinas
 author: Artem Tabalin
 analytics: UA-44114514-5
-year: 2015
+year: 2016
 collections:
   - releases
 markdown: kramdown
-version: 1.5.2
+version: 1.5.3
