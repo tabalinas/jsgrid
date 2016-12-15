@@ -1,5 +1,5 @@
 ---
-title: "1.5.0 - 1.5.2"
+title: "1.5.0 - 1.5.3"
 ---
 
 ### Changes
@@ -15,5 +15,11 @@ title: "1.5.0 - 1.5.2"
  - Incorrect validation for grid with hidden fields
  - Improve styling to be able to put tables inside jsgrid w/o styling clashing
  - Fix reset api method incorrect behavior for `pageLoading:true` scenario
- - Fixed critical rendering bug: fields with undefined or null values where incorrectly passed to the template function
- - Fix noDataContent cell styling
+ - Fixed critical rendering bug: fields with `undefined` or `null` values where incorrectly passed to the template function
+ - Fix `noDataContent` cell styling
+ - Fix `editRowRenderer`
+ - Fix rendering `itemTemplate` instead of `editTemplate` when editing is disabled
+ - Set Default `filterValue` for `number` field to `undefined` instead of `0`
+ - Fix 'validate=required' for number fields
+ - Prevent item changing when `updateItem` failed
+ - Prevent grid from shrinking on refresh when `width=auto`
