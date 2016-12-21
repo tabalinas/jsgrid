@@ -1,6 +1,6 @@
 (function(jsGrid) {
 
-    jsGrid.locales.es = {
+    jsGrid.locales.fa = {
         grid: {
             noDataContent: "پیدا نشد",
             deleteConfirm: "آیا مطمئن هستید؟",
