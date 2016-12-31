@@ -1140,28 +1140,30 @@ The following callbacks are supported:
 ```javascript
 
 {
-    onDataLoading: function(args) {},    // before controller.loadData
-    onDataLoaded: function(args) {},     // on done of controller.loadData
+    onDataLoading: function(args) {},           // before controller.loadData
+    onDataLoaded: function(args) {},            // on done of controller.loadData
     
-    onInit: function(args) {},           // after grid initialization 
+    onInit: function(args) {},                  // after grid initialization 
     
-    onItemInserting: function(args) {},  // before controller.insertItem
-    onItemInserted: function(args) {},   // on done of controller.insertItem
-    onItemUpdating: function(args) {},   // before controller.updateItem
-    onItemUpdated: function(args) {},    // on done of controller.updateItem
-    onItemDeleting: function(args) {},   // before controller.deleteItem
-    onItemDeleted: function(args) {},    // on done of controller.deleteItem
-    onItemInvalid: function(args) {},    // after item validation, in case data is invalid
+    onItemInserting: function(args) {},         // before controller.insertItem
+    onItemInserted: function(args) {},          // on done of controller.insertItem
+    onItemUpdating: function(args) {},          // before controller.updateItem
+    onItemUpdated: function(args) {},           // on done of controller.updateItem
+    onItemDeleting: function(args) {},          // before controller.deleteItem
+    onItemDeleted: function(args) {},           // on done of controller.deleteItem
+    onItemEditing: function(args) {},           // before item editing
+    onItemEditCancelling: function(args) {},    // before item edit is cancelled
+    onItemInvalid: function(args) {},           // after item validation, in case data is invalid
     
-    onError: function(args) {},          // on fail of any controller call
+    onError: function(args) {},                 // on fail of any controller call
     
-    onOptionChanging: function(args) {}, // before changing the grid option
-    onOptionChanged: function(args) {},  // after changing the grid option
+    onOptionChanging: function(args) {},        // before changing the grid option
+    onOptionChanged: function(args) {},         // after changing the grid option
     
-    onPageChanged: function(args) {},    // after changing the current page
+    onPageChanged: function(args) {},           // after changing the current page
     
-    onRefreshing: function(args) {},     // before grid refresh
-    onRefreshed: function(args) {},      // after grid refresh
+    onRefreshing: function(args) {},            // before grid refresh
+    onRefreshed: function(args) {},             // after grid refresh
 }
 
 ```
@@ -1365,6 +1367,24 @@ $("#grid").jsGrid({
         }
     }
 });
+
+```
+
+### onItemEditCancelling
+> version added: 1.5.4
+
+Fires before item edit is cancelled.
+
+Has the following arguments:
+
+```javascript
+
+{
+    grid                // grid instance
+    row                 // editing row jQuery element
+    item                // editing item
+    itemIndex           // editing item index
+}
 
 ```
 
