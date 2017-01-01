@@ -1329,6 +1329,8 @@ $(function() {
     test("cancel edit", function() {
         var $element = $("#jsGrid"),
             updated = false,
+            cancellingArgs,
+            cancellingRow,
             data = [{
                 field: "value"
             }],
@@ -1351,6 +1353,10 @@ $(function() {
                     updateData: function(updatingItem) {
                         updated = true;
                     }
+                },
+                onItemEditCancelling: function(e) {
+                    cancellingArgs = $.extend(true, {}, e);
+                    cancellingRow = grid.rowByItem(data[0])[0];
                 }
             },
 
@@ -1361,6 +1367,10 @@ $(function() {
         grid.editItem(data[0]);
         grid.fields[0].editControl.val("new value");
         grid.cancelEdit();
+
+        deepEqual(cancellingArgs.item, { field: "value" }, "item before cancel is provided in cancelling event args");
+        equal(cancellingArgs.itemIndex, 0, "itemIndex is provided in cancelling event args");
+        equal(cancellingArgs.row[0], cancellingRow, "row element is provided in cancelling event args");
 
         ok(!updated, "controller updateItem was not called");
         deepEqual(grid.option("data")[0], { field: "value" }, "data were not updated");
