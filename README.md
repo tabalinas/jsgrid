@@ -1845,7 +1845,7 @@ The `jsGrid.validators` object contains all built-in validators. The key of the 
  * **rangeLength** - the length of the field value is limited by range (the range should be provided as an array in `param` field of validation config)
  * **minLength** - the minimum length of the field value is limited (the minimum value should be provided in `param` field of validation config)
  * **maxLength** - the maximum length of the field value is limited (the maximum value should be provided in `param` field of validation config)
- * **pattern** - the field value should match the defined pattern (the pattern should be provided as a string regexp in `param` field of validation config)
+ * **pattern** - the field value should match the defined pattern (the pattern should be provided as a regexp literal or string in `param` field of validation config)
  * **range** - the value of the number field is limited by range (the range should be provided as an array in `param` field of validation config)
  * **min** - the minimum value of the number field is limited (the minimum should be provided in `param` field of validation config)
  * **max** - the maximum value of the number field is limited (the maximum should be provided in `param` field of validation config)
