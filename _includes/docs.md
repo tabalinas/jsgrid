@@ -706,7 +706,7 @@ Get grid current sorting params as a plain object with the following format:
 
 Gets or sets the value of a field option.
 
-**fieldName|fieldIndex** is the name or the index of the field to get/set the option value (if the grid contains more than one field with the same name, the first field will be used).
+**fieldName** | **fieldIndex** is the name or the index of the field to get/set the option value (if the grid contains more than one field with the same name, the first field will be used).
 
 **optionName** is the name of the field option.
 
