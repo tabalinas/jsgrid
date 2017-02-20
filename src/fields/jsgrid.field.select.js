@@ -110,8 +110,8 @@
             });
 
             $result.prop("disabled", !!this.readOnly);
-			$result.prop('selectedIndex', selectedIndex);
-
+            $result.prop("selectedIndex", selectedIndex);
+			
             return $result;
         }
     });
