@@ -48,7 +48,7 @@ Install jsgrid with bower:
 
 ```bash
 
-$ bower install js-grid 
+$ bower install js-grid --save
 
 ```
 
