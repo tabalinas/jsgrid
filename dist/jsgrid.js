@@ -1,6 +1,6 @@
 /*
  * jsGrid v1.5.3 (http://js-grid.com)
- * (c) 2016 Artem Tabalin
+ * (c) 2017 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
 
@@ -103,6 +103,7 @@
         filterRowClass: "jsgrid-filter-row",
 
         inserting: false,
+        insertRowLocation: "bottom",
         insertRowRenderer: null,
         insertRowClass: "jsgrid-insert-row",
 
@@ -173,6 +174,7 @@
         onItemInserting: $.noop,
         onItemInserted: $.noop,
         onItemEditing: $.noop,
+        onItemEditCancelling: $.noop,
         onItemUpdating: $.noop,
         onItemUpdated: $.noop,
         onItemInvalid: $.noop,
@@ -1128,7 +1130,7 @@
 
             return this._controllerCall("insertItem", insertingItem, args.cancel, function(insertedItem) {
                 insertedItem = insertedItem || insertingItem;
-                this._loadStrategy.finishInsert(insertedItem);
+                this._loadStrategy.finishInsert(insertedItem, this.insertRowLocation);
 
                 this._callEventHandler(this.onItemInserted, {
                     item: insertedItem
@@ -1346,6 +1348,16 @@
         cancelEdit: function() {
             if(!this._editingRow)
                 return;
+
+            var $row = this._editingRow,
+                editingItem = $row.data(JSGRID_ROW_DATA_KEY),
+                editingItemIndex = this._itemIndex(editingItem);
+
+            this._callEventHandler(this.onItemEditCancelling, {
+                row: $row,
+                item: editingItem,
+                itemIndex: editingItemIndex
+            });
 
             this._getEditRow().remove();
             this._editingRow.show();
@@ -1604,9 +1616,18 @@
             this._grid.option("data", loadedData);
         },
 
-        finishInsert: function(insertedItem) {
+        finishInsert: function(insertedItem, location) {
             var grid = this._grid;
-            grid.option("data").push(insertedItem);
+            
+            switch(location){
+                case "top":
+                    grid.option("data").unshift(insertedItem);
+                    break;
+                case "bottom":
+                default:
+                    grid.option("data").push(insertedItem);
+            }
+            
             grid.refresh();
         },
 
@@ -2180,11 +2201,11 @@
                     .text(text)
                     .appendTo($result);
 
-                $option.prop("selected", (selectedIndex === index));
             });
 
             $result.prop("disabled", !!this.readOnly);
-
+            $result.prop("selectedIndex", selectedIndex);
+			
             return $result;
         }
     });

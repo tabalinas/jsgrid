@@ -97,6 +97,7 @@
         filterRowClass: "jsgrid-filter-row",
 
         inserting: false,
+        insertRowLocation: "bottom",
         insertRowRenderer: null,
         insertRowClass: "jsgrid-insert-row",
 
@@ -1123,7 +1124,7 @@
 
             return this._controllerCall("insertItem", insertingItem, args.cancel, function(insertedItem) {
                 insertedItem = insertedItem || insertingItem;
-                this._loadStrategy.finishInsert(insertedItem);
+                this._loadStrategy.finishInsert(insertedItem, this.insertRowLocation);
 
                 this._callEventHandler(this.onItemInserted, {
                     item: insertedItem

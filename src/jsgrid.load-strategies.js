@@ -47,9 +47,18 @@
             this._grid.option("data", loadedData);
         },
 
-        finishInsert: function(insertedItem) {
+        finishInsert: function(insertedItem, location) {
             var grid = this._grid;
-            grid.option("data").push(insertedItem);
+            
+            switch(location){
+                case "top":
+                    grid.option("data").unshift(insertedItem);
+                    break;
+                case "bottom":
+                default:
+                    grid.option("data").push(insertedItem);
+            }
+            
             grid.refresh();
         },
 
