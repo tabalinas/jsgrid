@@ -119,6 +119,8 @@ The config object may contain following options (default values are specified be
     paging: false,
     pageLoading: false,
 
+    insertRowLocation: "bottom",
+    
     rowClass: function(item, itemIndex) { ... },
     rowClick: function(args) { ... },
     rowDoubleClick: function(args) { ... },
@@ -296,7 +298,11 @@ A boolean value specifies whether data is displayed by pages.
 
 ### pageLoading (default: `false`)
 A boolean value specifies whether to load data by page.
-When `pageLoading` is `true` the `loadData` method of controller accepts `filter` parameter with two additional properties `pageSize` and `pageIndex`.
+When `pageLoading` is `true` the `loadData` method of controller accepts `filter` parameter with two additional properties `pageSize` and `pageIndex`.     
+
+### insertRowLocation (default: `"bottom"`)    
+Specifies the location of an inserted row within the grid.    
+When `insertRowLocation` is `"bottom"` the new row will appear at the bottom of the grid. When set to `"top"`, the new row will appear at the top. 
 
 ### rowClass
 A string or a function specifying row css classes.

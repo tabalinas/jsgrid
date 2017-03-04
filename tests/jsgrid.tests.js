@@ -1066,7 +1066,7 @@ $(function() {
         deepEqual(grid._getInsertItem(), { field2: "test2" }, "field with inserting=false is not included in inserting item");
     });
 
-    test("insert data", function() {
+    test("insert data with default location", function() {
         var $element = $("#jsGrid"),
 
             inserted = false,
@@ -1075,7 +1075,7 @@ $(function() {
 
             gridOptions = {
                 inserting: true,
-                data: [],
+                data: [{field: "default"}],
                 fields: [
                     {
                         name: "field",
@@ -1107,9 +1107,57 @@ $(function() {
         grid.insertItem();
 
         equal(insertingArgs.item.field, "test", "field is provided in inserting args");
-        equal(grid.option("data").length, 1, "data is inserted");
+        equal(grid.option("data").length, 2, "data is inserted");
         ok(inserted, "controller insertItem was called");
-        deepEqual(grid.option("data")[0], { field: "test" }, "correct data is inserted");
+        deepEqual(grid.option("data")[1], { field: "test" }, "correct data is inserted");
+        equal(insertedArgs.item.field, "test", "field is provided in inserted args");
+    });
+    
+    test("insert data with specified insert location", function() {
+        var $element = $("#jsGrid"),
+
+            inserted = false,
+            insertingArgs,
+            insertedArgs,
+
+            gridOptions = {
+                inserting: true,
+                insertRowLocation: "top",
+                data: [{field: "default"}],
+                fields: [
+                    {
+                        name: "field",
+                        insertTemplate: function() {
+                            var result = this.insertControl = $("<input>").attr("type", "text");
+                            return result;
+                        },
+                        insertValue: function() {
+                            return this.insertControl.val();
+                        }
+                    }
+                ],
+                onItemInserting: function(e) {
+                    insertingArgs = $.extend(true, {}, e);
+                },
+                onItemInserted: function(e) {
+                    insertedArgs = $.extend(true, {}, e);
+                },
+                controller: {
+                    insertItem: function() {
+                        inserted = true;
+                    }
+                }
+            },
+
+            grid = new Grid($element, gridOptions);
+
+        grid.fields[0].insertControl.val("test");
+        grid.insertItem();
+
+        equal(insertingArgs.item.field, "test", "field is provided in inserting args");
+        equal(grid.option("data").length, 2, "data is inserted");
+        ok(inserted, "controller insertItem was called");
+        deepEqual(grid.option("data")[0], { field: "test" }, "correct data is inserted at the beginning");
         equal(insertedArgs.item.field, "test", "field is provided in inserted args");
     });
 
