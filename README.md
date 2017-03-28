@@ -934,6 +934,42 @@ $("#grid").jsGrid("loadData", { Name: "John" }).done(function() {
 
 ```
 
+### exportData([options])    
+Transforms the grid data into the specified output type.    
+Output can be formatted, filtered or modified by providing options.     
+Currently only supports CSV output.    
+
+```javascript
+//Basic export
+var csv = $("#grid").jsGrid("exportData");
+
+//Full Options
+var csv = $("#grid").jsGrid("exportData", {
+    type: "csv", //Only CSV supported
+    subset: "all" | "visible", //Visible will only output the currently displayed page
+    delimiter: "|", //If using csv, the character to seperate fields
+    includeHeaders: true, //Include header row in output
+    encapsulate: true, //Surround each field with qoutation marks; needed for some systems
+    newline: "\r\n", //Newline character to use
+    
+    //Takes each item and returns true if it should be included in output.
+    //Executed only on the records within the given subset above.
+    filter: function(item){return true},
+    
+    //Transformations are a way to modify the display value of the output.
+    //Provide a key of the field name, and a function that takes the current value.
+    transformations: {
+        "Married": function(value){
+            if (value === true)
+                return "Yes"
+            if (value !== false)
+                return "No"
+        }
+    }
+});
+
+```
+
 ### openPage(pageIndex)
 Opens the page of specified index.
 
