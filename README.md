@@ -1184,6 +1184,7 @@ The following callbacks are supported:
 {
     onDataLoading: function(args) {},    // before controller.loadData
     onDataLoaded: function(args) {},     // on done of controller.loadData
+    onDataExporting: function() {},      // before data export
     
     onInit: function(args) {},           // after grid initialization 
     
