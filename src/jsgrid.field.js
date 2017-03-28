@@ -18,6 +18,8 @@
         editing: true,
         sorting: true,
         sorter: "string", // name of SortStrategy or function to compare elements
+        
+        includeInDataExport: true,
 
         headerTemplate: function() {
             return (this.title === undefined || this.title === null) ? this.name : this.title;
