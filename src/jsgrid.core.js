@@ -1093,13 +1093,12 @@
                     break;
                 
             }
-            console.log(this)
             return result;
         },
         
         _dataToCsv: function(options){
             var options = options || {};
-            var includeHeaders = options.includeHeaders || true;
+            var includeHeaders = options.hasOwnProperty("includeHeaders") ? options.includeHeaders : true;
             var subset = options.subset || "all";
             var filter = options.filter || undefined;
             
@@ -1160,7 +1159,7 @@
         _itemToCsv: function(item, fields, options){
             var options = options || {};
             var delimiter = options.delimiter || "|";
-            var encapsulate = options.encapsulate || true;
+            var encapsulate = options.hasOwnProperty("encapsulate") ? options.encapsulate : true;
             var newline = options.newline || "\r\n";
             var transforms = options.transforms || {};
             
@@ -1217,8 +1216,10 @@
                     entry = item[key];
                 }
                 
-                if (encapsulate)
-                    entry = "\""+entry+"\"";
+                if (encapsulate){
+                    entry = '"'+entry+'"';
+                }
+                    
                 
                 result.push(entry);
             });
