@@ -960,10 +960,12 @@ var csv = $("#grid").jsGrid("exportData", {
     //Provide a key of the field name, and a function that takes the current value.
     transformations: {
         "Married": function(value){
-            if (value === true)
+            if (value === true){
                 return "Yes"
-            if (value !== false)
+            }
+            else{
                 return "No"
+            }
         }
     }
 });
