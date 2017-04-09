@@ -2875,5 +2875,178 @@ $(function() {
         strictEqual(rendererArgs[2], "test", "null passed");
         strictEqual(rendererContext, context, "context is preserved");
     });
+    
+    module("Data Export", {
+        setup: function() {
+            
+            this.exportConfig = {};
+            this.exportConfig.type = "csv";
+            this.exportConfig.subset = "all";
+            this.exportConfig.delimiter = "|";
+            this.exportConfig.includeHeaders = true;
+            this.exportConfig.encapsulate = true;
+            
+            this.element = $("#jsGrid");
+            
+            this.gridOptions = {
+                width: "100%",
+                height: "400px",
+ 
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                pageSize: 2,
+ 
+                data: [
+                    { "Name": "Otto Clay", "Country": 1, "Married": false },
+                    { "Name": "Connor Johnston", "Country": 2, "Married": true },
+                    { "Name": "Lacey Hess", "Country": 2, "Married": false },
+                    { "Name": "Timothy Henson", "Country": 1, "Married": true }
+                ],
+ 
+                fields: [
+                    { name: "Name", type: "text", width: 150, validate: "required" },
+                    { name: "Country", type: "select", items: [{ Name: "United States", Id: 1 },{ Name: "Canada", Id: 2 }], valueField: "Id", textField: "Name" },
+                    { name: "Married", type: "checkbox", title: "Is Married", sorting: false },
+                    { type: "control" }
+                ]
+            }
+        
+        }
+        
+    });
+    
+    /* Base Choice Criteria 
+        type: csv
+        subset: all
+        delimiter: |
+        includeHeaders: true
+        encapsulate: true
+    */
+    test("Should export data: Base Choice",function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            expected += '"Name"|"Country"|"Is Married"\r\n';
+            expected += '"Otto Clay"|"United States"|"false"\r\n';
+            expected += '"Connor Johnston"|"Canada"|"true"\r\n';
+            expected += '"Lacey Hess"|"Canada"|"false"\r\n';
+            expected += '"Timothy Henson"|"United States"|"true"\r\n';
+            
+        equal(data, expected, "Output CSV configured to Base Choice Criteria -- Check Source");
+    });
+    
+    test("Should export data: defaults = BCC",function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        var data = grid.exportData();
+        
+        var expected = "";
+            expected += '"Name"|"Country"|"Is Married"\r\n';
+            expected += '"Otto Clay"|"United States"|"false"\r\n';
+            expected += '"Connor Johnston"|"Canada"|"true"\r\n';
+            expected += '"Lacey Hess"|"Canada"|"false"\r\n';
+            expected += '"Timothy Henson"|"United States"|"true"\r\n';
+            
+        equal(data, expected, "Output CSV with all defaults -- Should be equal to Base Choice");
+    });
+    
+    test("Should export data: subset=visible", function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        this.exportConfig.subset = "visible";
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            expected += '"Name"|"Country"|"Is Married"\r\n';
+            expected += '"Otto Clay"|"United States"|"false"\r\n';
+            expected += '"Connor Johnston"|"Canada"|"true"\r\n';
+            //expected += '"Lacey Hess"|"Canada"|"false"\r\n';
+            //expected += '"Timothy Henson"|"United States"|"true"\r\n';
+            
+        equal(data, expected, "Output CSV of visible records");
+    });
+    
+    test("Should export data: delimiter=;", function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        this.exportConfig.delimiter = ";";
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            expected += '"Name";"Country";"Is Married"\r\n';
+            expected += '"Otto Clay";"United States";"false"\r\n';
+            expected += '"Connor Johnston";"Canada";"true"\r\n';
+            expected += '"Lacey Hess";"Canada";"false"\r\n';
+            expected += '"Timothy Henson";"United States";"true"\r\n';
+            
+        equal(data, expected, "Output CSV with non-default delimiter");
+    });
+    
+    test("Should export data: headers=false", function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        this.exportConfig.includeHeaders = false;
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            //expected += '"Name"|"Country"|"Is Married"\r\n';
+            expected += '"Otto Clay"|"United States"|"false"\r\n';
+            expected += '"Connor Johnston"|"Canada"|"true"\r\n';
+            expected += '"Lacey Hess"|"Canada"|"false"\r\n';
+            expected += '"Timothy Henson"|"United States"|"true"\r\n';
+            
+        equal(data, expected, "Output CSV without Headers");
+    });
+    
+    test("Should export data: encapsulate=false", function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        this.exportConfig.encapsulate = false;
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            expected += 'Name|Country|Is Married\r\n';
+            expected += 'Otto Clay|United States|false\r\n';
+            expected += 'Connor Johnston|Canada|true\r\n';
+            expected += 'Lacey Hess|Canada|false\r\n';
+            expected += 'Timothy Henson|United States|true\r\n';
+            
+        equal(data, expected, "Output CSV without encapsulation");
+    });
+    
+    test("Should export filtered data", function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        this.exportConfig['filter'] = function(item){
+                if (item["Name"].indexOf("O") === 0)
+                    return true
+        };
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            expected += '"Name"|"Country"|"Is Married"\r\n';
+            expected += '"Otto Clay"|"United States"|"false"\r\n';
+            //expected += '"Connor Johnston"|"Canada"|"true"\r\n';
+            //expected += '"Lacey Hess"|"Canada"|"false"\r\n';
+            //expected += '"Timothy Henson"|"United States"|"true"\r\n';
+            
+        equal(data, expected, "Output CSV filtered to show names starting with O");
+    });
+    
+    test("Should export data: transformed value", function(){
+        var grid = new Grid($(this.element), this.gridOptions);
+        this.exportConfig['transforms'] = {};
+        this.exportConfig.transforms['Married'] = function(value){
+                if (value === true) return "Yes"
+                if (value === false) return "No"
+        };
+        var data = grid.exportData(this.exportConfig);
+        
+        var expected = "";
+            expected += '"Name"|"Country"|"Is Married"\r\n';
+            expected += '"Otto Clay"|"United States"|"No"\r\n';
+            expected += '"Connor Johnston"|"Canada"|"Yes"\r\n';
+            expected += '"Lacey Hess"|"Canada"|"No"\r\n';
+            expected += '"Timothy Henson"|"United States"|"Yes"\r\n';
+            
+        equal(data, expected, "Output CSV column value transformed properly");
+    });
 
 });

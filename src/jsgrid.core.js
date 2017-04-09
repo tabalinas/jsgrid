@@ -174,6 +174,7 @@
         onItemInvalid: $.noop,
         onDataLoading: $.noop,
         onDataLoaded: $.noop,
+        onDataExporting: $.noop,
         onOptionChanging: $.noop,
         onOptionChanged: $.noop,
         onError: $.noop,
@@ -1075,6 +1076,155 @@
                     data: loadedData
                 });
             });
+        },
+        
+        exportData: function(exportOptions){
+            var options = exportOptions || {};
+            var type = options.type || "csv";
+            
+            var result = "";
+            
+            this._callEventHandler(this.onDataExporting);
+            
+            switch(type){
+                
+                case "csv":
+                    result = this._dataToCsv(options);
+                    break;
+                
+            }
+            return result;
+        },
+        
+        _dataToCsv: function(options){
+            var options = options || {};
+            var includeHeaders = options.hasOwnProperty("includeHeaders") ? options.includeHeaders : true;
+            var subset = options.subset || "all";
+            var filter = options.filter || undefined;
+            
+            var result = [];
+            
+            if (includeHeaders){
+                var fieldsLength = this.fields.length;
+                var fieldNames = {};
+                
+                for(var i=0;i<fieldsLength;i++){
+                    var field = this.fields[i];
+                    
+                    if ("includeInDataExport" in field){
+                        if (field.includeInDataExport === true)
+                            fieldNames[i] = field.title || field.name;
+                    }
+                        
+                }
+                
+                var headerLine = this._itemToCsv(fieldNames,{},options);
+                result.push(headerLine);
+            }
+            
+            var exportStartIndex = 0;
+            var exportEndIndex = this.data.length;
+            
+            switch(subset){
+                
+                case "visible":
+                    exportEndIndex = this._firstDisplayingPage * this.pageSize;
+                    exportStartIndex = exportEndIndex - this.pageSize;
+                
+                case "all":
+                default:
+                    break;
+            }
+            
+            for (var i = exportStartIndex; i < exportEndIndex; i++){
+                var item = this.data[i];
+                var itemLine = "";
+                var includeItem = true;
+                
+                if (filter)
+                    if (!filter(item))
+                        includeItem = false;
+                
+                if (includeItem){
+                    itemLine = this._itemToCsv(item, this.fields, options);
+                    result.push(itemLine);
+                }
+                
+            }
+            
+            return result.join("");
+            
+        },
+        
+        _itemToCsv: function(item, fields, options){
+            var options = options || {};
+            var delimiter = options.delimiter || "|";
+            var encapsulate = options.hasOwnProperty("encapsulate") ? options.encapsulate : true;
+            var newline = options.newline || "\r\n";
+            var transforms = options.transforms || {};
+            
+            var fields = fields || {};
+            var getItem = this._getItemFieldValue;
+            var result = [];
+            
+            Object.keys(item).forEach(function(key,index) {
+                
+                var entry = "";
+                
+                //Fields.length is greater than 0 when we are matching agaisnt fields
+                //Field.length will be 0 when exporting header rows
+                if (fields.length > 0){
+                    
+                    var field = fields[index];
+                    
+                    //Field may be excluded from data export
+                    if ("includeInDataExport" in field){
+                        
+                        if (field.includeInDataExport){
+                            
+                            //Field may be a select, which requires additional logic
+                            if (field.type === "select"){
+                                
+                                var selectedItem = getItem(item, field);
+                                
+                                var resultItem = $.grep(field.items, function(item, index) {
+                                    return item[field.valueField] === selectedItem;
+                                })[0] || "";
+                                
+                                entry = resultItem[field.textField];
+                            }
+                            else{
+                                entry = getItem(item, field);
+                            }
+                        }
+                        else{
+                            return;
+                        }
+                            
+                    }
+                    else{
+                        entry = getItem(item, field);
+                    }
+                    
+                    if (transforms.hasOwnProperty(field.name)){
+                        entry = transforms[field.name](entry);
+                    }
+                        
+                    
+                }
+                else{
+                    entry = item[key];
+                }
+                
+                if (encapsulate){
+                    entry = '"'+entry+'"';
+                }
+                    
+                
+                result.push(entry);
+            });
+            
+            return result.join(delimiter) + newline;
         },
 
         getFilter: function() {
