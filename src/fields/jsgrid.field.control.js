@@ -4,6 +4,7 @@
 
     function ControlField(config) {
         Field.call(this, config);
+        this.includeInDataExport = false;
         this._configInitialized = false;
     }
 
