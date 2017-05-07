@@ -1,4 +1,5 @@
 .idea
+.github
 node_modules
 _site
 .editorconfig
