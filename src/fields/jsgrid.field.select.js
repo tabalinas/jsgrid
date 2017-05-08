@@ -33,7 +33,7 @@
 
             if(valueField) {
                 resultItem = $.grep(items, function(item, index) {
-                    return item[valueField] === value;
+                    return item[valueField] == value;
                 })[0] || {};
             }
             else {
