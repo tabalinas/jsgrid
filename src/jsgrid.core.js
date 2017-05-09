@@ -1543,6 +1543,11 @@
                     itemIndex: deletingItemIndex
                 });
             });
+        },
+
+        exportJSON: function() {
+            var data = $("#jsGrid").jsGrid("option", "data");
+            return JSON.stringify(data);
         }
     };
 
