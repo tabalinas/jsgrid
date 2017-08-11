@@ -19,7 +19,7 @@
 
         fields: {
             control: {
-                searchModeButtonTooltip: "Přepnout do hledání",
+                searchModeButtonTooltip: "Přepnout na hledání",
                 insertModeButtonTooltip: "Přepnout na vlkádání",
                 editButtonTooltip: "Upravit",
                 deleteButtonTooltip: "Smazat",
