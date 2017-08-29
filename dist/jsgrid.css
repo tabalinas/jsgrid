@@ -1,6 +1,6 @@
 /*
  * jsGrid v1.5.3 (http://js-grid.com)
- * (c) 2016 Artem Tabalin
+ * (c) 2017 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
 
@@ -48,9 +48,11 @@
     padding: 0.5em 0.5em;
 }
 
-.jsgrid-сell,
-.jsgrid-header-cell {
+.jsgrid-сell {
     box-sizing: border-box;
+}
+.jsgrid-header-cell {
+    position: relative;
 }
 
 .jsgrid-align-left {
@@ -71,7 +73,7 @@
     text-align: right;
 }
 
-.jsgrid-header-cell {
+.jsgrid-header-title {
     padding: .5em .5em;
 }
 
@@ -106,6 +108,18 @@
 
 .jsgrid-header-sort {
     cursor: pointer;
+}
+
+.jsgrid-header-resize {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -3px;
+    width: 6px;
+    background: transparent;
+    z-index: 2;
+    cursor: ew-resize;
 }
 
 .jsgrid-pager {
