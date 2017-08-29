@@ -91,6 +91,7 @@
         headerRowRenderer: null,
         headerRowClass: "jsgrid-header-row",
         headerCellClass: "jsgrid-header-cell",
+        headerTitleClass: "jsgrid-header-title",
 
         filtering: false,
         filterRowRenderer: null,
@@ -118,6 +119,9 @@
         sortableClass: "jsgrid-header-sortable",
         sortAscClass: "jsgrid-header-sort jsgrid-header-sort-asc",
         sortDescClass: "jsgrid-header-sort jsgrid-header-sort-desc",
+
+        resizing: false,
+        resizeClass: "jsgrid-header-resize",
 
         paging: false,
         pagerContainer: null,
@@ -467,15 +471,43 @@
             var $result = $("<tr>").addClass(this.headerRowClass);
 
             this._eachField(function(field, index) {
-                var $th = this._prepareCell("<th>", field, "headercss", this.headerCellClass)
+                var $thTitle = $('<div>').addClass(this.headerTitleClass)
                     .append(this.renderTemplate(field.headerTemplate, field))
+                var $th = this._prepareCell("<th>", field, "headercss", this.headerCellClass)
+                    .append($thTitle)
                     .appendTo($result);
 
                 if(this.sorting && field.sorting) {
-                    $th.addClass(this.sortableClass)
-                        .on("click", $.proxy(function() {
+                    $thTitle.addClass(this.sortableClass)
+                        .on("click", $.proxy(function(e) {
                             this.sort(index);
                         }, this));
+                }
+                if(this.resizing && field.resizing) {
+                    var dragStartPosition = 0;
+                    var columnStartingWidth = 0;
+
+                    var onMove = $.proxy(function (e) {
+                      var newWidth = columnStartingWidth + (e.clientX - dragStartPosition)
+                      $th.css("width", newWidth)
+                      var childIndex = $th.parent().children().index($th)
+                      this._content.find('tr > :eq('+childIndex+')').css("width", newWidth)
+                      this.fields[childIndex].width = newWidth
+                    }, this);
+
+                    var onDragEnd = $.proxy(function () {
+                      document.removeEventListener("mousemove", onMove)
+                      document.removeEventListener("mousemove", onDragEnd)
+                    }, this);
+
+                    var resizeElement = $('<span class="'+this.resizeClass+'">').on("mousedown", $.proxy(function(e) {
+                        dragStartPosition = e.clientX
+                        columnStartingWidth = parseInt($th[0].style.width)
+                        document.addEventListener("mousemove", onMove)
+                        document.addEventListener("mouseup", onDragEnd)
+                    }, this))
+
+                    $th.append(resizeElement)
                 }
             });
 

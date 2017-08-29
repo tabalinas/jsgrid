@@ -17,6 +17,7 @@
         inserting: true,
         editing: true,
         sorting: true,
+        resizing: true,
         sorter: "string", // name of SortStrategy or function to compare elements
         
         includeInDataExport: true,

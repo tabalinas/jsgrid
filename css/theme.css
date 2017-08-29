@@ -65,7 +65,7 @@
     background: #c4e2ff;
 }
 
-.jsgrid-header-sort:before {
+.jsgrid-header-sort > .jsgrid-header-title::before {
     content: " ";
     display: block;
     float: left;
@@ -74,12 +74,12 @@
     border-style: solid;
 }
 
-.jsgrid-header-sort-asc:before {
+.jsgrid-header-sort-asc > .jsgrid-header-title:before {
     border-width: 0 5px 5px 5px;
     border-color: transparent transparent #009a67 transparent;
 }
 
-.jsgrid-header-sort-desc:before {
+.jsgrid-header-sort-desc > .jsgrid-header-title:before {
     border-width: 5px 5px 0 5px;
     border-color: #009a67 transparent transparent transparent;
 }
