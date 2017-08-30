@@ -47,6 +47,7 @@
 }
 .jsgrid-header-cell {
     position: relative;
+    background-clip: padding-box !important; 
 }
 
 .jsgrid-align-left {
