@@ -765,8 +765,11 @@
                 sortField = this._sortField;
 
             if(sortField) {
-                this.data.sort(function(item1, item2) {
-                    return sortFactor * sortField.sortingFunc(item1[sortField.name], item2[sortField.name]);
+                var self = this;
+                self.data.sort(function(item1, item2) {
+                    var value1 = self._getItemFieldValue(item1, sortField);
+                    var value2 = self._getItemFieldValue(item2, sortField);
+                    return sortFactor * sortField.sortingFunc(value1, value2);
                 });
             }
         },
