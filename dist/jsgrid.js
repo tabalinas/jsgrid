@@ -2173,16 +2173,14 @@
 
             $.each(this.items, function(index, item) {
                 var value = valueField ? item[valueField] : index,
-                    text = textField ? item[textField] : item,
-                    disabled = item['disabled'];
+                    text = textField ? item[textField] : item;
 
                 var $option = $("<option>")
                     .attr("value", value)
                     .text(text)
                     .appendTo($result);
 
-				$option.prop("disabled", (disabled === true));
-                $option.prop("selected", (selectedIndex === index));
+				$option.prop("selected", (selectedIndex === index));
             });
 
             $result.prop("disabled", !!this.readOnly);
