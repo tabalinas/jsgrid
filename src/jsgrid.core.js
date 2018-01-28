@@ -1390,7 +1390,7 @@
                 return;
 
             if(this._editingRow) {
-                this.cancelEdit();
+                this._finishUpdate(this._editingRow, this._getEditedItem());
             }
 
             var $editRow = this._createEditRow(item);
