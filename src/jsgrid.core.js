@@ -1515,13 +1515,14 @@
             return this._editingRow && this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
         },
 
-        deleteItem: function(item) {
+        deleteItem: function(item, noninteractive) {
             var $row = this.rowByItem(item);
 
             if(!$row.length)
-                return;
+                return;            
 
-            if(this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
+            if((noninteractive === undefined || noninteractive == false) &&
+            this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
                 return;
 
             return this._deleteRow($row);
