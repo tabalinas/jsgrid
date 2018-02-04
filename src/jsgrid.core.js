@@ -108,6 +108,10 @@
         confirmDeleting: true,
         deleteConfirm: "Are you sure?",
 
+        autocommit: false,
+        confirmAutocommit: true,
+        autocommitConfirm: "Save changes?",
+
         selecting: true,
         selectedRowClass: "jsgrid-selected-row",
         oddRowClass: "jsgrid-row",
@@ -1389,8 +1393,24 @@
             if(args.cancel)
                 return;
 
-            if(this._editingRow) {
-                this._finishUpdate(this._editingRow, this._getEditedItem());
+            if (this._editingRow) {
+                if (!this.autocommit)
+                    this.cancelEdit();
+                else {
+                    var $updatingRow = this._editingRow;
+                    var editedItem = this._getValidatedEditedItem();
+
+                    var updatingItem = $updatingRow.data(JSGRID_ROW_DATA_KEY),
+                        updatingItemIndex = this._itemIndex(updatingItem),
+                        updatedItem = $.extend(true, {}, updatingItem, editedItem);
+
+                    var changed = JSON.stringify(updatingItem) !== JSON.stringify(updatedItem);
+
+                    if (changed && (!this.confirmAutocommit || (this.confirmAutocommit && window.confirm(this.autocommitConfirm))))
+                        this.updateItem();
+                    else
+                        this.cancelEdit();
+                }
             }
 
             var $editRow = this._createEditRow(item);
