@@ -1,6 +1,6 @@
 /*
  * jsGrid v1.5.3 (http://js-grid.com)
- * (c) 2016 Artem Tabalin
+ * (c) 2018 Artem Tabalin
  * Licensed under MIT (https://github.com/tabalinas/jsgrid/blob/master/LICENSE)
  */
 
@@ -103,6 +103,7 @@
         filterRowClass: "jsgrid-filter-row",
 
         inserting: false,
+        insertRowLocation: "bottom",
         insertRowRenderer: null,
         insertRowClass: "jsgrid-insert-row",
 
@@ -173,11 +174,13 @@
         onItemInserting: $.noop,
         onItemInserted: $.noop,
         onItemEditing: $.noop,
+        onItemEditCancelling: $.noop,
         onItemUpdating: $.noop,
         onItemUpdated: $.noop,
         onItemInvalid: $.noop,
         onDataLoading: $.noop,
         onDataLoaded: $.noop,
+        onDataExporting: $.noop,
         onOptionChanging: $.noop,
         onOptionChanged: $.noop,
         onError: $.noop,
@@ -214,7 +217,7 @@
         },
 
         renderTemplate: function(source, context, config) {
-            args = [];
+            var args = [];
             for(var key in config) {
                 args.push(config[key]);
             }
@@ -768,8 +771,11 @@
                 sortField = this._sortField;
 
             if(sortField) {
-                this.data.sort(function(item1, item2) {
-                    return sortFactor * sortField.sortingFunc(item1[sortField.name], item2[sortField.name]);
+                var self = this;
+                self.data.sort(function(item1, item2) {
+                    var value1 = self._getItemFieldValue(item1, sortField);
+                    var value2 = self._getItemFieldValue(item2, sortField);
+                    return sortFactor * sortField.sortingFunc(value1, value2);
                 });
             }
         },
@@ -1080,6 +1086,155 @@
                 });
             });
         },
+        
+        exportData: function(exportOptions){
+            var options = exportOptions || {};
+            var type = options.type || "csv";
+            
+            var result = "";
+            
+            this._callEventHandler(this.onDataExporting);
+            
+            switch(type){
+                
+                case "csv":
+                    result = this._dataToCsv(options);
+                    break;
+                
+            }
+            return result;
+        },
+        
+        _dataToCsv: function(options){
+            var options = options || {};
+            var includeHeaders = options.hasOwnProperty("includeHeaders") ? options.includeHeaders : true;
+            var subset = options.subset || "all";
+            var filter = options.filter || undefined;
+            
+            var result = [];
+            
+            if (includeHeaders){
+                var fieldsLength = this.fields.length;
+                var fieldNames = {};
+                
+                for(var i=0;i<fieldsLength;i++){
+                    var field = this.fields[i];
+                    
+                    if ("includeInDataExport" in field){
+                        if (field.includeInDataExport === true)
+                            fieldNames[i] = field.title || field.name;
+                    }
+                        
+                }
+                
+                var headerLine = this._itemToCsv(fieldNames,{},options);
+                result.push(headerLine);
+            }
+            
+            var exportStartIndex = 0;
+            var exportEndIndex = this.data.length;
+            
+            switch(subset){
+                
+                case "visible":
+                    exportEndIndex = this._firstDisplayingPage * this.pageSize;
+                    exportStartIndex = exportEndIndex - this.pageSize;
+                
+                case "all":
+                default:
+                    break;
+            }
+            
+            for (var i = exportStartIndex; i < exportEndIndex; i++){
+                var item = this.data[i];
+                var itemLine = "";
+                var includeItem = true;
+                
+                if (filter)
+                    if (!filter(item))
+                        includeItem = false;
+                
+                if (includeItem){
+                    itemLine = this._itemToCsv(item, this.fields, options);
+                    result.push(itemLine);
+                }
+                
+            }
+            
+            return result.join("");
+            
+        },
+        
+        _itemToCsv: function(item, fields, options){
+            var options = options || {};
+            var delimiter = options.delimiter || "|";
+            var encapsulate = options.hasOwnProperty("encapsulate") ? options.encapsulate : true;
+            var newline = options.newline || "\r\n";
+            var transforms = options.transforms || {};
+            
+            var fields = fields || {};
+            var getItem = this._getItemFieldValue;
+            var result = [];
+            
+            Object.keys(item).forEach(function(key,index) {
+                
+                var entry = "";
+                
+                //Fields.length is greater than 0 when we are matching agaisnt fields
+                //Field.length will be 0 when exporting header rows
+                if (fields.length > 0){
+                    
+                    var field = fields[index];
+                    
+                    //Field may be excluded from data export
+                    if ("includeInDataExport" in field){
+                        
+                        if (field.includeInDataExport){
+                            
+                            //Field may be a select, which requires additional logic
+                            if (field.type === "select"){
+                                
+                                var selectedItem = getItem(item, field);
+                                
+                                var resultItem = $.grep(field.items, function(item, index) {
+                                    return item[field.valueField] === selectedItem;
+                                })[0] || "";
+                                
+                                entry = resultItem[field.textField];
+                            }
+                            else{
+                                entry = getItem(item, field);
+                            }
+                        }
+                        else{
+                            return;
+                        }
+                            
+                    }
+                    else{
+                        entry = getItem(item, field);
+                    }
+                    
+                    if (transforms.hasOwnProperty(field.name)){
+                        entry = transforms[field.name](entry);
+                    }
+                        
+                    
+                }
+                else{
+                    entry = item[key];
+                }
+                
+                if (encapsulate){
+                    entry = '"'+entry+'"';
+                }
+                    
+                
+                result.push(entry);
+            });
+            
+            return result.join(delimiter) + newline;
+        },
 
         getFilter: function() {
             var result = {};
@@ -1128,7 +1283,7 @@
 
             return this._controllerCall("insertItem", insertingItem, args.cancel, function(insertedItem) {
                 insertedItem = insertedItem || insertingItem;
-                this._loadStrategy.finishInsert(insertedItem);
+                this._loadStrategy.finishInsert(insertedItem, this.insertRowLocation);
 
                 this._callEventHandler(this.onItemInserted, {
                     item: insertedItem
@@ -1241,7 +1396,7 @@
                 return;
 
             if(this._editingRow) {
-                this.cancelEdit();
+                this._finishUpdate(this._editingRow, this._getEditedItem());
             }
 
             var $editRow = this._createEditRow(item);
@@ -1347,6 +1502,16 @@
             if(!this._editingRow)
                 return;
 
+            var $row = this._editingRow,
+                editingItem = $row.data(JSGRID_ROW_DATA_KEY),
+                editingItemIndex = this._itemIndex(editingItem);
+
+            this._callEventHandler(this.onItemEditCancelling, {
+                row: $row,
+                item: editingItem,
+                itemIndex: editingItemIndex
+            });
+
             this._getEditRow().remove();
             this._editingRow.show();
             this._editingRow = null;
@@ -1356,13 +1521,14 @@
             return this._editingRow && this._editingRow.data(JSGRID_EDIT_ROW_DATA_KEY);
         },
 
-        deleteItem: function(item) {
+        deleteItem: function(item, noninteractive) {
             var $row = this.rowByItem(item);
 
             if(!$row.length)
-                return;
+                return;            
 
-            if(this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
+            if((noninteractive === undefined || noninteractive == false) &&
+            this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
                 return;
 
             return this._deleteRow($row);
@@ -1604,9 +1770,18 @@
             this._grid.option("data", loadedData);
         },
 
-        finishInsert: function(insertedItem) {
+        finishInsert: function(insertedItem, location) {
             var grid = this._grid;
-            grid.option("data").push(insertedItem);
+            
+            switch(location){
+                case "top":
+                    grid.option("data").unshift(insertedItem);
+                    break;
+                case "bottom":
+                default:
+                    grid.option("data").push(insertedItem);
+            }
+            
             grid.refresh();
         },
 
@@ -1871,6 +2046,8 @@
         editing: true,
         sorting: true,
         sorter: "string", // name of SortStrategy or function to compare elements
+        
+        includeInDataExport: true,
 
         headerTemplate: function() {
             return (this.title === undefined || this.title === null) ? this.name : this.title;
@@ -2180,11 +2357,11 @@
                     .text(text)
                     .appendTo($result);
 
-                $option.prop("selected", (selectedIndex === index));
             });
 
             $result.prop("disabled", !!this.readOnly);
-
+            $result.prop("selectedIndex", selectedIndex);
+			
             return $result;
         }
     });
@@ -2297,6 +2474,7 @@
 
     function ControlField(config) {
         Field.call(this, config);
+        this.includeInDataExport = false;
         this._configInitialized = false;
     }
 
