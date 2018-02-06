@@ -1410,9 +1410,9 @@
                         updatingItemIndex = this._itemIndex(updatingItem),
                         updatedItem = $.extend(true, {}, updatingItem, editedItem);
 
-                    var changed = JSON.stringify(updatingItem) !== JSON.stringify(updatedItem);
-
-                    if (changed && (!this.confirmAutocommit || (this.confirmAutocommit && window.confirm(this.autocommitConfirm))))
+                    if (updatingItem &&
+                        JSON.stringify(updatingItem) !== JSON.stringify(updatedItem) &&
+                        (!this.confirmAutocommit || (this.confirmAutocommit && window.confirm(this.autocommitConfirm))))
                         this.updateItem();
                     else
                         this.cancelEdit();
