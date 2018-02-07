@@ -338,6 +338,7 @@
                 case "filtering":
                 case "inserting":
                 case "paging":
+                    if (name == "inserting") this.checkAutocommit();
                     this.refresh();
                     break;
                 case "loadStrategy":
