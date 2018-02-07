@@ -1379,6 +1379,10 @@
             });
         },
 
+        editPending: function () {
+            return this._editingRow ? true : false;
+        },
+
         _checkAutocommit() {
             if (this._editingRow) {
                 if (!this.autocommit)
