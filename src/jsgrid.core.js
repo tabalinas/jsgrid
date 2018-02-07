@@ -1378,21 +1378,7 @@
             });
         },
 
-        _editRow: function($row) {
-            if(!this.editing)
-                return;
-
-            var item = $row.data(JSGRID_ROW_DATA_KEY);
-
-            var args = this._callEventHandler(this.onItemEditing, {
-                row: $row,
-                item: item,
-                itemIndex: this._itemIndex(item)
-            });
-
-            if(args.cancel)
-                return;
-
+        _checkAutocommit() {
             if (this._editingRow) {
                 if (!this.autocommit)
                     this.cancelEdit();
@@ -1412,6 +1398,24 @@
                         this.cancelEdit();
                 }
             }
+        },
+
+        _editRow: function($row) {
+            if(!this.editing)
+                return;
+
+            var item = $row.data(JSGRID_ROW_DATA_KEY);
+
+            var args = this._callEventHandler(this.onItemEditing, {
+                row: $row,
+                item: item,
+                itemIndex: this._itemIndex(item)
+            });
+
+            if(args.cancel)
+                return;
+
+            this._checkAutocommit();
 
             var $editRow = this._createEditRow(item);
 
