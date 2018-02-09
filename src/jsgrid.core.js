@@ -1380,7 +1380,23 @@
         },
 
         editPending: function () {
-            return this._editingRow ? true : false;
+            return (this._insertRow || this._editingRow) ? true : false;
+        },
+
+        confirmPending: function () {
+            if (this._editingRow) {
+                if (this._getValidatedEditedItem())
+                    this.updateItem();
+                else
+                    return false;
+            }
+            else {
+                if (this._getValidatedInsertItem())
+                    this.insertItem();
+                else
+                    return false;
+            }
+            return true;
         },
 
         _checkAutocommit() {
