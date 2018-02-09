@@ -1379,7 +1379,11 @@
             });
         },
 
-        editPending: function () {
+        editPending: function () { 
+            if (this._insertRow) {
+                let item = this._getInsertItem();
+                if (_.every(_.values(item), (v) => v == null)) return false;
+            }
             return (this._insertRow || this._editingRow) ? true : false;
         },
 
