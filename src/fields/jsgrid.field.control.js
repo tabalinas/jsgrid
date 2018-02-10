@@ -97,7 +97,7 @@
         },
 
         insertTemplate: function() {
-            return this._createInsertButton();
+            return this._createInsertButton().add(this._createCancelInsertButton());
         },
 
         editTemplate: function() {
@@ -113,19 +113,19 @@
         },
 
         _createOnOffSwitchButton: function(option, cssClass, isOnInitially) {
-            var isOn = isOnInitially;
+            var modeOnClass = this.modeOnButtonClass;
 
-            var updateButtonState = $.proxy(function() {
+            var updateButtonState = $.proxy(function (isOn) {                
                 $button.toggleClass(this.modeOnButtonClass, isOn);
             }, this);
 
-            var $button = this._createGridButton(this.modeButtonClass + " " + cssClass, "", function(grid) {
-                isOn = !isOn;
-                grid.option(option, isOn);
-                updateButtonState();
+            var $button = this._createGridButton(this.modeButtonClass + " " + cssClass, "", function (grid, e) {                                                                
+                let isOn = !$button[0].classList.contains(modeOnClass);
+                updateButtonState(isOn);
+                grid.option(option, isOn);                                
             });
 
-            updateButtonState();
+            updateButtonState(isOnInitially);
 
             return $button;
         },
@@ -182,6 +182,13 @@
                 grid.insertItem().done(function() {
                     grid.clearInsert();
                 });
+            });
+        },
+
+        _createCancelInsertButton: function () {
+            return this._createGridButton(this.cancelEditButtonClass, this.cancelEditButtonTooltip, function (grid, e) {                
+                grid.cancelInsert();                
+                e.stopPropagation();
             });
         },
 
