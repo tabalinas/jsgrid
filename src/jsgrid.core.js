@@ -1395,7 +1395,7 @@
                     return false;
             }
             else {
-                if (!$('.jsgrid-insert-mode-button')[0].classList.contains('jsgrid-mode-on-button')) return true;
+                if (!$(this._container).find('.jsgrid-insert-mode-button')[0].classList.contains('jsgrid-mode-on-button')) return true;
                 if (this._getValidatedInsertItem())
                     this.insertItem();
                 else
@@ -1563,7 +1563,7 @@
 
         cancelInsert: function () {
             this.option("inserting", false);
-            let btn = $('.jsgrid-insert-mode-button');
+            let btn = $(this._container).find('.jsgrid-insert-mode-button');
             btn.toggleClass('jsgrid-mode-on-button', false);
 
             var $row = this._insertRow,
