@@ -657,9 +657,12 @@
             );
         },
 
-        _renderCells: function($row, item) {
-            this._eachField(function(field) {
-                $row.append(this._createCell(item, field));
+        _renderCells: function($row, item, exclude_field_fn) {
+            this._eachField(function (field) {                
+                if (exclude_field_fn && exclude_field_fn(field))
+                    $row.append("<td/>");
+                else
+                    $row.append(this._createCell(item, field));
             });
             return this;
         },
