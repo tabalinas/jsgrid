@@ -1400,7 +1400,10 @@
             else {
                 if (!$(this._container).find('.jsgrid-insert-mode-button')[0].classList.contains('jsgrid-mode-on-button')) return true;
                 if (this._getValidatedInsertItem())
+                {
                     this.insertItem();
+                    this.cancelInsert();
+                }
                 else
                     return false;
             }
