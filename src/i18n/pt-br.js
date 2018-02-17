@@ -33,11 +33,11 @@
 
         validators: {
             required: { message: "Campo obrigatório" },
-            rangeLength: { message: "O valor esta fora do intervaldo definido" },
+            rangeLength: { message: "O valor esta fora do intervalo definido" },
             minLength: { message: "O comprimento do valor é muito curto" },
             maxLength: { message: "O comprimento valor é muito longo" },
             pattern: { message: "O valor informado não é compatível com o padrão" },
-            range: { message: "O valor informado esta fora do limite definido" },
+            range: { message: "O valor informado está fora do limite definido" },
             min: { message: "O valor é muito curto" },
             max: { message: "O valor é muito longo" }
         }
