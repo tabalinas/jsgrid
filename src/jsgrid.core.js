@@ -172,6 +172,7 @@
         onItemInserting: $.noop,
         onItemInserted: $.noop,
         onItemEditing: $.noop,
+        onItemEditingRendered: $.noop,
         onItemEditCancelling: $.noop,
         onItemUpdating: $.noop,
         onItemUpdated: $.noop,
@@ -1455,6 +1456,12 @@
             $row.hide();
             $editRow.insertBefore($row);
             $row.data(JSGRID_EDIT_ROW_DATA_KEY, $editRow);
+
+            this._callEventHandler(this.onItemEditingRendered, {
+                row: $row,
+                item: item,
+                itemIndex: this._itemIndex(item)
+            });
         },
 
         _createEditRow: function(item) {
