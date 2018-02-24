@@ -9,10 +9,7 @@
     ],
     "homepage": "http://js-grid.com",
     "author": "Artem Tabalin",
-    "license": {
-        "type": "MIT",
-        "url": "https://github.com/tabalinas/jsgrid/blob/master/LICENSE"
-    },
+    "license": "MIT",
     "main": "dist/jsgrid.js",
     "directories": {
         "test": "tests"
