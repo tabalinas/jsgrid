@@ -1424,7 +1424,7 @@
                         updatedItem = $.extend(true, {}, updatingItem, editedItem);
 
                     if (updatingItem &&
-                        JSON.stringify(updatingItem) !== JSON.stringify(updatedItem) &&
+                        JSON.stringify(JSON.decycle(updatingItem)) !== JSON.stringify(JSON.decycle(updatedItem)) &&
                         (!this.confirmAutocommit || (this.confirmAutocommit && window.confirm(this.autocommitConfirm))))
                         this.updateItem();
                     else
