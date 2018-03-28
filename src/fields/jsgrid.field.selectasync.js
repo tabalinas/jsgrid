@@ -120,9 +120,11 @@
             var $result = $("<select>"),
                 valueField = this.valueField,
                 textField = this.textField,
-                items = this.items;
-            itemsAsync = this.itemsAsync;
-            selectedIndex = this.selectedIndex;
+                items = this.items,
+                itemsAsync = this.itemsAsync,
+                selectedIndex = this.selectedIndex,
+                grid = this._grid || {},
+                controlClass = grid.controlClass;
 
             var $elem;
 
@@ -158,6 +160,7 @@
                 });
 
                 $result.prop("disabled", !!this.readOnly);
+                $result.addClass(controlClass);
 
                 return $result;
             }

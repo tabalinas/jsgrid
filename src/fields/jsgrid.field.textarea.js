@@ -1,4 +1,4 @@
-(function(jsGrid, $, undefined) {
+(function (jsGrid, $, undefined) {
 
     var TextField = jsGrid.TextField;
 
@@ -8,15 +8,15 @@
 
     TextAreaField.prototype = new TextField({
 
-        insertTemplate: function() {
-            if(!this.inserting)
+        insertTemplate: function () {
+            if (!this.inserting)
                 return "";
 
             return this.insertControl = this._createTextArea();
         },
 
-        editTemplate: function(value) {
-            if(!this.editing)
+        editTemplate: function (value) {
+            if (!this.editing)
                 return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createTextArea();
@@ -24,8 +24,13 @@
             return $result;
         },
 
-        _createTextArea: function() {
-            return $("<textarea>").prop("readonly", !!this.readOnly);
+        _createTextArea: function () {
+            var grid = this._grid || {},
+                controlClass = grid.controlClass;
+
+            return $("<textarea>")
+                .addClass(controlClass)
+                .prop("readonly", !!this.readOnly);
         }
     });
 
