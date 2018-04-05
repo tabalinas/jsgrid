@@ -97,7 +97,7 @@
         },
 
         insertTemplate: function() {
-            return this._createInsertButton().add(this._createCancelInsertButton());
+            return this._createUpdateButton().add(this._createInsertButton().add(this._createCancelInsertButton()));
         },
 
         editTemplate: function() {
@@ -194,7 +194,14 @@
 
         _createUpdateButton: function() {
             return this._createGridButton(this.updateButtonClass, this.updateButtonTooltip, function(grid, e) {
-                grid.updateItem();
+                if (grid.inserting) {
+                    grid.insertItem().done(function () {
+                        grid.cancelInsert();
+                        grid.clearInsert();
+                    });
+                }
+                else
+                    grid.updateItem();
                 e.stopPropagation();
             });
         },
