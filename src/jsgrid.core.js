@@ -5,6 +5,8 @@
         JSGRID_ROW_DATA_KEY = "JSGridItem",
         JSGRID_EDIT_ROW_DATA_KEY = "JSGridEditRow",
 
+        JSGRID_RECYCLED_IDS = [],
+        JSGRID_LAST_ID = 0, 
         SORT_ORDER_ASC = "asc",
         SORT_ORDER_DESC = "desc",
 
@@ -52,6 +54,13 @@
 
     function Grid(element, config) {
         var $element = $(element);
+
+        if (JSGRID_RECYCLED_IDS.length==0) {
+            this._id=JSGRID_LAST_ID;
+            JSGRID_LAST_ID++;
+        } else {
+            this._id=JSGRID_RECYCLED_IDS.pop();
+        }
 
         $element.data(JSGRID_DATA_KEY, this);
 
@@ -243,17 +252,21 @@
         },
 
         _attachWindowLoadResize: function() {
-            $(window).on("load", $.proxy(this._refreshSize, this));
+            $(window).on("load.table-"+this._id, $.proxy(this._refreshSize, this));
         },
 
         _attachWindowResizeCallback: function() {
             if(this.updateOnResize) {
-                $(window).on("resize", $.proxy(this._refreshSize, this));
+                $(window).on("resize.table-"+this._id, $.proxy(this._refreshSize, this));
             }
         },
 
+        _detachWindowLoadResize: function() {
+            $(window).off("load.table-"+this._id);
+        },
+
         _detachWindowResizeCallback: function() {
-            $(window).off("resize", this._refreshSize);
+            $(window).off("resize.table-"+this._id);
         },
 
         option: function(key, value) {
@@ -367,6 +380,8 @@
 
         destroy: function() {
             this._detachWindowResizeCallback();
+            this._detachWindowLoadResize();
+            JSGRID_RECYCLED_IDS.push(this._id);
             this._clear();
             this._container.removeData(JSGRID_DATA_KEY);
         },
