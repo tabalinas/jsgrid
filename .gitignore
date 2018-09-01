@@ -3,3 +3,4 @@
 node_modules
 dist
 _site
+/.vs/slnx.sqlite
