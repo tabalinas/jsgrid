@@ -37,7 +37,7 @@
                 })[0] || {};
             }
             else {
-                resultItem = items[value];
+                resultItem = value;
             }
 
             var result = (textField ? resultItem[textField] : resultItem);
