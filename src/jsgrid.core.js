@@ -1452,7 +1452,7 @@
 
             return this._controllerCall("updateItem", updatedItem, args.cancel, function(loadedUpdatedItem) {
                 var previousItem = $.extend(true, {}, updatingItem);
-                updatedItem = loadedUpdatedItem || $.extend(true, updatingItem, editedItem);
+                updatedItem = loadedUpdatedItem || $.extend(true, updatingItem, updatedItem);
 
                 var $updatedRow = this._finishUpdate($updatingRow, updatedItem, updatingItemIndex);
 
