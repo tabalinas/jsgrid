@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>jsGrid - Dependent Selects</title>
+    <link rel="stylesheet" type="text/css" href="demos.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,600,400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../css/jsgrid.css" />
+    <link rel="stylesheet" type="text/css" href="../css/theme.css" />
+
+    <script src="../external/jquery/jquery-1.8.3.js"></script>
+    <script src="db.js"></script>
+
+    <script src="../dist/jsgrid.min.js"></script>
+</head>
+
+<body>
+    <h1>Basic Scenario</h1>
+    <div id="jsGrid"></div>
+
+    <script>
+        $(function () {
+
+            // Some demo data to list on the select
+            var CategoryList = [
+                { "name": "Animal" },
+                { "name": "Bird" },
+                { "name": "Vehicle" }
+            ];
+            var Animal = [
+                { "name": "Dog" },
+                { "name": "Cat" }
+            ];
+            var Bird = [
+                { "name": "Sparrow" },
+                { "name": "Hen" }
+            ];
+            var Vehicle = [
+                { "name": "Car" },
+                { "name": "Truck" },
+                { "name": "Bus" }
+            ];
+
+            // Initialize jsGrid
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                // Some dummy data
+                data: [
+                    {
+                        "id": 1,
+                        "category": "Vehicle",
+                        "secondSel": "Truck"
+                    },
+                    {
+                        "id": 2,
+                        "category": "Animal",
+                        "secondSel": "Cat"
+                    }
+                ],				
+                deleteConfirm: "Are you sure?",
+                fields: [
+                    {
+                        name: "category",
+                        title: "Main Category",
+                        type: "select",
+                        items: CategoryList,
+                        valueField: "name",
+                        textField: "name",
+                        insertTemplate: function () {
+                            // Retrieve the DOM element
+                            // Note: prototype.insertTemplate
+							var statesField = this._grid.fields[1];
+                            var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
+							var changeValue = function() {
+								var selectedValue = $insertControl.val();
+								switch(selectedValue) {
+									case 'Animal':
+										statesField.items = Animal
+										break;
+									case 'Bird':
+										statesField.items = Bird
+										break;
+									case 'Vehicle':
+										statesField.items = Vehicle
+										break;
+                                }
+								$(".second-insert").empty().append(statesField.insertTemplate());
+							};
+							$insertControl.on("change", changeValue);
+							changeValue();
+                            return $insertControl;
+                        },
+                        editTemplate: function (value) {
+                            // Retrieve the DOM element (select)
+                            // Note: prototype.editTemplate
+                            var statesField = this._grid.fields[1];
+                            var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+							
+							var changeValue = function() {
+								var selectedValue = $editControl.val();
+								switch(selectedValue) {
+									case 'Animal':
+										statesField.items = Animal
+										break;
+									case 'Bird':
+										statesField.items = Bird
+										break;
+									case 'Vehicle':
+										statesField.items = Vehicle
+										break;
+                                }
+								$(".second-edit").empty().append(statesField.editTemplate());
+							};
+							$editControl.on("change", changeValue);
+							changeValue();
+                            return $editControl;
+                        }
+                    },
+                    { name: "secondSel", type: "select", items: Animal, valueField: "name", 
+						textField: "name", editcss: "second-edit", insertcss: "second-insert",
+						itemTemplate: function(value, item) {
+							return item.secondSel
+						}
+					},
+                    { type: "control" }
+                ]
+            });
+        });
+    </script>
+</body>
+
+</html>
