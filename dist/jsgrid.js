@@ -2180,7 +2180,7 @@
                     .text(text)
                     .appendTo($result);
 
-                $option.prop("selected", (selectedIndex === index));
+				$option.prop("selected", (selectedIndex === index));
             });
 
             $result.prop("disabled", !!this.readOnly);
