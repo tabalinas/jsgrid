@@ -1006,6 +1006,34 @@ $(function() {
         equal($grid.find("." + grid.evenRowClass).eq(0).children().length, 1, "even data row single cell");
     });
 
+    test("refresh updates header row", function() {
+        var $element = $("#jsGrid"),
+            gridOptions = {
+                fields: [
+                    { name: "field", align: "right", sorting: true},
+                ],
+                sorting: true
+            };
+
+        var grid = new Grid($element, gridOptions);
+
+        var $th = grid._headerRow.find("th").eq(0);
+        $th.trigger("click");
+
+
+        $element.jsGrid('option', 'fields')[0].align = 'left';
+        $element.jsGrid('option', 'refreshHeader', true);
+
+        ok(!$th.hasClass('jsgrid-align-right'), 'align right class is removed');
+        ok($th.hasClass('jsgrid-align-left'), 'align left class is attached');
+        ok($th.hasClass(grid.sortAscClass), 'sort direction class is kept');
+
+        $element.jsGrid('option', 'fields')[0].sorting = false;
+        $element.jsGrid('refresh');
+
+        ok(!$th.hasClass(grid.sortAscClass), 'sort direction class is removed');
+        ok(!$th.hasClass(grid.sortableClass), 'sortable class is removed');
+    });
 
     module("inserting");
 
