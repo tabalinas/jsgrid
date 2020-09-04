@@ -1399,6 +1399,11 @@
             $row.hide();
             $editRow.insertBefore($row);
             $row.data(JSGRID_EDIT_ROW_DATA_KEY, $editRow);
+
+            this._callEventHandler(this.onEditRowInserted, {
+                editRow: $editRow,
+                row: $row
+            });
         },
 
         _createEditRow: function(item) {
