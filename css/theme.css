@@ -92,6 +92,11 @@
     border: #f3f3f3 1px solid;
 }
 
+.jsgrid-cell.readonly > input {
+    border: 1px solid #dbdee0 !important;
+    color: #888;
+}
+
 .jsgrid-grid-body .jsgrid-row:first-child .jsgrid-cell,
 .jsgrid-grid-body .jsgrid-alt-row:first-child .jsgrid-cell {
     border-top: none;
