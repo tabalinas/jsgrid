@@ -45,6 +45,8 @@
         deleteButton: true,
         clearFilterButton: true,
         modeSwitchButton: true,
+        searchButton: true,
+        insertButton: true,
 
         _initConfig: function() {
             this._hasFiltering = this._grid.filtering;
@@ -92,16 +94,16 @@
         },
 
         filterTemplate: function() {
-            var $result = this._createSearchButton();
+            var $result = this.searchButton ? this._createSearchButton() : $("");
             return this.clearFilterButton ? $result.add(this._createClearFilterButton()) : $result;
         },
 
         insertTemplate: function() {
-            return this._createInsertButton();
+            return this.insertButton ? this._createInsertButton() : $("");
         },
 
         editTemplate: function() {
-            return this._createUpdateButton().add(this._createCancelEditButton());
+            return this.editButton ? this._createUpdateButton().add(this._createCancelEditButton()) : $("");
         },
 
         _createFilterSwitchButton: function() {
