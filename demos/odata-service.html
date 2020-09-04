@@ -44,7 +44,7 @@
                         var d = $.Deferred();
 
                         $.ajax({
-                            url: "http://services.odata.org/V3/(S(3mnweai3qldmghnzfshavfok))/OData/OData.svc/Products",
+                            url: "https://services.odata.org/V3/(S(3mnweai3qldmghnzfshavfok))/OData/OData.svc/Products",
                             dataType: "json"
                         }).done(function(response) {
                             d.resolve(response.value);
