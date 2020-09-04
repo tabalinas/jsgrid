@@ -108,6 +108,8 @@
         confirmDeleting: true,
         deleteConfirm: "Are you sure?",
 
+        confirmationPopupProvider: null,
+
         selecting: true,
         selectedRowClass: "jsgrid-selected-row",
         oddRowClass: "jsgrid-row",
@@ -1521,8 +1523,22 @@
             if(!$row.length)
                 return;
 
-            if(this.confirmDeleting && !window.confirm(getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY))))
-                return;
+            if (this.confirmDeleting) {
+                var message = getOrApply(this.deleteConfirm, this, $row.data(JSGRID_ROW_DATA_KEY));
+                var self = this;
+
+                if (this.confirmationPopupProvider) {
+                    this.confirmationPopupProvider(message, function () {
+                        self._deleteRow($row);
+                    });
+
+                    return;
+                } else {
+                    if (!window.confirm(message)) {
+                        return;
+                    }
+                }
+            }
 
             return this._deleteRow($row);
         },

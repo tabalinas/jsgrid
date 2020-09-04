@@ -130,6 +130,8 @@ The config object may contain following options (default values are specified be
     confirmDeleting: true,
     deleteConfirm: "Are you sure?",
 
+    confirmationPopupProvider: null,
+
     pagerContainer: null,
     pageIndex: 1,
     pageSize: 20,
@@ -346,6 +348,28 @@ A boolean value specifying whether to ask user to confirm item deletion.
 ### deleteConfirm (default `"Are you sure?"`)
 A string or a function returning string specifying delete confirmation message to be displayed to the user.
 A function has the signature `function(item)` and accepts item to be deleted.
+
+### confirmationPopupProvider (default `null`)
+A function handling confirmation request. Accepts two arguments: message and action callback.
+Example:
+
+```javascript
+
+$("#grid").jsGrid({
+    ...
+
+    confirmationPopupProvider: function (message, callback) {
+        if (window.confirm(message)) {
+            if (window.confirm('Are you really sure?')) {
+                callback();
+            }
+        }
+    },
+
+    ...
+});
+
+```
 
 ### pagerContainer (default `null`)
 A jQueryElement or DomNode to specify where to render a pager. Used for external pager rendering. When it is equal to `null`, the pager is rendered at the bottom of the grid.
