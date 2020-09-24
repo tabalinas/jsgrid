@@ -561,7 +561,8 @@ Custom properties:
     textField: "",              // name of property of item to be used as displaying value
     selectedIndex: -1,          // index of selected item by default
     valueType: "number|string", // the data type of the value
-    readOnly: false             // a boolean defines whether select is readonly (added in v1.4)
+    readOnly: false,            // a boolean defines whether select is readonly (added in v1.4)
+    optionAttributes: []        // an array of attributes to add to option elements
 }
 
 ```
@@ -602,6 +603,27 @@ or more complex with items as objects:
 
 `valueType` defines whether the field value should be converted to a number or returned as a string. 
 The value of the option is determined automatically depending on the data type of `valueField` of the first item, but it can be overridden.
+
+`optionAttributes` can be used to define attributes that will be added to all `option` elements. 
+
+```javascript
+{
+    name: "Country",
+    type: "select"
+    items: [
+         { Name: "", Iso3: "", Id: 0 },
+         { Name: "United States", Iso3: "USA", Id: 1 },
+         { Name: "Canada", Iso3: "CAN", Id: 2 },
+         { Name: "United Kingdom", Iso3: "GBR", Id: 3 }
+    ],
+    valueField: "Id",
+    textField: "Name",
+    optionAttributes: [
+        { name: "data-kind", value: "country" },
+        { name: "data-iso-3", valueField: "Iso3" },
+    ]
+}
+```
 
 ### checkbox
 Checkbox field renders `<input type="checkbox">` in filter, inserting and editing rows.

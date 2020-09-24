@@ -337,6 +337,27 @@ $(function() {
         strictEqual(field.itemTemplate(1), "test1");
     });
 
+    test("option attributes", function() {
+        var field = new jsGrid.SelectField({
+            name: "testField",
+            items: [
+                { text: "test1", subtext: "sub-test-1", value: 1 }
+            ],
+            optionAttributes: [
+                { name: "data-sub-fixed", value: "sub-text-fixed" },
+                { name: "data-sub-from-item", valueField: "subtext" },
+            ]
+        });
+
+        var insertTemplate = field.insertTemplate();
+        equal(insertTemplate.children().eq(0).attr("data-sub-fixed"), "sub-text-fixed");
+        equal(insertTemplate.children().eq(0).attr("data-sub-from-item"), "sub-test-1");
+
+        var editTemplate = field.editTemplate(0);
+        equal(editTemplate.children().eq(0).attr("data-sub-fixed"), "sub-text-fixed");
+        equal(editTemplate.children().eq(0).attr("data-sub-from-item"), "sub-test-1");
+    });
+
 
     module("jsGrid.field.control");
 
