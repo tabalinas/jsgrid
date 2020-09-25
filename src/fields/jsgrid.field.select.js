@@ -96,7 +96,8 @@
             var $result = $("<select>"),
                 valueField = this.valueField,
                 textField = this.textField,
-                selectedIndex = this.selectedIndex;
+                selectedIndex = this.selectedIndex,
+                optionAttributes = this.optionAttributes;
 
             $.each(this.items, function(index, item) {
                 var value = valueField ? item[valueField] : index,
@@ -107,6 +108,11 @@
                     .text(text)
                     .appendTo($result);
 
+                if (optionAttributes) {
+                    $.each(optionAttributes, function(attributeIndex, attribute) {
+                        $option.attr(attribute.name, attribute.value || item[attribute.valueField]);
+                    });
+                }
             });
 
             $result.prop("disabled", !!this.readOnly);
