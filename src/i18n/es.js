@@ -4,11 +4,11 @@
         grid: {
             noDataContent: "No encontrado",
             deleteConfirm: "¿Está seguro?",
-            pagerFormat: "Paginas: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} de {pageCount}",
+            pagerFormat: "Páginas: {first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} de {pageCount}",
             pagePrevText: "Anterior",
             pageNextText: "Siguiente",
             pageFirstText: "Primero",
-            pageLastText: "Ultimo",
+            pageLastText: "Último",
             loadMessage: "Por favor, espere...",
             invalidMessage: "¡Datos no válidos!"
         },
