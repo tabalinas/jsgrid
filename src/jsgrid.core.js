@@ -113,6 +113,7 @@
         oddRowClass: "jsgrid-row",
         evenRowClass: "jsgrid-alt-row",
         cellClass: "jsgrid-cell",
+        cellAlignClassPrefix: "jsgrid-align-",
 
         sorting: false,
         sortableClass: "jsgrid-header-sortable",
@@ -486,7 +487,7 @@
             return $(cell).css("width", field.width)
                 .addClass(cellClass || this.cellClass)
                 .addClass((cssprop && field[cssprop]) || field.css)
-                .addClass(field.align ? ("jsgrid-align-" + field.align) : "");
+                .addClass(field.align ? (this.cellAlignClassPrefix + field.align) : "");
         },
 
         _createFilterRow: function() {
