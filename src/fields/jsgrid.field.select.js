@@ -32,9 +32,14 @@
                 resultItem;
 
             if(valueField) {
-                resultItem = $.grep(items, function(item, index) {
-                    return item[valueField] === value;
-                })[0] || {};
+                if($.type(value) === "object"){
+                    resultItem = value;
+                }
+                else{
+                    resultItem = $.grep(items, function(item, index) {
+                        return item[valueField] === value;
+                    })[0] || {};
+                }
             }
             else {
                 resultItem = items[value];
