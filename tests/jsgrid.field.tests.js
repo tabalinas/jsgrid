@@ -355,9 +355,18 @@ $(function() {
         strictEqual(field.itemTemplate({ text: "test2", value: 2 }), "test2");
         strictEqual(field.itemTemplate({ text: "test3", value: 3 }), "test3");
 
-        strictEqual(field.editTemplate({ text: "test1", value: 1 }), "test1");
-        strictEqual(field.editTemplate({ text: "test2", value: 2 }), "test2");
-        strictEqual(field.editTemplate({ text: "test3", value: 3 }), "test3");
+
+
+        field.editTemplate({ text: "test1", value: 1 });
+        strictEqual(field.editValue(), 1);
+        
+        field.editTemplate({ text: "test2", value: 2 });
+        strictEqual(field.editValue(), 2);
+        
+        field.editTemplate({ text: "test3", value: 3 });
+        strictEqual(field.editValue(), 3);
+
+
 
 
     });
