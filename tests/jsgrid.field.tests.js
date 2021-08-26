@@ -337,6 +337,26 @@ $(function() {
         strictEqual(field.itemTemplate(1), "test1");
     });
 
+    test("object as input", function() {
+        var field = new jsGrid.SelectField({
+            name: "testField",
+            items: [
+                { text: "test1", value: 1 },
+                { text: "test2", value: 2 },
+                { text: "test3", value: 3 }
+            ],
+            valueField: "value",
+            textField: "text"
+        });
+
+        
+        strictEqual(field.itemTemplate({ text: "test1", value: 1 }), "test1");
+        strictEqual(field.itemTemplate({ text: "test2", value: 2 }), "test2");
+        strictEqual(field.itemTemplate({ text: "test3", value: 3 }), "test3");
+
+
+    });
+
 
     module("jsGrid.field.control");
 
