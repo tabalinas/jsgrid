@@ -32,7 +32,7 @@
                 resultItem;
 
             if(valueField) {
-                if($.type(value) === "object"){
+                if(typeof(value) === "object"){
                     resultItem = value;
                 }
                 else{
@@ -79,7 +79,7 @@
 
             var $result = this.editControl = this._createSelect();
             var editValue = value;
-            if($.type(value) === "object"){
+            if(typeof(value) === "object"){
                 editValue = value[this.valueField];
             }
             (editValue !== undefined) && $result.val(editValue);
