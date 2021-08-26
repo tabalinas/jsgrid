@@ -78,7 +78,11 @@
                 return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createSelect();
-            (value !== undefined) && $result.val(value);
+            var editValue = value;
+            if($.type(value) === "object"){
+                editValue = value[this.valueField];
+            }
+            (editValue !== undefined) && $result.val(editValue);
             return $result;
         },
 
