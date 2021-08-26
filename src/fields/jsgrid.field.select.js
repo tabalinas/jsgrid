@@ -32,9 +32,14 @@
                 resultItem;
 
             if(valueField) {
-                resultItem = $.grep(items, function(item, index) {
-                    return item[valueField] === value;
-                })[0] || {};
+                if(typeof(value) === "object"){
+                    resultItem = value;
+                }
+                else{
+                    resultItem = $.grep(items, function(item, index) {
+                        return item[valueField] === value;
+                    })[0] || {};
+                }
             }
             else {
                 resultItem = items[value];
@@ -73,7 +78,11 @@
                 return this.itemTemplate.apply(this, arguments);
 
             var $result = this.editControl = this._createSelect();
-            (value !== undefined) && $result.val(value);
+            var editValue = value;
+            if(typeof(value) === "object"){
+                editValue = value[this.valueField];
+            }
+            (editValue !== undefined) && $result.val(editValue);
             return $result;
         },
 
