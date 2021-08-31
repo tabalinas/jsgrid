@@ -1,0 +1,14 @@
+{
+    "name": "tabalinas/jsgrid",
+    "type": "library",
+    "description": "jsGrid (jQuery Plugin)",
+    "keywords": ["jsgrid", "jquery", "js", "plugin"],
+    "homepage": "http://js-grid.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artem Tabalin",
+            "email": "tabalinas@gmail.com"
+        }
+    ]
+}
