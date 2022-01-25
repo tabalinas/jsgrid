@@ -931,11 +931,19 @@
 
             return function() {
                 if(result === undefined) {
-                    var $ghostContainer = $("<div style='width:50px;height:50px;overflow:hidden;position:absolute;top:-10000px;left:-10000px;'></div>");
-                    var $ghostContent = $("<div style='height:100px;'></div>");
+                    var $ghostContainer = $("<div></div>");
+                    var ghostContainer = $ghostContainer.get(0);
+                    ghostContainer.style.width = "50px";
+                    ghostContainer.style.height = "50px";
+                    ghostContainer.style.position = "absolute";
+                    ghostContainer.style.top = "-10000px";
+                    ghostContainer.style.left = "-10000px";
+                    var $ghostContent = $("<div></div>");
+                    var ghostContent = $ghostContent.get(0);
+                    ghostContent.style.height = "100px";
                     $ghostContainer.append($ghostContent).appendTo("body");
                     var width = $ghostContent.innerWidth();
-                    $ghostContainer.css("overflow-y", "auto");
+                    $ghostContainer.get(0).style.overflowY = "auto";
                     var widthExcludingScrollBar = $ghostContent.innerWidth();
                     $ghostContainer.remove();
                     result = width - widthExcludingScrollBar;
