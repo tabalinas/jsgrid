@@ -50,7 +50,7 @@
                 return "";
 
             var grid = this._grid,
-                $result = this.filterControl = this._createSelect();
+                $result = this.filterControl = this._createSelect(typeof(this.id) !== "undefined"?this.id+"_filter":"");
 
             if(this.autosearch) {
                 $result.on("change", function(e) {
@@ -65,14 +65,14 @@
             if(!this.inserting)
                 return "";
 
-            return this.insertControl = this._createSelect();
+            return this.insertControl = this._createSelect(typeof(this.id) !== "undefined"?this.id+"_insert":"");
         },
 
         editTemplate: function(value) {
             if(!this.editing)
                 return this.itemTemplate.apply(this, arguments);
 
-            var $result = this.editControl = this._createSelect();
+            var $result = this.editControl = this._createSelect(typeof(this.id) !== "undefined"?this.id+"_edit":"");
             (value !== undefined) && $result.val(value);
             return $result;
         },
@@ -92,7 +92,8 @@
             return this.valueType === numberValueType ? parseInt(val || 0, 10) : val;
         },
 
-        _createSelect: function() {
+        _createSelect: function(unId = "" ) {
+
             var $result = $("<select>"),
                 valueField = this.valueField,
                 textField = this.textField,
@@ -108,6 +109,9 @@
                     .appendTo($result);
 
             });
+
+            if(unId !== "")
+                $result.attr("id",unId);
 
             $result.prop("disabled", !!this.readOnly);
             $result.prop("selectedIndex", selectedIndex);
