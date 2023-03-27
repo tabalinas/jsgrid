@@ -24,7 +24,7 @@
                 return "";
 
             var grid = this._grid,
-                $result = this.filterControl = this._createCheckbox();
+                $result = this.filterControl = this._createCheckbox( (typeof(this.id) !== "undefined")?this.id+"_filter":"");
 
             $result.prop({
                 readOnly: true,
@@ -61,14 +61,14 @@
             if(!this.inserting)
                 return "";
 
-            return this.insertControl = this._createCheckbox();
+            return this.insertControl = this._createCheckbox((typeof(this.id) !== "undefined")?this.id+"_insert":"");
         },
 
         editTemplate: function(value) {
             if(!this.editing)
                 return this.itemTemplate.apply(this, arguments);
 
-            var $result = this.editControl = this._createCheckbox();
+            var $result = this.editControl = this._createCheckbox((typeof(this.id) !== "undefined")?this.id+"_edit":"");
             $result.prop("checked", value);
             return $result;
         },
@@ -87,8 +87,15 @@
             return this.editControl.is(":checked");
         },
 
-        _createCheckbox: function() {
-            return $("<input>").attr("type", "checkbox");
+        _createCheckbox: function(unId = "") {
+
+            var customField =  $("<input>").attr("type", "checkbox");
+
+            if(unId !== "")
+                customField.attr("id",unId);
+
+            return customField;
+            
         }
     });
 

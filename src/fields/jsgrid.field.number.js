@@ -30,9 +30,17 @@
                 : undefined;
         },
 
-        _createTextBox: function() {
-			return $("<input>").attr("type", "number")
-                .prop("readonly", !!this.readOnly);
+        _createTextBox: function(unId="") {
+
+			
+            var customField =  $("<input>").attr("type", "number")
+                    .prop("readonly", !!this.readOnly);
+
+            if(unId !== "")
+                customField.attr("id",unId);
+
+            return customField;
+            
         }
     });
 

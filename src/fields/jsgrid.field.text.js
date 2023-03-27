@@ -16,7 +16,7 @@
                 return "";
 
             var grid = this._grid,
-                $result = this.filterControl = this._createTextBox();
+                $result = this.filterControl = this._createTextBox( typeof(this.id) !== "undefined"?this.id+"_filter":"");
 
             if(this.autosearch) {
                 $result.on("keypress", function(e) {
@@ -34,14 +34,14 @@
             if(!this.inserting)
                 return "";
 
-            return this.insertControl = this._createTextBox();
+            return this.insertControl = this._createTextBox(typeof(this.id) !== "undefined"?this.id+"_insert":"");
         },
 
         editTemplate: function(value) {
             if(!this.editing)
                 return this.itemTemplate.apply(this, arguments);
 
-            var $result = this.editControl = this._createTextBox();
+            var $result = this.editControl = this._createTextBox(typeof(this.id) !== "undefined"?this.id+"_edit":"");
             $result.val(value);
             return $result;
         },
@@ -58,9 +58,14 @@
             return this.editControl.val();
         },
 
-        _createTextBox: function() {
-            return $("<input>").attr("type", "text")
-                .prop("readonly", !!this.readOnly);
+        _createTextBox: function( unId = "" ) {
+
+            var customField =  $("<input>").attr("type", "text").prop("readonly", !!this.readOnly);
+
+            if(unId !== "")
+                customField.attr("id",unId);
+
+            return customField;
         }
     });
 
