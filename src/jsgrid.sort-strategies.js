@@ -17,6 +17,19 @@
 
             return ("" + str1).localeCompare("" + str2);
         },
+        
+        stringNaturalSort: function(str1, str2) {
+            if(!isDefined(str1) && !isDefined(str2))
+                return 0;
+
+            if(!isDefined(str1))
+                return -1;
+
+            if(!isDefined(str2))
+                return 1;
+
+            return ("" + str1).localeCompare("" + str2, undefined, { numeric: true, sensitivity: 'base' });
+        },
 
         number: function(n1, n2) {
             return n1 - n2;
